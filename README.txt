@@ -8,5 +8,5 @@ Further instructions on how to install and use MATAA are available in the manual
 
 MATAA is distributed as free software under the GNU General Public License (see LICENSE.txt).
 
-Copyright (C) 2006, 2007 Matthias S. Brennwald.
+Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 Contact: info@audioroot.net
