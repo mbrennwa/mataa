@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 20-Jan-2008.
+This section contains a list of the MATAA tools and their usage information as of 09-Mar-2008.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -316,6 +316,28 @@ HISTORY:@*
 8. November 2007 (Matthias Brennwald): improved documentation.@*
 16. July 2006 (Matthias Brennwald): first version@*
 
+@findex mataa_impedance_fit_speaker
+@node mataa_impedance_fit_speaker
+@section mataa_impedance_fit_speaker
+
+file: ...mataa_tools/mataa_impedance_fit_speaker.m@*
+
+function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);@*
+
+DESCRIPTION:@*
+Fits the impedance model of mataa_impedance_speaker_model to the impedance data mag(f) and phase(f). This can be useful in determining Thielle/Small parameters from impedance measurements.@*
+
+INPUT:@*
+f: frequency values of the impedance data@*
+mag: magnitude of impedance data (Ohm)@*
+phase: phase of impedance data (degrees)@*
+
+OUTPUT:@*
+Rdc, f0, Qe, Qm, L1, L2, R2: see mataa_impedance_speaker_model (input parameters)@*
+
+HISTORY:@*
+2. February 2008 (Matthias Brennwald): first version@*
+
 @findex mataa_impedance_speaker_model
 @node mataa_impedance_speaker_model
 @section mataa_impedance_speaker_model
@@ -351,6 +373,7 @@ The following gives a good approximation of the data shown in Fig. 7.18 in J. d'
 [mag,phase] = mataa_impedance_speaker_model (f,7.66,33.22,0.45,3.4,0.4e-3,1.1e-3,13);@*
 semilogx (f,mag,f,phase)@*
 HISTORY:@*
+29. January 2008 (Matthias Brennwald): added a check for non-zero values of Rdc, f0, Qe, Qm, and R2.@*
 12. January 2008 (Matthias Brennwald): first version@*
 
 @findex mataa_import_FRD
@@ -834,6 +857,7 @@ whichPath can be one of the following:@*
 'mataa_scripts'    the path to the MATAA scripts@*
 'microphone'       the path to the microphone-data files@*
 'data'             the path where measured data is stored@*
+'settings'	     the path where the MATAA settings are stored@*
 
 If whichPath is not specified, it is set to 'main' by default.@*
 
@@ -841,6 +865,7 @@ OUTPUT:@*
 path: the MATAA path as indicated by whichPath (string)@*
 
 HISTORY:@*
+9. March 2008 (Matthias Brennwald): added 'settings' specifier@*
 28. December 2007 (Matthias Brennwald): removed path of user-defined scripts from the main MATAA folder. The 'user_scripts' identifier is therefore not supported anymore.@*
 23.10.2007 (Matthias Brennwald): fixed a problem that occurred with Windows, which may use both '/' and '\' as file separators within a single path.@*
 22.10.2007 (Matthias Brennwald): replaced check for '//' (on line 62) by check for sprintf('%s%s',filesep,filesep).@*
@@ -1190,6 +1215,26 @@ HISTORY:@*
 8. November 2007 (Matthias Brennwald): improved documentation@*
 first version: 15. November 2006, Matthias Brennwald@*
 
+@findex mataa_plot_two_logX
+@node mataa_plot_two_logX
+@section mataa_plot_two_logX
+
+file: ...mataa_tools/mataa_plot_two_logX.m@*
+
+function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
+
+DESCRIPTION:@*
+Same as mataa_plot_two, but with logarithmic x axes.@*
+
+INPUT:@*
+(see mataa_plot_two)@*
+
+OUTPUT:@*
+(see mataa_plot_two)@*
+
+HISTORY:@*
+27. December 2007 (Matthias Brennwald): first version@*
+
 @findex mataa_plot_two
 @node mataa_plot_two
 @section mataa_plot_two
@@ -1215,46 +1260,6 @@ h: a 2-vector containig the handles to the axes of the two plots. If the second 
 HISTORY:@*
 27. December 2007 (Matthias Brennwald): first version@*
 
-@findex mataa_plot_two_logX
-@node mataa_plot_two_logX
-@section mataa_plot_two_logX
-
-file: ...mataa_tools/mataa_plot_two_logX.m@*
-
-function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
-
-DESCRIPTION:@*
-Same as mataa_plot_two, but with logarithmic x axes.@*
-
-INPUT:@*
-(see mataa_plot_two)@*
-
-OUTPUT:@*
-(see mataa_plot_two)@*
-
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): first version@*
-
-@findex mataa_realFT
-@node mataa_realFT
-@section mataa_realFT
-
-file: ...mataa_tools/mataa_realFT.m@*
-
-function [S,f] = mataa_realFT(s,t);@*
-
-DESCRIPTION:@*
-Identical to mataa_realFT0, but without the component corresponding to f=0.@*
-
-INPUT:@*
-(see mataa_realFT0)@*
-
-OUTPUT:@*
-(see mataa_realFT0)@*
-
-HISTORY:@*
-19. Feb. 2007 (Matthias Brennwald): first version@*
-
 @findex mataa_realFT0
 @node mataa_realFT0
 @section mataa_realFT0
@@ -1278,6 +1283,26 @@ HISTORY:@*
 2. January 2008 (Matthias Brennwald): added a test for the proper dimension of the input signal (only 1xN or Nx1 data is allowed). Thanks to Lee Marshall for reporting this issue.@*
 19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).@*
 6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)@*
+
+@findex mataa_realFT
+@node mataa_realFT
+@section mataa_realFT
+
+file: ...mataa_tools/mataa_realFT.m@*
+
+function [S,f] = mataa_realFT(s,t);@*
+
+DESCRIPTION:@*
+Identical to mataa_realFT0, but without the component corresponding to f=0.@*
+
+INPUT:@*
+(see mataa_realFT0)@*
+
+OUTPUT:@*
+(see mataa_realFT0)@*
+
+HISTORY:@*
+19. Feb. 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_running_mean
 @node mataa_running_mean
@@ -1351,6 +1376,7 @@ EXAMPLES:@*
 > mataa_settings('BirthdayOfMyGrandmother','1st of April 1925');@*
 
 HISTORY:@*
+9. March 2008 (Matthias Brennwald): moved settings file to users home directory@*
 27. December 2007 (Matthias Brennwald): changed 'plotStyle' to 'plotColor'.@*
 25. November 2007 (Matthias Brennwald): added interchannel_delay@*
 first version: 23. August 2006, Matthias Brennwald@*
@@ -1701,24 +1727,6 @@ filepath: string containing the path to the tempfile (including the file name).@
 HISTORY:@*
 9. July 2006: first version (Matthias Brennwald)@*
 
-@findex mataa_t_to_f
-@node mataa_t_to_f
-@section mataa_t_to_f
-
-file: ...mataa_tools/mataa_t_to_f.m@*
-
-DESCRIPTION:@*
-Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
-
-INPUT:@*
-(see mataa_t_to_f0).@*
-
-OUTPUT:@*
-(see mataa_to_f0).@*
-
-HISTORY:@*
-19. Feb. 2007: first version (Matthias Brennwald)@*
-
 @findex mataa_t_to_f0
 @node mataa_t_to_f0
 @section mataa_t_to_f0
@@ -1739,6 +1747,24 @@ HISTORY:@*
 21. Feb. 2007 (Matthias Brennwald): added check if t is evenly spaced, and make sure t is sorted.@*
 19. Feb. 2007 (Matthias Brennwald): cleaned up code, added component f=0, and renamed function from mataa_t_to_f to mataa_t_to_f0 (a placeholder file mataa_t_to_f.m removing the f=0 component was added for backwards compatibility).@*
 9. July 2006 (Matthias Brennwald): first version@*
+
+@findex mataa_t_to_f
+@node mataa_t_to_f
+@section mataa_t_to_f
+
+file: ...mataa_tools/mataa_t_to_f.m@*
+
+DESCRIPTION:@*
+Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
+
+INPUT:@*
+(see mataa_t_to_f0).@*
+
+OUTPUT:@*
+(see mataa_to_f0).@*
+
+HISTORY:@*
+19. Feb. 2007: first version (Matthias Brennwald)@*
 
 
 

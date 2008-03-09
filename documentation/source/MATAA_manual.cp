@@ -25,15 +25,15 @@
 \entry{MATAA scripts}{3}{MATAA scripts}
 \entry{Tools}{3}{Tools}
 \entry{MATAA tools}{3}{MATAA tools}
-\entry{Settings, MATAA}{4}{Settings, MATAA}
-\entry{Preferences, MATAA}{4}{Preferences, MATAA}
-\entry{MATAA settings/preferences}{4}{MATAA settings/preferences}
 \entry{Microphone calibration file}{4}{Microphone calibration file}
 \entry{Calibration file (microphone)}{4}{Calibration file (microphone)}
 \entry{Test signal files, default path}{4}{Test signal files, default path}
 \entry{Default path (test signal files)}{4}{Default path (test signal files)}
 \entry{TestTone}{4}{TestTone}
 \entry{TestDevices}{4}{TestDevices}
+\entry{Settings, MATAA}{4}{Settings, MATAA}
+\entry{Preferences, MATAA}{4}{Preferences, MATAA}
+\entry{MATAA settings/preferences}{4}{MATAA settings/preferences}
 \entry{Startup file, MATLAB/Octave}{4}{Startup file, MATLAB/Octave}
 \entry{MATLAB, startup file}{4}{MATLAB, startup file}
 \entry{Octave, startup file}{4}{Octave, startup file}

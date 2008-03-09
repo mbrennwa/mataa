@@ -58,12 +58,6 @@ First of all, get MATAA at @uref{@value{MATAA-URL}}. Download the MATAA package 
 @cindex Tools
 @cindex MATAA tools
 
-@item @file{~/MATLAB/MATAA/mataa_settings.mat}: This file is used to store the `preferences' of MATAA (e.g. the color to be used for data plotting). Don't worry if this file is missing---MatSpaker will create it for you.
-@cindex Settings, MATAA
-@cindex Preferences, MATAA
-@cindex MATAA settings/preferences
-
-
 @item @file{~/MATLAB/MATAA/microphone_data/}: This directory contains files with information on the characteristics of measurement microphones (this data will be used to correct for the microphone characteristics, e.g. for loudspeaker testing).
 @cindex Microphone calibration file
 @cindex Calibration file (microphone)
@@ -75,6 +69,11 @@ First of all, get MATAA at @uref{@value{MATAA-URL}}. Download the MATAA package 
 @item @file{~/MATLAB/MATAA/MATLAB/MATAA/TestTone}: This directory contains the TestTone and TestDevices programs (binaries for Mac OS X and Windows, as well as the source code if you want to compile for other platforms.).
 @cindex TestTone
 @cindex TestDevices
+
+@item @file{~/.mataa_settings.mat}: This file is used to store the `preferences' of MATAA (e.g. the color to be used for data plotting). Don't worry if this file is missing---MatSpaker will create it for you.
+@cindex Settings, MATAA
+@cindex Preferences, MATAA
+@cindex MATAA settings/preferences
 
 @end itemize
 
