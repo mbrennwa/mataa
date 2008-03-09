@@ -45,13 +45,14 @@ function val = mataa_settings(field,value)
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 9. March 2008 (Matthias Brennwald): moved settings file to users home directory
 % 27. December 2007 (Matthias Brennwald): changed 'plotStyle' to 'plotColor'.
 % 25. November 2007 (Matthias Brennwald): added interchannel_delay
 % first version: 23. August 2006, Matthias Brennwald
 
 
-path = mataa_path('main');
-path = [ path 'mataa_settings.mat' ];
+path = mataa_path ("settings");
+path = sprintf("%s.mataa_settings.mat",path);
 
 reset_to_def = ~exist(path);
 
