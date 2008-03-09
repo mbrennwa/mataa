@@ -1,0 +1,117 @@
+\input texinfo
+
+@c TO PRODUCE THE MANUALS (HTML AND PDF), EXECUTE THE SCRIPT make_documentation.command 
+@c TO PRODUCE A HTML MANUAL (in one single HTML file): makeinfo --html --no-split MATAA_manual.texi
+@c (also, copy the *.png files in the figures folder to the figures folder in the folder containing the HTML files)
+@c TO PRODUCE A PDF MANUAL: texi2pdf MATAA_manual.texi
+
+@setfilename MATAA_manual.texi
+@settitle MATAA 
+@set MATAA-URL http://mataa.sourceforge.net
+@set CONTACT-EMAIL mbrennwa@@users.sourceforge.net
+
+@copying
+
+@cindex Copyright
+Copyright @copyright{} 2006, 2007 Matthias Brennwald (@email{@value{CONTACT-EMAIL}})
+
+@cindex Terms and Conditions
+MATAA is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License (@ref{GNU General Public License}), or (at your option) any later version.
+
+MATAA is distributed in the hope that it will be useful,
+but without any warranty; without even the implied warranty of merchantability of fitness for a particular purpose.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with MATAA; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in @ref{GNU Free Documentation License}.
+
+@end copying
+
+@titlepage 
+@title MATAA -- Mat's Audio Analyzer
+@subtitle MATAA is a free audio analysis tool
+@subtitle for use with MATLAB or GNU Octave
+@subtitle
+@subtitle @uref{@value{MATAA-URL},@value{MATAA-URL}}
+@subtitle
+@subtitle Manual version: @today{}
+@author Matthias Brennwald @hskip 0pt plus 1filll @email{@value{CONTACT-EMAIL}}
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage 
+
+@ifnottex
+@node Top, Overview,, (dir)
+@top MATAA (Mat's Audio Analyzer)
+Manual version: @today{}
+
+Matthias Brennwald (@email{@value{CONTACT-EMAIL}})
+
+@subheading Main Menu:
+@menu
+* Overview:: What is MATAA? Will it be useful to me?
+* Installation and Setup:: Installing MATAA (along with MATLAB or Octave)
+* Working with MATAA:: Worked examples to illustrate how MATAA works
+* MATAA tools reference:: A list of the MATAA tools and their usage
+@c * MATAA Tools Reference:: The MATAA Tools explained
+* Getting started with MATLAB or Octave:: First steps with MATLAB or Octave
+@c * The Mathematics behind MATAA:: Some mathematical background
+* Licenses:: What is allowed, what isn't
+* Concept index::
+* MATAA tools index::
+@end menu
+
+@subheading Terms and Conditions:
+@insertcopying
+
+@end ifnottex
+
+@iftex
+@contents
+@end iftex
+
+@include MATAA_manual_overview.texi
+   
+@include MATAA_manual_installation.texi
+    
+@include MATAA_manual_working.texi
+
+@include MATAA_manual_tools.texi
+
+@c DELETE THIS CHAPTER! ADD DOCUMENTATION OF TOOLS TO THE MATLAB PROGRAMS THEMSELVES. OTHERWISE, EVERY CHANGE IN A TOOL OR ADDING NEW TOOLS WOULD MAKE THIS MANUAL OUT-OF-DATE. 
+@c @include MATAA_manual_reference.texi
+
+@include MATAA_manual_MatOctPrimer.texi
+
+@c @include MATAA_manual_math.texi
+
+@include MATAA_manual_licenses.texi
+
+@c @node MATAA Tools Index
+@c @unnumbered MATAA Tools Index
+@c @printindex fn
+@c @page
+
+@node Concept index
+@unnumbered Concept index
+@printindex cp
+
+@node MATAA tools index
+@unnumbered MATAA tools index
+@printindex fn
+
+@ifnottex
+@insertcopying
+@end ifnottex
+
+@bye

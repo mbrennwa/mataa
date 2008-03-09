@@ -1,0 +1,101 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Release;
+		activeExecutable = 25D7000B0B75E2B900798BA8 /* TestTonePA19 */;
+		activeTarget = 8DD76FA90486AB0100D96B5E /* TestTonePA19 */;
+		addToTargets = (
+			8DD76FA90486AB0100D96B5E /* TestTonePA19 */,
+		);
+		breakpointsGroup = 258375EC0B75EFE50004BEF0 /* XCBreakpointsBucket */;
+		codeSenseManager = 25D700120B75E2C000798BA8 /* Code sense */;
+		executables = (
+			25D7000B0B75E2B900798BA8 /* TestTonePA19 */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					243,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 193851836;
+			PBXWorkspaceStateSaveDate = 193851836;
+		};
+		sourceControlManager = 25D700110B75E2C000798BA8 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	258375EC0B75EFE50004BEF0 /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+		);
+	};
+	25D7000B0B75E2B900798BA8 /* TestTonePA19 */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = TestTonePA19;
+		sourceDirectories = (
+		);
+	};
+	25D700110B75E2C000798BA8 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	25D700120B75E2C000798BA8 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	25D700150B75E2E600798BA8 /* TestTonePA19.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1712, 4172}}";
+			sepNavSelRange = "{7579, 0}";
+			sepNavVisRect = "{{0, 2574}, {928, 692}}";
+			sepNavWindowFrame = "{{160, 93}, {967, 821}}";
+		};
+	};
+	8DD76FA90486AB0100D96B5E /* TestTonePA19 */ = {
+		activeExec = 0;
+		executables = (
+			25D7000B0B75E2B900798BA8 /* TestTonePA19 */,
+		);
+	};
+}

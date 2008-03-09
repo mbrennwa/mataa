@@ -1,0 +1,17 @@
+@node Working with MATAA
+@chapter Working with MATAA
+
+This manual assumes you know what kind of measurements you are after, and why. This manual is not an introduction to acoustic measurement principles. Please refer to other sources to find background information on techniques and methods for measurements in electroacoustic systems. Some documents that I can recommend:
+
+@enumerate 
+@item J. D'Appolito: Testing Loudspeakers, Audio Amateur Press, Peterborough, New Hampshire, USA, 1987.
+@item L. Olson: A MLSSA Gallery, 2006, @uref{http://www.nutshellhifi.com/MLS} (last checked 5 May 2007)
+@item M.S. Brennwald: MATAA: A Free Computer-Based Audio Analysis System, audioXpress (7), 2007. Copies of this article are distributed together with MATAA, and are available online, too. The original article is at @uref{http://www.audioxpress.com/magsdirx/ax/addenda/media/brennwald2806.pdf} (last checked 12 Aug 2007), and a version that is somewhat easier to read is at @uref{http://www.audioroot.net/analysis/MATAA_aX_original.pdf} (last checked 12. Aug 2007).
+@end enumerate
+
+The workflow with MATAA can be separated into two parts. First, you need to figure out how to setup the connections between the DUT and the soundcard (see @ref{Hardware Setup}). Second, you will type commands into MATLAB/Octave telling MATAA to carry out the tests, process the data, or plot the results. This second step requires you to know how to work with MATLAB/Octave (see @ref{Getting started with MATLAB or Octave}). You will also need to know the names of the MATAA commands and how they work.
+
+Information on the MATAA commands is available in the @ref{MATAA tools reference}. You may also use the online help system on MATLAB/Octave by typing @command{help <command>} into the MATLAB/Octave command prompt. For instance, if you need to know how to use the signal generator command @command{mataa_signal_generator}, type @command{help mataa_signal_generator}. This help system is not limited to the MATAA commands, but works for all MATLAB/Octave commands (for example, if you want to find out how to save data from within Matab/Octave to disk, type @command{help save}).
+
+For a few worked examples on how to use MATAA in real-world applications, please refer to the MATAA article published in audioXpress (``MATAA: A Free Computer-Based Audio Analysis System'', included with the MATAA package).
+

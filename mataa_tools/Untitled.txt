@@ -1,0 +1,29 @@
+f0_low = 10;
+f0_hig = 5000;
+fs = 10000;
+T = 1;
+delay = 1;
+
+cutoff = 0.99;
+
+[s0,f0] = mataa_signal_generator ("sweep",fs,T,[f0_low,f0_hig]);
+
+zer = repmat (0,fs*delay,1);
+
+s = [ zer ; s0 ];
+%s(find (s > cutoff)) = cutoff;
+%s(find (s < -cutoff)) = -cutoff;
+
+s = s + s.^2 / 200 ;
+
+y = mataa_deConvolve (s,[s0 ; zer]);
+y2  = mataa_deConvolve (s,[q ; zer]);
+
+u = y(8850:9500);
+y = y(9500:end);
+
+[y_mag,y_phase,y_f] =  mataa_IR_to_FR (y,fs);
+[u_mag,u_phase,u_f] =  mataa_IR_to_FR (u,fs);
+
+semilogy (y_f,y_mag,u_f,u_mag)
+legend ("y","u")

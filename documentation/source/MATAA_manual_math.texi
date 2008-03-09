@@ -1,0 +1,7 @@
+@node The Mathematics behind MATAA
+@chapter The Mathematics behind MATAA
+
+THIS CHAPTER IS UNDER CONSTRUCTION
+
+(Explain some signal theory things like impulse response, step response, frequency response, fourier transform, etc. Refer to standard texts.)
+@math{(a + b)(a + b) = a^2 + 2ab + b^2}

@@ -1,0 +1,38 @@
+@cindex MATLAB
+@cindex Octave
+@node Getting started with MATLAB or Octave
+@chapter Getting started with MATLAB or Octave
+
+@cindex Matrix
+@cindex Vector
+@cindex Vector (row, column)
+@cindex Row vector
+@cindex Column vector
+@cindex Vector
+@cindex Scalar
+MATLAB and Octave are powerful number crunching tools. While MATLAB is a commercial product, Octave is free and largely compatible with MATLAB. Both MATLAB and Octave run on various computer platforms. The name `MATLAB' (@emph{Mat}rix @emph{lab}oratory) indicates that MATLAB (and therefore also Octave) basically work with matrices (for the non-mathematicians out there: a matrix is nothing more than a collection of numbers arranged in a rectangular way). This also includes scalars (i.e. a 1 x 1 matrix) and vectors (e.g. a 3 x 1 matrix for a vector containing 3 elements).
+
+MATAA uses mostly scalars and vectors rather than `full-blown' matrices. For example, consider a test signal made up by 2000 samples. This test signal would be stored in a vector with 2000 elements, or, in MATLAB terminology, in a 2000 x 1 matrix. Such a vector is also called a @emph{column} vector, because its elements are arranged vertically. The same test signal might as well be represented by a 1 x 2000 matrix, which whould then be called an @emph{row} vector, because its elements are arranged horizontally. I leave it to the MATAA user to choose between column and row vectors. However, I usually prefer to store test signals and the like in column vectors, because if the data is stored in a text file, I find it easier to read with a text editor.
+
+In some later version of this manual I may add more information on using MATLAB and Octave. For the time beeing, please refer to the excellent tutorials listed below. These tutorials should get you started with MATLAB or Octave, but beware: you will not need to read (or even understand) every detail in these documents to run MATAA. Also note that `MATLAB tutorials' are also useful for Octave users, and vice versa. Finally, typing @command{help} at the MATLAB/Octave prompt will display an overview of the MATLAB/Octave environment. Also, @command{help}Êcan be used to get help on a specific command, e.g.: @command{help fft} will display information on the @command{fft} command (fast Fourier transform).
+
+@itemize
+
+@item Kermit Sigmon wrote an excellent MATLAB tutorial. It is available in HTML format for online viewing (@url{http://www.mines.utah.edu/gg_computer_seminar/MATLAB/MATLAB.html}) and as a post-script file for printing (@url{http://www.mines.utah.edu/gg_computer_seminar/MATLAB/primer.ps}).
+
+@item Mark Gockenbach wrote another good introduction to MATLAB. It is available in HTML format for online viewing (@url{http://www.math.mtu.edu/~msgocken/intro/intro.html}) and as a post-script file for printing (@url{http://www.math.mtu.edu/~msgocken/intro/intro.ps}).
+
+@item Henri Gavin has compiled a list of various MATLAB tutorials and books: @url{http://www.duke.edu/~hpgavin/MATLAB.html}
+
+@item The full documentation for Octave (by John W. Eaton) is available online : @url{http://www.gnu.org/software/octave/doc/interpreter/}
+
+@item Another Octave tutorial is available online at @url{http://homepages.nyu.edu/~kpl2/dsts6/octaveTutorial.html}
+
+@item Henri Amuasi, Carl Scheffler and Mike Pickles also wrote a nice Octave tutorial, which is available online at @url{http://www.aims.ac.za/resources/tutorials/octave/}
+
+@item There are also some Octave Wikis: @url{http://wiki.octave.org/} and @url{http://www.aims.ac.za/wiki/index.php/Octave}
+
+@item Finally, Wikipedia has nice pages on both MATLAB (http://en.wikipedia.org/wiki/MATLAB) and Octave (@url{http://en.wikipedia.org/wiki/GNU_Octave}).
+
+
+@end itemize
