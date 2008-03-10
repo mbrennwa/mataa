@@ -1,5 +1,7 @@
 MATAA History
 
+* 9/10. March 2008: moved the settings file to the users home directory, and removed the mataa/mataa_data directory. Therefore, no user-specific data is intended to be written to the MATAA package directory, which greatly simplifies updating MATAA. The documentation has been updated accordingly. Please read the section about installation to find out how to set up the MATLAB/Octave startup file with the new and simplified directory structure.
+
 * 2. February 2008: added a new function to fit impedance model to measured impedance data (mataa_impedance_fit_speaker).
 
 * 20. January 2008: added a function to calculate loudspeaker impedance (magnitude and phase) using the MLSAA loudspeaker model (mataa_impedance_speaker_model). This is useful to interpret impedance curves in terms of Thielle/Small parameters, for instance.

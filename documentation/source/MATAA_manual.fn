@@ -32,7 +32,7 @@
 \entry{mataa_phase_remove_delay}{35}{\code {mataa_phase_remove_delay}}
 \entry{mataa_phase_remove_trend}{35}{\code {mataa_phase_remove_trend}}
 \entry{mataa_plot_CSD}{36}{\code {mataa_plot_CSD}}
-\entry{mataa_plot_defaults}{36}{\code {mataa_plot_defaults}}
+\entry{mataa_plot_defaults}{37}{\code {mataa_plot_defaults}}
 \entry{mataa_plot_ETC_dB}{37}{\code {mataa_plot_ETC_dB}}
 \entry{mataa_plot_ETC_lin}{38}{\code {mataa_plot_ETC_lin}}
 \entry{mataa_plot_FR}{38}{\code {mataa_plot_FR}}
@@ -43,10 +43,10 @@
 \entry{mataa_plot_save}{41}{\code {mataa_plot_save}}
 \entry{mataa_plot_SR}{42}{\code {mataa_plot_SR}}
 \entry{mataa_plot_time_signal}{42}{\code {mataa_plot_time_signal}}
-\entry{mataa_plot_two_logX}{43}{\code {mataa_plot_two_logX}}
 \entry{mataa_plot_two}{43}{\code {mataa_plot_two}}
+\entry{mataa_plot_two_logX}{44}{\code {mataa_plot_two_logX}}
+\entry{mataa_realFT}{44}{\code {mataa_realFT}}
 \entry{mataa_realFT0}{44}{\code {mataa_realFT0}}
-\entry{mataa_realFT}{45}{\code {mataa_realFT}}
 \entry{mataa_running_mean}{45}{\code {mataa_running_mean}}
 \entry{mataa_select_signal_window_time}{46}{\code {mataa_select_signal_window_time}}
 \entry{mataa_settings}{46}{\code {mataa_settings}}
@@ -62,5 +62,5 @@
 \entry{mataa_signal_window}{53}{\code {mataa_signal_window}}
 \entry{mataa_smooth_log}{54}{\code {mataa_smooth_log}}
 \entry{mataa_tempfile}{55}{\code {mataa_tempfile}}
-\entry{mataa_t_to_f0}{55}{\code {mataa_t_to_f0}}
-\entry{mataa_t_to_f}{56}{\code {mataa_t_to_f}}
+\entry{mataa_t_to_f}{55}{\code {mataa_t_to_f}}
+\entry{mataa_t_to_f0}{56}{\code {mataa_t_to_f0}}

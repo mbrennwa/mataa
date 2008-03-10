@@ -55,11 +55,11 @@
 @numsecentry{mataa_plot_one}{4.42}{mataa_plot_one}{41}
 @numsecentry{mataa_plot_save}{4.43}{mataa_plot_save}{41}
 @numsecentry{mataa_plot_SR}{4.44}{mataa_plot_SR}{42}
-@numsecentry{mataa_plot_time_signal}{4.45}{mataa_plot_time_signal}{42}
-@numsecentry{mataa_plot_two_logX}{4.46}{mataa_plot_two_logX}{43}
-@numsecentry{mataa_plot_two}{4.47}{mataa_plot_two}{43}
-@numsecentry{mataa_realFT0}{4.48}{mataa_realFT0}{44}
-@numsecentry{mataa_realFT}{4.49}{mataa_realFT}{45}
+@numsecentry{mataa_plot_time_signal}{4.45}{mataa_plot_time_signal}{43}
+@numsecentry{mataa_plot_two}{4.46}{mataa_plot_two}{43}
+@numsecentry{mataa_plot_two_logX}{4.47}{mataa_plot_two_logX}{44}
+@numsecentry{mataa_realFT}{4.48}{mataa_realFT}{44}
+@numsecentry{mataa_realFT0}{4.49}{mataa_realFT0}{45}
 @numsecentry{mataa_running_mean}{4.50}{mataa_running_mean}{45}
 @numsecentry{mataa_select_signal_window_time}{4.51}{mataa_select_signal_window_time}{46}
 @numsecentry{mataa_settings}{4.52}{mataa_settings}{46}
@@ -75,8 +75,8 @@
 @numsecentry{mataa_signal_window}{4.62}{mataa_signal_window}{53}
 @numsecentry{mataa_smooth_log}{4.63}{mataa_smooth_log}{55}
 @numsecentry{mataa_tempfile}{4.64}{mataa_tempfile}{55}
-@numsecentry{mataa_t_to_f0}{4.65}{mataa_t_to_f0}{55}
-@numsecentry{mataa_t_to_f}{4.66}{mataa_t_to_f}{56}
+@numsecentry{mataa_t_to_f}{4.65}{mataa_t_to_f}{55}
+@numsecentry{mataa_t_to_f0}{4.66}{mataa_t_to_f0}{56}
 @numchapentry{Getting started with MATLAB or Octave}{5}{Getting started with MATLAB or Octave}{57}
 @appentry{Licences}{A}{Licenses}{58}
 @appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{58}

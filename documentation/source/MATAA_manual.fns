@@ -32,7 +32,7 @@
 \entry {\code {mataa_phase_remove_delay}}{35}
 \entry {\code {mataa_phase_remove_trend}}{35}
 \entry {\code {mataa_plot_CSD}}{36}
-\entry {\code {mataa_plot_defaults}}{36}
+\entry {\code {mataa_plot_defaults}}{37}
 \entry {\code {mataa_plot_ETC_dB}}{37}
 \entry {\code {mataa_plot_ETC_lin}}{38}
 \entry {\code {mataa_plot_FR}}{38}
@@ -44,8 +44,8 @@
 \entry {\code {mataa_plot_SR}}{42}
 \entry {\code {mataa_plot_time_signal}}{42}
 \entry {\code {mataa_plot_two}}{43}
-\entry {\code {mataa_plot_two_logX}}{43}
-\entry {\code {mataa_realFT}}{45}
+\entry {\code {mataa_plot_two_logX}}{44}
+\entry {\code {mataa_realFT}}{44}
 \entry {\code {mataa_realFT0}}{44}
 \entry {\code {mataa_running_mean}}{45}
 \entry {\code {mataa_select_signal_window_time}}{46}
@@ -61,6 +61,6 @@
 \entry {\code {mataa_signal_to_TestToneFile}}{52}
 \entry {\code {mataa_signal_window}}{53}
 \entry {\code {mataa_smooth_log}}{54}
-\entry {\code {mataa_t_to_f}}{56}
-\entry {\code {mataa_t_to_f0}}{55}
+\entry {\code {mataa_t_to_f}}{55}
+\entry {\code {mataa_t_to_f0}}{56}
 \entry {\code {mataa_tempfile}}{55}

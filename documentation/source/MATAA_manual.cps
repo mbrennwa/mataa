@@ -1,14 +1,13 @@
 \initial {A}
 \entry {Allocation of soundcard channels}{7}
 \entry {Anti-aliasing filter}{6}
-\entry {Audio hardware setup}{5}
+\entry {Audio hardware setup}{4}
 \initial {C}
 \entry {Calibration file (microphone)}{4}
 \entry {Channel allocation}{7}
 \entry {Column vector}{57}
 \entry {Copyright}{2}
 \initial {D}
-\entry {Default path (data)}{3}
 \entry {Default path (MATAA)}{3}
 \entry {Default path (MATLAB/Octave)}{3}
 \entry {Default path (test signal files)}{4}
@@ -23,7 +22,7 @@
 \entry {GNU General Public License}{58}
 \entry {GPL, GNU General Public License}{58}
 \initial {H}
-\entry {Hardware Setup}{5}
+\entry {Hardware Setup}{4}
 \entry {Hardware setup, sound}{5}
 \initial {I}
 \entry {Installing MATAA}{3}
@@ -62,7 +61,7 @@
 \initial {S}
 \entry {Scalar}{57}
 \entry {Scripts, MATAA}{3}
-\entry {Settings, Audio hardware}{5}
+\entry {Settings, Audio hardware}{4}
 \entry {Settings, MATAA}{4}
 \entry {Setup, measurement}{5}
 \entry {Setup, sound hardware}{5}

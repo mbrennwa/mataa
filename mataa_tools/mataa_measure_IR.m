@@ -6,7 +6,7 @@ function [h,t] = mataa_measure_IR(input_signal,fs,N);
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also 'help mataa_measure_signal_response'.
 % input_signal is the file name of the input signal, for example 'whitenoise1.in'. This file must be in ASCII format. It must contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).
 %
-% N is an optional argument. If given, the impulse response is measured times and the mean response is calculated from these measurements.
+% N (optional): the impulse response is measured N times and the mean response is calculated from these measurements. N = 1 is used by default.
 %
 % h(t) is determined from the deconvolution of the DUT's resposne and the original input signal.
 %
@@ -35,6 +35,7 @@ function [h,t] = mataa_measure_IR(input_signal,fs,N);
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 10. March 2008 (Matthias Brennwald): fixed documentation
 % first version: 9. July 2006, Matthias Brennwald
 
 if ~exist('N')

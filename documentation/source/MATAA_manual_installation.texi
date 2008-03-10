@@ -40,33 +40,28 @@ First of all, get MATAA at @uref{@value{MATAA-URL}}. Download the MATAA package 
 @cindex MATAA default paths
 @cindex Path, default (MATAA)
 
-@item @file{~/MATLAB/MATAA/documentation/}: This directory contains the MATAA documentation and manual in various formats.
+@item @file{~/MATLAB/mataa/documentation/}: This directory contains the MATAA documentation and manual in various formats.
 @cindex MATAA documentation
 @cindex Documentaion, MATAA
 @cindex Manual, MATAA
 
-@item @file{~/MATLAB/MATAA/mataa_data/}: This is the default directory for MATAA to save data.
-@cindex Default path (data)
-@cindex MATAA default paths
-@cindex Path, default (MATLAB/Octave)
-
-@item @file{~/MATLAB/MATAA/mataa_scripts/}: This directory contains various demo and test scripts.
+@item @file{~/MATLAB/mataa/mataa_scripts/}: This directory contains various demo and test scripts.
 @cindex Scripts, MATAA
 @cindex MATAA scripts
 
-@item @file{~/MATLAB/MATAA/mataa_tools/}: This directory contains the MATAA `tools' (see @ref{MATAATools,,MATAA tools}).
+@item @file{~/MATLAB/mataa/mataa_tools/}: This directory contains the MATAA `tools' (see @ref{MATAATools,,MATAA tools}).
 @cindex Tools
 @cindex MATAA tools
 
-@item @file{~/MATLAB/MATAA/microphone_data/}: This directory contains files with information on the characteristics of measurement microphones (this data will be used to correct for the microphone characteristics, e.g. for loudspeaker testing).
+@item @file{~/MATLAB/mataa/microphone_data/}: This directory contains files with information on the characteristics of measurement microphones (this data will be used to correct for the microphone characteristics, e.g. for loudspeaker testing).
 @cindex Microphone calibration file
 @cindex Calibration file (microphone)
 
-@item @file{~/MATLAB/MATAA/MATLAB/MATAA/test_signals}: This directory contains various test-signal files.
+@item @file{~/MATLAB/mataa/MATLAB/mataa/test_signals}: This directory contains various test-signal files.
 @cindex Test signal files, default path
 @cindex Default path (test signal files)
 
-@item @file{~/MATLAB/MATAA/MATLAB/MATAA/TestTone}: This directory contains the TestTone and TestDevices programs (binaries for Mac OS X and Windows, as well as the source code if you want to compile for other platforms.).
+@item @file{~/MATLAB/mataa/TestTone}: This directory contains the TestTone and TestDevices programs (binaries for Mac OS X and Windows, as well as the source code if you want to compile for other platforms.).
 @cindex TestTone
 @cindex TestDevices
 
@@ -77,35 +72,33 @@ First of all, get MATAA at @uref{@value{MATAA-URL}}. Download the MATAA package 
 
 @end itemize
 
-In addition to these files and paths, you might consider to create an additional path to keep your custom MATAA scripts. I highly recommend to keep this path outside the main MATAA path. Otherwise you might loose your custom files once you upgrade to a newer version of MATAA by replacing the MATAA folder. For instance, I keep my custom MATAA scripts in @file{~/MATLAB/MATAA_user_scripts/}.
+In addition to these files and paths, you might consider to create an additional path to keep your custom MATAA scripts. I highly recommend to keep this path outside the main MATAA path. Otherwise you might loose your custom files once you upgrade to a newer version of MATAA by replacing the MATAA folder. For instance, I keep my custom MATAA scripts in @file{~/MATLAB/mataa_user_scripts/}.
 
 @cindex Startup file, MATLAB/Octave
 @cindex MATLAB, startup file
 @cindex Octave, startup file
-If everything set up as outlined above, you are ready to use MATAA from within MATLAB/Octave. However, MATLAB/Octave will (most propably) not find the MATAA files. To tell MATLAB/Octave where the MATAA files are, you can use the @command{addpath}Ê(MATLAB) or @command{path} (Octave). To automate this task, I recommend to put the necessary commands into the so-called startup file of MATLAB/Octave. This file is executed by MATLAB/Octave everytime MATLAB/Octave is started. You can edit the startup file, which is an ASCII text file, using your preferred text editor. For example, assume you have installed MATAA to @file{~/MATLAB/MATAA/}. Then:
+If everything set up as outlined above, you are ready to use MATAA from within MATLAB/Octave. However, MATLAB/Octave will (most propably) not find the MATAA files. To tell MATLAB/Octave where the MATAA files are, you can use the @command{addpath}Ê(with older versions of Octave, you may have to use @command{path}Êinstead). To automate this task, I recommend to put the necessary commands into the so-called startup file of MATLAB/Octave. This file is executed by MATLAB/Octave everytime MATLAB/Octave is started. You can edit the startup file, which is an ASCII text file, using your preferred text editor:
 
 @itemize
-@item For MATLAB, the startup file is @file{~/MATLAB/startup.m}. Add the following lines to the end of this file:
-
-@example
-addpath ~/MATLAB/MATAA/mataa_tools
-addpath ~/MATLAB/MATAA/mataa_scripts
-addpath ~/MATLAB/MATAA/test_signals
-addpath ~/MATLAB/MATAA_user_scripts
-@end example
-
-@item For Octave, the startup file is @file{~/.octaverc} (note (i) the dot in the file name, and (ii) that this file is located in @file{~}, @emph{not} in @file{~/MATLAB/}). Add the following lines to the end of this file (this works with both Octave 2.1 and 2.9):
-
-@example
-path (path,"~/MATLAB/MATAA/mataa_tools/");
-path (path,"~/MATLAB/MATAA/mataa_scripts/");
-path (path,"~/MATLAB/MATAA/test_signals/");
-path (path,"~/MATLAB/MATAA_user_scripts/");
-@end example
-
+@item For MATLAB, the startup file is @file{~/MATLAB/startup.m}
+@item For Octave, the startup file is @file{~/.octaverc} (note the dot in the file name)
 @end itemize
 
-If the path to your MATAA files contains spaces, you will need to add a backslash in front of the space(s). Otherwise MATLAB/Octave will not recognize the space(s) and the @command{path} commands will fail. For example, if your MATAA files are in @file{~/My Octave files/MATAA}, the above lines would read @command{path(path,"~/My\ Octave\ files/MATAA/mataa_tools/");}, etc.
+For example, assume you have installed MATAA to @file{~/MATLAB/mataa/}. Add the following lines to the end of this file:
+
+@example
+addpath ("~/MATLAB/mataa/mataa_tools");
+addpath ("~/MATLAB/mataa/mataa_scripts");
+addpath ("~/MATLAB/mataa/test_signals");
+@end example
+
+If you created a directory @file{~/MATLAB/mataa_user_scripts/} to store your custom MATAA stuff, you may add the following line to let MATLAB/Octave know about this::
+
+@example
+addpath ("~/MATLAB/mataa_user_scripts");
+@end example
+
+If the path to your MATAA files contains spaces, you will need to add a backslash in front of the space(s). Otherwise MATLAB/Octave will not recognize the space(s) and the @command{path} commands will fail. For example, if your MATAA files are in @file{~/My Octave files/mataa}, the above lines would read @command{path(path,"~/My\ Octave\ files/mataa/mataa_tools/");}, etc.
 
 Also, it is not recommended to install the MATAA files (or any of your personal MATLAB/Octave files) to the path where the MATLAB/Octave program is installed. Once you update your MATLAB/Octave software to a later version, the previous program files may be deleted, and hence your MATAA (or other personal MATLAB/Octave files) will be deleted, too.
 

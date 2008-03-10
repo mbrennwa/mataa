@@ -18,9 +18,6 @@
 \entry{MATAA documentation}{3}{MATAA documentation}
 \entry{Documentaion, MATAA}{3}{Documentaion, MATAA}
 \entry{Manual, MATAA}{3}{Manual, MATAA}
-\entry{Default path (data)}{3}{Default path (data)}
-\entry{MATAA default paths}{3}{MATAA default paths}
-\entry{Path, default (MATLAB/Octave)}{3}{Path, default (MATLAB/Octave)}
 \entry{Scripts, MATAA}{3}{Scripts, MATAA}
 \entry{MATAA scripts}{3}{MATAA scripts}
 \entry{Tools}{3}{Tools}
@@ -37,9 +34,9 @@
 \entry{Startup file, MATLAB/Octave}{4}{Startup file, MATLAB/Octave}
 \entry{MATLAB, startup file}{4}{MATLAB, startup file}
 \entry{Octave, startup file}{4}{Octave, startup file}
-\entry{Hardware Setup}{5}{Hardware Setup}
-\entry{Audio hardware setup}{5}{Audio hardware setup}
-\entry{Settings, Audio hardware}{5}{Settings, Audio hardware}
+\entry{Hardware Setup}{4}{Hardware Setup}
+\entry{Audio hardware setup}{4}{Audio hardware setup}
+\entry{Settings, Audio hardware}{4}{Settings, Audio hardware}
 \entry{Measurement setup}{5}{Measurement setup}
 \entry{Setup, measurement}{5}{Setup, measurement}
 \entry{Signal path}{5}{Signal path}
