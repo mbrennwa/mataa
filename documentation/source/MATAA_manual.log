@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  10 MAR 2008 21:14
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  10 MAR 2008 21:55
 entering extended mode
 **/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
 (/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
@@ -292,7 +292,7 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 655--658
 .etc.
 
 [28] [29]
-Overfull \hbox (69.03506pt too wide) in paragraph at lines 727--728
+Overfull \hbox (69.03506pt too wide) in paragraph at lines 728--729
 []@textrm function [re-spons-eS-ig-nal,inputSignal,t] = mataa[]measure[]signal[
 ]response(input[]signal,fs,latency,verbose);|
 
@@ -305,7 +305,7 @@ Overfull \hbox (69.03506pt too wide) in paragraph at lines 727--728
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 727--728
+Underfull \hbox (badness 10000) in paragraph at lines 728--729
 
 
 @hbox(0.0+0.0)x433.62
@@ -313,7 +313,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 727--728
 .@glue(@rightskip) 0.0
 
 [30] [31] [32]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 832--834
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 833--835
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -326,7 +326,7 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 832--834
+Underfull \hbox (badness 10000) in paragraph at lines 833--835
 
 
 @hbox(0.0+0.0)x433.62
@@ -335,7 +335,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 832--834
 
 [33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47]
 [48] [49] [50]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1583--1587
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1584--1588
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -348,7 +348,7 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1587
+Underfull \hbox (badness 10000) in paragraph at lines 1584--1588
 
 
 @hbox(0.0+0.0)x433.62
@@ -356,7 +356,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1583--1587
 .@glue(@rightskip) 0.0
 
 [51] [52]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1699--1707
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1700--1708
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -554,7 +554,7 @@ ype1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/
 cm/cmti10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt10.pfb
 ></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/local/
 gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (77 pages, 497192 bytes).
+Output written on MATAA_manual.pdf (77 pages, 497242 bytes).
 PDF statistics:
  1065 PDF objects out of 1200 (max. 8388607)
  165 named destinations out of 1000 (max. 131072)

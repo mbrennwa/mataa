@@ -19,7 +19,7 @@ while doReadList
     if tool == -1
         doReadList = 0;
     else
-        if strcmp(tool(end-1:end),'.m')
+        if strcmp (tool(end-1:end),".m")
             i = findstr(filesep,tool);
             %disp('') % insert empty line
             %disp('******************')

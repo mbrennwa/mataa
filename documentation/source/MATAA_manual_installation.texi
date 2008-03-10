@@ -77,7 +77,7 @@ In addition to these files and paths, you might consider to create an additional
 @cindex Startup file, MATLAB/Octave
 @cindex MATLAB, startup file
 @cindex Octave, startup file
-If everything set up as outlined above, you are ready to use MATAA from within MATLAB/Octave. However, MATLAB/Octave will (most propably) not find the MATAA files. To tell MATLAB/Octave where the MATAA files are, you can use the @command{addpath}Ê(with older versions of Octave, you may have to use @command{path}Êinstead). To automate this task, I recommend to put the necessary commands into the so-called startup file of MATLAB/Octave. This file is executed by MATLAB/Octave everytime MATLAB/Octave is started. You can edit the startup file, which is an ASCII text file, using your preferred text editor:
+If everything set up as outlined above, you are ready to use MATAA from within MATLAB/Octave. However, MATLAB/Octave will (most propably) not find the MATAA files. To tell MATLAB/Octave where the MATAA files are, you can use the @command{addpath}Ê (with older versions of Octave, you may have to use @command{path}Êinstead). To automate this task, I recommend to put the necessary commands into the so-called startup file of MATLAB/Octave. This file is executed by MATLAB/Octave everytime MATLAB/Octave is started. You can edit the startup file, which is an ASCII text file, using your preferred text editor:
 
 @itemize
 @item For MATLAB, the startup file is @file{~/MATLAB/startup.m}
