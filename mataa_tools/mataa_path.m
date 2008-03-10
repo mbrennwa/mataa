@@ -15,7 +15,6 @@ function path = mataa_path(whichPath);
 % 'TestDevices'      the path to the TestDevices program
 % 'mataa_scripts'    the path to the MATAA scripts
 % 'microphone'       the path to the microphone-data files
-% 'data'             the path where measured data is stored
 % 'settings'	     the path where the MATAA settings are stored
 %
 % If whichPath is not specified, it is set to 'main' by default.
@@ -45,6 +44,7 @@ function path = mataa_path(whichPath);
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 10. March 2008 (Matthias Brennwald): removed 'data' specifier to make the mataa package installation more independent from any user-specific data
 % 9. March 2008 (Matthias Brennwald): added 'settings' specifier
 % 28. December 2007 (Matthias Brennwald): removed path of user-defined scripts from the main MATAA folder. The 'user_scripts' identifier is therefore not supported anymore.
 % 23.10.2007 (Matthias Brennwald): fixed a problem that occurred with Windows, which may use both '/' and '\' as file separators within a single path.
@@ -83,7 +83,7 @@ switch whichPath
     case 'mataa_scripts',     path = [main 'mataa_scripts' filesep];
 %    case 'user_scripts',    path = [main 'user_scripts' filesep];
     case 'microphone',      path = [main 'microphone_data' filesep];
-    case 'data',            path = [main 'mataa_data' filesep];
+%    case 'data',            path = [main 'mataa_data' filesep];
     case 'settings',        path = ['~' filesep];
     otherwise               error(sprintf('mataa_path: Unkown path specifier (''%s'').',whichPath))
 end
