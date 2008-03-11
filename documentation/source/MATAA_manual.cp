@@ -12,16 +12,16 @@
 \entry{MATAA, obtaining/download}{3}{MATAA, obtaining/download}
 \entry{Installing MATAA}{3}{Installing MATAA}
 \entry{Download, MATAA}{3}{Download, MATAA}
-\entry{Default path (MATAA)}{3}{Default path (MATAA)}
-\entry{MATAA default paths}{3}{MATAA default paths}
-\entry{Path, default (MATAA)}{3}{Path, default (MATAA)}
-\entry{MATAA documentation}{3}{MATAA documentation}
-\entry{Documentaion, MATAA}{3}{Documentaion, MATAA}
-\entry{Manual, MATAA}{3}{Manual, MATAA}
-\entry{Scripts, MATAA}{3}{Scripts, MATAA}
-\entry{MATAA scripts}{3}{MATAA scripts}
-\entry{Tools}{3}{Tools}
-\entry{MATAA tools}{3}{MATAA tools}
+\entry{Default path (MATAA)}{4}{Default path (MATAA)}
+\entry{MATAA default paths}{4}{MATAA default paths}
+\entry{Path, default (MATAA)}{4}{Path, default (MATAA)}
+\entry{MATAA documentation}{4}{MATAA documentation}
+\entry{Documentaion, MATAA}{4}{Documentaion, MATAA}
+\entry{Manual, MATAA}{4}{Manual, MATAA}
+\entry{Scripts, MATAA}{4}{Scripts, MATAA}
+\entry{MATAA scripts}{4}{MATAA scripts}
+\entry{Tools}{4}{Tools}
+\entry{MATAA tools}{4}{MATAA tools}
 \entry{Microphone calibration file}{4}{Microphone calibration file}
 \entry{Calibration file (microphone)}{4}{Calibration file (microphone)}
 \entry{Test signal files, default path}{4}{Test signal files, default path}
@@ -34,9 +34,9 @@
 \entry{Startup file, MATLAB/Octave}{4}{Startup file, MATLAB/Octave}
 \entry{MATLAB, startup file}{4}{MATLAB, startup file}
 \entry{Octave, startup file}{4}{Octave, startup file}
-\entry{Hardware Setup}{4}{Hardware Setup}
-\entry{Audio hardware setup}{4}{Audio hardware setup}
-\entry{Settings, Audio hardware}{4}{Settings, Audio hardware}
+\entry{Hardware Setup}{5}{Hardware Setup}
+\entry{Audio hardware setup}{5}{Audio hardware setup}
+\entry{Settings, Audio hardware}{5}{Settings, Audio hardware}
 \entry{Measurement setup}{5}{Measurement setup}
 \entry{Setup, measurement}{5}{Setup, measurement}
 \entry{Signal path}{5}{Signal path}
@@ -55,18 +55,18 @@
 \entry{Allocation of soundcard channels}{7}{Allocation of soundcard channels}
 \entry{DUT channel}{7}{DUT channel}
 \entry{REF channel}{7}{REF channel}
-\entry{Interchannel delay}{9}{Interchannel delay}
-\entry{Delay, interchannel (soundcard)}{9}{Delay, interchannel (soundcard)}
-\entry{Soundcard interchannel delay}{9}{Soundcard interchannel delay}
-\entry{MATLAB}{56}{MATLAB}
-\entry{Octave}{56}{Octave}
-\entry{Matrix}{57}{Matrix}
-\entry{Vector}{57}{Vector}
-\entry{Vector (row, column)}{57}{Vector (row, column)}
-\entry{Row vector}{57}{Row vector}
-\entry{Column vector}{57}{Column vector}
-\entry{Vector}{57}{Vector}
-\entry{Scalar}{57}{Scalar}
-\entry{GNU General Public License}{58}{GNU General Public License}
-\entry{GPL, GNU General Public License}{58}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{62}{FDL, GNU Free Documentation License}
+\entry{Interchannel delay}{10}{Interchannel delay}
+\entry{Delay, interchannel (soundcard)}{10}{Delay, interchannel (soundcard)}
+\entry{Soundcard interchannel delay}{10}{Soundcard interchannel delay}
+\entry{MATLAB}{57}{MATLAB}
+\entry{Octave}{57}{Octave}
+\entry{Matrix}{58}{Matrix}
+\entry{Vector}{58}{Vector}
+\entry{Vector (row, column)}{58}{Vector (row, column)}
+\entry{Row vector}{58}{Row vector}
+\entry{Column vector}{58}{Column vector}
+\entry{Vector}{58}{Vector}
+\entry{Scalar}{58}{Scalar}
+\entry{GNU General Public License}{59}{GNU General Public License}
+\entry{GPL, GNU General Public License}{59}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{63}{FDL, GNU Free Documentation License}

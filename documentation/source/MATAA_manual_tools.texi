@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 10-Mar-2008.
+This section contains a list of the MATAA tools and their usage information as of 11-Mar-2008.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -1216,6 +1216,26 @@ HISTORY:@*
 8. November 2007 (Matthias Brennwald): improved documentation@*
 first version: 15. November 2006, Matthias Brennwald@*
 
+@findex mataa_plot_two_logX
+@node mataa_plot_two_logX
+@section mataa_plot_two_logX
+
+file: ...mataa_tools/mataa_plot_two_logX.m@*
+
+function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
+
+DESCRIPTION:@*
+Same as mataa_plot_two, but with logarithmic x axes.@*
+
+INPUT:@*
+(see mataa_plot_two)@*
+
+OUTPUT:@*
+(see mataa_plot_two)@*
+
+HISTORY:@*
+27. December 2007 (Matthias Brennwald): first version@*
+
 @findex mataa_plot_two
 @node mataa_plot_two
 @section mataa_plot_two
@@ -1241,46 +1261,6 @@ h: a 2-vector containig the handles to the axes of the two plots. If the second 
 HISTORY:@*
 27. December 2007 (Matthias Brennwald): first version@*
 
-@findex mataa_plot_two_logX
-@node mataa_plot_two_logX
-@section mataa_plot_two_logX
-
-file: ...mataa_tools/mataa_plot_two_logX.m@*
-
-function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
-
-DESCRIPTION:@*
-Same as mataa_plot_two, but with logarithmic x axes.@*
-
-INPUT:@*
-(see mataa_plot_two)@*
-
-OUTPUT:@*
-(see mataa_plot_two)@*
-
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): first version@*
-
-@findex mataa_realFT
-@node mataa_realFT
-@section mataa_realFT
-
-file: ...mataa_tools/mataa_realFT.m@*
-
-function [S,f] = mataa_realFT(s,t);@*
-
-DESCRIPTION:@*
-Identical to mataa_realFT0, but without the component corresponding to f=0.@*
-
-INPUT:@*
-(see mataa_realFT0)@*
-
-OUTPUT:@*
-(see mataa_realFT0)@*
-
-HISTORY:@*
-19. Feb. 2007 (Matthias Brennwald): first version@*
-
 @findex mataa_realFT0
 @node mataa_realFT0
 @section mataa_realFT0
@@ -1304,6 +1284,26 @@ HISTORY:@*
 2. January 2008 (Matthias Brennwald): added a test for the proper dimension of the input signal (only 1xN or Nx1 data is allowed). Thanks to Lee Marshall for reporting this issue.@*
 19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).@*
 6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)@*
+
+@findex mataa_realFT
+@node mataa_realFT
+@section mataa_realFT
+
+file: ...mataa_tools/mataa_realFT.m@*
+
+function [S,f] = mataa_realFT(s,t);@*
+
+DESCRIPTION:@*
+Identical to mataa_realFT0, but without the component corresponding to f=0.@*
+
+INPUT:@*
+(see mataa_realFT0)@*
+
+OUTPUT:@*
+(see mataa_realFT0)@*
+
+HISTORY:@*
+19. Feb. 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_running_mean
 @node mataa_running_mean
@@ -1717,7 +1717,7 @@ file: ...mataa_tools/mataa_tempfile.m@*
 function filepath = mataa_tempfile;@*
 
 DESCRIPTION:@*
-returns a path to a tempfile to be used with MatSpaker@*
+returns a path to a tempfile to be used with MATAA@*
 
 INPUT:@*
 (none)@*
@@ -1727,24 +1727,6 @@ filepath: string containing the path to the tempfile (including the file name).@
 
 HISTORY:@*
 9. July 2006: first version (Matthias Brennwald)@*
-
-@findex mataa_t_to_f
-@node mataa_t_to_f
-@section mataa_t_to_f
-
-file: ...mataa_tools/mataa_t_to_f.m@*
-
-DESCRIPTION:@*
-Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
-
-INPUT:@*
-(see mataa_t_to_f0).@*
-
-OUTPUT:@*
-(see mataa_to_f0).@*
-
-HISTORY:@*
-19. Feb. 2007: first version (Matthias Brennwald)@*
 
 @findex mataa_t_to_f0
 @node mataa_t_to_f0
@@ -1766,6 +1748,24 @@ HISTORY:@*
 21. Feb. 2007 (Matthias Brennwald): added check if t is evenly spaced, and make sure t is sorted.@*
 19. Feb. 2007 (Matthias Brennwald): cleaned up code, added component f=0, and renamed function from mataa_t_to_f to mataa_t_to_f0 (a placeholder file mataa_t_to_f.m removing the f=0 component was added for backwards compatibility).@*
 9. July 2006 (Matthias Brennwald): first version@*
+
+@findex mataa_t_to_f
+@node mataa_t_to_f
+@section mataa_t_to_f
+
+file: ...mataa_tools/mataa_t_to_f.m@*
+
+DESCRIPTION:@*
+Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
+
+INPUT:@*
+(see mataa_t_to_f0).@*
+
+OUTPUT:@*
+(see mataa_to_f0).@*
+
+HISTORY:@*
+19. Feb. 2007: first version (Matthias Brennwald)@*
 
 
 

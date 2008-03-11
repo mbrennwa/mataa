@@ -3,7 +3,7 @@ function filepath = mataa_tempfile;
 % function filepath = mataa_tempfile;
 %
 % DESCRIPTION:
-% returns a path to a tempfile to be used with MatSpaker
+% returns a path to a tempfile to be used with MATAA
 % 
 % INPUT:
 % (none)

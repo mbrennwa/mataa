@@ -33,7 +33,18 @@ I recommend to keep all your MATLAB/Octave code and packages in one directory (w
 @cindex Download, MATAA
 @node Installing MATAA
 @section MATAA
-First of all, get MATAA at @uref{@value{MATAA-URL}}. Download the MATAA package file, and expand it if your internet browser or computer didn't do so already. You should now have a directory @file{MATAA} containing several sub-directories. Move @file{MATAA} (and its subdirectories) to your default MATLAB/Octave path, which is assumed to be @file{~/MATLAB/} from now on (see @ref{Installing MATLAB/Octave}). Your MATAA setup should now look like this (in alphabetical order):
+First of all, download MATAA. There are two possiblities:
+
+@itemize
+
+@item Download a recent package file from  @uref{@value{MATAA-URL}}, and expand it if your internet browser or computer didn't do so already. If you later need to update to a more current version, dowload the most current package file, expand it, and replace your previous version with the new one.
+@item Download the most current version using subversion with the following command:@*
+@command{svn checkout https://mataa.svn.sourceforge.net/svnroot/mataa}@*
+If you later need to update to the current version, use the following command:@*
+@command{svn update}
+@end itemize
+
+You should now have a directory @file{mataa} containing several sub-directories. Make sure @file{mataa} (and its subdirectories) is located in your default MATLAB/Octave path, which is assumed to be @file{~/MATLAB/} from now on (see @ref{Installing MATLAB/Octave}). Your MATAA setup should now look like this (in alphabetical order):
 @itemize
 
 @cindex Default path (MATAA)
@@ -65,7 +76,7 @@ First of all, get MATAA at @uref{@value{MATAA-URL}}. Download the MATAA package 
 @cindex TestTone
 @cindex TestDevices
 
-@item @file{~/.mataa_settings.mat}: This file is used to store the `preferences' of MATAA (e.g. the color to be used for data plotting). Don't worry if this file is missing---MatSpaker will create it for you.
+@item @file{~/.mataa_settings.mat}: This file is used to store the `preferences' of MATAA (e.g. the color to be used for data plotting). Don't worry if this file is missing---MATAA will create it for you.
 @cindex Settings, MATAA
 @cindex Preferences, MATAA
 @cindex MATAA settings/preferences
@@ -98,7 +109,7 @@ If you created a directory @file{~/MATLAB/mataa_user_scripts/} to store your cus
 addpath ("~/MATLAB/mataa_user_scripts");
 @end example
 
-If the path to your MATAA files contains spaces, you will need to add a backslash in front of the space(s). Otherwise MATLAB/Octave will not recognize the space(s) and the @command{path} commands will fail. For example, if your MATAA files are in @file{~/My Octave files/mataa}, the above lines would read @command{path(path,"~/My\ Octave\ files/mataa/mataa_tools/");}, etc.
+If the path to your MATAA files contains spaces, you will need to add a backslash in front of the space(s). Otherwise MATLAB/Octave will not recognize the space(s) and the @command{path} commands will fail. For example, if your MATAA files are in @file{~/My Octave files/mataa}, the above lines would read @command{addpath ("~/My\ Octave\ files/mataa/mataa_tools/");}, etc.
 
 Also, it is not recommended to install the MATAA files (or any of your personal MATLAB/Octave files) to the path where the MATLAB/Octave program is installed. Once you update your MATLAB/Octave software to a later version, the previous program files may be deleted, and hence your MATAA (or other personal MATLAB/Octave files) will be deleted, too.
 
@@ -250,7 +261,7 @@ To set up the audio hardware in Mac OS X, choose `System Preferences' in the App
 
 @node Testing the Installation
 @section Testing the Installation
-To test your software installation, first start MATLAB or Octave. Then, type @command{mataa_selftest} to the MATLAB/Octave command prompt to run a MATAA self-test. @command{mataa_selftest} is a MATAA script in @file{.../MatSpaker/mataa_scripts/} that runs several tests, that will display various messages on the success of the tests. Some tests may fail, but that does not necessarily mean that your MATAA installation is broken. If in doubt, carefully read the error or warning messages. If still in doubt, contact me at @email{@value{CONTACT-EMAIL}}.
+To test your software installation, first start MATLAB or Octave. Then, type @command{mataa_selftest} to the MATLAB/Octave command prompt to run a MATAA self-test. @command{mataa_selftest} is a MATAA script in @file{.../mataa/mataa_scripts/} that runs several tests, that will display various messages on the success of the tests. Some tests may fail, but that does not necessarily mean that your MATAA installation is broken. If in doubt, carefully read the error or warning messages. If still in doubt, contact me at @email{@value{CONTACT-EMAIL}}.
 
 The self-test script also includes a test of the hardware for sound input and output. Details on the setup of the sound hardware are given in @ref{Hardware Setup}. For now, it will suffice to run the self test with the soundcard input(s) connected directly to the output(s).
 
