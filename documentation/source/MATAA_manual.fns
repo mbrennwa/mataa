@@ -44,8 +44,8 @@
 \entry {\code {mataa_plot_SR}}{43}
 \entry {\code {mataa_plot_time_signal}}{43}
 \entry {\code {mataa_plot_two}}{44}
-\entry {\code {mataa_plot_two_logX}}{44}
-\entry {\code {mataa_realFT}}{46}
+\entry {\code {mataa_plot_two_logX}}{45}
+\entry {\code {mataa_realFT}}{45}
 \entry {\code {mataa_realFT0}}{45}
 \entry {\code {mataa_running_mean}}{46}
 \entry {\code {mataa_select_signal_window_time}}{47}
@@ -61,6 +61,6 @@
 \entry {\code {mataa_signal_to_TestToneFile}}{53}
 \entry {\code {mataa_signal_window}}{54}
 \entry {\code {mataa_smooth_log}}{55}
-\entry {\code {mataa_t_to_f}}{57}
-\entry {\code {mataa_t_to_f0}}{56}
+\entry {\code {mataa_t_to_f}}{56}
+\entry {\code {mataa_t_to_f0}}{57}
 \entry {\code {mataa_tempfile}}{56}
