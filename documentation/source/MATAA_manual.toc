@@ -75,7 +75,7 @@
 @numsecentry{mataa_signal_window}{4.62}{mataa_signal_window}{54}
 @numsecentry{mataa_smooth_log}{4.63}{mataa_smooth_log}{56}
 @numsecentry{mataa_tempfile}{4.64}{mataa_tempfile}{56}
-@numsecentry{mataa_t_to_f}{4.65}{mataa_t_to_f}{56}
+@numsecentry{mataa_t_to_f}{4.65}{mataa_t_to_f}{57}
 @numsecentry{mataa_t_to_f0}{4.66}{mataa_t_to_f0}{57}
 @numchapentry{Getting started with MATLAB or Octave}{5}{Getting started with MATLAB or Octave}{58}
 @appentry{Licences}{A}{Licenses}{59}
