@@ -35,6 +35,7 @@ function [S,f] = mataa_realFT0(s,t);
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 15. March 2008 (Matthias Brennwald): removed normalization (which produced confusing results)
 % 2. January 2008 (Matthias Brennwald): added a test for the proper dimension of the input signal (only 1xN or Nx1 data is allowed). Thanks to Lee Marshall for reporting this issue.
 % 19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).
 % 6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)
@@ -65,7 +66,7 @@ end
 S = S(1:N);
 
 % Normalize S:
-S    = S / (L/2);
+%%%% S    = S / (L/2);
 S(1) = S(1)/2;  % normalize DC component, which reflects the sum of both halves of the spectrum (the two halfes overlap)
 if ~mod(L,2)
     S(N) = S(N) / 2;  % for L even, last value reflects sum of both halfs of spectrum
