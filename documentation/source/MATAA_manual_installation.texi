@@ -68,7 +68,7 @@ You should now have a directory @file{mataa} containing several sub-directories.
 @cindex Microphone calibration file
 @cindex Calibration file (microphone)
 
-@item @file{~/MATLAB/mataa/MATLAB/mataa/test_signals}: This directory contains various test-signal files.
+@item @file{~/MATLAB/mataa/test_signals}: This directory contains various test-signal files.
 @cindex Test signal files, default path
 @cindex Default path (test signal files)
 
