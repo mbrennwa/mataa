@@ -1,6 +1,6 @@
 function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
 
-% function mataa_plot_CSD(spl,f,d,spl_range,annote);
+% function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
 %
 % DESCRIPTION:
 % Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)
@@ -8,7 +8,7 @@ function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
 %
 % INPUT:
 % spl,f,d: see mataa_IR_to_CSD
-% spl_range: the y range of the waterfall diagram (in dB)
+% spl_range: the range covered on the y axis of the waterfall diagram (in dB)
 % annote: annotations to the plot title (string, optional)
 % options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):
 %     options = 'contours' : plot contours of waterfall diagram below the waterfall
@@ -35,6 +35,7 @@ function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 31. March 2008 (Matthias Brennwald): improved help text
 % 27. December 2007 (Matthias Brennwald): removed gnuplot-specific code for Octave (this requires Octave 3.0 or later for proper operation -- nothing has changed for Matlab).
 % 18. August 2007 (Matthias Brennwald): added plotting options
 % 23. April 2007: added code to produce acceptable results with Octave 2.9.10 or newer (Octave 2.9.10 and newer use the Matlab-like plotting handles and axes).
