@@ -1,9 +1,9 @@
-function [csd,f,d] = mataa_IR_to_CSD(h,t,T,smooth_interval);
+function [spl,f,d] = mataa_IR_to_CSD(h,t,T,smooth_interval);
 
-% function [csd,f,t] = mataa_IR_to_CSD(h,t,T,smooth_interval);
+% function [spl,f,t] = mataa_IR_to_CSD(h,t,T,smooth_interval);
 %
 % DESCRIPTION:
-% This function calculates cumulative spectral decay (CSD) data (SPL-responses csd at frequencies f and delay times d).
+% This function calculates cumulative spectral decay (CSD) data (SPL-responses spl at frequencies f and delay times d).
 %
 % INPUT:
 % h: values impulse response (vector)
@@ -12,7 +12,7 @@ function [csd,f,d] = mataa_IR_to_CSD(h,t,T,smooth_interval);
 % smooth_interval (optional): if supplied, the SPL curves are smoothed using mataa_IR_to_FR_smooth
 %
 % OUTPUT:
-% csd: CSD data (dB)
+% spl: CSD data (dB)
 % f: frequency (Hz)
 % d: delay of CSD data (seconds)
 %  
@@ -53,7 +53,7 @@ fs=(length(t)-1)/(max(t)-min(t));
 
 t = t-t(1); % shift impulse response to zero-based time
 
-csd=[]; f=[]; d=[];
+spl=[]; f=[]; d=[];
 dT=T(2)-T(1);
 
 for n=1:length(T)
@@ -67,9 +67,9 @@ for n=1:length(T)
 
 	if T(n) <= max(t)
 		if exist('smooth_interval')
-			[csdI,phase,fI] = mataa_IR_to_FR(h,t,smooth_interval);
+			[splI,phase,fI] = mataa_IR_to_FR(h,t,smooth_interval);
 		else
-			[csdI,phase,fI] = mataa_IR_to_FR(h,t);
+			[splI,phase,fI] = mataa_IR_to_FR(h,t);
 		end
 		
 		clear phase;
@@ -77,15 +77,15 @@ for n=1:length(T)
 		% throw away data with f < fMin
 		fMin = 1/(max(t)-(T(n)));
 		i = find( fI >= fMin );
-		fI = fI(i); csdI = csdI(i);
+		fI = fI(i); splI = splI(i);
 	
 		% make sure we've got column vectors:
-		csdI = csdI(:);
+		splI = splI(:);
 		fI = fI(:);
 	
 		% add the data to the output:
 		f   = [ f   ; fI ];
-		csd = [ csd ; csdI ];
+		spl = [ spl ; splI ];
 		d   = [ d   ; repmat(T(n),size(fI)) ];
     end
 %	else
