@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 31-Mar-2008.
+This section contains a list of the MATAA tools and their usage information as of 07-Apr-2008.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -490,10 +490,10 @@ Added a few trailing zeroes, 30. Jan. 2007, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_IR_to_CSD.m@*
 
-function [csd,f,t] = mataa_IR_to_CSD(h,t,T,smooth_interval);@*
+function [spl,f,t] = mataa_IR_to_CSD(h,t,T,smooth_interval);@*
 
 DESCRIPTION:@*
-This function calculates cumulative spectral decay (CSD) data (SPL-responses csd at frequencies f and delay times d).@*
+This function calculates cumulative spectral decay (CSD) data (SPL-responses spl at frequencies f and delay times d).@*
 
 INPUT:@*
 h: values impulse response (vector)@*
@@ -502,7 +502,7 @@ T: desired delay times (should be evenly spaced)@*
 smooth_interval (optional): if supplied, the SPL curves are smoothed using mataa_IR_to_FR_smooth@*
 
 OUTPUT:@*
-csd: CSD data (dB)@*
+spl: CSD data (dB)@*
 f: frequency (Hz)@*
 d: delay of CSD data (seconds)@*
  @*
@@ -933,13 +933,16 @@ Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)@*
 ('waterfall plot'). The argument 'annote' is optional, and can be used to specify annotations to be added to the titles of the plots.@*
 
 INPUT:@*
-spl,f,d: see mataa_IR_to_CSD@*
+spl,f,d: see description of output of mataa_IR_to_CSD@*
 spl_range: the range covered on the y axis of the waterfall diagram (in dB)@*
 annote: annotations to the plot title (string, optional)@*
 options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):@*
     options = 'contours' : plot contours of waterfall diagram below the waterfall@*
+    options = 'countours2': plot contours (lines) only in a 2-D plot@*
+    options = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)@*
 
 HISTORY:@*
+2. and 7. April 2008 (Matthias Brennwald): added 'shaded2' and 'contours2' option@*
 31. March 2008 (Matthias Brennwald): improved help text@*
 27. December 2007 (Matthias Brennwald): removed gnuplot-specific code for Octave (this requires Octave 3.0 or later for proper operation -- nothing has changed for Matlab).@*
 18. August 2007 (Matthias Brennwald): added plotting options@*

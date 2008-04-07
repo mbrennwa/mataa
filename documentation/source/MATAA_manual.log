@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  31 MAR 2008 20:29
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  7 APR 2008 19:45
 entering extended mode
 **/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
 (/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
@@ -335,7 +335,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 833--835
 
 [34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48]
 [49] [50] [51]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1586--1590
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1589--1593
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -348,7 +348,7 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1586--1590
+Underfull \hbox (badness 10000) in paragraph at lines 1589--1593
 
 
 @hbox(0.0+0.0)x433.62
@@ -356,7 +356,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1586--1590
 .@glue(@rightskip) 0.0
 
 [52] [53] [54]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1702--1710
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1705--1713
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -368,7 +368,7 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 1702--1710
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-[55] [56]) (./MATAA_manual_MatOctPrimer.texi Chapter 5 [57]
+[55] [56] [57]) (./MATAA_manual_MatOctPrimer.texi Chapter 5 [58]
 Missing character: There is no Ê in font cmr10!
 
 Underfull \hbox (badness 7522) in paragraph at lines 21--22
@@ -499,7 +499,7 @@ ia.org/wiki/MATLAB)|
 .@textrm n
 .etc.
 
-) (./MATAA_manual_licenses.texi Appendix A [58]
+) (./MATAA_manual_licenses.texi Appendix A [59]
 Underfull \hbox (badness 2368) in paragraph at lines 74--74
 []@secrm TERMS AND CON-DI-TIONS FOR COPY-ING, 
 
@@ -511,8 +511,8 @@ Underfull \hbox (badness 2368) in paragraph at lines 74--74
 .@secrm M
 .etc.
 
-[59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69]) (Concept index)
-[70] (./MATAA_manual.cps) (MATAA tools index) [71]
+[60] [61] [62] [63] [64] [65] [66] [67] [68] [69] [70]) (Concept index)
+[71] (./MATAA_manual.cps) (MATAA tools index) [72]
 Overfull \vbox (5.66718pt too high) has occurred while \output is active
 \vbox(643.19986+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
@@ -530,10 +530,10 @@ Overfull \vbox (5.66718pt too high) has occurred while \output is active
 .etc.
 
 
-[72] (./MATAA_manual.fns) [73] ) 
+[73] (./MATAA_manual.fns) [74] ) 
 Here is how much of TeX's memory you used:
- 2236 strings out of 97159
- 28290 string characters out of 1208251
+ 2237 strings out of 97159
+ 28292 string characters out of 1208251
  2056797 words of memory out of 4548023
  3199 multiletter control sequences out of 10000+50000
  32127 words of font info for 112 fonts, out of 2000000 for 2000
@@ -554,9 +554,9 @@ ype1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/
 cm/cmti10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt10.pfb
 ></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/local/
 gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (78 pages, 498209 bytes).
+Output written on MATAA_manual.pdf (79 pages, 499245 bytes).
 PDF statistics:
- 1069 PDF objects out of 1200 (max. 8388607)
- 166 named destinations out of 1000 (max. 131072)
+ 1074 PDF objects out of 1200 (max. 8388607)
+ 167 named destinations out of 1000 (max. 131072)
  709 words of extra memory for PDF output out of 10000 (max. 10000000)
 
