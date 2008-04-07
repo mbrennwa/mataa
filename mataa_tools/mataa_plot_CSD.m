@@ -12,8 +12,8 @@ function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
 % annote: annotations to the plot title (string, optional)
 % options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):
 %     options = 'contours' : plot contours of waterfall diagram below the waterfall
-%     options = 'countours_only': plot contours (lines) only in a 2-D plot (this is essentially a sonogram)
-%     options = 'sonogram': plot a sonogram in 2-D (this is very similar to 'contours_only', but fills the areas in between the contours with a solid color)
+%     options = 'countours2': plot contours (lines) only in a 2-D plot
+%     options = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -37,7 +37,7 @@ function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
-% 2. April 2008 (Matthias Brennwald): added 'sonogram' and 'contours_only' option (sonogram).
+% 2. and 7. April 2008 (Matthias Brennwald): added 'shaded2' and 'contours2' option
 % 31. March 2008 (Matthias Brennwald): improved help text
 % 27. December 2007 (Matthias Brennwald): removed gnuplot-specific code for Octave (this requires Octave 3.0 or later for proper operation -- nothing has changed for Matlab).
 % 18. August 2007 (Matthias Brennwald): added plotting options
@@ -99,9 +99,9 @@ if exist('OCTAVE_VERSION')
     if ( str2num(ov(1:i(1)-1)) >= 3 ) % running Octave 3.0.0 or later
         if any(strcmp(options,'contours'))
             meshc(X,Y,Z);
-        elseif any(strcmp(options,'contours_only'))
+        elseif any(strcmp(options,'contours2'))
             contour(X,Y,Z);
-        elseif any(strcmp(options,'sonogram'))
+        elseif any(strcmp(options,'shaded2'))
             contourf(X,Y,Z);
         else
             mesh(X,Y,Z);
