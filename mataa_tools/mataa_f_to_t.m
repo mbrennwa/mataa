@@ -56,4 +56,4 @@ else
     dt = 1/(2*f(end));
 end
 
-t = [0:dt:T-dt];
+t = [0:dt:T-dt]';
