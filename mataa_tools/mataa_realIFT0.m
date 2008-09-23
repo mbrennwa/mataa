@@ -41,7 +41,6 @@ if ~any (size (S) == 1)
     error ('mataa_realFT0: the input signal s must be of dimension 1xN or Nx1 !')
 end
 
-
 S = S(:); f = f(:); % make sure these are column vectors
 
 if f(1) ~= 0
