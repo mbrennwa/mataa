@@ -6,7 +6,7 @@ function t = mataa_f_to_t(f);
 % returns the time bins of the inverse fourier spectrum sampled at frequencies f (f is assumed to be evenly spaced!)
 %
 % INPUT:
-% f: frequency-value vector (in Hz). Values must be evenly spaced.
+% f: frequency-value vector (in Hz). Values must be sorted and evenly spaced.
 % 
 % OUTPUT:
 % t: time values (vector, in seconds)
@@ -36,11 +36,19 @@ function t = mataa_f_to_t(f);
 % 8. November 2007 (Matthias Brennwald): improved documentation
 % first version: 22. July 2006, Matthias Brennwald
 
+if any (f<0)
+    error ('mataa_f_to_t: f must not contain negative values.')
+end
+
+f = sort (f); % make sure f is sorted
 
 l=length(f)
 
-
-T = 1/f(1)
+if f(1) ~= 0
+    T = 1/f(1);
+else
+    T = 1/f(2);
+end
 
 if mod(l,2)
     dt = T/(2*l+1);
