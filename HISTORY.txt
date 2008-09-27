@@ -1,5 +1,7 @@
 MATAA History
 
+* 27. Sept 2008: Added mataa_realIFT.m and mataa_realIFT0.m for easy computing of the inverse Fourier transform. Plus some small changes: bug fixes, code clean up, improvements of documentation.
+
 * 16. March 2008: Removed scaling from mataa_realFT0 (to avoid confusing results)
 
 * 9/10. March 2008: moved the settings file to the users home directory, and removed the mataa/mataa_data directory. Therefore, no user-specific data is intended to be written to the MATAA package directory, which greatly simplifies updating MATAA. The documentation has been updated accordingly. Please read the section about installation to find out how to set up the MATLAB/Octave startup file with the new and simplified directory structure.
