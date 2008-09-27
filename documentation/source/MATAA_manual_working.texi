@@ -4,7 +4,8 @@
 This manual assumes you know what kind of measurements you are after, and why. This manual is not an introduction to acoustic measurement principles. Please refer to other sources to find background information on techniques and methods for measurements in electroacoustic systems. Some documents that I can recommend:
 
 @enumerate 
-@item J. D'Appolito: Testing Loudspeakers, Audio Amateur Press, Peterborough, New Hampshire, USA, 1987.
+@item J. d'Appolito: Testing Loudspeakers, Audio Amateur Press, Peterborough, New Hampshire, USA, 1987.
+@item J. d'Appolito: Testing Loudspeakers: Which Measurements Matter (Parts 1 and 2), audioXpress (9,10), 2008.
 @item L. Olson: A MLSSA Gallery, 2006, @uref{http://www.nutshellhifi.com/MLS} (last checked 5 May 2007)
 @item M.S. Brennwald: MATAA: A Free Computer-Based Audio Analysis System, audioXpress (7), 2007. Copies of this article are distributed together with MATAA, and are available online, too. The original article is at @uref{http://www.audioxpress.com/magsdirx/ax/addenda/media/brennwald2806.pdf} (last checked 12 Aug 2007), and a version that is somewhat easier to read is at @uref{http://www.audioroot.net/analysis/MATAA_aX_original.pdf} (last checked 12. Aug 2007).
 @end enumerate

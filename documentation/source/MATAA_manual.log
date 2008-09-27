@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  27 SEP 2008 09:23
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  27 SEP 2008 13:45
 entering extended mode
 **/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
 (/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
@@ -207,7 +207,7 @@ Underfull \hbox (badness 10000) detected at line 215
 
  <./figures/mac_os_x_audio_settings.png (PNG copy)> [10])
 (./MATAA_manual_working.texi Chapter 3 [11]
-Underfull \hbox (badness 5847) in paragraph at lines 9--10
+Underfull \hbox (badness 5847) in paragraph at lines 10--11
  []@textrm M.S. Bren-nwald: MATAA: A Free Computer-Based Au-dio Anal-y-sis Sys-
 
 
@@ -215,7 +215,7 @@ Underfull \hbox (badness 5847) in paragraph at lines 9--10
 .@glue(@leftskip) 21.68121
 .@hbox(7.05666+0.0)x0.0, glue set - 15.74411fil
 ..@glue 0.0 plus 1.0fil minus 1.0fil
-..@textrm 3
+..@textrm 4
 ..@textrm .
 ..@kern 7.22743
 .@textrm M
@@ -224,7 +224,7 @@ Underfull \hbox (badness 5847) in paragraph at lines 9--10
 .etc.
 
 
-Underfull \hbox (badness 3601) in paragraph at lines 9--10
+Underfull \hbox (badness 3601) in paragraph at lines 10--11
  @textrm with MATAA, and are avail-able on-line, too. The orig-i-nal ar-ti-cle 
 is at
 
@@ -237,7 +237,7 @@ is at
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
  [][]@texttt http://www.audioxpress.com/magsdirx/ax/addenda/media/brennwald2806
 .pdf[][][]
 
@@ -554,7 +554,7 @@ ype1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/
 cm/cmti10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt10.pfb
 ></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/local/
 gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (80 pages, 502349 bytes).
+Output written on MATAA_manual.pdf (80 pages, 502429 bytes).
 PDF statistics:
  1091 PDF objects out of 1200 (max. 8388607)
  170 named destinations out of 1000 (max. 131072)
