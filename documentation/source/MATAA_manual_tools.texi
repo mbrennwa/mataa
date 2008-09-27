@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 07-Apr-2008.
+This section contains a list of the MATAA tools and their usage information as of 27-Sep-2008.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -231,7 +231,7 @@ DESCRIPTION:@*
 returns the time bins of the inverse fourier spectrum sampled at frequencies f (f is assumed to be evenly spaced!)@*
 
 INPUT:@*
-f: frequency-value vector (in Hz). Values must be evenly spaced.@*
+f: frequency-value vector (in Hz). Values must be sorted and evenly spaced.@*
 
 OUTPUT:@*
 t: time values (vector, in seconds)@*
@@ -1309,6 +1309,50 @@ HISTORY:@*
 2. January 2008 (Matthias Brennwald): added a test for the proper dimension of the input signal (only 1xN or Nx1 data is allowed). Thanks to Lee Marshall for reporting this issue.@*
 19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).@*
 6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)@*
+
+@findex mataa_realIFT
+@node mataa_realIFT
+@section mataa_realIFT
+
+file: ...mataa_tools/mataa_realIFT.m@*
+
+function [s,t] = mataa_realIFT (S,f);@*
+
+DESCRIPTION:@*
+Same as mataa_realIFT0, but without f=0.@*
+
+INPUT:@*
+S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
+f: frequency values (vector)@*
+
+OUTPUT:@*
+s: signal samples (real-valued samples)@*
+t: time values of the signal@*
+
+HISTORY:@*
+23. Sept. 2008: created this file (Matthias Brennwald)@*
+
+@findex mataa_realIFT0
+@node mataa_realIFT0
+@section mataa_realIFT0
+
+file: ...mataa_tools/mataa_realIFT0.m@*
+
+function [s,t] = mataa_realIFT0 (S,f);@*
+
+DESCRIPTION:@*
+Calculates the inverse Fourier transform of a spectrum S(f) of a signal with real-valued samples. Only the 'positive' half of the spectrum is used, i.e. only positive frequencies (including f=0) must be given as input. See also mataa_realFT0.@*
+
+INPUT:@*
+S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
+f: frequency values (vector)@*
+
+OUTPUT:@*
+s: signal samples (real-valued samples)@*
+t: time values of the signal@*
+
+HISTORY:@*
+23. Sept. 2008: created this file (Matthias Brennwald)@*
 
 @findex mataa_running_mean
 @node mataa_running_mean

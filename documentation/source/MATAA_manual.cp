@@ -58,15 +58,15 @@
 \entry{Interchannel delay}{10}{Interchannel delay}
 \entry{Delay, interchannel (soundcard)}{10}{Delay, interchannel (soundcard)}
 \entry{Soundcard interchannel delay}{10}{Soundcard interchannel delay}
-\entry{MATLAB}{58}{MATLAB}
-\entry{Octave}{58}{Octave}
-\entry{Matrix}{59}{Matrix}
-\entry{Vector}{59}{Vector}
-\entry{Vector (row, column)}{59}{Vector (row, column)}
-\entry{Row vector}{59}{Row vector}
-\entry{Column vector}{59}{Column vector}
-\entry{Vector}{59}{Vector}
-\entry{Scalar}{59}{Scalar}
-\entry{GNU General Public License}{60}{GNU General Public License}
-\entry{GPL, GNU General Public License}{60}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{64}{FDL, GNU Free Documentation License}
+\entry{MATLAB}{59}{MATLAB}
+\entry{Octave}{59}{Octave}
+\entry{Matrix}{60}{Matrix}
+\entry{Vector}{60}{Vector}
+\entry{Vector (row, column)}{60}{Vector (row, column)}
+\entry{Row vector}{60}{Row vector}
+\entry{Column vector}{60}{Column vector}
+\entry{Vector}{60}{Vector}
+\entry{Scalar}{60}{Scalar}
+\entry{GNU General Public License}{61}{GNU General Public License}
+\entry{GPL, GNU General Public License}{61}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{65}{FDL, GNU Free Documentation License}

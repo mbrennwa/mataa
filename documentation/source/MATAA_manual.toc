@@ -60,27 +60,29 @@
 @numsecentry{mataa_plot_two_logX}{4.47}{mataa_plot_two_logX}{45}
 @numsecentry{mataa_realFT}{4.48}{mataa_realFT}{45}
 @numsecentry{mataa_realFT0}{4.49}{mataa_realFT0}{46}
-@numsecentry{mataa_running_mean}{4.50}{mataa_running_mean}{47}
-@numsecentry{mataa_select_signal_window_time}{4.51}{mataa_select_signal_window_time}{47}
-@numsecentry{mataa_settings}{4.52}{mataa_settings}{47}
-@numsecentry{mataa_signal_analytic}{4.53}{mataa_signal_analytic}{48}
-@numsecentry{mataa_signal_autocorr}{4.54}{mataa_signal_autocorr}{49}
-@numsecentry{mataa_signal_clipcheck}{4.55}{mataa_signal_clipcheck}{49}
-@numsecentry{mataa_signal_crop}{4.56}{mataa_signal_crop}{50}
-@numsecentry{mataa_signal_generator}{4.57}{mataa_signal_generator}{51}
-@numsecentry{mataa_signal_pad_Zeros}{4.58}{mataa_signal_pad_Zeros}{52}
-@numsecentry{mataa_signal_removeHF}{4.59}{mataa_signal_removeHF}{53}
-@numsecentry{mataa_signal_save}{4.60}{mataa_signal_save}{53}
-@numsecentry{mataa_signal_to_TestToneFile}{4.61}{mataa_signal_to_TestToneFile}{54}
-@numsecentry{mataa_signal_window}{4.62}{mataa_signal_window}{55}
-@numsecentry{mataa_smooth_log}{4.63}{mataa_smooth_log}{56}
-@numsecentry{mataa_tempfile}{4.64}{mataa_tempfile}{56}
-@numsecentry{mataa_t_to_f}{4.65}{mataa_t_to_f}{57}
-@numsecentry{mataa_t_to_f0}{4.66}{mataa_t_to_f0}{57}
-@numchapentry{Getting started with MATLAB or Octave}{5}{Getting started with MATLAB or Octave}{59}
-@appentry{Licences}{A}{Licenses}{60}
-@appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{60}
-@appsecentry{GNU Free Documentation License}{A.2}{GNU Free Documentation License}{64}
-@appsubsecentry{ADDENDUM: How to use this License for your documents}{A.2.1}{}{71}
-@unnchapentry{Concept index}{10001}{Concept index}{72}
-@unnchapentry{MATAA tools index}{10002}{MATAA tools index}{74}
+@numsecentry{mataa_realIFT}{4.50}{mataa_realIFT}{47}
+@numsecentry{mataa_realIFT0}{4.51}{mataa_realIFT0}{47}
+@numsecentry{mataa_running_mean}{4.52}{mataa_running_mean}{48}
+@numsecentry{mataa_select_signal_window_time}{4.53}{mataa_select_signal_window_time}{48}
+@numsecentry{mataa_settings}{4.54}{mataa_settings}{48}
+@numsecentry{mataa_signal_analytic}{4.55}{mataa_signal_analytic}{49}
+@numsecentry{mataa_signal_autocorr}{4.56}{mataa_signal_autocorr}{50}
+@numsecentry{mataa_signal_clipcheck}{4.57}{mataa_signal_clipcheck}{50}
+@numsecentry{mataa_signal_crop}{4.58}{mataa_signal_crop}{51}
+@numsecentry{mataa_signal_generator}{4.59}{mataa_signal_generator}{52}
+@numsecentry{mataa_signal_pad_Zeros}{4.60}{mataa_signal_pad_Zeros}{53}
+@numsecentry{mataa_signal_removeHF}{4.61}{mataa_signal_removeHF}{54}
+@numsecentry{mataa_signal_save}{4.62}{mataa_signal_save}{54}
+@numsecentry{mataa_signal_to_TestToneFile}{4.63}{mataa_signal_to_TestToneFile}{55}
+@numsecentry{mataa_signal_window}{4.64}{mataa_signal_window}{56}
+@numsecentry{mataa_smooth_log}{4.65}{mataa_smooth_log}{57}
+@numsecentry{mataa_tempfile}{4.66}{mataa_tempfile}{57}
+@numsecentry{mataa_t_to_f}{4.67}{mataa_t_to_f}{58}
+@numsecentry{mataa_t_to_f0}{4.68}{mataa_t_to_f0}{58}
+@numchapentry{Getting started with MATLAB or Octave}{5}{Getting started with MATLAB or Octave}{60}
+@appentry{Licences}{A}{Licenses}{61}
+@appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{61}
+@appsecentry{GNU Free Documentation License}{A.2}{GNU Free Documentation License}{65}
+@appsubsecentry{ADDENDUM: How to use this License for your documents}{A.2.1}{}{72}
+@unnchapentry{Concept index}{10001}{Concept index}{73}
+@unnchapentry{MATAA tools index}{10002}{MATAA tools index}{75}
