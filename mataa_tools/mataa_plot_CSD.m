@@ -1,13 +1,13 @@
-function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
+function mataa_plot_CSD(spl,f,t,spl_range,annote,options);
 
-% function mataa_plot_CSD(spl,f,d,spl_range,annote,options);
+% function mataa_plot_CSD(spl,f,t,spl_range,annote,options);
 %
 % DESCRIPTION:
 % Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)
 % ('waterfall plot'). The argument 'annote' is optional, and can be used to specify annotations to be added to the titles of the plots.
 %
 % INPUT:
-% spl,f,d: see description of output of mataa_IR_to_CSD
+% spl,f,t: see description of output of mataa_IR_to_CSD
 % spl_range: the range covered on the y axis of the waterfall diagram (in dB)
 % annote: annotations to the plot title (string, optional)
 % options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):
@@ -65,10 +65,10 @@ mataa_plot_defaults;
 % make sure we've got column vectors:
 f = f(:);
 spl = spl(:);
-d = d(:);
+t = t(:);
 
 scale = 0;
-while scale > ceil(log10(max(d)))
+while scale > ceil(log10(max(t)))
 	scale = scale-3;
 end
 
@@ -81,17 +81,17 @@ if exist('OCTAVE_VERSION')
 
 % we're running Octave, which does a bad job in plotting waterfalls like CLIO or MLSSA.
     F = union(f,f); % find 'unique' set of all frequency values in the data set
-    D = union(d,d); % vector of unique values in d
-    Z = repmat(NaN,length(D),length(F));
+    T = union(t,t); % vector of unique values in t
+    Z = repmat(NaN,length(T),length(F));
 
-    for n = 1:length(D);
-        i = find(d==D(n));
+    for n = 1:length(T);
+        i = find(t==T(n));
         Z(n,:) = mataa_interp(f(i),spl(i),F)';
         Z(n, F < min(f(i)) ) = -spl_range;
     end
     
     Z = flipud(Z);
-    [X,Y] = meshdom(F,D/10^scale);
+    [X,Y] = meshdom(F,T/10^scale);
 
     ov = OCTAVE_VERSION;
     i=findstr('.',ov);
@@ -124,9 +124,9 @@ if exist('OCTAVE_VERSION')
     end
 else
 % We're running Matlab
-    D = union(d,d); % vector of unique values in d
-    for n = 1:length(D);
-    	i = find(d==D(n));
+    T = union(t,t); % vector of unique values in t
+    for n = 1:length(T);
+    	i = find(t==T(n));
     	xi = f(i);
     	zi = spl(i);
     	
@@ -134,7 +134,7 @@ else
         	% make closed path:
         	xi = [ xi ; xi(end) ; xi(1) ; xi(1) ];
         	zi = [ zi ; -spl_range ; -spl_range ; zi(1) ];
-      		yi = repmat(D(n)/10^scale,length(xi),1);
+      		yi = repmat(T(n)/10^scale,length(xi),1);
       		poly=fill3(xi,yi,zi,'w');
             set(poly,'EdgeColor',color);
         	hold on
