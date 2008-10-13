@@ -103,7 +103,7 @@ switch kind
             warning('mataa_signal_generator: required length does not match power of 2. Using next power of 2.');
             n = ceil(n);
         end
-        s = M_mls(n);
+        s = __M_mls(n);
         t = [0:length(s)-1]*dt;
     case {'sine','sin'},
         if param > fs/2
@@ -228,7 +228,7 @@ x = real(x);
 
 
 % FROM http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=1246&objectkind=file
-function  y = M_mls(n,flag)
+function  y = __M_mls(n,flag)
 
 %y = mls(n,{flag});
 %
