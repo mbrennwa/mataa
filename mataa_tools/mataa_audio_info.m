@@ -33,6 +33,7 @@ function audioInfo = mataa_audio_info;
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 2. Nov 2008 (Matthias Brennwald): fixed problem that occured if the MATAA files are in paths containing spaces
 % 6. March 2007: code cleanup to avoid problem with Octave on Windows and fix output if no sound devices are found (return name '(UNKNOWN)' instead of name = []);
 % 14. Feb 2007: changed double quotes to single quotes -- 'MAC' instead of "MAC" etc., for compatibility with Matlab. Problem reported by Morten Laursen. (Matthias Brennwald)
 % 13. Feb. 2007: added support PCWIN versions of TestDevices  (Matthias Brennwald)
@@ -59,8 +60,8 @@ switch plat
     	input_sampleRates_halfDuplex = [];
     	input_sampleRates_fullDuplex = [];
     	output_sampleRates_halfDuplex = [];
-    	output_sampleRates_fullDuplex = [];
-    	system(sprintf('%s > %s',TestDevices,infoFile));
+    	output_sampleRates_fullDuplex = [];        
+        system(sprintf("'%s' > '%s'",TestDevices,infoFile)); % the ' are needed if the paths contain spaces
         fid=fopen(infoFile,'rt');
         l = 0;
         while l ~=-1

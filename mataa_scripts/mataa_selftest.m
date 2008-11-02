@@ -36,9 +36,9 @@ err = 0;
 disp('****** MATAA self test ******')
 
 if exist('OCTAVE_VERSION')
-    disp(sprintf('We are running Octave version %s.',version))
+    disp(sprintf('You are running Octave version %s.',version))
 else
-    disp(sprintf('We are running Matlab version %s.',version))
+    disp(sprintf('You are running Matlab version %s.',version))
 end
 
 disp(sprintf('The computer platform is %s.',mataa_computer))
@@ -106,33 +106,11 @@ catch
 end
 
 try
-    p = mataa_path('user_scripts');
-    if exist(p);
-        disp(sprintf('Path to user-defined scripts is %s.',p))
-    else
-        disp(sprintf('** ERROR: path to user-defined scripts does not exist (%s). This may be no problem if you do not need your own scripts.',p))
-    end
-catch
-    disp(sprintf('** ERROR: %s',lasterr));
-end
-
-try
     p = mataa_path('microphone');
     if exist(p);
         disp(sprintf('MATAA path to microphone data is %s.',p))
     else
         disp(sprintf('** ERROR: path to microphone data does not exist (%s). This may be no problem if you do not use microphones.',p))
-    end
-catch
-    disp(sprintf('** ERROR: %s',lasterr));
-end
-
-try
-    p = mataa_path('data');
-    if exist(p);
-        disp(sprintf('Default path for MATAA data is %s.',p))
-    else
-        disp(sprintf('** ERROR: Default path for MATAA data does not exist (%s).',p))
     end
 catch
     disp(sprintf('** ERROR: %s',lasterr));
@@ -148,13 +126,6 @@ end
 try
     disp('Your MATAA scripts are (files and directories in the MATAA scripts path):')
     dir(mataa_path('mataa_scripts'))
-catch
-    disp(sprintf('** ERROR: %s',lasterr));
-end
-
-try
-    disp('Your user scripts are (files and directories in the user-scripts path):')
-    dir(mataa_path('user_scripts'))
 catch
     disp(sprintf('** ERROR: %s',lasterr));
 end
