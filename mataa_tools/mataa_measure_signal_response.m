@@ -52,6 +52,7 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response(input_si
 % Further information: http://www.audioroot.net/MATAA.html
 %
 % HISTORY:
+% 3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...
 % 2. November 2008 (Matthias Brennwald): fixed a problem that occurred if the MATAA files are in paths containing spaces
 % 3. January 2008 (Matthias Brennwald): check for compatibility of number of input-signal channels with sound device only if input signal is given as a numerical matrix. The check is not done if the input signal is specified as a file name.
 % 8. November 2007 (Matthias Brennwald): improved documentation
@@ -165,7 +166,8 @@ end
 
 TestTone = sprintf('%s%s%s',mataa_path('TestTone'),'TestTonePA19',extension);
 
-command = sprintf("'%s' %s '%s' > '%s'",TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+command = sprintf('"%s" %s %s > %s',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+
 
 status = -42; % in case the system command fails miserably, such that it does not even set the status flag
 [output,status] = system(command);
