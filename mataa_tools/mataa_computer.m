@@ -12,6 +12,7 @@ function platform = mataa_computer;
 % platform: string indicating the computer platform:
 % MAC:      Mac OS X (Darwin)
 % PCWIN:    MS Windows
+% PCLINUX:  Linux on Intel/AMD
 % UNKNOWN:  unknown platform (unknown to MATAA)
 % 
 % DISCLAIMER:
@@ -44,7 +45,9 @@ platform = computer;
 if (exist('OCTAVE_VERSION')~=0) % we're running Octave
 	if (~isempty(findstr(platform,'apple')) && ~isempty(findstr(platform,'darwin')))
 		platform='MAC';
-	elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
+	elseif ~isempty(findstr(platform,'pc-linux')) % e.g. platform = 'i586-pc-linux-gnu'
+		platform='PCLINUX';
+    elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
 		platform='PCWIN';
 	else
 		platform='UNKNOWN';

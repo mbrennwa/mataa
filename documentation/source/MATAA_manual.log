@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  27 SEP 2008 13:45
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  5 NOV 2008 14:01
 entering extended mode
 **/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
 (/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
@@ -193,13 +193,49 @@ AE1A-4A14-984D-389C36F85647&displaylang=en[][][]|
 .@pdflink(*+*)x* attr{/Border [0 0 0]} action user{/Subtype /Link /A << /S /URI
  /URI (http://www.microsoft.com/downloads@ETC.}
 
-l.196: Undefined cross reference `Impedance measurement-snt'.
-l.196: Undefined cross reference `Impedance measurement-snt'.
-l.196: Undefined cross reference `Impedance measurement-pg'.
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 199--200
+ []@textrm Compile the source code (`@texttt TestTonePA19.c[]@textrm '[] and `@
+texttt TestDevicesPA19.c[]@textrm '[] in
+
+@hbox(8.2125+2.73749)x433.62, glue set 4.59822
+.@glue(@leftskip) 21.68121
+.@hbox(4.86667+0.0)x0.0, glue set - 12.70244fil
+..@glue 0.0 plus 1.0fil minus 1.0fil
+..@mathon
+..@textsy ^^O
+..@mathoff
+..@kern 7.22743
+.@textrm C
+.@textrm o
+.@textrm m
+.etc.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+ []@textrm Move the bi-na-ries to `@texttt .../mataa/TestTone/PCLINUX/TestToneP
+A19[]@textrm '[] and
+
+@hbox(7.60416+0.91246)x433.62, glue set 6.36424
+.@glue(@leftskip) 21.68121
+.@hbox(4.86667+0.0)x0.0, glue set - 12.70244fil
+..@glue 0.0 plus 1.0fil minus 1.0fil
+..@mathon
+..@textsy ^^O
+..@mathoff
+..@kern 7.22743
+.@textrm M
+.@textrm o
+.@kern-0.30418
+.etc.
+
+l.213: Undefined cross reference `Impedance measurement-snt'.
+l.213: Undefined cross reference `Impedance measurement-snt'.
+l.213: Undefined cross reference `Impedance measurement-pg'.
 Missing character: There is no Ê in font cmr10!
- <./figures/ref_signal_paths.png (PNG copy)> [7] [8] [9] <./figures/jack.png (P
-NG copy)>
-Underfull \hbox (badness 10000) detected at line 215
+ <./figures/ref_signal_paths.png (PNG copy)> [8] [9] <./figures/jack.png (PNG c
+opy)>
+Underfull \hbox (badness 10000) detected at line 232
 []
 
 @hbox(110.53058+0.0)x433.62
@@ -253,7 +289,7 @@ Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
  [17] [18]
 [19] [20] [21] [22]
-Underfull \hbox (badness 2205) in paragraph at lines 410--454
+Underfull \hbox (badness 2205) in paragraph at lines 413--457
 @textrm son[at]iet.ntnu.no) avail-able at http://www.iet.ntnu.no/@texttt ~@text
 rm svensson/readmls.m. Pe-ter
 
@@ -266,7 +302,7 @@ rm svensson/readmls.m. Pe-ter
 .etc.
 
 [23] [24] [25]
-Underfull \hbox (badness 5970) in paragraph at lines 539--544
+Underfull \hbox (badness 5970) in paragraph at lines 542--547
 []@textrm smooth[]interval (op-tional): if sup-plied, the SPL curves are smooth
 ed us-ing
 
@@ -279,7 +315,7 @@ ed us-ing
 .etc.
 
 [26] [27] [28]
-Overfull \hbox (9.87344pt too wide) in paragraph at lines 655--658
+Overfull \hbox (9.87344pt too wide) in paragraph at lines 658--661
 []@textrm NOTE 2: There ex-ist dif-fer-ent def-i-ni-tions of THD (see e.g. http
 ://en.wikipedia.org/wiki/THD|
 
@@ -292,7 +328,7 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 655--658
 .etc.
 
 [29] [30]
-Overfull \hbox (69.03506pt too wide) in paragraph at lines 728--729
+Overfull \hbox (69.03506pt too wide) in paragraph at lines 731--732
 []@textrm function [re-spons-eS-ig-nal,inputSignal,t] = mataa[]measure[]signal[
 ]response(input[]signal,fs,latency,verbose);|
 
@@ -305,7 +341,7 @@ Overfull \hbox (69.03506pt too wide) in paragraph at lines 728--729
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 728--729
+Underfull \hbox (badness 10000) in paragraph at lines 731--732
 
 
 @hbox(0.0+0.0)x433.62
@@ -313,7 +349,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 728--729
 .@glue(@rightskip) 0.0
 
 [31] [32] [33]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 833--835
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 838--840
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -326,7 +362,7 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 833--835
+Underfull \hbox (badness 10000) in paragraph at lines 838--840
 
 
 @hbox(0.0+0.0)x433.62
@@ -335,7 +371,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 833--835
 
 [34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48]
 [49] [50] [51] [52]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1633--1637
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1638--1642
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -348,7 +384,7 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1633--1637
+Underfull \hbox (badness 10000) in paragraph at lines 1638--1642
 
 
 @hbox(0.0+0.0)x433.62
@@ -356,7 +392,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1633--1637
 .@glue(@rightskip) 0.0
 
 [53] [54] [55]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1749--1757
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1754--1762
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -513,7 +549,7 @@ Underfull \hbox (badness 2368) in paragraph at lines 74--74
 
 [61] [62] [63] [64] [65] [66] [67] [68] [69] [70] [71]) (Concept index)
 [72] (./MATAA_manual.cps) (MATAA tools index) [73]
-Overfull \vbox (5.66718pt too high) has occurred while \output is active
+Overfull \vbox (33.91716pt too high) has occurred while \output is active
 \vbox(643.19986+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
 .\vbox(11.99998+3.35999)x433.62
@@ -532,13 +568,13 @@ Overfull \vbox (5.66718pt too high) has occurred while \output is active
 
 [74] (./MATAA_manual.fns) [75] ) 
 Here is how much of TeX's memory you used:
- 2248 strings out of 97159
- 28454 string characters out of 1208251
- 2056864 words of memory out of 4548090
- 3207 multiletter control sequences out of 10000+50000
+ 2253 strings out of 97159
+ 28656 string characters out of 1208251
+ 2056182 words of memory out of 4547408
+ 3211 multiletter control sequences out of 10000+50000
  32127 words of font info for 112 fonts, out of 2000000 for 2000
  51 hyphenation exceptions out of 5000
- 15i,6n,18p,1731b,523s stack positions out of 5000i,500n,6000p,200000b,50000s
+ 15i,6n,18p,1731b,524s stack positions out of 5000i,500n,6000p,200000b,50000s
 pdfTeX warning (dest): name{Impedance measureme
 nt} has been referenced but does not exist, replaced by a fixed one
 
@@ -554,9 +590,9 @@ ype1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/
 cm/cmti10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt10.pfb
 ></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/local/
 gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (80 pages, 502429 bytes).
+Output written on MATAA_manual.pdf (80 pages, 505721 bytes).
 PDF statistics:
- 1091 PDF objects out of 1200 (max. 8388607)
- 170 named destinations out of 1000 (max. 131072)
- 725 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1101 PDF objects out of 1200 (max. 8388607)
+ 171 named destinations out of 1000 (max. 131072)
+ 733 words of extra memory for PDF output out of 10000 (max. 10000000)
 

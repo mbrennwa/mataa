@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 27-Sep-2008.
+This section contains a list of the MATAA tools and their usage information as of 05-Nov-2008.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -54,6 +54,8 @@ EXAMPLE:@*
 > info.output     % shows information about the output device@*
 
 HISTORY:@*
+3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...@*
+2. Nov 2008 (Matthias Brennwald): fixed problem that occured if the MATAA files are in paths containing spaces@*
 6. March 2007: code cleanup to avoid problem with Octave on Windows and fix output if no sound devices are found (return name '(UNKNOWN)' instead of name = []);@*
 14. Feb 2007: changed double quotes to single quotes -- 'MAC' instead of "MAC" etc., for compatibility with Matlab. Problem reported by Morten Laursen. (Matthias Brennwald)@*
 13. Feb. 2007: added support PCWIN versions of TestDevices  (Matthias Brennwald)@*
@@ -77,6 +79,7 @@ OUTPUT@*
 platform: string indicating the computer platform:@*
 MAC:      Mac OS X (Darwin)@*
 PCWIN:    MS Windows@*
+PCLINUX:  Linux on Intel/AMD@*
 UNKNOWN:  unknown platform (unknown to MATAA)@*
 
 HISTORY:@*
@@ -715,6 +718,8 @@ Feed a 20Hz square-wave signal to the DUT and compare the input and response sig
 > plot(t,in,t,out)@*
 
 HISTORY:@*
+3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...@*
+2. November 2008 (Matthias Brennwald): fixed a problem that occurred if the MATAA files are in paths containing spaces@*
 3. January 2008 (Matthias Brennwald): check for compatibility of number of input-signal channels with sound device only if input signal is given as a numerical matrix. The check is not done if the input signal is specified as a file name.@*
 8. November 2007 (Matthias Brennwald): improved documentation@*
 2. March 2007 (Matthias Brennwald): added check if input data has more channels than supported by the audio output device.@*
@@ -926,14 +931,14 @@ first version: 17. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_CSD.m@*
 
-function mataa_plot_CSD(spl,f,d,spl_range,annote,options);@*
+function mataa_plot_CSD(spl,f,t,spl_range,annote,options);@*
 
 DESCRIPTION:@*
 Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)@*
 ('waterfall plot'). The argument 'annote' is optional, and can be used to specify annotations to be added to the titles of the plots.@*
 
 INPUT:@*
-spl,f,d: see description of output of mataa_IR_to_CSD@*
+spl,f,t: see description of output of mataa_IR_to_CSD@*
 spl_range: the range covered on the y axis of the waterfall diagram (in dB)@*
 annote: annotations to the plot title (string, optional)@*
 options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):@*

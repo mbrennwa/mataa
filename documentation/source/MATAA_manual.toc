@@ -5,9 +5,10 @@
 @numsecentry{Hardware Setup}{2.3}{Hardware Setup}{5}
 @numsubsecentry{The Building Blocks of the Measurement Setup}{2.3.1}{}{5}
 @numsubsecentry{Soundcard setup, TestTone, and TestDevices}{2.3.2}{}{7}
-@numsubsecentry{Sound channel allocation}{2.3.3}{}{7}
-@numsubsecentry{Interchannel delay}{2.3.4}{}{10}
-@numsubsecentry{Setting up the soundcard of an Apple Macintosh computer running Mac OS X}{2.3.5}{}{11}
+@numsubsecentry{Compiling TestTone and TestDevices on Linux}{2.3.3}{}{7}
+@numsubsecentry{Sound channel allocation}{2.3.4}{}{8}
+@numsubsecentry{Interchannel delay}{2.3.5}{}{10}
+@numsubsecentry{Setting up the soundcard of an Apple Macintosh computer running Mac OS X}{2.3.6}{}{11}
 @numsecentry{Testing the Installation}{2.4}{Testing the Installation}{11}
 @numchapentry{Working with MATAA}{3}{Working with MATAA}{12}
 @numchapentry{MATAA tools reference}{4}{MATAA tools reference}{13}
@@ -30,23 +31,23 @@
 @numsecentry{mataa_interp}{4.17}{mataa_interp}{25}
 @numsecentry{mataa_IR_demo}{4.18}{mataa_IR_demo}{25}
 @numsecentry{mataa_IR_to_CSD}{4.19}{mataa_IR_to_CSD}{26}
-@numsecentry{mataa_IR_to_ETC}{4.20}{mataa_IR_to_ETC}{26}
+@numsecentry{mataa_IR_to_ETC}{4.20}{mataa_IR_to_ETC}{27}
 @numsecentry{mataa_IR_to_FR}{4.21}{mataa_IR_to_FR}{27}
 @numsecentry{mataa_IR_to_SR}{4.22}{mataa_IR_to_SR}{28}
 @numsecentry{mataa_measure_HD}{4.23}{mataa_measure_HD}{28}
 @numsecentry{mataa_measure_impedance}{4.24}{mataa_measure_impedance}{29}
 @numsecentry{mataa_measure_IR}{4.25}{mataa_measure_IR}{30}
 @numsecentry{mataa_measure_signal_response}{4.26}{mataa_measure_signal_response}{31}
-@numsecentry{mataa_menu}{4.27}{mataa_menu}{32}
+@numsecentry{mataa_menu}{4.27}{mataa_menu}{33}
 @numsecentry{mataa_microphone_correct_IR}{4.28}{mataa_microphone_correct_IR}{33}
 @numsecentry{mataa_minimum_phase}{4.29}{mataa_minimum_phase}{34}
-@numsecentry{mataa_octave_version}{4.30}{mataa_octave_version}{34}
+@numsecentry{mataa_octave_version}{4.30}{mataa_octave_version}{35}
 @numsecentry{mataa_path}{4.31}{mataa_path}{35}
 @numsecentry{mataa_phase_remove_delay}{4.32}{mataa_phase_remove_delay}{36}
-@numsecentry{mataa_phase_remove_trend}{4.33}{mataa_phase_remove_trend}{36}
+@numsecentry{mataa_phase_remove_trend}{4.33}{mataa_phase_remove_trend}{37}
 @numsecentry{mataa_plot_CSD}{4.34}{mataa_plot_CSD}{37}
 @numsecentry{mataa_plot_defaults}{4.35}{mataa_plot_defaults}{38}
-@numsecentry{mataa_plot_ETC_dB}{4.36}{mataa_plot_ETC_dB}{38}
+@numsecentry{mataa_plot_ETC_dB}{4.36}{mataa_plot_ETC_dB}{39}
 @numsecentry{mataa_plot_ETC_lin}{4.37}{mataa_plot_ETC_lin}{39}
 @numsecentry{mataa_plot_FR}{4.38}{mataa_plot_FR}{40}
 @numsecentry{mataa_plot_HD}{4.39}{mataa_plot_HD}{40}

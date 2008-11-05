@@ -69,13 +69,9 @@ end
 
 % check computer platform:
 plat = mataa_computer;
-if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN') )
-% if ( ~strcmp(plat,'MAC') )
+if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN')  && ~strcmp(plat,'PCLINUX') )
 	error('mataa_measure_signal_response: Sorry, this computer platform is not (yet) supported by the TestTone program.');
 end
-%% if ((size(input_signal,2) > 1) && strcmp(plat,'PCWIN'))
-%%     error('mataa_measure_signal_response: Multi-channel sound output is not yet supported on PC/Windows systems.');
-%% end
 
 % check audio hardware:
 audioInfo = mataa_audio_info;
@@ -86,8 +82,6 @@ end
 if strcmp(audioInfo.output.name,'(UNKNOWN)')
    error('mataa_measure_signal_response: No audio output device selected or no device available.');
 end
-
-
 
 numInputChannels = audioInfo.input.channels;
 if numInputChannels < 1

@@ -1,10 +1,10 @@
 \initial {A}
-\entry {Allocation of soundcard channels}{7}
+\entry {Allocation of soundcard channels}{8}
 \entry {Anti-aliasing filter}{6}
 \entry {Audio hardware setup}{5}
 \initial {C}
 \entry {Calibration file (microphone)}{4}
-\entry {Channel allocation}{7}
+\entry {Channel allocation}{8}
 \entry {Column vector}{60}
 \entry {Copyright}{2}
 \initial {D}
@@ -14,7 +14,7 @@
 \entry {Delay, interchannel (soundcard)}{10}
 \entry {Documentaion, MATAA}{4}
 \entry {Download, MATAA}{3}
-\entry {DUT channel}{7}
+\entry {DUT channel}{8}
 \initial {F}
 \entry {FDL, GNU Free Documentation License}{65}
 \entry {Filter, anti-aliasing}{6}
@@ -29,6 +29,8 @@
 \entry {Installing MATLAB}{3}
 \entry {Installing Octave}{3}
 \entry {Interchannel delay}{10}
+\initial {L}
+\entry {Linux}{7}
 \initial {M}
 \entry {Manual, MATAA}{4}
 \entry {MATAA default paths}{4}
@@ -54,9 +56,10 @@
 \entry {Path, default (MATAA)}{4}
 \entry {Path, default (MATLAB/Octave)}{3}
 \entry {Path, test signal}{5}
+\entry {PortAudio}{7}
 \entry {Preferences, MATAA}{4}
 \initial {R}
-\entry {REF channel}{7}
+\entry {REF channel}{8}
 \entry {Row vector}{60}
 \initial {S}
 \entry {Scalar}{60}
@@ -68,7 +71,7 @@
 \entry {Signal path}{5}
 \entry {Sound hardware setup}{5}
 \entry {Soundcard}{7}
-\entry {Soundcard channel allocation}{7}
+\entry {Soundcard channel allocation}{8}
 \entry {Soundcard interchannel delay}{10}
 \entry {Startup file, MATLAB/Octave}{4}
 \initial {T}

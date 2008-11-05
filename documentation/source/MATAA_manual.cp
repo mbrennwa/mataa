@@ -50,11 +50,15 @@
 \entry{Soundcard}{7}{Soundcard}
 \entry{TestTone}{7}{TestTone}
 \entry{TestDevices}{7}{TestDevices}
-\entry{Channel allocation}{7}{Channel allocation}
-\entry{Soundcard channel allocation}{7}{Soundcard channel allocation}
-\entry{Allocation of soundcard channels}{7}{Allocation of soundcard channels}
-\entry{DUT channel}{7}{DUT channel}
-\entry{REF channel}{7}{REF channel}
+\entry{TestTone}{7}{TestTone}
+\entry{TestDevices}{7}{TestDevices}
+\entry{PortAudio}{7}{PortAudio}
+\entry{Linux}{7}{Linux}
+\entry{Channel allocation}{8}{Channel allocation}
+\entry{Soundcard channel allocation}{8}{Soundcard channel allocation}
+\entry{Allocation of soundcard channels}{8}{Allocation of soundcard channels}
+\entry{DUT channel}{8}{DUT channel}
+\entry{REF channel}{8}{REF channel}
 \entry{Interchannel delay}{10}{Interchannel delay}
 \entry{Delay, interchannel (soundcard)}{10}{Delay, interchannel (soundcard)}
 \entry{Soundcard interchannel delay}{10}{Soundcard interchannel delay}

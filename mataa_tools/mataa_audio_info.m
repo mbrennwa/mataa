@@ -43,7 +43,7 @@ function audioInfo = mataa_audio_info;
 plat = mataa_computer;
 
 switch plat
-    case {'MAC','PCWIN'}
+    case {'MAC','PCWIN','PCLINUX'}
     	if strcmp(plat,'PCWIN')
     		extension = '.exe';
     	else
