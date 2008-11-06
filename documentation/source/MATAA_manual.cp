@@ -50,27 +50,27 @@
 \entry{Soundcard}{7}{Soundcard}
 \entry{TestTone}{7}{TestTone}
 \entry{TestDevices}{7}{TestDevices}
-\entry{TestTone}{7}{TestTone}
-\entry{TestDevices}{7}{TestDevices}
-\entry{PortAudio}{7}{PortAudio}
-\entry{Linux}{7}{Linux}
-\entry{Channel allocation}{8}{Channel allocation}
-\entry{Soundcard channel allocation}{8}{Soundcard channel allocation}
-\entry{Allocation of soundcard channels}{8}{Allocation of soundcard channels}
-\entry{DUT channel}{8}{DUT channel}
-\entry{REF channel}{8}{REF channel}
+\entry{Channel allocation}{7}{Channel allocation}
+\entry{Soundcard channel allocation}{7}{Soundcard channel allocation}
+\entry{Allocation of soundcard channels}{7}{Allocation of soundcard channels}
+\entry{DUT channel}{7}{DUT channel}
+\entry{REF channel}{7}{REF channel}
 \entry{Interchannel delay}{10}{Interchannel delay}
 \entry{Delay, interchannel (soundcard)}{10}{Delay, interchannel (soundcard)}
 \entry{Soundcard interchannel delay}{10}{Soundcard interchannel delay}
-\entry{MATLAB}{59}{MATLAB}
-\entry{Octave}{59}{Octave}
-\entry{Matrix}{60}{Matrix}
-\entry{Vector}{60}{Vector}
-\entry{Vector (row, column)}{60}{Vector (row, column)}
-\entry{Row vector}{60}{Row vector}
-\entry{Column vector}{60}{Column vector}
-\entry{Vector}{60}{Vector}
-\entry{Scalar}{60}{Scalar}
-\entry{GNU General Public License}{61}{GNU General Public License}
-\entry{GPL, GNU General Public License}{61}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{65}{FDL, GNU Free Documentation License}
+\entry{TestTone}{11}{TestTone}
+\entry{TestDevices}{11}{TestDevices}
+\entry{PortAudio}{11}{PortAudio}
+\entry{Linux}{11}{Linux}
+\entry{MATLAB}{60}{MATLAB}
+\entry{Octave}{60}{Octave}
+\entry{Matrix}{61}{Matrix}
+\entry{Vector}{61}{Vector}
+\entry{Vector (row, column)}{61}{Vector (row, column)}
+\entry{Row vector}{61}{Row vector}
+\entry{Column vector}{61}{Column vector}
+\entry{Vector}{61}{Vector}
+\entry{Scalar}{61}{Scalar}
+\entry{GNU General Public License}{62}{GNU General Public License}
+\entry{GPL, GNU General Public License}{62}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{66}{FDL, GNU Free Documentation License}

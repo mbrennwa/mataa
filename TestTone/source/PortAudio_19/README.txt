@@ -40,7 +40,7 @@ Apart from these notes, Shu Sang gave the following instructions:
 
 
 - Linux
-I haven't tried compiling on Linux yet. However, I expect the TestTone and TestDevices programs to compile in the same way as the test programs included with the portaudio package.
+See the MATAA manual for instructions on how to compile TestTone and TestDevices for Linux.
 
 
 * License and Copyright information:

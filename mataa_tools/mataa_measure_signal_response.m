@@ -69,7 +69,7 @@ end
 
 % check computer platform:
 plat = mataa_computer;
-if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN')  && ~strcmp(plat,'PCLINUX') )
+if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN')  && ~strcmp(plat,'LINUX_X86') )
 	error('mataa_measure_signal_response: Sorry, this computer platform is not (yet) supported by the TestTone program.');
 end
 
@@ -179,7 +179,7 @@ end
 %if exist('OCTAVE_VERSION')		
     fid = fopen(out_path,'rt');
     if fid == -1
-        error('mataa_octave_outsignal_load: could not find input file.');
+        error('mataa_measure_signal_response: could not find input file.');
     else
         frewind(fid);
         numChan = [];

@@ -45,8 +45,12 @@ platform = computer;
 if (exist('OCTAVE_VERSION')~=0) % we're running Octave
 	if (~isempty(findstr(platform,'apple')) && ~isempty(findstr(platform,'darwin')))
 		platform='MAC';
-	elseif ~isempty(findstr(platform,'pc-linux')) % e.g. platform = 'i586-pc-linux-gnu'
-		platform='PCLINUX';
+	elseif ~isempty(findstr(platform,'linux')) % e.g. platform = 'x86_64-unknown-linux-gnu'
+		if ~isempty(findstr(platform,'x86'))
+			platform = 'LINUX_X86';
+		else
+			platform = 'LINUX_UNKNOWN';
+		end
     elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
 		platform='PCWIN';
 	else

@@ -1,8 +1,8 @@
 #!/bin/bash
 echo `dirname $0`
 cd `dirname $0`
-/Applications/Octave.app/Contents/Resources/bin/octave --silent < ./make_tools_help_list.m
-#octave --silent < ./make_tools_help_list.m
+#/Applications/Octave.app/Contents/Resources/bin/octave --silent < ./make_tools_help_list.m
+octave --silent < ./make_tools_help_list.m
 #makeinfo --html --no-split MATAA_manual.texi
 #rm ../MATAA_manual.html
 #mv MATAA_manual.html ..

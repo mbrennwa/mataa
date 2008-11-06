@@ -185,23 +185,6 @@ A few notes:
 
 @end itemize
 
-@anchor{Compiling TestTone and TestDevices on Linux}
-@cindex TestTone
-@cindex TestDevices
-@cindex PortAudio
-@cindex Linux
-@subsection Compiling TestTone and TestDevices on Linux
-The data exchange between MATAA and the sound card is handled by two programs, TestTone and TestDevices. While there are precompiled binaries for Mac OS X and Windows, these two programs need to be compiled first if you want to use the sound card with Linux. While several users sucessfully compiled TestTone and TestDevices on Linux, I can't provide comprehensive step-by-step instructions that will work on all Linux distributions. However, the general procedure is as follows:
-@itemize
-
-@item Install PortAudio. Some Linux distributions provide package for easy installation. Otherwise, you can download a recent version of PortAudio from @uref{http://portaudio.com} and install it following the instructions on this website.
-
-@item Compile the source code (@file{TestTonePA19.c} and @file{TestDevicesPA19.c} in @file{.../mataa/TestTone/source/} using a C comiler, e.g. @command{gcc}.
-
-@item Move the binaries to @file{.../mataa/TestTone/PCLINUX/TestTonePA19} and @file{.../mataa/TestTone/PCLINUX/TestDevicesPA19}.
-
-@end itemize
-
 
 @anchor{Sound channel allocation}
 @cindex Channel allocation
@@ -254,10 +237,8 @@ mataa_settings('interchannel_delay',17E-6);
 To test if your soundcard exhibits interchannel delay, it is best to measure the impedance of a resistor with a purely ohmic impedance (i.e. with constant resistance for all frequencies) using the method described in ``MATAA: A Free Computer-Based Audio Analysis System'' (article in audioXpress (7), 2007). If this measurement gives a flat impedance reading, your soundcard is not affected by interchannel delay (or the interchannel delay is already adjusted properly in the MATAA settings). Otherwise, you need to adjust the interchannel delay setting until you get a flat impedance reading.
 
 
-@c @anchor{Measurement setup examples}
-@c @subsection Examples
-
-@subsection Setting up the soundcard of an Apple Macintosh computer running Mac OS X
+@node Setting up the soundcard of an Apple Macintosh computer running Mac OS X
+@section Setting up the soundcard of an Apple Macintosh computer running Mac OS X
 
 @float Figure,fig:mac_audio_settings
 @iftex
@@ -275,6 +256,47 @@ To set up the audio hardware in Mac OS X, choose `System Preferences' in the App
 @c @subsubsection Other examples here
 @c @c - an LRC circuit
 @c @c - acoustic analysis of a loudspeaker using a microphone
+
+@node Compiling TestTone and TestDevices on Linux
+@anchor{Compiling TestTone and TestDevices on Linux}
+@cindex TestTone
+@cindex TestDevices
+@cindex PortAudio
+@cindex Linux
+@section Compiling TestTone and TestDevices on Linux
+The data exchange between MATAA and the sound card is handled by two programs, TestTone and TestDevices. While there are precompiled binaries for Mac OS X and Windows, these two programs need to be compiled first if you want to use the sound card with Linux. While several users sucessfully compiled TestTone and TestDevices on Linux, I can't provide comprehensive step-by-step instructions that will work on all Linux distributions. However, the general procedure is as follows:
+@itemize
+
+@item Install PortAudio 19. Some Linux distributions provide package for easy installation (make sure you've got the development headers installed, too). Otherwise, you can download a recent version of PortAudio from @uref{http://portaudio.com} and install it following the instructions on this website.
+
+@item Compile the source code (@file{TestTonePA19.c} and @file{TestDevicesPA19.c} in @file{.../mataa/TestTone/source/PortAudio_19} using a C comiler, e.g. @command{gcc}.
+
+@item Move the binaries to @file{.../mataa/TestTone/LINUX_X86/TestTonePA19} and @file{.../mataa/TestTone/LINUX_X86/TestDevicesPA19}.
+
+@end itemize
+
+For example, on Ubuntu 8.04 Hardy Heron, I did the following to compile and install TestTone and TestDevices:
+@itemize
+
+@item Install PortAudio 19 (including the development headers):@*
+@code{sudo apt-get install portaudio19-dev}
+
+@item @code{cd} to the directory where @file{TestTonePA19.c} resides and compile it:@*
+@code{gcc -lrt -lasound -lpthread -lportaudio -o TestTonePA19 TestTonePA19.c}
+
+@item Move the binary to the path where MATAA expects to find it (this example assumes an x86 platform):@*
+@code{mv TestTonePA19 <path/to/mataa>/TestTone/LINUX_X86/}
+
+@item @code{cd} to the directory where @file{TestDevicesPA19.c} resides and compile it:@*
+@code{gcc -lrt -lasound -lpthread -lportaudio -o TestDevicesPA19 TestDevicesPA19.c}
+
+@item Move the binary to the path where MATAA expects to find it (this example assumes an x86 platform):@*
+@code{mv TestDevicesPA19 <path/to/mataa>/TestTone/LINUX_X86/}
+
+@end itemize
+
+@c @anchor{Measurement setup examples}
+@c @subsection Examples
 
 
 

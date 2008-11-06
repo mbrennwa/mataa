@@ -43,7 +43,7 @@ function audioInfo = mataa_audio_info;
 plat = mataa_computer;
 
 switch plat
-    case {'MAC','PCWIN','PCLINUX'}
+    case {'MAC','PCWIN','LINUX_X86'}
     	if strcmp(plat,'PCWIN')
     		extension = '.exe';
     	else
@@ -98,5 +98,5 @@ switch plat
     	end
     		
     otherwise
-    	error(sprintf('Sorry, this computer platform is not (yet) supported by the TestDevices program.',plat));
+    	error(sprintf('mataa_audio_info: Sorry, this computer platform is not (yet) supported by the TestDevices program.',plat));
 end % switch
