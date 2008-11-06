@@ -12,7 +12,7 @@ function platform = mataa_computer;
 % platform: string indicating the computer platform:
 % MAC:      Mac OS X (Darwin)
 % PCWIN:    MS Windows
-% PCLINUX:  Linux on Intel/AMD
+% LINUX_X86:  Linux on x86 platform
 % UNKNOWN:  unknown platform (unknown to MATAA)
 % 
 % DISCLAIMER:
@@ -48,6 +48,8 @@ if (exist('OCTAVE_VERSION')~=0) % we're running Octave
 	elseif ~isempty(findstr(platform,'linux')) % e.g. platform = 'x86_64-unknown-linux-gnu'
 		if ~isempty(findstr(platform,'x86'))
 			platform = 'LINUX_X86';
+		elseif  ~isempty(findstr(platform,'powerpc'))
+			platform = 'LINUX_PPC';
 		else
 			platform = 'LINUX_UNKNOWN';
 		end
