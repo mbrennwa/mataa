@@ -69,7 +69,7 @@ end
 
 % check computer platform:
 plat = mataa_computer;
-if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN')  && ~strcmp(plat,'LINUX_X86') )
+if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN')  && ~strcmp(plat,'LINUX_X86') && ~strcmp(plat,'LINUX_PPC') )
 	error('mataa_measure_signal_response: Sorry, this computer platform is not (yet) supported by the TestTone program.');
 end
 
