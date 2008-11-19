@@ -4,4 +4,4 @@
 
 * In the manual, explain how to test for the presence and the effectiveness of an anti-aliasing filter in the soundcard.
 
-* Port TestTone and TestDevices to Linux. Or just stay with the current solution of providing the source code and instructions on how to compile it?
+* Port TestTone and TestDevices to Linux. compile PA with ALSA only (no OSS, please!), include this library. Does this work the same way with Mac OS X, too?
