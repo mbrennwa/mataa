@@ -371,9 +371,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>251ECE270ED4AEBA00F7374D</string>
+				<string>255A64820ED555D5004483B5</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>251ECE280ED4AEBA00F7374D</string>
+				<string>255A64830ED555D5004483B5</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -507,9 +507,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>25B3BE4A0B75EC2000C0A053</string>
 		<string>/Users/mbrennwa/Matlab/mataa/TestTone/stuff/XCode/TestTone/TestTonePA19.xcodeproj</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
 	</array>
 	<key>WindowString</key>
 	<string>276 357 691 372 0 0 1440 938 </string>
@@ -589,7 +589,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>25B3BE4A0B75EC2000C0A053</string>
-				<string>251ECE1F0ED4AEA600F7374D</string>
+				<string>255A64840ED555D5004483B5</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -959,9 +959,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>251ECE200ED4AEA600F7374D</string>
+				<string>255A64850ED555D5004483B5</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>251ECE210ED4AEA600F7374D</string>
+				<string>255A64860ED555D5004483B5</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>
@@ -970,7 +970,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C0AD2B3069F1EA900FABCE6</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

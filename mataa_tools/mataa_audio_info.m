@@ -57,6 +57,8 @@ switch plat
     	audioInfo.input.name = '(UNKNOWN)';
     	audioInfo.input.channels = [];
     	audioInfo.input.sampleRates = [];
+    	audioInfo.input.API = 'UNKNOWN';
+    	audioInfo.output.API = 'UNKNOWN';
     	audioInfo.output = audioInfo.input;
     	input_sampleRates_halfDuplex = [];
     	input_sampleRates_fullDuplex = [];
@@ -67,24 +69,26 @@ switch plat
         l = 0;
         while l ~=-1
             l = fgetl(fid);
-            if findstr(l,'Default input device')
+            if findstr (l,'Default input device')
             	l = l(findstr(l,'=')+2:end);
             	if length(l) > 0
    	 	        	audioInfo.input.name = l;
             	end
             end;
-            if findstr(l,'Max input channels'), audioInfo.input.channels = str2num(l(findstr(l,'=')+1:end)); end;
-            if findstr(l,'Supported standard sample rates (input, full-duplex)'), input_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-            if findstr(l,'Supported standard sample rates (input, half-duplex)'), input_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-            if findstr(l,'Default output device')
+            if findstr (l,'Host API (input)'), audioInfo.input.API = l(20:end); end;
+            if findstr (l,'Host API (output)'), audioInfo.output.API = l(21:end); end;
+            if findstr (l,'Max input channels'), audioInfo.input.channels = str2num(l(findstr(l,'=')+1:end)); end;
+            if findstr (l,'Supported standard sample rates (input, full-duplex)'), input_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+            if findstr (l,'Supported standard sample rates (input, half-duplex)'), input_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+            if findstr (l,'Default output device')
             	l = l(findstr(l,'=')+2:end);
             	if length(l) > 0
    	 	        	audioInfo.output.name = l;
             	end
             end;
-            if findstr(l,'Max output channels'), audioInfo.output.channels = str2num(l(findstr(l,'=')+1:end)); end;
-            if findstr(l,'Supported standard sample rates (output, full-duplex)'), output_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-            if findstr(l,'Supported standard sample rates (output, half-duplex)'), output_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+            if findstr (l,'Max output channels'), audioInfo.output.channels = str2num(l(findstr(l,'=')+1:end)); end;
+            if findstr (l,'Supported standard sample rates (output, full-duplex)'), output_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+            if findstr (l,'Supported standard sample rates (output, half-duplex)'), output_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
         end
     	fclose(fid);
     	delete(infoFile);

@@ -75,6 +75,22 @@ end
 
 % check audio hardware:
 audioInfo = mataa_audio_info;
+
+switch plat
+case "MAC"
+    desired_API = "Core Audio";
+case "PCWIN"
+    desired_API = "ASIO";
+case "LINUX_X86"
+    desired_API = "ALSA";
+end
+if ~strcmp (audioInfo.input.API,desired_API)
+    warning (sprintf("mataa_measure_signal_response: The recommended sound API on your computer platform (%s) is %s, but you default input device uses another API (%s). Please see the MATAA manual.",plat,desired_API,audioInfo.input.API));
+end
+if ~strcmp (audioInfo.output.API,desired_API)
+    warning (sprintf("mataa_measure_signal_response: The recommended sound API on your computer platform (%s) is %s, but you default output device uses another API (%s). Please see the MATAA manual.",plat,desired_API,audioInfo.output.API));
+end
+
 if strcmp(audioInfo.input.name,'(UNKNOWN)')
   error('mataa_measure_signal_response: No audio input device selected or no device available.');
 end
