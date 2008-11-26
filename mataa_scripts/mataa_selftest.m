@@ -135,10 +135,12 @@ try
     % tryLatencyTest = 1;
     a = mataa_audio_info;
     disp(['  The audio device that will be used for audio output is: ' , a.output.name ]);
+    disp(['  The audio host API is (output): ' , a.output.API ]);
     disp(['     Number of channels of output device: ' , num2str(a.output.channels) ]);
     disp(['     Minimum sampling rate (sound output): ' , num2str(min(a.output.sampleRates)) , ' Hz' ]);
     disp(['     Maximum sampling rate (sound output): ' , num2str(max(a.output.sampleRates)) , ' Hz' ]);
     disp(['  The audio device that will be used for audio input is: ' , a.input.name ]);
+    disp(['  The audio host API is (intput): ' , a.input.API ]);
     disp(['     Number of channels of input device: ' , num2str(a.input.channels) ]);
     disp(['     Minimum sampling rate (sound input): ' , num2str(min(a.input.sampleRates)) , ' Hz' ]);
     disp(['     Maximum sampling rate (sound input): ' , num2str(max(a.input.sampleRates)) , ' Hz' ]);
