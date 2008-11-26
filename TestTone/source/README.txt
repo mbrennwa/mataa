@@ -9,7 +9,7 @@ TestTone and TestDevices make use of PortAudio to communicate with the audio dev
 
 * Compiling TestTone and TestDevices:
 
-If you need/want to compile TestTone and TestDevices yourself, follow the instructions given in the tutorial on the portaudio wiki (http://portaudio.com/trac/wiki/TutorialDir/TutorialStart). This involves the following steps:
+If you need/want to compile TestTone and TestDevices yourself, PLEASE read the corresponding sections in the MATAA manual. You may also want to read the instructions given in the tutorial on the portaudio wiki (http://portaudio.com/trac/wiki/TutorialDir/TutorialStart). This involves the following steps:
 
 - Download the portaudio package (you'll need version 19 for TestTone and TestDevices).
 - Compile and build the portaudio library for the computer platform on which you intend to use MATAA.
@@ -40,7 +40,35 @@ Apart from these notes, Shu Sang gave the following instructions:
 
 
 - Linux
-See the MATAA manual for instructions on how to compile TestTone and TestDevices for Linux.
+1. Download a recent release of the portaudio source code from www.portaudio.org. The files are packed in *.tgz file. Extract the files from the *.tgz file. In the following example, I stored the portaudio files on my Desktop (~/Desktop/portaudio/).
+
+2. Open a terminal window and cd to the portaudio directory:
+
+cd ~/Desktop/portaudio
+
+3. Compile portaudio with support for the ALSA backend using the following two commands:
+
+./configure --with-alsa=yes --with-jack=no --with-oss=no
+make
+
+4. Copy the portaudio library you just compiled to the path where the TestTone source code lives, e.g.:
+
+cp lib/.libs/libportaudio.a ~/matlab/mataa/TestTone/source/
+
+5. Copy the portaudio library you just compiled to the path where the TestTone source code lives, e.g.:
+
+cp include/portaudio.h ~/matlab/mataa/TestTone/source/
+
+6. Compile TestTone and TestDevices using the following commands:
+
+cd ~/matlab/mataa/TestTone/source/
+gcc -lrt -lasound -lpthread -o TestTonePA19 TestTonePA19.c libportaudio.a
+gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a
+
+7. Move the binaries you just compiled to the path where MATAA expects them (e.g. ~/matlab/mataa/TestTone/LINUX_X86 or ~/matlab/mataa/TestTone/LINUX_PPC):
+
+mv TestTonePA19 ../LINUX_PPC/
+mv TestDevicesPA19 ../LINUX_PPC/
 
 
 * License and Copyright information:
