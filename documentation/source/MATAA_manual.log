@@ -1,9 +1,10 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2007.2.14)  26 NOV 2008 14:43
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  27 NOV 2008 13:14
 entering extended mode
-**/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
-(/Users/mbrennwa/Matlab/mataa/documentation/source/MATAA_manual.texi
-(/usr/local/gwTeX/texmf.texlive/tex/texinfo/texinfo.tex
-Loading texinfo [version 2007-01-02.19]:
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**./MATAA_manual.texi
+(./MATAA_manual.texi (/usr/share/texmf/tex/texinfo/texinfo.tex
+Loading texinfo [version 2007-09-03.05]:
 \bindingoffset=\dimen16
 \normaloffset=\dimen17
 \pagewidth=\dimen18
@@ -35,13 +36,11 @@ Loading texinfo [version 2007-01-02.19]:
 \boxA=\box19
 \countA=\count31
 \nopdfimagehelp=\toks20
-
-(/usr/local/gwTeX/texmf.texlive/tex/plain/misc/pdfcolor.tex) fonts,
+ fonts,
 \sffam=\fam8
 \textleading=\dimen26
 \fontdepth=\count32
-
-page headings,
+ page headings,
 \titlepagetopglue=\skip20
 \titlepagebottomglue=\skip21
 \evenheadline=\toks21
@@ -60,62 +59,66 @@ page headings,
 \multitablelinespace=\skip24
 \colcount=\count34
 \everytab=\toks25
- conditionals,
+
+conditionals,
 \doignorecount=\count35
  indexing,
-\secondaryindent=\skip25
+\whatsitskip=\skip25
+\whatsitpenalty=\count36
+\secondaryindent=\skip26
 \partialpage=\box20
 \doublecolumnhsize=\dimen32
  sectioning,
-\unnumberedno=\count36
-\chapno=\count37
-\secno=\count38
-\subsecno=\count39
-\subsubsecno=\count40
-\appendixno=\count41
-\absseclevel=\count42
-\secbase=\count43
-\chapheadingskip=\skip26
-\secheadingskip=\skip27
-\subsecheadingskip=\skip28
+\unnumberedno=\count37
+\chapno=\count38
+\secno=\count39
+\subsecno=\count40
+\subsubsecno=\count41
+\appendixno=\count42
+\absseclevel=\count43
+\secbase=\count44
+\chapheadingskip=\skip27
+\secheadingskip=\skip28
+\subsecheadingskip=\skip29
  toc,
 \tocfile=\write0
-\contentsrightmargin=\skip29
-\savepageno=\count44
-\lastnegativepageno=\count45
+\contentsrightmargin=\skip30
+\savepageno=\count45
+\lastnegativepageno=\count46
 \tocindent=\dimen33
  environments,
 \errorbox=\box21
-\lispnarrowing=\skip30
-\envskipamount=\skip31
+\lispnarrowing=\skip31
+\envskipamount=\skip32
 \circthick=\dimen34
 \cartouter=\dimen35
 \cartinner=\dimen36
-\normbskip=\skip32
-\normpskip=\skip33
-\normlskip=\skip34
-\lskip=\skip35
-\rskip=\skip36
+\normbskip=\skip33
+\normpskip=\skip34
+\normlskip=\skip35
+\lskip=\skip36
+\rskip=\skip37
 \tabw=\dimen37
-
-defuns,
-\defbodyindent=\skip37
-\defargsindent=\skip38
-\deflastargmargin=\skip39
-\parencount=\count46
-\brackcount=\count47
+ defuns,
+\defbodyindent=\skip38
+\defargsindent=\skip39
+\deflastargmargin=\skip40
+\defunpenalty=\count47
+\parencount=\count48
+\brackcount=\count49
  macros,
-\paramno=\count48
+\paramno=\count50
 \macname=\toks26
- cross references,
+
+cross references,
 \auxfile=\write1
-\savesfregister=\count49
+\savesfregister=\count51
  insertions,
-\footnoteno=\count50
+\footnoteno=\count52
 \SAVEfootins=\box22
 \SAVEmargin=\box23
 
-(/usr/local/gwTeX/texmf.texlive/tex/generic/epsf/epsf.tex
+(/usr/share/texmf-texlive/tex/generic/epsf/epsf.tex
 This is `epsf.tex' v2.7.3 <23 July 2005>
 \epsffilein=\read1
 \epsfframemargin=\dimen38
@@ -130,9 +133,9 @@ This is `epsf.tex' v2.7.3 <23 July 2005>
 \noepsfhelp=\toks27
  localization,
 \nolanghelp=\toks28
-\countUTFx=\count51
-\countUTFy=\count52
-\countUTFz=\count53
+\countUTFx=\count53
+\countUTFy=\count54
+\countUTFz=\count55
  formatting,
 \defaultparindent=\dimen46
  and turning on texinfo input format.)
@@ -158,8 +161,8 @@ This is `epsf.tex' v2.7.3 <23 July 2005>
 
 \openout7 = `MATAA_manual.pg'.
 
-{/usr/local/gwTeX/texmf.local/fonts/map/pdftex/updmap/pdftex.map}] [2] (./MATAA
-_manual.toc [-1] [-2]) [-3] (./MATAA_manual.toc)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+[2] (./MATAA_manual.toc [-1] [-2]) [-3] (./MATAA_manual.toc)
 (./MATAA_manual.toc) (./MATAA_manual_overview.texi Chapter 1
 \openout0 = `MATAA_manual.toc'.
 
@@ -179,7 +182,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--84
 Missing character: There is no Ê in font cmr10!
 Missing character: There is no Ê in font cmr10!
  [4]
-@Figurefloatno=@count54
+@Figurefloatno=@count56
  <./figures/measurement_setup.png (PNG copy)> [5]
 Missing character: There is no Ê in font cmr10!
  [6]
@@ -189,7 +192,7 @@ AE1A-4A14-984D-389C36F85647&displaylang=en[][][]|
 
 @hbox(7.60416+2.43333)x433.62
 .@glue(@leftskip) 21.68121
-.@pdfliteral{0 1 1 0 k}
+.@pdfliteral{0.28 1 1 0.35 k}
 .@pdflink(*+*)x* attr{/Border [0 0 0]} action user{/Subtype /Link /A << /S /URI
  /URI (http://www.microsoft.com/downloads@ETC.}
 
@@ -197,7 +200,7 @@ l.197: Undefined cross reference `Impedance measurement-snt'.
 l.197: Undefined cross reference `Impedance measurement-snt'.
 l.197: Undefined cross reference `Impedance measurement-pg'.
 Missing character: There is no Ê in font cmr10!
- [7] <./figures/ref_signal_paths.png (PNG copy)> [8] [9] <./figures/jack.png (P
+ <./figures/ref_signal_paths.png (PNG copy)> [7] [8] [9] <./figures/jack.png (P
 NG copy)>
 Underfull \hbox (badness 10000) detected at line 216
 []
@@ -205,8 +208,8 @@ Underfull \hbox (badness 10000) detected at line 216
 @hbox(110.53058+0.0)x433.62
 .@pdfrefximage(110.53058+0.0)x289.07999
 
- <./figures/mac_os_x_audio_settings.png (PNG copy)> [10]
-Underfull \hbox (badness 10000) in paragraph at lines 277--281
+ <./figures/mac_os_x_audio_settings.png (PNG copy)> [10] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 300--304
  []@texttt gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c
 
 @hbox(6.69167+2.43333)x433.62
@@ -217,16 +220,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 277--281
 .@texttt c
 .etc.
 
-[11pdfTeX warning (ext4): destination with the same identifier (name{Compiling 
-TestTone and TestDevices on Linux}) has been already used, duplicate ignored
 
-\onepageout ...\ewbot \hfil \ewbot }}\egroup \fi }
-                                                  }\advancepageno \ifnum \ou...
-<output> {\onepageout {\pagecontents \PAGE }
-                                            }
-l.281 
-      ]
-Underfull \hbox (badness 3281) in paragraph at lines 282--285
+Underfull \hbox (badness 3281) in paragraph at lines 305--308
  []@textrm Finally, move the bi-na-ries you just com-piled to the path where MA
 TAA
 
@@ -243,7 +238,26 @@ TAA
 .@textrm n
 .etc.
 
-) (./MATAA_manual_working.texi Chapter 3 [12]
+) (./MATAA_manual_working.texi Chapter 3 [12pdfTeX warning (ext4): destination 
+with the same identifier (name{Compiling TestTone and TestDevices on Linux}) ha
+s been already used, duplicate ignored
+
+\onepageout ...\ewbot \hfil \ewbot }}\egroup \fi }
+                                                  }\advancepageno \ifnum \ou...
+<output> {\onepageout {\pagecontents \PAGE }
+                                            }
+\supereject ->\par 
+                   \penalty -20000\footnoteno =0 
+\chapmacro ...\safewhatsit \domark \pchapsepmacro 
+                                                  \let \prevchapterdefs =\la...
+
+\chapterzzz ...acro {#1}{Ynumbered}{\the \chapno }
+                                                  \global \let \section = \n...
+
+\genhead ... \ifcase \absseclevel \chapterzzz {#3}
+                                                  \or \seczzz {#3}\or \numbe...
+l.2 @chapter Working with MATAA
+                               ] [13]
 Underfull \hbox (badness 5847) in paragraph at lines 10--11
  []@textrm M.S. Bren-nwald: MATAA: A Free Computer-Based Au-dio Anal-y-sis Sys-
 
@@ -280,16 +294,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 10--11
 
 @hbox(7.60416+2.43333)x433.62
 .@glue(@leftskip) 21.68121
-.@pdfliteral{0 1 1 0 k}
+.@pdfliteral{0.28 1 1 0.35 k}
 .@pdflink(*+*)x* attr{/Border [0 0 0]} action user{/Subtype /Link /A << /S /URI
  /URI (http://www.audioxpress.com/magsdir@ETC.}
 
-) (./MATAA_manual_tools.texi Chapter 4 [13] [14] [15] [16] [17]
+) (./MATAA_manual_tools.texi Chapter 4 [14] [15] [16] [17] [18]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [18] [19]
-[20] [21] [22] [23]
+ [19] [20]
+[21] [22] [23] [24]
 Underfull \hbox (badness 2205) in paragraph at lines 413--457
 @textrm son[at]iet.ntnu.no) avail-able at http://www.iet.ntnu.no/@texttt ~@text
 rm svensson/readmls.m. Pe-ter
@@ -302,7 +316,7 @@ rm svensson/readmls.m. Pe-ter
 .@textrm a
 .etc.
 
-[24] [25] [26] [27]
+[25] [26] [27] [28]
 Underfull \hbox (badness 5970) in paragraph at lines 566--571
 []@textrm smooth[]interval (op-tional): if sup-plied, the SPL curves are smooth
 ed us-ing
@@ -315,7 +329,7 @@ ed us-ing
 .@kern0.30417
 .etc.
 
-[28] [29]
+[29] [30]
 Overfull \hbox (9.87344pt too wide) in paragraph at lines 682--685
 []@textrm NOTE 2: There ex-ist dif-fer-ent def-i-ni-tions of THD (see e.g. http
 ://en.wikipedia.org/wiki/THD|
@@ -328,7 +342,7 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 682--685
 .@textrm E
 .etc.
 
-[30] [31]
+[31] [32]
 Overfull \hbox (69.03506pt too wide) in paragraph at lines 755--756
 []@textrm function [re-spons-eS-ig-nal,inputSignal,t] = mataa[]measure[]signal[
 ]response(input[]signal,fs,latency,verbose);|
@@ -349,7 +363,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 755--756
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[32] [33] [34] [35]
+[33] [34] [35] [36]
 Overfull \hbox (90.24208pt too wide) in paragraph at lines 862--864
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
@@ -370,8 +384,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 862--864
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50]
-[51] [52] [53]
+[37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51]
+[52] [53] [54]
 Overfull \hbox (175.83957pt too wide) in paragraph at lines 1662--1666
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
@@ -392,7 +406,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1662--1666
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[54] [55] [56]
+[55] [56] [57]
 Overfull \hbox (46.3882pt too wide) in paragraph at lines 1778--1786
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
@@ -405,7 +419,7 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 1778--1786
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-[57] [58] [59]) (./MATAA_manual_MatOctPrimer.texi Chapter 5 [60]
+[58] [59] [60]) (./MATAA_manual_MatOctPrimer.texi Chapter 5 [61]
 Missing character: There is no Ê in font cmr10!
 
 Underfull \hbox (badness 7522) in paragraph at lines 21--22
@@ -536,7 +550,7 @@ ia.org/wiki/MATLAB)|
 .@textrm n
 .etc.
 
-) (./MATAA_manual_licenses.texi Appendix A [61]
+) (./MATAA_manual_licenses.texi Appendix A [62]
 Underfull \hbox (badness 2368) in paragraph at lines 74--74
 []@secrm TERMS AND CON-DI-TIONS FOR COPY-ING, 
 
@@ -548,10 +562,10 @@ Underfull \hbox (badness 2368) in paragraph at lines 74--74
 .@secrm M
 .etc.
 
-[62] [63] [64] [65] [66] [67] [68] [69] [70] [71] [72]) (Concept index)
-[73] (./MATAA_manual.cps) (MATAA tools index) [74]
-Overfull \vbox (33.91716pt too high) has occurred while \output is active
-\vbox(643.19986+0.0)x433.62, glue set - 1.0
+[63] [64] [65] [66] [67] [68] [69] [70] [71] [72] [73]) (Concept index)
+[74] (./MATAA_manual.cps) (MATAA tools index) [75]
+Overfull \vbox (33.91702pt too high) has occurred while \output is active
+\vbox(643.2+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
 .\vbox(11.99998+3.35999)x433.62
 ..\hbox(11.99998+3.35999)x433.62, glue set 310.5808fil
@@ -567,33 +581,32 @@ Overfull \vbox (33.91716pt too high) has occurred while \output is active
 .etc.
 
 
-[75] (./MATAA_manual.fns) [76] ) 
+[76] (./MATAA_manual.fns) [77] ) 
 Here is how much of TeX's memory you used:
- 2263 strings out of 97159
- 29066 string characters out of 1208251
- 2056461 words of memory out of 4547687
- 3218 multiletter control sequences out of 10000+50000
- 32127 words of font info for 112 fonts, out of 2000000 for 2000
- 51 hyphenation exceptions out of 5000
- 15i,6n,18p,1731b,530s stack positions out of 5000i,500n,6000p,200000b,50000s
+ 2259 strings out of 97159
+ 30711 string characters out of 1208397
+ 93193 words of memory out of 1500000
+ 3147 multiletter control sequences out of 10000+50000
+ 32127 words of font info for 112 fonts, out of 1200000 for 2000
+ 51 hyphenation exceptions out of 8191
+ 15i,6n,18p,1683b,554s stack positions out of 5000i,500n,6000p,200000b,5000s
 pdfTeX warning (dest): name{Impedance measureme
 nt} has been referenced but does not exist, replaced by a fixed one
 
-</usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/local/g
-wTeX/texmf.texlive/fonts/type1/bluesky/cm/cmcsc10.pfb></usr/local/gwTeX/texmf.t
-exlive/fonts/type1/bluesky/cm/cmmi10.pfb></usr/local/gwTeX/texmf.texlive/fonts/
-type1/bluesky/cm/cmmi12.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky
-/cm/cmmi9.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmr10.pfb>
-</usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmr9.pfb></usr/local/gwT
-eX/texmf.texlive/fonts/type1/bluesky/cm/cmsl10.pfb></usr/local/gwTeX/texmf.texl
-ive/fonts/type1/bluesky/cm/cmsltt10.pfb></usr/local/gwTeX/texmf.texlive/fonts/t
-ype1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/
-cm/cmti10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt10.pfb
-></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/local/
-gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (81 pages, 509480 bytes).
+</usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/texmf-t
+exlive/fonts/type1/bluesky/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1
+/bluesky/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmmi12.
+pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmmi9.pfb></usr/share/texm
+f-texlive/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type
+1/bluesky/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsl10.p
+fb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsltt10.pfb></usr/share/te
+xmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/t
+ype1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmt
+t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/share
+/texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
+Output written on MATAA_manual.pdf (82 pages, 513898 bytes).
 PDF statistics:
- 1114 PDF objects out of 1200 (max. 8388607)
- 174 named destinations out of 1000 (max. 131072)
- 741 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1127 PDF objects out of 1200 (max. 8388607)
+ 176 named destinations out of 1000 (max. 131072)
+ 761 words of extra memory for PDF output out of 10000 (max. 10000000)
 

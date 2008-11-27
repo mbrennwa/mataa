@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 26-Nov-2008.
+This section contains a list of the MATAA tools and their usage information as of 27-Nov-2008.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -1249,6 +1249,26 @@ HISTORY:@*
 8. November 2007 (Matthias Brennwald): improved documentation@*
 first version: 15. November 2006, Matthias Brennwald@*
 
+@findex mataa_plot_two_logX
+@node mataa_plot_two_logX
+@section mataa_plot_two_logX
+
+file: ...mataa_tools/mataa_plot_two_logX.m@*
+
+function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
+
+DESCRIPTION:@*
+Same as mataa_plot_two, but with logarithmic x axes.@*
+
+INPUT:@*
+(see mataa_plot_two)@*
+
+OUTPUT:@*
+(see mataa_plot_two)@*
+
+HISTORY:@*
+27. December 2007 (Matthias Brennwald): first version@*
+
 @findex mataa_plot_two
 @node mataa_plot_two
 @section mataa_plot_two
@@ -1273,46 +1293,6 @@ h: a 2-vector containig the handles to the axes of the two plots. If the second 
 
 HISTORY:@*
 27. December 2007 (Matthias Brennwald): first version@*
-
-@findex mataa_plot_two_logX
-@node mataa_plot_two_logX
-@section mataa_plot_two_logX
-
-file: ...mataa_tools/mataa_plot_two_logX.m@*
-
-function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
-
-DESCRIPTION:@*
-Same as mataa_plot_two, but with logarithmic x axes.@*
-
-INPUT:@*
-(see mataa_plot_two)@*
-
-OUTPUT:@*
-(see mataa_plot_two)@*
-
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): first version@*
-
-@findex mataa_realFT
-@node mataa_realFT
-@section mataa_realFT
-
-file: ...mataa_tools/mataa_realFT.m@*
-
-function [S,f] = mataa_realFT(s,t);@*
-
-DESCRIPTION:@*
-Identical to mataa_realFT0, but without the component corresponding to f=0.@*
-
-INPUT:@*
-(see mataa_realFT0)@*
-
-OUTPUT:@*
-(see mataa_realFT0)@*
-
-HISTORY:@*
-19. Feb. 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_realFT0
 @node mataa_realFT0
@@ -1339,16 +1319,36 @@ HISTORY:@*
 19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).@*
 6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)@*
 
-@findex mataa_realIFT
-@node mataa_realIFT
-@section mataa_realIFT
+@findex mataa_realFT
+@node mataa_realFT
+@section mataa_realFT
 
-file: ...mataa_tools/mataa_realIFT.m@*
+file: ...mataa_tools/mataa_realFT.m@*
 
-function [s,t] = mataa_realIFT (S,f);@*
+function [S,f] = mataa_realFT(s,t);@*
 
 DESCRIPTION:@*
-Same as mataa_realIFT0, but without f=0.@*
+Identical to mataa_realFT0, but without the component corresponding to f=0.@*
+
+INPUT:@*
+(see mataa_realFT0)@*
+
+OUTPUT:@*
+(see mataa_realFT0)@*
+
+HISTORY:@*
+19. Feb. 2007 (Matthias Brennwald): first version@*
+
+@findex mataa_realIFT0
+@node mataa_realIFT0
+@section mataa_realIFT0
+
+file: ...mataa_tools/mataa_realIFT0.m@*
+
+function [s,t] = mataa_realIFT0 (S,f);@*
+
+DESCRIPTION:@*
+Calculates the inverse Fourier transform of a spectrum S(f) of a signal with real-valued samples. Only the 'positive' half of the spectrum is used, i.e. only positive frequencies (including f=0) must be given as input. See also mataa_realFT0.@*
 
 INPUT:@*
 S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
@@ -1361,16 +1361,16 @@ t: time values of the signal@*
 HISTORY:@*
 23. Sept. 2008: created this file (Matthias Brennwald)@*
 
-@findex mataa_realIFT0
-@node mataa_realIFT0
-@section mataa_realIFT0
+@findex mataa_realIFT
+@node mataa_realIFT
+@section mataa_realIFT
 
-file: ...mataa_tools/mataa_realIFT0.m@*
+file: ...mataa_tools/mataa_realIFT.m@*
 
-function [s,t] = mataa_realIFT0 (S,f);@*
+function [s,t] = mataa_realIFT (S,f);@*
 
 DESCRIPTION:@*
-Calculates the inverse Fourier transform of a spectrum S(f) of a signal with real-valued samples. Only the 'positive' half of the spectrum is used, i.e. only positive frequencies (including f=0) must be given as input. See also mataa_realFT0.@*
+Same as mataa_realIFT0, but without f=0.@*
 
 INPUT:@*
 S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
@@ -1806,24 +1806,6 @@ filepath: string containing the path to the tempfile (including the file name).@
 HISTORY:@*
 9. July 2006: first version (Matthias Brennwald)@*
 
-@findex mataa_t_to_f
-@node mataa_t_to_f
-@section mataa_t_to_f
-
-file: ...mataa_tools/mataa_t_to_f.m@*
-
-DESCRIPTION:@*
-Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
-
-INPUT:@*
-(see mataa_t_to_f0).@*
-
-OUTPUT:@*
-(see mataa_to_f0).@*
-
-HISTORY:@*
-19. Feb. 2007: first version (Matthias Brennwald)@*
-
 @findex mataa_t_to_f0
 @node mataa_t_to_f0
 @section mataa_t_to_f0
@@ -1844,6 +1826,24 @@ HISTORY:@*
 21. Feb. 2007 (Matthias Brennwald): added check if t is evenly spaced, and make sure t is sorted.@*
 19. Feb. 2007 (Matthias Brennwald): cleaned up code, added component f=0, and renamed function from mataa_t_to_f to mataa_t_to_f0 (a placeholder file mataa_t_to_f.m removing the f=0 component was added for backwards compatibility).@*
 9. July 2006 (Matthias Brennwald): first version@*
+
+@findex mataa_t_to_f
+@node mataa_t_to_f
+@section mataa_t_to_f
+
+file: ...mataa_tools/mataa_t_to_f.m@*
+
+DESCRIPTION:@*
+Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
+
+INPUT:@*
+(see mataa_t_to_f0).@*
+
+OUTPUT:@*
+(see mataa_to_f0).@*
+
+HISTORY:@*
+19. Feb. 2007: first version (Matthias Brennwald)@*
 
 
 

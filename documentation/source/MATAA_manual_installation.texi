@@ -181,7 +181,7 @@ A few notes:
 
 @item The Mac OS X versions of TestTone and TestDevices rely on CoreAudio, Apples application programming interface for sound on Mac OS X. CoreAudio provides automatic sample-rate conversion. It is therefore possible to use sample rates with MATAA that are not directly supported by the hardware.
 
-@item At the moment, precompiled binary versions of TestTone and TestDevices are available for Linux running on PowerPC machines only. Intel versions should become available shortly. You can, however, compile your own binaries using the source code included in the MATAA distribution (see @ref{Compiling TestTone and TestDevices on Linux}).
+@item The Linx versions of TestTone and TestDevices are available for Linux running on Intel and PowerPC machines. If you need to compile your own binaries using the source code included in the MATAA distribution, see @ref{Compiling TestTone and TestDevices on Linux}.
 
 @end itemize
 
@@ -254,34 +254,57 @@ To test if your soundcard exhibits interchannel delay, it is best to measure the
 To set up the audio hardware in Mac OS X, choose `System Preferences' in the Apple menu. Then, click on `Sound', and follow the instructions in @ref{fig:measurement_setup}.
 
 
+
+@node Setting up the soundcard of a computer running Linux
+@section Setting up the soundcard of a computer running Linux
+
+On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture). Choosing the right sound architecure and sound devices as the defaults devices (i.e. the devices that will be used by MATAA) depends on the Linux distribution used. Read the documentation for your system. Apart from that, the following terminal commands may be useful to find the relevant information on the sound devices available on your system:
+
+@itemize
+@item To display a list of the ALSA sound cards for sound output, including the current default device that will be used by MATAA:@*
+@command{aplay -L}
+
+@item To display a list of the ALSA sound cards for sound input, including the current default device that will be used by MATAA:@*
+@command{arecord -L}
+
+@item To display a list of the ALSA sound output devices:@*
+@command{aplay -l}
+
+@item To display a list of the ALSA sound input devices:@*
+@command{arecord -l}
+
+@end itemize
+
+
+
 @node Compiling TestTone and TestDevices on Linux
 @anchor{Compiling TestTone and TestDevices on Linux}
 @cindex TestTone
 @cindex TestDevices
 @cindex PortAudio
 @cindex Linux
-@subsection Compiling TestTone and TestDevices on Linux
+@section Compiling TestTone and TestDevices on Linux
 The following instructions may be useful if you need to compile TestTone and TestDevices on Linux. The commands given may need to be adapted to a specific Linux environment, however. @itemize
 
 @item Download a recent release of the portaudio source code from @uref{http://portaudio.com} (pick the one marked as `recommended'). The files are packaged in @file{*.tgz} file. Extract the files from the @file{*.tgz} file. In the following example, I stored the portaudio files on my Desktop (@file{~/Desktop/portaudio/}).
 
 @item Compile portaudio with support for the ALSA backend only. I did this using the following commands (other backends, such as OSS, are not recommended for use with MATAA):@*
-@code{cd ~/Desktop/portaudio}@*
-@code{./configure --with-alsa=yes --with-jack=no --with-oss=no}@*
-@code{make}@*
+@command{cd ~/Desktop/portaudio}@*
+@command{./configure --with-alsa=yes --with-jack=no --with-oss=no}@*
+@command{make}@*
 
 @item Copy the portaudio library you just compiled and @file{portaudio.h} to the path where the TestTone source code lives, e.g.:@*
-@code{cp lib/.libs/libportaudio.a ~/matlab/mataa/TestTone/source/}@*
-@code{cp include/portaudio.h ~/matlab/mataa/TestTone/source/}
+@command{cp lib/.libs/libportaudio.a ~/matlab/mataa/TestTone/source/}@*
+@command{cp include/portaudio.h ~/matlab/mataa/TestTone/source/}
 
 @item Compile TestTone and TestDevices using the following commands:@*
-@code{cd ~/matlab/mataa/TestTone/source/}@*
-@code{gcc -lrt -lasound -lpthread -o TestTonePA19 TestTonePA19.c libportaudio.a}@*
-@code{gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a}
+@command{cd ~/matlab/mataa/TestTone/source/}@*
+@command{gcc -lrt -lasound -lpthread -o TestTonePA19 TestTonePA19.c libportaudio.a}@*
+@command{gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a}
 
 @item Finally, move the binaries you just compiled to the path where MATAA expects to find them (e.g. ~/matlab/mataa/TestTone/LINUX_X86 or ~/matlab/mataa/TestTone/LINUX_PPC):@*
-@code{mv TestTonePA19 ../LINUX_PPC/}@*
-@code{mv TestDevicesPA19 ../LINUX_PPC/}
+@command{mv TestTonePA19 ../LINUX_PPC/}@*
+@command{mv TestDevicesPA19 ../LINUX_PPC/}
 
 @end itemize
 
