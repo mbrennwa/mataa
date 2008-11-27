@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  27 NOV 2008 13:14
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  27 NOV 2008 13:23
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -604,7 +604,7 @@ xmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/t
 ype1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmt
 t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/share
 /texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (82 pages, 513898 bytes).
+Output written on MATAA_manual.pdf (82 pages, 513902 bytes).
 PDF statistics:
  1127 PDF objects out of 1200 (max. 8388607)
  176 named destinations out of 1000 (max. 131072)

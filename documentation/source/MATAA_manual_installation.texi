@@ -258,7 +258,7 @@ To set up the audio hardware in Mac OS X, choose `System Preferences' in the App
 @node Setting up the soundcard of a computer running Linux
 @section Setting up the soundcard of a computer running Linux
 
-On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture). Choosing the right sound architecure and sound devices as the defaults devices (i.e. the devices that will be used by MATAA) depends on the Linux distribution used. Read the documentation for your system. Apart from that, the following terminal commands may be useful to find the relevant information on the sound devices available on your system:
+On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture). Choosing the right sound architecure and sound devices as the default devices (i.e. the devices that will be used by MATAA) depends on the Linux distribution used. Read the documentation for your system. Apart from that, the following terminal commands may be useful to find the relevant information on the sound devices available on your system:
 
 @itemize
 @item To display a list of the ALSA sound cards for sound output, including the current default device that will be used by MATAA:@*
@@ -275,7 +275,7 @@ On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture
 
 @end itemize
 
-
+@c In ALSA, sound devices and sound cards are not the same. I think of sound cards as the `box' that contains all the chips and electronics to play or record sound, whereas the sound devices are the chips and electronics that produce the sound. Many sound cards have more than one sound device. For instance, a given sound card may contain a sound device for audio playback and another one for audio recording. Or, a sound card may contain different sound devices for analog and digital sound input and output. To make a long story short: it may be not enough to choose the right default sound card, you also need to choose the right sound device on that card.
 
 @node Compiling TestTone and TestDevices on Linux
 @anchor{Compiling TestTone and TestDevices on Linux}
