@@ -47,30 +47,30 @@
 \entry{Setup, sound hardware}{5}{Setup, sound hardware}
 \entry{Anti-aliasing filter}{6}{Anti-aliasing filter}
 \entry{Filter, anti-aliasing}{6}{Filter, anti-aliasing}
-\entry{Soundcard}{6}{Soundcard}
-\entry{TestTone}{6}{TestTone}
-\entry{TestDevices}{6}{TestDevices}
+\entry{Soundcard}{7}{Soundcard}
+\entry{TestTone}{7}{TestTone}
+\entry{TestDevices}{7}{TestDevices}
 \entry{Channel allocation}{7}{Channel allocation}
 \entry{Soundcard channel allocation}{7}{Soundcard channel allocation}
 \entry{Allocation of soundcard channels}{7}{Allocation of soundcard channels}
 \entry{DUT channel}{7}{DUT channel}
 \entry{REF channel}{7}{REF channel}
-\entry{Interchannel delay}{8}{Interchannel delay}
-\entry{Delay, interchannel (soundcard)}{8}{Delay, interchannel (soundcard)}
-\entry{Soundcard interchannel delay}{8}{Soundcard interchannel delay}
-\entry{TestTone}{9}{TestTone}
-\entry{TestDevices}{9}{TestDevices}
-\entry{PortAudio}{9}{PortAudio}
-\entry{Linux}{9}{Linux}
-\entry{MATLAB}{58}{MATLAB}
-\entry{Octave}{58}{Octave}
-\entry{Matrix}{59}{Matrix}
-\entry{Vector}{59}{Vector}
-\entry{Vector (row, column)}{59}{Vector (row, column)}
-\entry{Row vector}{59}{Row vector}
-\entry{Column vector}{59}{Column vector}
-\entry{Vector}{59}{Vector}
-\entry{Scalar}{59}{Scalar}
-\entry{GNU General Public License}{60}{GNU General Public License}
-\entry{GPL, GNU General Public License}{60}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{64}{FDL, GNU Free Documentation License}
+\entry{Interchannel delay}{10}{Interchannel delay}
+\entry{Delay, interchannel (soundcard)}{10}{Delay, interchannel (soundcard)}
+\entry{Soundcard interchannel delay}{10}{Soundcard interchannel delay}
+\entry{TestTone}{12}{TestTone}
+\entry{TestDevices}{12}{TestDevices}
+\entry{PortAudio}{12}{PortAudio}
+\entry{Linux}{12}{Linux}
+\entry{MATLAB}{61}{MATLAB}
+\entry{Octave}{61}{Octave}
+\entry{Matrix}{62}{Matrix}
+\entry{Vector}{62}{Vector}
+\entry{Vector (row, column)}{62}{Vector (row, column)}
+\entry{Row vector}{62}{Row vector}
+\entry{Column vector}{62}{Column vector}
+\entry{Vector}{62}{Vector}
+\entry{Scalar}{62}{Scalar}
+\entry{GNU General Public License}{63}{GNU General Public License}
+\entry{GPL, GNU General Public License}{63}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{67}{FDL, GNU Free Documentation License}

@@ -275,6 +275,21 @@ On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture
 
 @end itemize
 
+Also, reading the ALSA instructions on @url{http://www.alsa-project.org} or @url{http://seehuhn.de/pages/alsa} will be helpful. From reading these documents, I found that all I needed to do on my system was to create a file @file{~/.asoundrc}, which specifices the default. As an illustration, this is how the file looks on one of my systems:
+@example
+pcm.!default {
+    type hw
+    card Intel
+    device 2
+}
+ctl.!default {
+    type hw
+    card Intel
+}
+@end example
+
+Without this file, the default device on this system is set to something that thinks that there are 128 sound channels, both for input and output. MATAA therefore produces data for all 128 channels, both for input and output. Because my hardware only has two channels, the remaining 126 channels are somehow merged into two real channels, which takes a lot of CPU power. Sound input and output is therefore very time consuming, and I believe merging 128 data channels into the two sound channels of the hardware is not good for the data integrity. I therefore always double check if MATAA uses the right sound device using the @command{mataa_audio_info} command. On most systems, the number of sound channels should be 2, and probably not 128.
+
 @c In ALSA, sound devices and sound cards are not the same. I think of sound cards as the `box' that contains all the chips and electronics to play or record sound, whereas the sound devices are the chips and electronics that produce the sound. Many sound cards have more than one sound device. For instance, a given sound card may contain a sound device for audio playback and another one for audio recording. Or, a sound card may contain different sound devices for analog and digital sound input and output. To make a long story short: it may be not enough to choose the right default sound card, you also need to choose the right sound device on that card.
 
 @node Compiling TestTone and TestDevices on Linux
