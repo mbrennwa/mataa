@@ -302,9 +302,9 @@ The following instructions may be useful if you need to compile TestTone and Tes
 @command{gcc -lrt -lasound -lpthread -o TestTonePA19 TestTonePA19.c libportaudio.a}@*
 @command{gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a}
 
-@item Finally, move the binaries you just compiled to the path where MATAA expects to find them (e.g. ~/matlab/mataa/TestTone/LINUX_X86 or ~/matlab/mataa/TestTone/LINUX_PPC):@*
-@command{mv TestTonePA19 ../LINUX_PPC/}@*
-@command{mv TestDevicesPA19 ../LINUX_PPC/}
+@item Finally, move the binaries you just compiled to the path where MATAA expects to find them (i.e. @file{~/matlab/mataa/TestTone/LINUX_X86-32}, @file{~/matlab/mataa/TestTone/LINUX_X86-64} or @file{~/matlab/mataa/TestTone/LINUX_PPC}):@*
+@command{mv TestTonePA19 ../LINUX_X86-64/}@*
+@command{mv TestDevicesPA19 ../LINUX_X86-64/}
 
 @end itemize
 

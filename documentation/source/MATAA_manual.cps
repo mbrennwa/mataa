@@ -5,22 +5,22 @@
 \initial {C}
 \entry {Calibration file (microphone)}{4}
 \entry {Channel allocation}{7}
-\entry {Column vector}{62}
+\entry {Column vector}{59}
 \entry {Copyright}{2}
 \initial {D}
 \entry {Default path (MATAA)}{4}
 \entry {Default path (MATLAB/Octave)}{3}
 \entry {Default path (test signal files)}{4}
-\entry {Delay, interchannel (soundcard)}{10}
+\entry {Delay, interchannel (soundcard)}{8}
 \entry {Documentaion, MATAA}{4}
 \entry {Download, MATAA}{3}
 \entry {DUT channel}{7}
 \initial {F}
-\entry {FDL, GNU Free Documentation License}{67}
+\entry {FDL, GNU Free Documentation License}{64}
 \entry {Filter, anti-aliasing}{6}
 \initial {G}
-\entry {GNU General Public License}{63}
-\entry {GPL, GNU General Public License}{63}
+\entry {GNU General Public License}{60}
+\entry {GPL, GNU General Public License}{60}
 \initial {H}
 \entry {Hardware Setup}{5}
 \entry {Hardware setup, sound}{5}
@@ -28,9 +28,9 @@
 \entry {Installing MATAA}{3}
 \entry {Installing MATLAB}{3}
 \entry {Installing Octave}{3}
-\entry {Interchannel delay}{10}
+\entry {Interchannel delay}{8}
 \initial {L}
-\entry {Linux}{11}
+\entry {Linux}{9}
 \initial {M}
 \entry {Manual, MATAA}{4}
 \entry {MATAA default paths}{4}
@@ -40,15 +40,15 @@
 \entry {MATAA tools}{4}
 \entry {MATAA, installation}{3}
 \entry {MATAA, obtaining/download}{3}
-\entry {MATLAB}{61}
+\entry {MATLAB}{58}
 \entry {MATLAB default path}{3}
 \entry {MATLAB, installation}{3}
 \entry {MATLAB, startup file}{4}
-\entry {Matrix}{62}
+\entry {Matrix}{59}
 \entry {Measurement setup}{5}
 \entry {Microphone calibration file}{4}
 \initial {O}
-\entry {Octave}{61}
+\entry {Octave}{58}
 \entry {Octave default path}{3}
 \entry {Octave, installation}{3}
 \entry {Octave, startup file}{4}
@@ -56,13 +56,13 @@
 \entry {Path, default (MATAA)}{4}
 \entry {Path, default (MATLAB/Octave)}{3}
 \entry {Path, test signal}{5}
-\entry {PortAudio}{11}
+\entry {PortAudio}{9}
 \entry {Preferences, MATAA}{4}
 \initial {R}
 \entry {REF channel}{7}
-\entry {Row vector}{62}
+\entry {Row vector}{59}
 \initial {S}
-\entry {Scalar}{62}
+\entry {Scalar}{59}
 \entry {Scripts, MATAA}{4}
 \entry {Settings, Audio hardware}{5}
 \entry {Settings, MATAA}{4}
@@ -70,17 +70,17 @@
 \entry {Setup, sound hardware}{5}
 \entry {Signal path}{5}
 \entry {Sound hardware setup}{5}
-\entry {Soundcard}{7}
+\entry {Soundcard}{6}
 \entry {Soundcard channel allocation}{7}
-\entry {Soundcard interchannel delay}{10}
+\entry {Soundcard interchannel delay}{8}
 \entry {Startup file, MATLAB/Octave}{4}
 \initial {T}
 \entry {Terms and Conditions}{2}
 \entry {Test signal files, default path}{4}
 \entry {Test signal path}{5}
-\entry {TestDevices}{4, 7, 11}
-\entry {TestTone}{4, 7, 11}
+\entry {TestDevices}{4, 6, 9}
+\entry {TestTone}{4, 6, 9}
 \entry {Tools}{4}
 \initial {V}
-\entry {Vector}{62}
-\entry {Vector (row, column)}{62}
+\entry {Vector}{59}
+\entry {Vector (row, column)}{59}
