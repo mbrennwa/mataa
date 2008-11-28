@@ -46,26 +46,22 @@ if (exist('OCTAVE_VERSION')~=0) % we're running Octave
 	if (~isempty(findstr(platform,'apple')) && ~isempty(findstr(platform,'darwin')))
 		platform='MAC';
 	elseif ~isempty(findstr(platform,'linux')) % e.g. platform = 'x86_64-unknown-linux-gnu'
-		if ~isempty(findstr(platform,'x86'))
-			if ~isempty(findstr(platform,'64'))
-				platform = 'LINUX_X86_64';
-			elseif ~isempty(findstr(platform,'i386'))
-				platform = 'LINUX_X86_32';
-			elseif ~isempty(findstr(platform,'i486'))
-				platform = 'LINUX_X86_32';
-			elseif ~isempty(findstr(platform,'i586'))
-				platform = 'LINUX_X86_32';
-			elseif ~isempty(findstr(platform,'i686'))
-				platform = 'LINUX_X86_32';
-			else
-				platform = 'LINUX_X86_UNKNOWN';
-			end
+		if ~isempty(findstr(platform,'x86_64'))
+			platform = 'LINUX_X86-64';
+		elseif ~isempty(findstr(platform,'i386'))
+			platform = 'LINUX_X86-32';
+		elseif ~isempty(findstr(platform,'i486'))
+			platform = 'LINUX_X86-32';
+		elseif ~isempty(findstr(platform,'i586'))
+			platform = 'LINUX_X86-32';
+		elseif ~isempty(findstr(platform,'i686'))
+			platform = 'LINUX_X86-32';
 		elseif  ~isempty(findstr(platform,'powerpc'))
 			platform = 'LINUX_PPC';
 		else
 			platform = 'LINUX_UNKNOWN';
 		end
-    elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
+	elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
 		platform='PCWIN';
 	else
 		platform='UNKNOWN';
