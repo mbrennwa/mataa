@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  28 NOV 2008 13:42
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  1 DEC 2008 09:16
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -209,7 +209,7 @@ Underfull \hbox (badness 10000) detected at line 216
 .@pdfrefximage(110.53058+0.0)x289.07999
 
  <./figures/mac_os_x_audio_settings.png (PNG copy)> [10]
-Underfull \hbox (badness 7759) in paragraph at lines 278--279
+Underfull \hbox (badness 7759) in paragraph at lines 281--282
 []@textrm Also, read-ing the ALSA in-struc-tions on [][]@texttt http://www.alsa
 -project.org[][][] @textrm or
 
@@ -222,7 +222,7 @@ Underfull \hbox (badness 7759) in paragraph at lines 278--279
 .etc.
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 315--319
+Underfull \hbox (badness 10000) in paragraph at lines 318--322
  []@texttt gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c
 
 @hbox(6.69167+2.43333)x433.62
@@ -233,8 +233,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 315--319
 .@texttt c
 .etc.
 
+[12pdfTeX warning (ext4): destination with the same identifier (name{Compiling 
+TestTone and TestDevices on Linux}) has been already used, duplicate ignored
 
-Underfull \hbox (badness 3281) in paragraph at lines 320--323
+\onepageout ...\ewbot \hfil \ewbot }}\egroup \fi }
+                                                  }\advancepageno \ifnum \ou...
+<output> {\onepageout {\pagecontents \PAGE }
+                                            }
+<to be read again> 
+                   \vskip 
+\smallskip ->\vskip 
+                    \smallskipamount 
+\smallbreak ...ovelastskip \penalty -50\smallskip 
+                                                  \fi \fi 
+\item ...no by 1 {\let \par =\endgraf \smallbreak 
+                                                  }{\ifnum \lastpenalty <100...
+l.323 @item
+            Finally, move the binaries you just compiled to the path where M...
+]
+Underfull \hbox (badness 3281) in paragraph at lines 323--326
  []@textrm Finally, move the bi-na-ries you just com-piled to the path where MA
 TAA
 
@@ -252,7 +269,7 @@ TAA
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 320--323
+Underfull \hbox (badness 10000) in paragraph at lines 323--326
  @textrm ex-pects to find them (i.e. `@texttt ~/matlab/mataa/TestTone/LINUX_X86
 -32[]@textrm '[],
 
@@ -266,7 +283,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 320--323
 .etc.
 
 
-Overfull \hbox (18.81781pt too wide) in paragraph at lines 320--323
+Overfull \hbox (18.81781pt too wide) in paragraph at lines 323--326
  @textrm `@texttt ~/matlab/mataa/TestTone/LINUX_X86-64[]@textrm '[] or `@texttt
  ~/matlab/mataa/TestTone/LINUX_PPC[]@textrm '[]):|
 
@@ -279,7 +296,7 @@ Overfull \hbox (18.81781pt too wide) in paragraph at lines 320--323
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 320--323
+Underfull \hbox (badness 10000) in paragraph at lines 323--326
  
 
 @hbox(0.0+0.0)x433.62
@@ -287,15 +304,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 320--323
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[12pdfTeX warning (ext4): destination with the same identifier (name{Compiling 
-TestTone and TestDevices on Linux}) has been already used, duplicate ignored
-
-\onepageout ...\ewbot \hfil \ewbot }}\egroup \fi }
-                                                  }\advancepageno \ifnum \ou...
-<output> {\onepageout {\pagecontents \PAGE }
-                                            }
-l.323 
-      ]) (./MATAA_manual_working.texi Chapter 3 [13]
+) (./MATAA_manual_working.texi Chapter 3 [13]
 Underfull \hbox (badness 5847) in paragraph at lines 10--11
  []@textrm M.S. Bren-nwald: MATAA: A Free Computer-Based Au-dio Anal-y-sis Sys-
 
@@ -642,7 +651,7 @@ xmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/t
 ype1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmt
 t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/share
 /texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (82 pages, 515612 bytes).
+Output written on MATAA_manual.pdf (82 pages, 516116 bytes).
 PDF statistics:
  1129 PDF objects out of 1200 (max. 8388607)
  176 named destinations out of 1000 (max. 131072)
