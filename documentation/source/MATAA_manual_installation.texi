@@ -282,12 +282,11 @@ Also, reading the ALSA instructions on @url{http://www.alsa-project.org} or @url
 @example
 pcm.!default @{
     type hw
-    card Intel
-    device 2
+    card 0
 @}
 ctl.!default @{
     type hw
-    card Intel
+    card 0
 @}
 @end example
 
