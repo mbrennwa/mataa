@@ -30,12 +30,9 @@ function [t,s,comments] = mataa_import_TMD (file);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006,2007,2008 Matthias S. Brennwald.
+% Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 10. January 2008  (Matthias Brennwald): first version
 
 if nargin == 0
     file = '';

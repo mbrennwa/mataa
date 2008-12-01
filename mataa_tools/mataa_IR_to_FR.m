@@ -1,6 +1,6 @@
-function [mag,phase,f] = mataa_IR_to_FR(h,t,smooth_interval);
+function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
 
-% function [mag,phase,f] = mataa_IR_to_FR(h,t,smooth_interval);
+% function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
 %
 % DESCRIPTION:
 % Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)
@@ -38,12 +38,9 @@ function [mag,phase,f] = mataa_IR_to_FR(h,t,smooth_interval);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 24. November 2006, Matthias Brennwald
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];

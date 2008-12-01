@@ -1,6 +1,6 @@
-function [etc,t] = mataa_IR_to_ETC(h,t);
+function [etc,t] = mataa_IR_to_ETC (h,t);
 
-% function [etc,t] = mataa_IR_to_ETC(h,t);
+% function [etc,t] = mataa_IR_to_ETC (h,t);
 %
 % DESCRIPTION:
 % This function calculates the energy-time-curve (ETC) from the impulse response h(t).
@@ -35,12 +35,9 @@ function [etc,t] = mataa_IR_to_ETC(h,t);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 14. July 2006 (Matthias Brennwald): first version
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];

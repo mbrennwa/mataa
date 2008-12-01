@@ -1,6 +1,6 @@
-function [s,t] = mataa_IR_to_SR(h,t);
+function [s,t] = mataa_IR_to_SR (h,t);
 
-% function [s,t] = mataa_IR_to_SR(h,t);
+% function [s,t] = mataa_IR_to_SR (h,t);
 %
 % DESCRIPTION:
 % calculates the step response of a system with impulse response h(t)
@@ -30,13 +30,9 @@ function [s,t] = mataa_IR_to_SR(h,t);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% 24. November 2006: first version (Matthias Brennwald)
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];

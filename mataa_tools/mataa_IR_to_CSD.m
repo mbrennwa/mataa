@@ -1,6 +1,6 @@
-function [spl,f,d] = mataa_IR_to_CSD(h,t,T,smooth_interval);
+function [spl,f,d] = mataa_IR_to_CS D(h,t,T,smooth_interval);
 
-% function [spl,f,t] = mataa_IR_to_CSD(h,t,T,smooth_interval);
+% function [spl,f,t] = mataa_IR_to_CSD (h,t,T,smooth_interval);
 %
 % DESCRIPTION:
 % This function calculates cumulative spectral decay (CSD) data (SPL-responses spl at frequencies f and delay times d).
@@ -33,12 +33,9 @@ function [spl,f,d] = mataa_IR_to_CSD(h,t,T,smooth_interval);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 24. November 2006, Matthias Brennwald
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];
