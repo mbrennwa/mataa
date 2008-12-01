@@ -113,7 +113,7 @@ numOutputChannels = audioInfo.output.channels;
 if ~isstr (input_signal)
     input_channels = size (input_signal,2);
     if numOutputChannels < input_channels
-        error(sprintf('mataa_measure_signal_response: input data has more channels (%i) than supported by the audio output device (%i).',input_channels,numOutputChannels));
+	error(sprintf('mataa_measure_signal_response: input data has more channels (%i) than supported by the audio output device (%i).',input_channels,numOutputChannels));
     end
 end
 
@@ -127,15 +127,15 @@ deleteInputFileAfterIO = 0;
 if ~ischar(input_signal)
 % signal samples have been specified instead of file name:
     if ~exist('latency')
-        warning('mataa_measure_signal_response: latency not specified. Assuming latency = 0.1 seconds. Check for truncated data!');
-        latency = 0.1;
+	warning('mataa_measure_signal_response: latency not specified. Assuming latency = 0.1 seconds. Check for truncated data!');
+	latency = 0.1;
     end
-    if verbose
-        disp('Writing sound data to disk...');
-    end
+	if verbose
+		disp('Writing sound data to disk...');
+    	end
     input_signal = mataa_signal_to_TestToneFile(input_signal,'',latency,fs);
     if verbose
-        disp('...done');
+	disp('...done');
     end
     deleteInputFileAfterIO = 1;
 end
@@ -195,48 +195,43 @@ if verbose
     disp('Reading sound data from disk...')
 end
 
-% GNU Octave does not a great job with 'out=load('matlab_dummy.out'). Also, Matlab's load command can be slow. The following approach is more reliable and (much) faster:
-%if exist('OCTAVE_VERSION')		
-    fid = fopen(out_path,'rt');
-    if fid == -1
-        error('mataa_measure_signal_response: could not find input file.');
-    else
-        frewind(fid);
-        numChan = [];
-        doRead = 1;
-        while doRead % read the header
-            l = fgetl(fid);
-            % if findstr('Number of channels =',l) % for the old TestTone program
-            if findstr('Number of sound input channels =',l) % for the new TestTone program
-            	numChan = str2num(l(findstr('=',l)+1:end));
-            elseif findstr('time (s)',l) % this was the last line of the header
-            	doRead = 0;
-            elseif ~isempty(str2num(l));
-            	% if the 'time(s) ...' line is missing in the header for some reason...
-           		% this is the first line of the data
-           		doRead = 0;
-           		fseek(fid,ftell(fid)-length(l)-1); % go back to the end of the previous line so that we won't miss the first line of the data later on
-           	elseif l==-1
-           		warning('mataa_measure_signal_response:end of data file reached prematurely! Is the data file corrupted?');
-           		doRead = 0;
-            end 
-        end
-        if isempty(numChan)
-        	error('mataa_measure_signal_response: could not determine number of channels in recorded data.');
-        end
-        % read the data:
-        out = fscanf(fid,'%f');
-        l = length(out);
-        if l < 1
-        	error('mataa_measure_signal_response: no data found in TestTone output file.');
-        end
-        out = reshape(out',numChan+1,l/(numChan+1))';
-        fclose(fid);
-    end
-% else
-%     keyboard
-% 	out=load(out_path); % normal Matlab-call
-% end
+
+fid = fopen(out_path,'rt');
+if fid == -1
+	error('mataa_measure_signal_response: could not find input file.');
+else
+	frewind(fid);
+	numChan = [];
+	doRead = 1;
+	while doRead % read the header
+	    l = fgetl(fid);
+	    % if findstr('Number of channels =',l) % for the old TestTone program
+	    if findstr('Number of sound input channels =',l) % for the new TestTone program
+	    	numChan = str2num(l(findstr('=',l)+1:end));
+	    elseif findstr('time (s)',l) % this was the last line of the header
+	    	doRead = 0;
+	    elseif ~isempty(str2num(l));
+	    	% if the 'time(s) ...' line is missing in the header for some reason...
+	   		% this is the first line of the data
+	   		doRead = 0;
+	   		fseek(fid,ftell(fid)-length(l)-1); % go back to the end of the previous line so that we won't miss the first line of the data later on
+	   	elseif l==-1
+	   		warning('mataa_measure_signal_response:end of data file reached prematurely! Is the data file corrupted?');
+	   		doRead = 0;
+	    end 
+	end
+	if isempty(numChan)
+		error('mataa_measure_signal_response: could not determine number of channels in recorded data.');
+	end
+	% read the data:
+	out = fscanf(fid,'%f');
+	l = length(out);
+	if l < 1
+		error('mataa_measure_signal_response: no data found in TestTone output file.');
+	end
+	out = reshape(out',numChan+1,l/(numChan+1))';
+	fclose(fid);
+end
 
 if verbose
     disp('...data reading done.');
