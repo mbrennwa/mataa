@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t] = mataa_measure_signal_response(input_signal,fs,latency,verbose);
+function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_signal,fs,latency,verbose);
 
-% function [responseSignal,inputSignal,t] = mataa_measure_signal_response(input_signal,fs,latency,verbose);
+% function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_signal,fs,latency,verbose);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -47,7 +47,7 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response(input_si
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 %
