@@ -33,12 +33,9 @@ function h = mataa_plot_two (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 27. December 2007 (Matthias Brennwald): first version
 
 h = repmat (NaN,2,1);
 

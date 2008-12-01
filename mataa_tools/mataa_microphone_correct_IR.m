@@ -1,6 +1,6 @@
-function [h_corr,t] = mataa_microphone_correct_IR(mic_name,h,t)
+function [h_corr,t] = mataa_microphone_correct_IR (mic_name,h,t)
 
-% function [h,t] = mataa_microphone_correct_IR(mic_name,h,t)
+% function [h,t] = mataa_microphone_correct_IR (mic_name,h,t)
 %
 % DESCRIPTION:
 % This function corrects h(t) from the transfer function of the specified microphone
@@ -33,12 +33,9 @@ function [h_corr,t] = mataa_microphone_correct_IR(mic_name,h,t)
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 12. November 2006, Matthias Brennwald
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];

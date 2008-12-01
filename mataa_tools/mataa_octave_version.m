@@ -36,12 +36,9 @@ function [version,subversion,subsubversion] = mataa_octave_version
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 10. May 2007, Matthias Brennwald
 
 if exist('OCTAVE_VERSION','builtin')
     v = OCTAVE_VERSION;

@@ -1,6 +1,6 @@
-function [phase,delay] = mataa_phase_remove_trend(phase,f,f1,f2);
+function [phase,delay] = mataa_phase_remove_trend (phase,f,f1,f2);
 
-% function [phase,delay] = mataa_phase_remove_trend(phase,f,f1,f2);
+% function [phase,delay] = mataa_phase_remove_trend (phase,f,f1,f2);
 %
 % DESCRIPTION:
 % Remove linear trend in phase(f), e.g. excess phase due to time delay.
@@ -31,13 +31,9 @@ function [phase,delay] = mataa_phase_remove_trend(phase,f,f1,f2);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% first version: 17. July 2006, Matthias Brennwald
 
 i=[];
 

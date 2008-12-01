@@ -1,6 +1,6 @@
-function out = mataa_menu(title, varargin)
+function out = mataa_menu (title, varargin)
 
-% function out = mataa_menu(title, varargin)
+% function out = mataa_menu (title, varargin)
 %
 % DESCRIPTION:
 % This function prints a menu and asks the user to choose a command from the menu.
@@ -40,12 +40,9 @@ function out = mataa_menu(title, varargin)
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 30. June 2007, Matthias Brennwald
 
 if exist('OCTAVE_VERSION')
 % Force pending output to appear before the menu.

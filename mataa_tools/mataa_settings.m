@@ -1,6 +1,6 @@
-function val = mataa_settings(field,value)
+function val = mataa_settings (field,value)
 
-% function val = mataa_settings(field,value)
+% function val = mataa_settings (field,value)
 %
 % DESCRIPTION:
 % Retrieve and set MATAA settings.
@@ -40,16 +40,9 @@ function val = mataa_settings(field,value)
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 9. March 2008 (Matthias Brennwald): moved settings file to users home directory
-% 27. December 2007 (Matthias Brennwald): changed 'plotStyle' to 'plotColor'.
-% 25. November 2007 (Matthias Brennwald): added interchannel_delay
-% first version: 23. August 2006, Matthias Brennwald
-
 
 path = mataa_path ("settings");
 path = sprintf("%s.mataa_settings.mat",path);

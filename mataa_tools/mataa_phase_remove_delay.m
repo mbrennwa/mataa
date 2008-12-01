@@ -1,6 +1,6 @@
-function phase = mataa_phase_remove_delay(phase,f,delay);
+function phase = mataa_phase_remove_delay (phase,f,delay);
 
-% function [phase,f] = mataa_phase_remove_delay(phase,delay);
+% function [phase,f] = mataa_phase_remove_delay (phase,delay);
 %
 % DESCRIPTION:
 % This function removes excess phase due to time delay.
@@ -30,12 +30,9 @@ function phase = mataa_phase_remove_delay(phase,f,delay);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 17. July 2006, Matthias Brennwald
 
 exPhase = -2*pi*f*delay; % see D'Appolito, J.: Testing Loudspeakers, page 111
 phase = phase - exPhase;

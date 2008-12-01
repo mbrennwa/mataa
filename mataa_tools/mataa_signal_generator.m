@@ -1,6 +1,6 @@
-function [s,t] = mataa_signal_generator(kind,fs,T,param);
+function [s,t] = mataa_signal_generator (kind,fs,T,param);
 
-% function [s,t] = mataa_signal_generator(kind,fs,T,param);
+% function [s,t] = mataa_signal_generator (kind,fs,T,param);
 %
 % DESCRIPTION:
 % This function creates a signal s(t) of a specified type.
@@ -66,14 +66,9 @@ function [s,t] = mataa_signal_generator(kind,fs,T,param);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% 19. Feb. (Matthias Brennwald): added Dirac signal
-% 9. July 2006 (Matthias Brennwald): first version
 
 rand('seed',sum(100*clock)); % 'randomize' rand random generator, in case we need it
 

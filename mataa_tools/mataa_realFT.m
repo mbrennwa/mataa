@@ -1,6 +1,6 @@
-function [S,f] = mataa_realFT(s,t);
+function [S,f] = mataa_realFT (s,t);
 
-% function [S,f] = mataa_realFT(s,t);
+% function [S,f] = mataa_realFT (s,t);
 %
 % DESCRIPTION:
 % Identical to mataa_realFT0, but without the component corresponding to f=0.
@@ -28,12 +28,9 @@ function [S,f] = mataa_realFT(s,t);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006,2007 Matthias S. Brennwald.
+% Copyright (C) 2006,2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 19. Feb. 2007 (Matthias Brennwald): first version
 
 [S,f] = mataa_realFT0(s,t);
 

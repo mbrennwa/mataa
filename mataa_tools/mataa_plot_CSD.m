@@ -1,6 +1,6 @@
-function mataa_plot_CSD(spl,f,t,spl_range,annote,options);
+function mataa_plot_CSD (spl,f,t,spl_range,annote,options);
 
-% function mataa_plot_CSD(spl,f,t,spl_range,annote,options);
+% function mataa_plot_CSD (spl,f,t,spl_range,annote,options);
 %
 % DESCRIPTION:
 % Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)
@@ -32,19 +32,9 @@ function mataa_plot_CSD(spl,f,t,spl_range,annote,options);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 2. and 7. April 2008 (Matthias Brennwald): added 'shaded2' and 'contours2' option
-% 31. March 2008 (Matthias Brennwald): improved help text
-% 27. December 2007 (Matthias Brennwald): removed gnuplot-specific code for Octave (this requires Octave 3.0 or later for proper operation -- nothing has changed for Matlab).
-% 18. August 2007 (Matthias Brennwald): added plotting options
-% 23. April 2007: added code to produce acceptable results with Octave 2.9.10 or newer (Octave 2.9.10 and newer use the Matlab-like plotting handles and axes).
-% 9. April 2007: added a warning that Octave does not plot the most beautiful CSD
-% first version: 7. November 2006, Matthias Brennwald
-
 
 if ~exist('annote')
     annote = '';

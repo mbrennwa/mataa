@@ -1,6 +1,6 @@
-function n = mataa_signal_clipcheck(s,N);
+function n = mataa_signal_clipcheck (s,N);
 
-% function n = mataa_signal_clipcheck(s);
+% function n = mataa_signal_clipcheck (s,N);
 %
 % DESCRIPTION:
 % Returns the number of samples with amplitude less than N percent% lower than the maximum amplitude of the signal (absolute values).
@@ -43,13 +43,9 @@ function n = mataa_signal_clipcheck(s,N);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 30. Jan. 2007, Matthias Brennwald
-
 
 x = size(s);
 if x(1) < x(2)

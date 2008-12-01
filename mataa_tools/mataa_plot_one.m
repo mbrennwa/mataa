@@ -33,12 +33,9 @@ function h = mataa_plot_one (x,y,figNum,plottit,xtit,ytit);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 27. December 2007 (Matthias Brennwald): first version
 
 h = NaN;
 

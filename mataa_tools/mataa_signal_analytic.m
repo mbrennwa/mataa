@@ -1,6 +1,6 @@
-function a = mataa_signal_analytic(s);
+function a = mataa_signal_analytic (s);
 
-% function a = mataa_signal_analytic(s);
+% function a = mataa_signal_analytic (s);
 %
 % DESCRIPTION:
 % Calculate analytic signal a of signal s.
@@ -35,11 +35,8 @@ function a = mataa_signal_analytic(s);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 26. Feb 2007  (Matthias Brennwald): first version
 
 a = s + i*mataa_hilbert(s);

@@ -1,6 +1,6 @@
-function min_phase = mataa_minimum_phase(mag,f);
+function min_phase = mataa_minimum_phase (mag,f);
 
-% function min_phase = mataa_minimum_phase(mag,f);
+% function min_phase = mataa_minimum_phase (mag,f);
 %
 % DESCRIPTION:
 % Calculates minimum phase from magnitude frequency response using the Hilbert transform (see http://en.wikipedia.org/wiki/Minimum_phase#Relationship_of_magnitude_response_to_phase_response).
@@ -30,12 +30,9 @@ function min_phase = mataa_minimum_phase(mag,f);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 19. July 2006, Matthias Brennwald
 
 %%%%    % calculate minimum phase using the Hilbert transform:
 %%%%    % see: http://www.fourelectronics.com/Hilbert-transform-to-calculate-Magnitude-from-Phase-10052397.html

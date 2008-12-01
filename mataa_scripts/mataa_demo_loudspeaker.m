@@ -16,12 +16,9 @@
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 %
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY
-% 18. August 2007 (Matthias Brennwald): added contours to CSD plot (for Octave 2.9.10 or later only)
 
 if exist('OCTAVE_VERSION')
 	more('off'),

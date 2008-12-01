@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  1 DEC 2008 09:16
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2008.4.5)  1 DEC 2008 11:07
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -350,21 +350,8 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
  [19] [20]
-[21] [22] [23] [24]
-Underfull \hbox (badness 2205) in paragraph at lines 413--457
-@textrm son[at]iet.ntnu.no) avail-able at http://www.iet.ntnu.no/@texttt ~@text
-rm svensson/readmls.m. Pe-ter
-
-@hbox(8.2125+2.73749)x433.62, glue set 2.80553
-.@textrm s
-.@textrm o
-.@textrm n
-.@textrm [
-.@textrm a
-.etc.
-
-[25] [26] [27] [28]
-Underfull \hbox (badness 5970) in paragraph at lines 566--571
+[21] [22] [23] [24] [25] [26]
+Underfull \hbox (badness 5970) in paragraph at lines 514--519
 []@textrm smooth[]interval (op-tional): if sup-plied, the SPL curves are smooth
 ed us-ing
 
@@ -376,8 +363,8 @@ ed us-ing
 .@kern0.30417
 .etc.
 
-[29] [30]
-Overfull \hbox (9.87344pt too wide) in paragraph at lines 682--685
+[27] [28] [29]
+Overfull \hbox (9.87344pt too wide) in paragraph at lines 621--624
 []@textrm NOTE 2: There ex-ist dif-fer-ent def-i-ni-tions of THD (see e.g. http
 ://en.wikipedia.org/wiki/THD|
 
@@ -389,12 +376,12 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 682--685
 .@textrm E
 .etc.
 
-[31] [32]
-Overfull \hbox (69.03506pt too wide) in paragraph at lines 755--756
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 684--685
 []@textrm function [re-spons-eS-ig-nal,inputSignal,t] = mataa[]measure[]signal[
-]response(input[]signal,fs,latency,verbose);|
+]response (in-
 
-@hbox(8.2125+2.73749)x433.62, glue set - 1.0
+@hbox(8.2125+2.73749)x433.62, glue set 8.48238
 .@hbox(0.0+0.0)x0.0
 .@textrm f
 .@textrm u
@@ -402,16 +389,8 @@ Overfull \hbox (69.03506pt too wide) in paragraph at lines 755--756
 .@textrm c
 .etc.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 755--756
-
-
-@hbox(0.0+0.0)x433.62
-.@penalty -10000
-.@glue(@rightskip) 0.0
-
-[33] [34] [35] [36]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 862--864
+[31] [32] [33]
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 776--778
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -424,16 +403,15 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 862--864
+Underfull \hbox (badness 10000) in paragraph at lines 776--778
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51]
-[52] [53] [54]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1662--1666
+[34] [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48]
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1458--1462
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -446,15 +424,15 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1662--1666
+Underfull \hbox (badness 10000) in paragraph at lines 1458--1462
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[55] [56] [57]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1778--1786
+[49] [50]
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1560--1568
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -466,7 +444,7 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 1778--1786
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-[58] [59] [60]) (./MATAA_manual_MatOctPrimer.texi Chapter 5 [61]
+[51] [52] [53]) (./MATAA_manual_MatOctPrimer.texi Chapter 5 [54]
 Missing character: There is no Ê in font cmr10!
 
 Underfull \hbox (badness 7522) in paragraph at lines 21--22
@@ -597,7 +575,7 @@ ia.org/wiki/MATLAB)|
 .@textrm n
 .etc.
 
-) (./MATAA_manual_licenses.texi Appendix A [62]
+) (./MATAA_manual_licenses.texi Appendix A [55]
 Underfull \hbox (badness 2368) in paragraph at lines 74--74
 []@secrm TERMS AND CON-DI-TIONS FOR COPY-ING, 
 
@@ -609,8 +587,8 @@ Underfull \hbox (badness 2368) in paragraph at lines 74--74
 .@secrm M
 .etc.
 
-[63] [64] [65] [66] [67] [68] [69] [70] [71] [72] [73]) (Concept index)
-[74] (./MATAA_manual.cps) (MATAA tools index) [75]
+[56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66]) (Concept index)
+[67] (./MATAA_manual.cps) (MATAA tools index) [68]
 Overfull \vbox (33.91702pt too high) has occurred while \output is active
 \vbox(643.2+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
@@ -628,15 +606,15 @@ Overfull \vbox (33.91702pt too high) has occurred while \output is active
 .etc.
 
 
-[76] (./MATAA_manual.fns) [77] ) 
+[69] (./MATAA_manual.fns) [70] ) 
 Here is how much of TeX's memory you used:
- 2259 strings out of 97159
- 30711 string characters out of 1208397
- 93193 words of memory out of 1500000
- 3147 multiletter control sequences out of 10000+50000
+ 2247 strings out of 97159
+ 30595 string characters out of 1208397
+ 93154 words of memory out of 1500000
+ 3143 multiletter control sequences out of 10000+50000
  32127 words of font info for 112 fonts, out of 1200000 for 2000
  51 hyphenation exceptions out of 8191
- 15i,6n,18p,1683b,554s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 15i,6n,18p,1683b,551s stack positions out of 5000i,500n,6000p,200000b,5000s
 pdfTeX warning (dest): name{Impedance measureme
 nt} has been referenced but does not exist, replaced by a fixed one
 
@@ -651,9 +629,9 @@ xmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/t
 ype1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmt
 t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt12.pfb></usr/share
 /texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (82 pages, 516116 bytes).
+Output written on MATAA_manual.pdf (75 pages, 497533 bytes).
 PDF statistics:
- 1129 PDF objects out of 1200 (max. 8388607)
- 176 named destinations out of 1000 (max. 131072)
- 761 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1092 PDF objects out of 1200 (max. 8388607)
+ 168 named destinations out of 1000 (max. 131072)
+ 753 words of extra memory for PDF output out of 10000 (max. 10000000)
 

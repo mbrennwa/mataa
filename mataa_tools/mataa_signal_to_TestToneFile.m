@@ -1,6 +1,6 @@
-function pathToFile = mataa_signal_to_TestToneFile(s,pathToFile,zeroTime,fs);
+function pathToFile = mataa_signal_to_TestToneFile (s,pathToFile,zeroTime,fs);
 
-% function pathToFile = mataa_signal_to_TestToneFile(s,pathToFile,zeroTime,fs);
+% function pathToFile = mataa_signal_to_TestToneFile (s,pathToFile,zeroTime,fs);
 %
 % DESCRIPTION:
 % Saves the test signals in matrix s to a file on disk (for use with TestTone). Optionally, the signals are  padded with zeroes at the beginning and the end.
@@ -38,13 +38,9 @@ function pathToFile = mataa_signal_to_TestToneFile(s,pathToFile,zeroTime,fs);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 26. Feb. 2007 (Matthias Brennwald): added support for multi-channel signals (channels are separated by commas in the ASCII file).
-% 27. July 2006 (Matthias Brennwald): first 
 
 % check format of input data:
 nFrames = size(s,1);

@@ -1,6 +1,6 @@
-function [c,T] = mataa_signal_autocorr(s,t);
+function [c,T] = mataa_signal_autocorr (s,t);
 
-% function [c,T] = mataa_signal_autocorr(s,t);
+% function [c,T] = mataa_signal_autocorr (s,t);
 %
 % DESCRIPTION:
 % Autocorrelation c(T) of signal s(t), for positive delays (T>=0).
@@ -30,13 +30,9 @@ function [c,T] = mataa_signal_autocorr(s,t);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% 26. Feb 2007  (Matthias Brennwald): first version
 
 if isscalar(t) % sample rate given instead of time values
 	t = [0:1/t:(length(s)-1)/t];

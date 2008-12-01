@@ -28,12 +28,9 @@ function mataa_signal_save (s,fs,file,description);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006,2007 Matthias S. Brennwald.
+% Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 4. January 2008 (Matthias Brennwald): first version
 
 if ~any (size (s) == 1)
     error ('mataa_signal_save: only signals containing one data channel are supported at the moment.')

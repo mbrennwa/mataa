@@ -1,6 +1,6 @@
-function path = mataa_path(whichPath);
+function path = mataa_path (whichPath);
 
-% function path = mataa_path(whichPath);
+% function path = mataa_path (whichPath);
 %
 % DESCRIPTION:
 % This function returns the Matlab / MATAA paths as specified by 'whichPath'
@@ -39,19 +39,9 @@ function path = mataa_path(whichPath);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 10. March 2008 (Matthias Brennwald): removed 'data' specifier to make the mataa package installation more independent from any user-specific data
-% 9. March 2008 (Matthias Brennwald): added 'settings' specifier
-% 28. December 2007 (Matthias Brennwald): removed path of user-defined scripts from the main MATAA folder. The 'user_scripts' identifier is therefore not supported anymore.
-% 23.10.2007 (Matthias Brennwald): fixed a problem that occurred with Windows, which may use both '/' and '\' as file separators within a single path.
-% 22.10.2007 (Matthias Brennwald): replaced check for '//' (on line 62) by check for sprintf('%s%s',filesep,filesep).
-% 15.2.2007: added missing comma after case 'TestDevices'
-% 13.2.2007: added TestDevices path (Matthias Brennwald)
-% 3.2.2007: simplified TestTone path selection (Matthias Brennwald)
 
 if ~exist('whichPath')
     warning('mataa_path: no path specified, assuming whichPath=main.');

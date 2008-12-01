@@ -1,6 +1,6 @@
-function mataa_plot_save(fileName);
+function mataa_plot_save (fileName);
 
-% function mataa_plot_save(fileName);
+% function mataa_plot_save (fileName);
 %
 % DESCRIPTION:
 % Saves the last plot to an EPS (encapsulated post script) file.
@@ -23,14 +23,9 @@ function mataa_plot_save(fileName);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 27. December 2007 (Matthias Brennwald): replaced the experimental code to work around the missing print funcion of some outdated version of Octave by an error message complaining about the outdated Octave version.
-% 21.4.2007 (Matthias Brennwald): removed code to automatically open the produced file (this caused more problems than anything else and did not work on platforms other than Mac OS X).
-% first version: 9. December, Matthias Brennwald
 
 if length(fileName) < 4
     fileName = [ fileName '.eps' ];

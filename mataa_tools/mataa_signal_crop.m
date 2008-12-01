@@ -1,6 +1,6 @@
-function [s,t] = mataa_signal_crop(s,t,t_start,t_end);
+function [s,t] = mataa_signal_crop (s,t,t_start,t_end);
 
-% function [s,t] = mataa_signal_crop(s,t,t_start,t_end);
+% function [s,t] = mataa_signal_crop (s,t,t_start,t_end);
 %
 % DESCRIPTION:
 % This function crops out the part of the signal s(t) in the range t = t_start...t_end
@@ -30,13 +30,9 @@ function [s,t] = mataa_signal_crop(s,t,t_start,t_end);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% first version: 16. December 2006, Matthias Brennwald
 
 if isscalar(t) % t is the sampling frequency
     t = [0 : 1/t : (length(s)-1)/t];

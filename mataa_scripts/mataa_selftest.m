@@ -17,15 +17,9 @@
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 %
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 14.2.07: removed latency test, because it won't give very basic information and will propably throw a warning message about wrong setup, confusing the user (Matthias Brennwald)
-% 8.2.07: added output on computer platform.
-% 4. Feb. 2007: adapted for new TestDevices program (change from Portaudio-18 to Portaudio-19).
-% Do latency test only if audio-devices test did not produce errors, 30. January 2007, Matthias Brennwald
 
 if exist('OCTAVE_VERSION')
 	more('off'),

@@ -1,6 +1,6 @@
-function [S,f] = mataa_realFT0(s,t);
+function [S,f] = mataa_realFT0 (s,t);
 
-% function [S,f] = mataa_realFT0(s,t);
+% function [S,f] = mataa_realFT0 (s,t);
 %
 % DESCRIPTION:
 % Calculates the complex fourier-spectrum S of a real signal s for frequencies f >= 0. Only the half spectrum corresponding to positive frequencies is returned, because for a real signal S(-f)=S*(f). S is normalized to length of s. The fourier spectrum S therefore does not depend on the sample rate used to digitize a given signal (i.e. S does not depend on the length of the signal). s can be of any length (no padding to length of 2n or even length necessary). In order to avoid frequency leakage, mataa_realFT does NOT pad s to even length. Each column of s represents one audio channel.
@@ -30,15 +30,9 @@ function [S,f] = mataa_realFT0(s,t);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006,2007 Matthias S. Brennwald.
+% Copyright (C) 2006,2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 15. March 2008 (Matthias Brennwald): removed normalization (which produced confusing results)
-% 2. January 2008 (Matthias Brennwald): added a test for the proper dimension of the input signal (only 1xN or Nx1 data is allowed). Thanks to Lee Marshall for reporting this issue.
-% 19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).
-% 6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)
 
 if ~any (size (s) == 1)
     error ('mataa_realFT0: the input signal s must be of dimension 1xN or Nx1 !')

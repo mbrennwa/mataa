@@ -1,5 +1,7 @@
-function f = mataa_t_to_f(t);
+function f = mataa_t_to_f (t);
 
+% function f = mataa_t_to_f (t);
+%
 % DESCRIPTION:
 % Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.
 %
@@ -26,12 +28,9 @@ function f = mataa_t_to_f(t);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 19. Feb. 2007: first version (Matthias Brennwald)
 
 f = mataa_t_to_f0(t);
 f = f(2:end); % remove f=0

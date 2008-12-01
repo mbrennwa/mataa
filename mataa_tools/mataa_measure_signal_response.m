@@ -50,18 +50,6 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_s
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...
-% 2. November 2008 (Matthias Brennwald): fixed a problem that occurred if the MATAA files are in paths containing spaces
-% 3. January 2008 (Matthias Brennwald): check for compatibility of number of input-signal channels with sound device only if input signal is given as a numerical matrix. The check is not done if the input signal is specified as a file name.
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% 2. March 2007 (Matthias Brennwald): added check if input data has more channels than supported by the audio output device.
-% 26. Feb., 1. March 2007 (Matthias Brennwald): added support for multi-channel signals (Thanks to Morten Laursen for compiling the multichannel version of TestTone for Windows).
-% 15.2.2007: added missing fclose(...) after reading the data file with the signal data (Matthias Brennwald)
-% 13.2.07: added a few error/sanity checks for the TestTone output (Matthias Brennwald)
-% 8.2.07: cleaned up reading the data header
-% 4.2.07: added changes for new TestDevices TestTone programs (change from Portaudio-18 to Portaudio-19), Matthias Brennwald.
 
 if ~exist('verbose')
     verbose=1;

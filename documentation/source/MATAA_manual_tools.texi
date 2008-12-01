@@ -11,7 +11,7 @@ This section contains a list of the MATAA tools and their usage information as o
 
 file: ...mataa_tools/mataa_audio_guess_latency.m@*
 
-function latency = mataa_audio_guess_latency(fs,maxLatency);@*
+function latency = mataa_audio_guess_latency (fs,maxLatency);@*
 
 DESCRIPTION:@*
 This function measures the latency of the audio hardware at sampling frequency fs, including the connected DUT.@*
@@ -30,11 +30,6 @@ maxLatency (optional): the expected maximum of the latency (in seconds). If not 
 OUTPUT:@*
 latency: the latency of the system, as defined above (in seconds)@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-4. Feb. 2007: removed unnecessary call to mataa_audio_info (Matthias Brennwald)@*
-first version: 9. July 2006, Matthias Brennwald@*
-a = mataa_audio_info;@*
 
 @findex mataa_audio_info
 @node mataa_audio_info
@@ -53,13 +48,6 @@ EXAMPLE:@*
 > info.input      % shows information about the input device@*
 > info.output     % shows information about the output device@*
 
-HISTORY:@*
-3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...@*
-2. Nov 2008 (Matthias Brennwald): fixed problem that occured if the MATAA files are in paths containing spaces@*
-6. March 2007: code cleanup to avoid problem with Octave on Windows and fix output if no sound devices are found (return name '(UNKNOWN)' instead of name = []);@*
-14. Feb 2007: changed double quotes to single quotes -- 'MAC' instead of "MAC" etc., for compatibility with Matlab. Problem reported by Morten Laursen. (Matthias Brennwald)@*
-13. Feb. 2007: added support PCWIN versions of TestDevices  (Matthias Brennwald)@*
-4. Feb. 2007: rewrote code for use new TestDevices program to accomodate changes from Portaudio-18 to Portaudio-19. Also added check for full/half duplex (Matthias Brennwald)@*
 
 @findex mataa_computer
 @node mataa_computer
@@ -82,9 +70,6 @@ PCWIN:    MS Windows@*
 LINUX_X86:  Linux on x86 platform@*
 UNKNOWN:  unknown platform (unknown to MATAA)@*
 
-HISTORY:@*
-25. Feb 2007 (Matthias Brennwald): fixed UNKNOWN response with Matlab on Intel-Mac (Matlabs 'computer' returns 'MACI' instead of 'MAC'). @*
-8. Feb 2007 (Matthias Brennwald): added MS-Windows / 'PCWIN'@*
 
 @findex mataa_deConvolve
 @node mataa_deConvolve
@@ -110,8 +95,6 @@ then: Z = XY (where the uppercase letters denote the complex fourier transforms 
 or: fft(z) = fft(x) fft(y), where x and y are padded with zeros to length Lz@*
 hence fft(y) = fft(z) / fft(x), or y = ifft( fft(z) / fft(x) )@*
 
-HISTORY:@*
-first version: 22. July 2006, Matthias Brennwald@*
 
 @findex mataa_export_FRD
 @node mataa_export_FRD
@@ -177,8 +160,6 @@ In general, there are good reasons to keep the frequency sampling density high e
 When processing files and using the resultants, there are also good reasons to have the response extend at least one octave and preferably 2 or more octaves beyond the region of interest (above and below) so as to keep phase tracking error very low. This is especially important when deriving Minimum Phase or Optimizing crossovers downstream. A good standard to target is the internal default one of the Frequency Response Combiner program, which was selected for those reasons above (sample density and frequency extension) and for a close adherence to digital sound cards sampling rates, and also that the sample set was easily sub-divided into many equal sized integer count pieces (2, 3, 4, 6, 7, 8, 14, 16, 21, 24). The FRC program default standard for internal FRD data calculation is 2 Hz to 96,000 Hz with 1176 equal log spaced samples or about 251 samples per decade.@*
 --------------------------------@*
 
-HISTORY:@*
-9. January 2008  (Matthias Brennwald): first version@*
 
 @findex mataa_export_TMD
 @node mataa_export_TMD
@@ -199,8 +180,6 @@ comment: string containing a comment to be saved with the data, e.g. a descripti
 OUTPUT:@*
 (none)@*
 
-HISTORY:@*
-10. January 2008  (Matthias Brennwald): first version@*
 
 @findex mataa_file_default_name
 @node mataa_file_default_name
@@ -219,8 +198,6 @@ ask: flag to specify if the user should be asked for a file name. If 'ask' is no
 OUTPUT:@*
 name: file name@*
 
-HISTORY:@*
-first version: 17. July 2006, Matthias Brennwald@*
 
 @findex mataa_f_to_t
 @node mataa_f_to_t
@@ -228,7 +205,7 @@ first version: 17. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_f_to_t.m@*
 
-function t = mataa_f_to_t(f);@*
+function t = mataa_f_to_t (f);@*
 
 DESCRIPTION:@*
 returns the time bins of the inverse fourier spectrum sampled at frequencies f (f is assumed to be evenly spaced!)@*
@@ -239,9 +216,6 @@ f: frequency-value vector (in Hz). Values must be sorted and evenly spaced.@*
 OUTPUT:@*
 t: time values (vector, in seconds)@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-first version: 22. July 2006, Matthias Brennwald@*
 
 @findex mataa_gnuplot
 @node mataa_gnuplot
@@ -249,7 +223,7 @@ first version: 22. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_gnuplot.m@*
 
-function mataa_gnuplot(cmd);@*
+function mataa_gnuplot (cmd);@*
 
 DESCRIPTION:@*
 This function executes the gnuplot command 'cmd' by calling __gnuplot_raw__(cmd). This only makes sense with Octave if gnuplot is used as the plotting engine. IMPORTANT: THIS FUNCTION SHOULD NOT BE USED ANYMORE, BECAUSE THE GNUPLOT INTERFACE TO OCTAVE HAS CHANGED CONSIDERABLY IN OCTAVE 2.9.X. IT WILL PROPABLY BE CHANGED FURTHER, BREAKING THIS FUNCTION.@*
@@ -257,9 +231,6 @@ This function executes the gnuplot command 'cmd' by calling __gnuplot_raw__(cmd)
 INPUT:@*
 cmd: string containing the gnuplot command.@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): added a note to the documentation that this function should not be used anymore. Also, a warning message showing this note when this function is called.@*
-9. Jan. 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_guess_IR_start
 @node mataa_guess_IR_start
@@ -267,7 +238,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_guess_IR_start.m@*
 
-function [t_start,t_rise] = mataa_guess_IR_start(h,t,verbose);@*
+function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);@*
 
 DESCRIPTION:@*
 Try to determine the start and and rise time of an impulse response signal.@*
@@ -290,11 +261,6 @@ EXAMPLE:@*
 
 This gives t_start = 0.288 ms and t_rise = 0.0694 ms. In this example might therefore safely discard all data with t < t_start. In real-world use (with noise and Murphy's law against us), however, it might be worthwile to add some safety margin, e.g. using t_rise: discard all data with t < t_start - t_rise.@*
 
-HISTORY:@*
-3. January 2008 (Matthias Brennwald): Changed a from 0.2 to 0.25 (see code).@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-26. Feb. 2007 (Matthias Brennwald): use external function mataa_signal_analytic to calculate analytic signal.@*
-first version: 16. December 2006, Matthias Brennwald@*
 
 @findex mataa_hilbert
 @node mataa_hilbert
@@ -302,7 +268,7 @@ first version: 16. December 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_hilbert.m@*
 
-function y = mataa_hilbert(x)@*
+function y = mataa_hilbert (x)@*
 
 DESCRIPTION:@*
 Calculates the Hilbert transform of x.@*
@@ -315,9 +281,6 @@ x: input signal (column vector). If x contains complex values, only the real par
 OUTPUT:@*
 y: hilbert transform of x@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation.@*
-16. July 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_impedance_fit_speaker
 @node mataa_impedance_fit_speaker
@@ -338,8 +301,6 @@ phase: phase of impedance data (degrees)@*
 OUTPUT:@*
 Rdc, f0, Qe, Qm, L1, L2, R2: see mataa_impedance_speaker_model (input parameters)@*
 
-HISTORY:@*
-2. February 2008 (Matthias Brennwald): first version@*
 
 @findex mataa_impedance_speaker_model
 @node mataa_impedance_speaker_model
@@ -375,9 +336,6 @@ EXAMPLE:@*
 The following gives a good approximation of the data shown in Fig. 7.18 in J. d'Appolito, "Testing oudspeaker" on page 122:@*
 [mag,phase] = mataa_impedance_speaker_model (f,7.66,33.22,0.45,3.4,0.4e-3,1.1e-3,13);@*
 semilogx (f,mag,f,phase)@*
-HISTORY:@*
-29. January 2008 (Matthias Brennwald): added a check for non-zero values of Rdc, f0, Qe, Qm, and R2.@*
-12. January 2008 (Matthias Brennwald): first version@*
 
 @findex mataa_import_FRD
 @node mataa_import_FRD
@@ -411,8 +369,7 @@ file: ...mataa_tools/mataa_import_mlssa.m@*
 
 
 Reads a MLSSA .TIM or .FRQ file and extracts all data from it. Note that this function has been designed using Matlab only (i.e. it might not work as well with Octave).%% INPUT:% File (optional): should contain the filename, including path and extension (.TIM or .FRQ). If File is empty, a file dialog is presented.% Outfile: should contain a filename, including path but no extension (will be given.mat). The output data will be saved in this file.% Withir (optional): parameter, should be included and with the text 'Withir' if the impulse response (or transfer function) mlsvec should be included in the Output file.%% OUTPUT:%	mlsvec	       the impulse response (for .TIM files) or the transfer function (for .FRQ%		       files; containing nfft/2 + 1 complex values).%	mlsfs	       the sampling frequency%	stimulus_amp   the stimulus amplitude used during the measurement%	mlsdf	       the frequency increment (only for .FRQ files)%% Comment 1:    Note that an MLS file (.TIM or .FRQ) is half the size of the%		corresponding Matlab file (MLSSA uses single precision whereas Matlab%		uses double precision). Thus the MLS files can be used and opened every time%		data is needed, instead of creating a Matlab copy of the file.%% Comment 2:	The output parameter stimulus_amp might be needed to scale the impulse%		response correctly. MLSSA does not scale the impulse versus the stimulus_amp%		so that if different stimulus_amp have been used, the corresponding impulse%		responses will display different amplitudes. The transfer functions (.FRQ)%		are however scaled correctly.%% Comment 3:	The impulse response can be retrieved from the transfer function by inserting%		the values for negative frequencies:%		   [mlsvec,mlsfs,stimulus_amp,mlsdf] = readmls('TEST.FRQ',Outfile);%		   npoints = length(mlsvec);%		   mlsvec = [mlsvec; conj(mlsvec( npoints-1:-1:2 ))];%		   ir = real(ifft(mlsvec));	% ir should be a real quantity. Any remaining%						% imaginary values will reflect numerical errors%						% or an incorrect transfer function.%		Note however that if a window was used before calculating the transfer function%		the windowed impulse response will be extracted.%% Comment 4:	The MLSSA files contain a large number of auxilliary parameters that are saved in%		the Outfile. Refer to the appendix of the MLSSA manual for information about these%		parameters, which are those in the setup of the MLSSA measurements. According to%		the manual, this setup structure can be changed in future versions. This one is%		valid for version 9.0.%@*
-HISTORY:@*
-10. January 2008: first version based on the program by Peter Svensson (svensson[at]iet.ntnu.no) available at http://www.iet.ntnu.no/~svensson/readmls.m. Peter Svensson explicitly agreed to provide his work for inclusion in MATAA.@*
+The program is based on code written by Peter Svensson (svensson[at]iet.ntnu.no) available at http://www.iet.ntnu.no/~svensson/readmls.m. Peter Svensson explicitly agreed to provide his work for inclusion in MATAA.@*
 
 @findex mataa_import_TMD
 @node mataa_import_TMD
@@ -433,8 +390,6 @@ t: time values (s)@*
 s: signal samples@*
 comments: cell string containing the comments in the data file (if any)@*
 
-HISTORY:@*
-10. January 2008  (Matthias Brennwald): first version@*
 
 @findex mataa_interp
 @node mataa_interp
@@ -442,7 +397,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_interp.m@*
 
-function y = mataa_interp(xi,yi,x);@*
+function y = mataa_interp (xi,yi,x);@*
 
 DESCRIPTION:@*
 Linear interpolation of y(x) from yi(xi)@*
@@ -452,8 +407,6 @@ Linear interpolation is of course available in Matlab and Octave-Forge as interp
 
 FIXME: THIS CODE IS AS INEFFICIENT AS IT GETS!@*
 
-HISTORY:@*
-first version: 12. July 2006, Matthias Brennwald@*
 
 @findex mataa_IR_demo
 @node mataa_IR_demo
@@ -461,7 +414,7 @@ first version: 12. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_IR_demo.m@*
 
-function [h,t] = mataa_IR_demo@*
+function [h,t] = mataa_IR_demo (IRtype)@*
 
 DESCRIPTION:@*
 This function returns the an impulse response h(t), specified by 'IRtype'.@*
@@ -483,9 +436,6 @@ OUTPUT:@*
 h: impulse response samples@*
 t: time coordinates of samples@*
 
-HISTORY:@*
-15. July 2007, Matthias Brennwald: Added different types of impulse response signals@*
-Added a few trailing zeroes, 30. Jan. 2007, Matthias Brennwald@*
 
 @findex mataa_IR_remove_echo
 @node mataa_IR_remove_echo
@@ -508,8 +458,6 @@ OUTPUT:@*
 h: values impulse response with echo removed@*
 t: time values of samples in h@*
  @*
-HISTORY:@*
-first version: 25. November 2008, Matthias Brennwald@*
 
 @findex mataa_IR_to_CSD
 @node mataa_IR_to_CSD
@@ -517,7 +465,7 @@ first version: 25. November 2008, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_IR_to_CSD.m@*
 
-function [spl,f,t] = mataa_IR_to_CSD(h,t,T,smooth_interval);@*
+function [spl,f,t] = mataa_IR_to_CSD (h,t,T,smooth_interval);@*
 
 DESCRIPTION:@*
 This function calculates cumulative spectral decay (CSD) data (SPL-responses spl at frequencies f and delay times d).@*
@@ -533,8 +481,6 @@ spl: CSD data (dB)@*
 f: frequency (Hz)@*
 d: delay of CSD data (seconds)@*
  @*
-HISTORY:@*
-first version: 24. November 2006, Matthias Brennwald@*
 
 @findex mataa_IR_to_ETC
 @node mataa_IR_to_ETC
@@ -542,7 +488,7 @@ first version: 24. November 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_IR_to_ETC.m@*
 
-function [etc,t] = mataa_IR_to_ETC(h,t);@*
+function [etc,t] = mataa_IR_to_ETC (h,t);@*
 
 DESCRIPTION:@*
 This function calculates the energy-time-curve (ETC) from the impulse response h(t).@*
@@ -560,8 +506,6 @@ EXAMPLE:@*
 > [h,t] = mataa_IR_demo;@*
 > [etc,t] = mataa_IR_to_ETC(h,t);@*
 > mataa_plot_ETC_lin(etc,t)@*
-HISTORY:@*
-14. July 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_IR_to_FR
 @node mataa_IR_to_FR
@@ -569,7 +513,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_IR_to_FR.m@*
 
-function [mag,phase,f] = mataa_IR_to_FR(h,t,smooth_interval);@*
+function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);@*
 
 DESCRIPTION:@*
 Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)@*
@@ -590,8 +534,6 @@ EXAMPLE:@*
 > [mag,phase,f] = mataa_IR_to_FR(h,t,1/24); % same as above, but smoothed to 1/24 octave@*
 (use mataa_plot_FR(mag,phase,f) to plot the results)@*
 
-HISTORY:@*
-first version: 24. November 2006, Matthias Brennwald@*
 
 @findex mataa_IR_to_SR
 @node mataa_IR_to_SR
@@ -599,7 +541,7 @@ first version: 24. November 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_IR_to_SR.m@*
 
-function [s,t] = mataa_IR_to_SR(h,t);@*
+function [s,t] = mataa_IR_to_SR (h,t);@*
 
 DESCRIPTION:@*
 calculates the step response of a system with impulse response h(t)@*
@@ -612,9 +554,6 @@ OUTPUT:@*
 s: step response@*
 t: time (seconds)@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-24. November 2006: first version (Matthias Brennwald)@*
 
 @findex mataa_measure_HD
 @node mataa_measure_HD
@@ -622,7 +561,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_measure_HD.m@*
 
-function [THD,kn] = mataa_measure_HD(f1,T,fs,N);@*
+function [THD,kn] = mataa_measure_HD (f1,T,fs,N);@*
 
 DESCRIPTION:@*
 This function measures harmonic distortion using a sine wave with a given frequency.@*
@@ -650,8 +589,6 @@ EXAMPLE:@*
 > [thd,k] = mataa_measure_HD(1000,1,96000); % measure THD and harmonic power distortion spectrum for a base-frequency of 1 kHz.@*
 > mataa_plot_HD(k,'f1: 1kHz'); % plot the distortion spectrum@*
 
-HISTORY:@*
-first version: 9. December 2006, Matthias Brennwald@*
 
 @findex mataa_measure_impedance
 @node mataa_measure_impedance
@@ -659,7 +596,7 @@ first version: 9. December 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_measure_impedance.m@*
 
-function [Z,f] = mataa_measure_impedance(fLow,fHigh,R,fs,resolution);@*
+function [Z,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);@*
 
 DESCRIPTION:@*
 Measures the complex, frequency-dependent impedance Z(f) in the frequency range [fLow,fHigh].@*
@@ -676,11 +613,6 @@ OUTPUT:@*
 Z: vector of complex impedance values (Ohm)@*
 f: vector of frequency values@*
 
-HISTORY:@*
-25. November 2007 (Matthias Brennwald): added compensation for interchannel delay (interchannel delay is taken from the MATAA settings). Improved MATLAB compatibility (replaced function call 'arg' by 'angle').@*
-8. November 2007 (Matthias Brennwald): use sample rate (scalar) rather than all time values (vector) for conversion from time domain to frequency domain. This avoids problems with slight time variations if the timing is not accurate (this can be a problem especially with long test signals, and might also depend on the sound hardware).@*
-4. Feb: adapted to work with new TestDevices program (change from Portaudio-18 to Portaudio-19).@*
-first version: 12. Aug. 2006, Matthias Brennwald@*
 
 @findex mataa_measure_IR
 @node mataa_measure_IR
@@ -688,7 +620,7 @@ first version: 12. Aug. 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_measure_IR.m@*
 
-function [h,t] = mataa_measure_IR(input_signal,fs,N);@*
+function [h,t] = mataa_measure_IR (input_signal,fs,N);@*
 
 DESCRIPTION:@*
 This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also 'help mataa_measure_signal_response'.@*
@@ -701,9 +633,6 @@ h(t) is determined from the deconvolution of the DUT's resposne and the original
 The RAW impulse response is measured, i.e. no filtering or deconvolution@*
 from the impulse responses of the audio hardware or microphone etc. is applied.@*
 
-HISTORY:@*
-10. March 2008 (Matthias Brennwald): fixed documentation@*
-first version: 9. July 2006, Matthias Brennwald@*
 
 @findex mataa_measure_signal_response
 @node mataa_measure_signal_response
@@ -711,7 +640,7 @@ first version: 9. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_measure_signal_response.m@*
 
-function [responseSignal,inputSignal,t] = mataa_measure_signal_response(input_signal,fs,latency,verbose);@*
+function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_signal,fs,latency,verbose);@*
 
 DESCRIPTION:@*
 This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).@*
@@ -741,17 +670,6 @@ Feed a 20Hz square-wave signal to the DUT and compare the input and response sig
 > [out,in,t] = mataa_measure_signal_response('squareburst_96k_1s_20Hz.in',96000);@*
 > plot(t,in,t,out)@*
 
-HISTORY:@*
-3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...@*
-2. November 2008 (Matthias Brennwald): fixed a problem that occurred if the MATAA files are in paths containing spaces@*
-3. January 2008 (Matthias Brennwald): check for compatibility of number of input-signal channels with sound device only if input signal is given as a numerical matrix. The check is not done if the input signal is specified as a file name.@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-2. March 2007 (Matthias Brennwald): added check if input data has more channels than supported by the audio output device.@*
-26. Feb., 1. March 2007 (Matthias Brennwald): added support for multi-channel signals (Thanks to Morten Laursen for compiling the multichannel version of TestTone for Windows).@*
-15.2.2007: added missing fclose(...) after reading the data file with the signal data (Matthias Brennwald)@*
-13.2.07: added a few error/sanity checks for the TestTone output (Matthias Brennwald)@*
-8.2.07: cleaned up reading the data header@*
-4.2.07: added changes for new TestDevices TestTone programs (change from Portaudio-18 to Portaudio-19), Matthias Brennwald.@*
 
 @findex mataa_menu
 @node mataa_menu
@@ -759,7 +677,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_menu.m@*
 
-function out = mataa_menu(title, varargin)@*
+function out = mataa_menu (title, varargin)@*
 
 DESCRIPTION:@*
 This function prints a menu and asks the user to choose a command from the menu.@*
@@ -782,8 +700,6 @@ The result will look like this:@*
 -----------@*
 The user then chooses one of the four commands by entering 'm', 'p', 's' or 'e'. If he/she enteres something else, an error message will be shown, and the menu is displayed again.@*
 
-HISTORY:@*
-first version: 30. June 2007, Matthias Brennwald@*
 
 @findex mataa_microphone_correct_IR
 @node mataa_microphone_correct_IR
@@ -791,7 +707,7 @@ first version: 30. June 2007, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_microphone_correct_IR.m@*
 
-function [h,t] = mataa_microphone_correct_IR(mic_name,h,t)@*
+function [h,t] = mataa_microphone_correct_IR (mic_name,h,t)@*
 
 DESCRIPTION:@*
 This function corrects h(t) from the transfer function of the specified microphone@*
@@ -807,8 +723,6 @@ OUTPUT:@*
 h_corr: corrected impulse response@*
 t: time coordinates of samples in h@*
 
-HISTORY:@*
-first version: 12. November 2006, Matthias Brennwald@*
 
 @findex mataa_minimum_phase
 @node mataa_minimum_phase
@@ -816,7 +730,7 @@ first version: 12. November 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_minimum_phase.m@*
 
-function min_phase = mataa_minimum_phase(mag,f);@*
+function min_phase = mataa_minimum_phase (mag,f);@*
 
 DESCRIPTION:@*
 Calculates minimum phase from magnitude frequency response using the Hilbert transform (see http://en.wikipedia.org/wiki/Minimum_phase#Relationship_of_magnitude_response_to_phase_response).@*
@@ -829,8 +743,6 @@ f: frequency coordinates of mag (in Hz)@*
 OUTPUT:@*
 min_phase: minimum phase at frequnecies f (unwrapped, in degrees)@*
 
-HISTORY:@*
-first version: 19. July 2006, Matthias Brennwald@*
 %%    % calculate minimum phase using the Hilbert transform:@*
 %%    % see: http://www.fourelectronics.com/Hilbert-transform-to-calculate-Magnitude-from-Phase-10052397.html@*
 %%    % and: http://www.dsprelated.com/showmessage/29416/1.php@*
@@ -862,8 +774,6 @@ version = 2@*
 subversion = 1@*
 subsubversion = 73@*
 
-HISTORY:@*
-first version: 10. May 2007, Matthias Brennwald@*
 
 @findex mataa_path
 @node mataa_path
@@ -871,7 +781,7 @@ first version: 10. May 2007, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_path.m@*
 
-function path = mataa_path(whichPath);@*
+function path = mataa_path (whichPath);@*
 
 DESCRIPTION:@*
 This function returns the Matlab / MATAA paths as specified by 'whichPath'@*
@@ -893,15 +803,6 @@ If whichPath is not specified, it is set to 'main' by default.@*
 OUTPUT:@*
 path: the MATAA path as indicated by whichPath (string)@*
 
-HISTORY:@*
-10. March 2008 (Matthias Brennwald): removed 'data' specifier to make the mataa package installation more independent from any user-specific data@*
-9. March 2008 (Matthias Brennwald): added 'settings' specifier@*
-28. December 2007 (Matthias Brennwald): removed path of user-defined scripts from the main MATAA folder. The 'user_scripts' identifier is therefore not supported anymore.@*
-23.10.2007 (Matthias Brennwald): fixed a problem that occurred with Windows, which may use both '/' and '\' as file separators within a single path.@*
-22.10.2007 (Matthias Brennwald): replaced check for '//' (on line 62) by check for sprintf('%s%s',filesep,filesep).@*
-15.2.2007: added missing comma after case 'TestDevices'@*
-13.2.2007: added TestDevices path (Matthias Brennwald)@*
-3.2.2007: simplified TestTone path selection (Matthias Brennwald)@*
 
 @findex mataa_phase_remove_delay
 @node mataa_phase_remove_delay
@@ -909,7 +810,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_phase_remove_delay.m@*
 
-function [phase,f] = mataa_phase_remove_delay(phase,delay);@*
+function [phase,f] = mataa_phase_remove_delay (phase,delay);@*
 
 DESCRIPTION:@*
 This function removes excess phase due to time delay.@*
@@ -922,8 +823,6 @@ delay: time delay to be removed from the phase (in seconds)@*
 OUTPUT:@*
 phase: phase with excess phase corresponding to delay removed (unwrapped, in degrees)@*
 
-HISTORY:@*
-first version: 17. July 2006, Matthias Brennwald@*
 
 @findex mataa_phase_remove_trend
 @node mataa_phase_remove_trend
@@ -931,7 +830,7 @@ first version: 17. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_phase_remove_trend.m@*
 
-function [phase,delay] = mataa_phase_remove_trend(phase,f,f1,f2);@*
+function [phase,delay] = mataa_phase_remove_trend (phase,f,f1,f2);@*
 
 DESCRIPTION:@*
 Remove linear trend in phase(f), e.g. excess phase due to time delay.@*
@@ -945,9 +844,6 @@ OUTPUT:@*
 phase: phase with excess phase corresponding to delay removed (unwrapped, in degrees)@*
 delay: time delay corresponding the the removed phase trend (in seconds)@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-first version: 17. July 2006, Matthias Brennwald@*
 
 @findex mataa_plot_CSD
 @node mataa_plot_CSD
@@ -955,7 +851,7 @@ first version: 17. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_CSD.m@*
 
-function mataa_plot_CSD(spl,f,t,spl_range,annote,options);@*
+function mataa_plot_CSD (spl,f,t,spl_range,annote,options);@*
 
 DESCRIPTION:@*
 Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)@*
@@ -970,47 +866,6 @@ options: plot options (sting or cell string containing multiple options, optiona
     options = 'countours2': plot contours (lines) only in a 2-D plot@*
     options = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)@*
 
-HISTORY:@*
-2. and 7. April 2008 (Matthias Brennwald): added 'shaded2' and 'contours2' option@*
-31. March 2008 (Matthias Brennwald): improved help text@*
-27. December 2007 (Matthias Brennwald): removed gnuplot-specific code for Octave (this requires Octave 3.0 or later for proper operation -- nothing has changed for Matlab).@*
-18. August 2007 (Matthias Brennwald): added plotting options@*
-23. April 2007: added code to produce acceptable results with Octave 2.9.10 or newer (Octave 2.9.10 and newer use the Matlab-like plotting handles and axes).@*
-9. April 2007: added a warning that Octave does not plot the most beautiful CSD@*
-first version: 7. November 2006, Matthias Brennwald@*
-
-@findex mataa_plot_defaults
-@node mataa_plot_defaults
-@section mataa_plot_defaults
-
-file: ...mataa_tools/mataa_plot_defaults.m@*
-
-function mataa_plot_defaults@*
-
-DESCRIPTION:@*
-In earlier version of MATAA, this function sets default gnuplot state for MATAA plots in Octave. With the current version of MATAA, this function has no effect.@*
-
-HISTORY:@*
-26. December 2007 (Matthias Brennwald): commented out all commands so they have no effect anymore. Leave setting of plotting options to the user.@*
-first version: 7. November 2006, Matthias Brennwald@*
-%% if exist('OCTAVE_VERSION')@*
-%%     % do Octave specific stuff here@*
-%% else@*
-%%     % do Matlab specific stuff here@*
-%%     %%% fh = gcf;@*
-%%     %%% p = get(fh,'Position');@*
-%%     %%% if p([3,4]) == [560   420];@*
-%%     %%%     % make plots somewhat smaller than default@*
-%%     %%%     p([3,4]) = [450   280];@*
-%%     %%%     set(fh,'Position',p); @*
-%%     %%% end@*
-%%     %%% set(fh,'PaperPositionMode','auto'); % use same plot size for saving files as for plotting on screen@*
-%% end@*
-%% if mataa_settings('plotHoldState')@*
-%%     hold on@*
-%% end@*
-%% @*
-%% % otherwise leave the plot state as it is (the user may have typed 'hold on' or something@*
 
 @findex mataa_plot_ETC_dB
 @node mataa_plot_ETC_dB
@@ -1018,15 +873,12 @@ first version: 7. November 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_ETC_dB.m@*
 
-function mataa_plot_ETC_log(etc,t,annote,dB_range);@*
+function mataa_plot_ETC_log (etc,t,annote,dB_range);@*
 
 DESCRIPTION:@*
 Same as mataa_plot_ETC, but uses a dB scale for the vertical axis.@*
 The 'dB_range' parameter (optional) can be given to specify the dB range to be plotted. If not specified, a default value of 60 dB is used@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-9. July 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_plot_ETC_lin
 @node mataa_plot_ETC_lin
@@ -1034,7 +886,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_plot_ETC_lin.m@*
 
-function mataa_plot_ETC_lin(etc,t,annote);@*
+function mataa_plot_ETC_lin (etc,t,annote);@*
 
 DESCRIPTION:@*
 Plots the energy-time-curve (ETC) etc(t), using a linear y-axis scale.@*
@@ -1052,9 +904,6 @@ EXAMPLE:@*
 > etc = mataa_IR_to_ETC(h,t);@*
 > mataa_plot_ETC(t,etc, 'damped sine');@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-first version: 9. July 2006, Matthias Brennwald@*
 
 @findex mataa_plot_FR
 @node mataa_plot_FR
@@ -1062,7 +911,7 @@ first version: 9. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_FR.m@*
 
-function mataa_plot_FR(mag,phase,f,annote,fNorm,phaseUnwrap);@*
+function mataa_plot_FR (mag,phase,f,annote,fNorm,phaseUnwrap);@*
 
 DESCRIPTION:@*
 Plots frequency response magnitude, and phase (optional)@*
@@ -1082,10 +931,6 @@ EXAMPLE(S):@*
 > mataa_plot_FR(mag,[],f,'demo',1000); % plots magnitude with an annotation to the plot title and normalizes mag by mag(f=1000).@*
 > mataa_plot_FR(mag,phase,f,'demo again',80,1); % plots magnitude and phase with an annotation to the plot title. Magnitude is normalised such that mag(f=80) = 0 dB, and phase is unwrapped.@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-first version: 17. Dec. 2006, Matthias Brennwald@*
 
 @findex mataa_plot_HD
 @node mataa_plot_HD
@@ -1093,7 +938,7 @@ first version: 17. Dec. 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_HD.m@*
 
-function mataa_plot_HD(kn);@*
+function mataa_plot_HD (kn, annote);@*
 
 DESCRIPTION:@*
 This function plots the harmonic distortion spectrum in kn.@*
@@ -1107,8 +952,6 @@ EXAMPLE:@*
 > [thd,k] = mataa_measure_thd(1000,1,96000); % measure THD and harmonic distortion spectrum@*
 > mataa_plot_HD(k,'f0: 1kHz'); % plot the distortion spectrum@*
 
-HISTORY:@*
-first version: 28. November 2006, Matthias Brennwald@*
 
 @findex mataa_plot_impedance
 @node mataa_plot_impedance
@@ -1116,7 +959,7 @@ first version: 28. November 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_impedance.m@*
 
-function mataa_plot_impedance(mag,phase,f,annote);@*
+function mataa_plot_impedance (mag,phase,f,annote);@*
 
 DESCRIPTION:@*
 Plots impedance (magnitude and phase) versus frequency.@*
@@ -1130,9 +973,6 @@ annote (optional): text note to be added to the plot title.@*
 OUTPUT:@*
 (none)@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-25. November 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_plot_IR
 @node mataa_plot_IR
@@ -1140,7 +980,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_plot_IR.m@*
 
-function mataa_plot_IR(h,t,annote);@*
+function mataa_plot_IR (h,t,annote);@*
 
 DESCRIPTION:@*
 This function plots the impulse response h(t).@*
@@ -1154,10 +994,6 @@ EXAMPLE:@*
 > [h,t] = mataa_IR_demo;@*
 > mataa_plot_IR(h,t,'demo impulse response');@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-15. November 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_plot_one
 @node mataa_plot_one
@@ -1181,8 +1017,6 @@ ytit: y-axis label@*
 OUTPUT:@*
 h: handle to the axes of the plot.@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_plot_save
 @node mataa_plot_save
@@ -1190,16 +1024,12 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_plot_save.m@*
 
-function mataa_plot_save(fileName);@*
+function mataa_plot_save (fileName);@*
 
 DESCRIPTION:@*
 Saves the last plot to an EPS (encapsulated post script) file.@*
 'fileName' is the name (and path) of the file. If it does not include a path, the file is saved to the current directory (type 'pwd' to see the current directory).@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): replaced the experimental code to work around the missing print funcion of some outdated version of Octave by an error message complaining about the outdated Octave version.@*
-21.4.2007 (Matthias Brennwald): removed code to automatically open the produced file (this caused more problems than anything else and did not work on platforms other than Mac OS X).@*
-first version: 9. December, Matthias Brennwald@*
 
 @findex mataa_plot_SR
 @node mataa_plot_SR
@@ -1207,7 +1037,7 @@ first version: 9. December, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_plot_SR.m@*
 
-function mataa_plot_SR(h,t,annote);@*
+function mataa_plot_SR (h,t,annote);@*
 
 DESCRIPTION:@*
 This function plots the step response h(t).@*
@@ -1222,9 +1052,6 @@ EXAMPLE:@*
 > [h,t] = mataa_IR_to_SR(h,t);@*
 > mataa_plot_SR(h,t,'demo step response');@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-26. Nov. 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_plot_time_signal
 @node mataa_plot_time_signal
@@ -1232,7 +1059,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_plot_time_signal.m@*
 
-function mataa_plot_time_signal(s,t,plottit,xtit,ytit,plotWindow);@*
+function mataa_plot_time_signal (s,t,plottit,xtit,ytit,plotWindow);@*
 
 DESCRIPTION:@*
 This function plots the signal s(t).@*
@@ -1244,10 +1071,6 @@ plottit: plot title.@*
 xtit, ytit: labels for the x-axis and y-axis@*
 plotWindow: number (handle) of the figure window to be used for the plot. Use plotWindow = [] if the default window is to be used (e.g. the current plot window)@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-first version: 15. November 2006, Matthias Brennwald@*
 
 @findex mataa_plot_two_logX
 @node mataa_plot_two_logX
@@ -1266,8 +1089,6 @@ INPUT:@*
 OUTPUT:@*
 (see mataa_plot_two)@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_plot_two
 @node mataa_plot_two
@@ -1291,8 +1112,6 @@ y1tit, y2tit: y-axis label of the y1 and y2 data@*
 OUTPUT:@*
 h: a 2-vector containig the handles to the axes of the two plots. If the second plot is omitted h(2) will be set to NaN,@*
 
-HISTORY:@*
-27. December 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_realFT0
 @node mataa_realFT0
@@ -1300,7 +1119,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_realFT0.m@*
 
-function [S,f] = mataa_realFT0(s,t);@*
+function [S,f] = mataa_realFT0 (s,t);@*
 
 DESCRIPTION:@*
 Calculates the complex fourier-spectrum S of a real signal s for frequencies f >= 0. Only the half spectrum corresponding to positive frequencies is returned, because for a real signal S(-f)=S*(f). S is normalized to length of s. The fourier spectrum S therefore does not depend on the sample rate used to digitize a given signal (i.e. S does not depend on the length of the signal). s can be of any length (no padding to length of 2n or even length necessary). In order to avoid frequency leakage, mataa_realFT does NOT pad s to even length. Each column of s represents one audio channel.@*
@@ -1313,11 +1132,6 @@ OUTPUT:@*
 S: complex fourier spectrum of s ('positive' half, see also DESCRIPTION).@*
 f: frequency values (vector)@*
 
-HISTORY:@*
-15. March 2008 (Matthias Brennwald): removed normalization (which produced confusing results)@*
-2. January 2008 (Matthias Brennwald): added a test for the proper dimension of the input signal (only 1xN or Nx1 data is allowed). Thanks to Lee Marshall for reporting this issue.@*
-19. Feb. 2007: cleaned up code, added component f=0, and renamed function from mataa_realFT to mataa_realFT0 (a placeholder file mataa_realFT.m removing the f=0 component was added for backwards compatibility).@*
-6. Feb. 2007: added possibility to supply sample rate (scalar) instead of vector of time values (Matthias Brennwald)@*
 
 @findex mataa_realFT
 @node mataa_realFT
@@ -1325,7 +1139,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_realFT.m@*
 
-function [S,f] = mataa_realFT(s,t);@*
+function [S,f] = mataa_realFT (s,t);@*
 
 DESCRIPTION:@*
 Identical to mataa_realFT0, but without the component corresponding to f=0.@*
@@ -1336,8 +1150,6 @@ INPUT:@*
 OUTPUT:@*
 (see mataa_realFT0)@*
 
-HISTORY:@*
-19. Feb. 2007 (Matthias Brennwald): first version@*
 
 @findex mataa_realIFT0
 @node mataa_realIFT0
@@ -1358,8 +1170,6 @@ OUTPUT:@*
 s: signal samples (real-valued samples)@*
 t: time values of the signal@*
 
-HISTORY:@*
-23. Sept. 2008: created this file (Matthias Brennwald)@*
 
 @findex mataa_realIFT
 @node mataa_realIFT
@@ -1380,8 +1190,6 @@ OUTPUT:@*
 s: signal samples (real-valued samples)@*
 t: time values of the signal@*
 
-HISTORY:@*
-23. Sept. 2008: created this file (Matthias Brennwald)@*
 
 @findex mataa_running_mean
 @node mataa_running_mean
@@ -1389,7 +1197,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_running_mean.m@*
 
-function y = mataa_running_mean(x,n,w);@*
+function y = mataa_running_mean (x,n,w);@*
 
 DESCRIPTION:@*
 Returns a running mean of a data series x.@*
@@ -1408,8 +1216,6 @@ EXAMPLE:@*
 > y = mataa_running_mean(x,41,'hamm');      % remove the noise using a 41 samples wide Hamming window@*
 > plot(t,x,'k',t,s,'g',t,y,'r')           % plot the different versions of s@*
 
-HISTORY:@*
-first version: 21. July 2006, Matthias Brennwald@*
 
 @findex mataa_select_signal_window_time
 @node mataa_select_signal_window_time
@@ -1417,13 +1223,18 @@ first version: 21. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_select_signal_window_time.m@*
 
-function [t_start,t_end] = mataa_select_signal_window_time();@*
+function [t_start,t_end] = mataa_select_signal_window_time;@*
 
 DESCRIPTION:@*
 Interactively select start and end times of a signal.@*
 
-HISTORY:@*
-9. July 2006 (Matthias Brennwald): first version@*
+INPUT:@*
+(none)@*
+
+OUTPUT:@*
+t_start: start of selected signal range@*
+t_end: end of selected signal range@*
+
 
 @findex mataa_settings
 @node mataa_settings
@@ -1431,7 +1242,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_settings.m@*
 
-function val = mataa_settings(field,value)@*
+function val = mataa_settings (field,value)@*
 
 DESCRIPTION:@*
 Retrieve and set MATAA settings.@*
@@ -1454,11 +1265,6 @@ EXAMPLES:@*
 ** In principle, you can store anything in the MATAA settings file. For instance, you can store the birhtday of your grandmother, so you'll never forget that:@*
 > mataa_settings('BirthdayOfMyGrandmother','1st of April 1925');@*
 
-HISTORY:@*
-9. March 2008 (Matthias Brennwald): moved settings file to users home directory@*
-27. December 2007 (Matthias Brennwald): changed 'plotStyle' to 'plotColor'.@*
-25. November 2007 (Matthias Brennwald): added interchannel_delay@*
-first version: 23. August 2006, Matthias Brennwald@*
 
 @findex mataa_signal_analytic
 @node mataa_signal_analytic
@@ -1466,7 +1272,7 @@ first version: 23. August 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_signal_analytic.m@*
 
-function a = mataa_signal_analytic(s);@*
+function a = mataa_signal_analytic (s);@*
 
 DESCRIPTION:@*
 Calculate analytic signal a of signal s.@*
@@ -1484,8 +1290,6 @@ calculate the amplitude envelope of the impulse response of a loudspeaker@*
 > a = abs(a);                   % abs(a) is the amplitude envelope of impulse response@*
 > plot(t,a);@*
  @*
-HISTORY:@*
-26. Feb 2007  (Matthias Brennwald): first version@*
 
 @findex mataa_signal_autocorr
 @node mataa_signal_autocorr
@@ -1493,7 +1297,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_signal_autocorr.m@*
 
-function [c,T] = mataa_signal_autocorr(s,t);@*
+function [c,T] = mataa_signal_autocorr (s,t);@*
 
 DESCRIPTION:@*
 Autocorrelation c(T) of signal s(t), for positive delays (T>=0).@*
@@ -1506,9 +1310,6 @@ OUTPUT:@*
 c: vector containing the autocorrelation of s.@*
 T: time lag (vector).@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-26. Feb 2007  (Matthias Brennwald): first version@*
 
 @findex mataa_signal_clipcheck
 @node mataa_signal_clipcheck
@@ -1516,7 +1317,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_signal_clipcheck.m@*
 
-function n = mataa_signal_clipcheck(s);@*
+function n = mataa_signal_clipcheck (s,N);@*
 
 DESCRIPTION:@*
 Returns the number of samples with amplitude less than N percent% lower than the maximum amplitude of the signal (absolute values).@*
@@ -1542,8 +1343,6 @@ EXAMPLES:@*
 > sq = mataa_signal_generator('square',10000,0.1,1000); % a square wave signal with 1000 samples (i.e. a signal with sample values of either +1 or -1).@*
 > n = mataa_signal_clipcheck(sq,0.01); % find number of samples with (absolute) amplitudes that are within 0.01% of the maximum (absolute) amplitude. This results in n=1000, because the amplitude of all samples is equal to 1.@*
 
-HISTORY:@*
-first version: 30. Jan. 2007, Matthias Brennwald@*
 
 @findex mataa_signal_crop
 @node mataa_signal_crop
@@ -1551,7 +1350,7 @@ first version: 30. Jan. 2007, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_signal_crop.m@*
 
-function [s,t] = mataa_signal_crop(s,t,t_start,t_end);@*
+function [s,t] = mataa_signal_crop (s,t,t_start,t_end);@*
 
 DESCRIPTION:@*
 This function crops out the part of the signal s(t) in the range t = t_start...t_end@*
@@ -1564,9 +1363,6 @@ OUPTUT:@*
 s: signal samples of cropped signal@*
 t: time coordinates of cropped signal (in seconds)@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-first version: 16. December 2006, Matthias Brennwald@*
 
 @findex mataa_signal_generator
 @node mataa_signal_generator
@@ -1574,7 +1370,7 @@ first version: 16. December 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_signal_generator.m@*
 
-function [s,t] = mataa_signal_generator(kind,fs,T,param);@*
+function [s,t] = mataa_signal_generator (kind,fs,T,param);@*
 
 DESCRIPTION:@*
 This function creates a signal s(t) of a specified type.@*
@@ -1623,10 +1419,6 @@ FURTHER READING:@*
 - pink noise generation: http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=5091&objectkind=FILE@*
 - sine sweeps (chirp signals): http://en.wikipedia.org/wiki/Chirp@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-19. Feb. (Matthias Brennwald): added Dirac signal@*
-9. July 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_signal_pad_Zeros
 @node mataa_signal_pad_Zeros
@@ -1634,7 +1426,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_signal_pad_Zeros.m@*
 
-function [s,t] = mataa_signal_pad_Zeros(s0,t0,T);@*
+function [s,t] = mataa_signal_pad_Zeros (s0,t0,T);@*
 
 DESCRIPTION:@*
 This function pads a signal s0(t0) with zeroes, i.e. replaces signal s0(t0) with s(t), where...@*
@@ -1643,8 +1435,6 @@ This function pads a signal s0(t0) with zeroes, i.e. replaces signal s0(t0) with
 
 The new signal s(t) therefore has length T@*
 
-HISTORY:@*
-first version: 9. July 2006, Matthias Brennwald@*
 
 @findex mataa_signal_removeHF
 @node mataa_signal_removeHF
@@ -1652,7 +1442,7 @@ first version: 9. July 2006, Matthias Brennwald@*
 
 file: ...mataa_tools/mataa_signal_removeHF.m@*
 
-function [s,t] = mataa_signal_removeHF(s,t,fc);@*
+function [s,t] = mataa_signal_removeHF (s,t,fc);@*
 
 DESCRIPTION:@*
 Removes signal components with frequencies higher than fc from s(t) by repeated convolution of s with a Hann window.@*
@@ -1666,9 +1456,6 @@ OUTPUT:@*
 s: filtered signal samples@*
 t: time@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-16. Nov. 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_signal_save
 @node mataa_signal_save
@@ -1687,8 +1474,6 @@ INPUT:@*
 OUTPUT:@*
 ...@*
 
-HISTORY:@*
-4. January 2008 (Matthias Brennwald): first version@*
 
 @findex mataa_signal_to_TestToneFile
 @node mataa_signal_to_TestToneFile
@@ -1696,7 +1481,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_signal_to_TestToneFile.m@*
 
-function pathToFile = mataa_signal_to_TestToneFile(s,pathToFile,zeroTime,fs);@*
+function pathToFile = mataa_signal_to_TestToneFile (s,pathToFile,zeroTime,fs);@*
 
 DESCRIPTION:@*
 Saves the test signals in matrix s to a file on disk (for use with TestTone). Optionally, the signals are  padded with zeroes at the beginning and the end.@*
@@ -1717,9 +1502,6 @@ NOTE 1: TestTone assumes that all information regarding the sample rate / time i
 
 NOTE 2: the data in s should be padded with zeros at the beginning and the end of the signal to avoid problems with sound-I/O latency. If s does not include zeros at the beginning and the end, use the zeroTime option.@*
 
-HISTORY:@*
-26. Feb. 2007 (Matthias Brennwald): added support for multi-channel signals (channels are separated by commas in the ASCII file).@*
-27. July 2006 (Matthias Brennwald): first @*
 check format of input data:@*
 
 @findex mataa_signal_window
@@ -1728,7 +1510,7 @@ check format of input data:@*
 
 file: ...mataa_tools/mataa_signal_window.m@*
 
-function [s,t] = mataa_signal_window(s0,window,par);@*
+function [s,t] = mataa_signal_window (s0,window,par);@*
 
 DESCRIPTION:@*
 Multiplies the signal s0 by the window function with the name 'window', and returns the result in s.@*
@@ -1762,8 +1544,6 @@ EXAMPLES:@*
 > s = mataa_signal_window(s,'hamming_half'); replaces s by a version of s windowed by the second half of a hamming window@*
 
 > s = mataa_signal_window(repmat(1,1,1000),'gauss',0.4); returns just the gauss % @*
-HISTORY:@*
-9. July 2006  (Matthias Brennwald): first version@*
 
 @findex mataa_smooth_log
 @node mataa_smooth_log
@@ -1771,7 +1551,7 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_smooth_log.m@*
 
-function [y,x] = mataa_smooth_log(yRaw,xRaw,step)@*
+function [y,x] = mataa_smooth_log (yRaw,xRaw,step)@*
 
 DESCRIPTION:@*
 This function smoothes a data set (xRaw,yRaw) reflecting a function y(x), where the size of the averaging bins of x increases exponentially.@*
@@ -1783,8 +1563,6 @@ step: smoothing width in octaves (e.g. step = 1/12 gives smoothed data with 1/12
 OUTPUT:@*
 y, x: vectors containing smoothed data@*
 
-HISTORY:@*
-first version: 10. Aug. 2006, Matthias Brennwald@*
 
 @findex mataa_tempfile
 @node mataa_tempfile
@@ -1803,14 +1581,14 @@ INPUT:@*
 OUTPUT:@*
 filepath: string containing the path to the tempfile (including the file name).@*
 
-HISTORY:@*
-9. July 2006: first version (Matthias Brennwald)@*
 
 @findex mataa_t_to_f0
 @node mataa_t_to_f0
 @section mataa_t_to_f0
 
 file: ...mataa_tools/mataa_t_to_f0.m@*
+
+function f = mataa_t_to_f0 (t);@*
 
 DESCRIPTION:@*
 This function returns the frequency bins of the fourier spectrum of a signal sampled at times t (vector). t must be  be sorted and evenly spaced for this.@*
@@ -1821,17 +1599,14 @@ t: time values (vector, in seconds) of the signal@*
 OUTPUT:@*
 f: vector of the fourier-frequency bins (in Hz)@*
 
-HISTORY:@*
-8. November 2007 (Matthias Brennwald): improved documentation@*
-21. Feb. 2007 (Matthias Brennwald): added check if t is evenly spaced, and make sure t is sorted.@*
-19. Feb. 2007 (Matthias Brennwald): cleaned up code, added component f=0, and renamed function from mataa_t_to_f to mataa_t_to_f0 (a placeholder file mataa_t_to_f.m removing the f=0 component was added for backwards compatibility).@*
-9. July 2006 (Matthias Brennwald): first version@*
 
 @findex mataa_t_to_f
 @node mataa_t_to_f
 @section mataa_t_to_f
 
 file: ...mataa_tools/mataa_t_to_f.m@*
+
+function f = mataa_t_to_f (t);@*
 
 DESCRIPTION:@*
 Same as mataa_t_to_f0, but the component corresponding to f=0 is removed from the output.@*
@@ -1842,8 +1617,6 @@ INPUT:@*
 OUTPUT:@*
 (see mataa_to_f0).@*
 
-HISTORY:@*
-19. Feb. 2007: first version (Matthias Brennwald)@*
 
 
 

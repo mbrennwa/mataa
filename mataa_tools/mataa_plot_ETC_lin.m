@@ -1,6 +1,6 @@
-function mataa_plot_ETC_lin(etc,t,annote);
+function mataa_plot_ETC_lin (etc,t,annote);
 
-% function mataa_plot_ETC_lin(etc,t,annote);
+% function mataa_plot_ETC_lin (etc,t,annote);
 %
 % DESCRIPTION:
 % Plots the energy-time-curve (ETC) etc(t), using a linear y-axis scale.
@@ -35,13 +35,9 @@ function mataa_plot_ETC_lin(etc,t,annote);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 27. December 2007 (Matthias Brennwald): rewrote most of the code to eliminate specific code for Octave/gnuplot. The new code does not work with outdated versions of Octave (Octave 3.0 or later is recommended).
-% first version: 9. July 2006, Matthias Brennwald
 
 if ~exist('annote')
     annote = '';

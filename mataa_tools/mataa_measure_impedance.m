@@ -1,6 +1,6 @@
-function [Zmag,Zphase,f] = mataa_measure_impedance(fLow,fHigh,R,fs,resolution);
+function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 
-% function [Z,f] = mataa_measure_impedance(fLow,fHigh,R,fs,resolution);
+% function [Z,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 %
 % DESCRIPTION:
 % Measures the complex, frequency-dependent impedance Z(f) in the frequency range [fLow,fHigh].
@@ -34,15 +34,9 @@ function [Zmag,Zphase,f] = mataa_measure_impedance(fLow,fHigh,R,fs,resolution);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 25. November 2007 (Matthias Brennwald): added compensation for interchannel delay (interchannel delay is taken from the MATAA settings). Improved MATLAB compatibility (replaced function call 'arg' by 'angle').
-% 8. November 2007 (Matthias Brennwald): use sample rate (scalar) rather than all time values (vector) for conversion from time domain to frequency domain. This avoids problems with slight time variations if the timing is not accurate (this can be a problem especially with long test signals, and might also depend on the sound hardware).
-% 4. Feb: adapted to work with new TestDevices program (change from Portaudio-18 to Portaudio-19).
-% first version: 12. Aug. 2006, Matthias Brennwald
 
 if ~exist('fs')
     fs = [];

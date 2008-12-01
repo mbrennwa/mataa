@@ -1,6 +1,6 @@
-function [THD,kn,f1] = mataa_measure_HD(f1,T,fs,N);
+function [THD,kn,f1] = mataa_measure_HD (f1,T,fs,N);
 
-% function [THD,kn] = mataa_measure_HD(f1,T,fs,N);
+% function [THD,kn] = mataa_measure_HD (f1,T,fs,N);
 %
 % DESCRIPTION:
 % This function measures harmonic distortion using a sine wave with a given frequency.
@@ -46,12 +46,9 @@ function [THD,kn,f1] = mataa_measure_HD(f1,T,fs,N);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 9. December 2006, Matthias Brennwald
 
 if ~exist('N')
     N = 12;
