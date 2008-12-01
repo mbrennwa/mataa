@@ -1,6 +1,6 @@
-function t = mataa_f_to_t(f);
+function t = mataa_f_to_t (f);
 
-% function t = mataa_f_to_t(f);
+% function t = mataa_f_to_t (f);
 %
 % DESCRIPTION:
 % returns the time bins of the inverse fourier spectrum sampled at frequencies f (f is assumed to be evenly spaced!)
@@ -28,13 +28,9 @@ function t = mataa_f_to_t(f);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% first version: 22. July 2006, Matthias Brennwald
 
 if any (f<0)
     error ('mataa_f_to_t: f must not contain negative values.')

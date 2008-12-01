@@ -1,6 +1,6 @@
-function [h,t] = mataa_measure_IR(input_signal,fs,N);
+function [h,t] = mataa_measure_IR (input_signal,fs,N);
 
-% function [h,t] = mataa_measure_IR(input_signal,fs,N);
+% function [h,t] = mataa_measure_IR (input_signal,fs,N);
 %
 % DESCRIPTION:
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also 'help mataa_measure_signal_response'.
@@ -33,27 +33,23 @@ function [h,t] = mataa_measure_IR(input_signal,fs,N);
 % Copyright (C) 2006 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 10. March 2008 (Matthias Brennwald): fixed documentation
-% first version: 9. July 2006, Matthias Brennwald
 
-if ~exist('N')
+if ~exist ('N')
 	N=1;
 end
 
 for i = 1:N
 
-[out,in,t] = mataa_measure_signal_response(input_signal,fs); % do the sound I/O
+[out,in,t] = mataa_measure_signal_response (input_signal,fs); % do the sound I/O
 
 % deconvolve in and out signals to yield h:
-if exist('OCTAVE_VERSION')
-	more('off');
+if exist ('OCTAVE_VERSION')
+	more ('off');
 end
 
-disp('Deconvolving data (this may take a while)...');
-l=length(in);
-nChan=length(out(mataa_settings('channel_DUT'),:));
+disp ('Deconvolving data (this may take a while)...');
+l = length (in);
+nChan = length (out(mataa_settings('channel_DUT'),:));
 in = [in; repmat(0,l,1)];
 out = detrend(out);
 out = [out; repmat(0,l,nChan)];
@@ -65,31 +61,20 @@ for j=1:nChan
     H(:,j) = OUT(:,j) ./ IN;
 end
 
-dummy=ifft(H);
-dummy=dummy(1:l,:); % the other half is redundant since the signal is real
+dummy = ifft (H);
+dummy = dummy (1:l,:); % the other half is redundant since the signal is real
 
 % h (i.e. dummy) should be purely real, but numerical artefacts may generate small
 % shifts into the complex domain. Compensate for this:
-dummy=abs(dummy).*sign(real(dummy)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
-% dummy=real(dummy); % throw away complex part
+dummy = abs (dummy) .* sign (real(dummy)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
+disp ('...deconvolution done.');
 
-disp('...deconvolution done.');
+dummy = dummy(:, mataa_settings ('channel_DUT')); % use DUT-data only
 
-% use channel 1 for the device-under-test and channel 2 for the
-% calibration:
-%%%%% h = mataa_deConvolve(h(:,1),h(:,2)); % deconvolve channel-1 from channel-2, i.e. correct the measurement-signal from the impulse response of the sound-hardware
-
-dummy = dummy(:,1);
-
-if i==1
-	h=dummy/N;
+if i == 1
+	h = dummy / N;
 else
-	h=h+dummy/N;
+	h = h + dummy / N;
 end
-
 h = -h; % get polarity right.
-
 end
-
-%% remove any DC offset and 'ultra-low frequency' trends:
-%detrend(h);

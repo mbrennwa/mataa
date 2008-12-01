@@ -32,13 +32,9 @@ function platform = mataa_computer;
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 25. Feb 2007 (Matthias Brennwald): fixed UNKNOWN response with Matlab on Intel-Mac (Matlabs 'computer' returns 'MACI' instead of 'MAC'). 
-% 8. Feb 2007 (Matthias Brennwald): added MS-Windows / 'PCWIN'
 
 platform = computer;
 
@@ -66,9 +62,7 @@ if (exist('OCTAVE_VERSION')~=0) % we're running Octave
 	else
 		platform='UNKNOWN';
 	end
-else
-% we're running matlab
-
+else % we're running matlab
     if strcmp(platform,'MACI') % Intel MAC
         platform = 'MAC'
     end

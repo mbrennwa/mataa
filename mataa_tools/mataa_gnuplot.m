@@ -1,6 +1,6 @@
-function mataa_gnuplot(cmd);
+function mataa_gnuplot (cmd);
 
-% function mataa_gnuplot(cmd);
+% function mataa_gnuplot (cmd);
 %
 % DESCRIPTION:
 % This function executes the gnuplot command 'cmd' by calling __gnuplot_raw__(cmd). This only makes sense with Octave if gnuplot is used as the plotting engine. IMPORTANT: THIS FUNCTION SHOULD NOT BE USED ANYMORE, BECAUSE THE GNUPLOT INTERFACE TO OCTAVE HAS CHANGED CONSIDERABLY IN OCTAVE 2.9.X. IT WILL PROPABLY BE CHANGED FURTHER, BREAKING THIS FUNCTION.
@@ -25,13 +25,9 @@ function mataa_gnuplot(cmd);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): added a note to the documentation that this function should not be used anymore. Also, a warning message showing this note when this function is called.
-% 9. Jan. 2007 (Matthias Brennwald): first version
 
 warning('mataa_gnuplot: THE FUNCTION mataa_gnuplot SHOULD NOT BE USED ANYMORE, BECAUSE THE GNUPLOT INTERFACE TO OCTAVE HAS CHANGED CONSIDERABLY IN OCTAVE 2.9.X. IT WILL PROPABLY BE CHANGED FURTHER, BREAKING THIS FUNCTION.')
 

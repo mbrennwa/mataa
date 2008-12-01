@@ -1,6 +1,6 @@
-function [t_start,t_rise] = mataa_guess_IR_start(h,t,verbose);
+function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);
 
-% function [t_start,t_rise] = mataa_guess_IR_start(h,t,verbose);
+% function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);
 %
 % DESCRIPTION:
 % Try to determine the start and and rise time of an impulse response signal.
@@ -40,15 +40,9 @@ function [t_start,t_rise] = mataa_guess_IR_start(h,t,verbose);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 3. January 2008 (Matthias Brennwald): Changed a from 0.2 to 0.25 (see code).
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% 26. Feb. 2007 (Matthias Brennwald): use external function mataa_signal_analytic to calculate analytic signal.
-% first version: 16. December 2006, Matthias Brennwald
 
 if ~exist('verbose')
     verbose=1;

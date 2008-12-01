@@ -35,19 +35,13 @@ function [y] = mataa_deConvolve(z,x);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% first version: 22. July 2006, Matthias Brennwald
 
 x=x(:); z= z(:);
 
 y=ifft(fft(z)./fft(x));
 
 % get rid of the complex 'noise':
-% y=abs(y).*sign(real(y));
 y=real(y);
-
-%%%%%%% y = y*length(y); % normalise

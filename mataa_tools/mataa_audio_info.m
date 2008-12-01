@@ -28,17 +28,9 @@ function audioInfo = mataa_audio_info;
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 3. Nov 2008 (Matthias Brennwald): fixed the fix from yesterday...
-% 2. Nov 2008 (Matthias Brennwald): fixed problem that occured if the MATAA files are in paths containing spaces
-% 6. March 2007: code cleanup to avoid problem with Octave on Windows and fix output if no sound devices are found (return name '(UNKNOWN)' instead of name = []);
-% 14. Feb 2007: changed double quotes to single quotes -- 'MAC' instead of "MAC" etc., for compatibility with Matlab. Problem reported by Morten Laursen. (Matthias Brennwald)
-% 13. Feb. 2007: added support PCWIN versions of TestDevices  (Matthias Brennwald)
-% 4. Feb. 2007: rewrote code for use new TestDevices program to accomodate changes from Portaudio-18 to Portaudio-19. Also added check for full/half duplex (Matthias Brennwald)
 
 plat = mataa_computer;
 

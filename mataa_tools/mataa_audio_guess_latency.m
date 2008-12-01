@@ -1,6 +1,6 @@
-function latency = mataa_audio_guess_latency(fs,maxLatency);
+function latency = mataa_audio_guess_latency (fs,maxLatency);
 
-% function latency = mataa_audio_guess_latency(fs,maxLatency);
+% function latency = mataa_audio_guess_latency (fs,maxLatency);
 %
 % DESCRIPTION:
 % This function measures the latency of the audio hardware at sampling frequency fs, including the connected DUT.
@@ -36,16 +36,9 @@ function latency = mataa_audio_guess_latency(fs,maxLatency);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 8. November 2007 (Matthias Brennwald): improved documentation
-% 4. Feb. 2007: removed unnecessary call to mataa_audio_info (Matthias Brennwald)
-% first version: 9. July 2006, Matthias Brennwald
-
-% a = mataa_audio_info;
 
 if ~exist('maxLatency')
     maxLatency = input('Enter maximum expected latency (in ms):');
@@ -62,8 +55,6 @@ in = mataa_measure_signal_response(testfile,fs,0);
 
 delete(testfile);
 
-in = in(:,1); % discard second channel
+in = in(:,mataa_settings ('channel_DUT')); % only used data in DUT channel
 
-% plot(t,in)
-
-latency = mataa_guess_IR_start(in,t,0)-t(k);
+latency = mataa_guess_IR_start (in,t,0)-t(k);

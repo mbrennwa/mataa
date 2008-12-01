@@ -45,13 +45,9 @@ function [mag,phase] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1,L2,R2)
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006 Matthias S. Brennwald.
+% Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
-%
-% HISTORY:
-% 29. January 2008 (Matthias Brennwald): added a check for non-zero values of Rdc, f0, Qe, Qm, and R2.
-% 12. January 2008 (Matthias Brennwald): first version
 
 if nargin < 8;
     R2 = Inf;
