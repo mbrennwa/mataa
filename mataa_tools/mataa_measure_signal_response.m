@@ -98,7 +98,7 @@ end
 
 numOutputChannels = audioInfo.output.channels;
 
-if ~isstr (input_signal)
+if ~ischar (input_signal)
     input_channels = size (input_signal,2);
     if numOutputChannels < input_channels
 	error(sprintf('mataa_measure_signal_response: input data has more channels (%i) than supported by the audio output device (%i).',input_channels,numOutputChannels));
