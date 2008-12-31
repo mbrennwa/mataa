@@ -77,7 +77,7 @@ case "LINUX_PPC"
     desired_API = "ALSA";
 end
 if ~strcmp (audioInfo.input.API,desired_API)
-    warning (sprintf("mataa_measure_signal_response: The recommended sound API on your computer platform (%s) is %s, but you default input device uses another API (%s). Please see the MATAA manual.",plat,desired_API,audioInfo.input.API));
+    warning (sprintf("mataa_measure_signal_response: The recommended sound API on your computer platform (%s) is %s, but your default input device uses another API (%s). Please see the MATAA manual.",plat,desired_API,audioInfo.input.API));
 end
 if ~strcmp (audioInfo.output.API,desired_API)
     warning (sprintf("mataa_measure_signal_response: The recommended sound API on your computer platform (%s) is %s, but you default output device uses another API (%s). Please see the MATAA manual.",plat,desired_API,audioInfo.output.API));
