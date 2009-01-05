@@ -1,4 +1,4 @@
-function [spl,f,d] = mataa_IR_to_CS D(h,t,T,smooth_interval);
+function [spl,f,d] = mataa_IR_to_CSD (h,t,T,smooth_interval);
 
 % function [spl,f,t] = mataa_IR_to_CSD (h,t,T,smooth_interval);
 %
