@@ -48,7 +48,7 @@ if ~exist('whichPath')
     whichPath = 'main';
 end
 
-main = which('mataa_path.m');
+main = which('mataa_path');
 main = main(1:end-length('mataa_path.m'));
 
 if length(main) > 1
