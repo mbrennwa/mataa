@@ -109,6 +109,10 @@ if ~any(fs == audioInfo.input.sampleRates)
 	warning(sprintf('The requested sample rate (%d Hz) is not listed for your audio input device. This is not always a problem, e.g. if the requested rate is available from sample-rate conversion by the operating system of if it is a non-standard rate that is not checked for by TestDevices but is supported by the audio hardware.',fs));
 end
 
+if ~any(fs == audioInfo.output.sampleRates)
+	warning(sprintf('The requested sample rate (%d Hz) is not listed for your audio output device. This is not always a problem, e.g. if the requested rate is available from sample-rate conversion by the operating system of if it is a non-standard rate that is not checked for by TestDevices but is supported by the audio hardware.',fs));
+end
+
 % do the sound I/O:
 deleteInputFileAfterIO = 0;
 

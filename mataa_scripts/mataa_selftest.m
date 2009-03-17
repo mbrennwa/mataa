@@ -138,7 +138,11 @@ try
     disp(['     Number of channels of input device: ' , num2str(a.input.channels) ]);
     disp(['     Minimum sampling rate (sound input): ' , num2str(min(a.input.sampleRates)) , ' Hz' ]);
     disp(['     Maximum sampling rate (sound input): ' , num2str(max(a.input.sampleRates)) , ' Hz' ]);
-    fs = 44100; % this rate is available on most devices
+    
+    % find an appropriate sample rate:
+    fs = intersect (a.input.sampleRates,a.output.sampleRates);
+    [dummy,kk] = min(abs(fs-44100)); fs = fs(kk);
+    
     f0 = 1000;
     T = 0.1;
     disp('  The audio I/O test will be done using a sine-wave signal with:')
