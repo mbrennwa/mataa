@@ -1,47 +1,23 @@
-/** @file pa_devs.c
-	@ingroup test_src
-    @brief List available devices, including device information.
-	@author Phil Burk http://www.softsynth.com
-
-    @note Define PA_NO_ASIO to compile this code on Windows without
-        ASIO support.
-*/
 /*
- * $Id: pa_devs.c 1308 2007-12-26 02:45:15Z gordon_gidluck $
+ * This is the source code for TestDevicesPA19, which is based on PortAudio V19 (http://www.portaudio.com).
  *
- * This program uses the PortAudio Portable Audio Library.
- * For more information see: http://www.portaudio.com
- * Copyright (c) 1999-2000 Ross Bencina and Phil Burk
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-/*
- * The text above constitutes the entire PortAudio license; however, 
- * the PortAudio community also makes the following non-binding requests:
- *
- * Any person wishing to distribute modifications to the Software is
- * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
- * license above.
+ * TestDevices is part of MATAA. MATAA is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * MATAA is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with MATAA; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ * Copyright (C) 2006, 2007, 2008, 2009 Matthias S. Brennwald.
+ * Contact: info@audioroot.net
+ * Further information: http://www.audioroot.net/mataa.html
  */
 
 #include <stdio.h>
@@ -89,14 +65,26 @@ static void PrintSupportedStandardSampleRates(
         printf( "\n" );
 }
 /*******************************************************************/
-int main(void);
-int main(void)
+int main(int argc, char *argv[]);
+int main(int argc, char *argv[])
 {
     int     i, numDevices, defaultInputFound, defaultOutputFound;
     const   PaDeviceInfo *deviceInfo;
     PaStreamParameters inputParameters, outputParameters;
     PaError err;
 
+    argc -=1; /* first argument is call to TestTone itself */
+
+    if (argc > 0) {
+		printf("TestDevices usage:\n");
+		printf("'TestDevices' displays the properties of the default audio devices for sound input and output.\n\n");
+		printf("Note: the list of supported sample rates reflects the 'standard' rates offered by the operating system or the driver software of the sound device. This is not necessarily identical to the rates supported natively by hardware itself, as the operating system or the driver software may provide automatic sample-rate conversion (e.g. Mac OS X / CoreAudio). Also, the list of supported sample rates may be incomplete, because the TestDevices program checks for 'standard' rates only. It is therefore possible that sample rates other than those listed may be used with the device.\n\n");
+		printf("TestDevices is part of MATAA. MATAA is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\n");
+		printf("MATAA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\n");
+		printf("You should have received a copy of the GNU General Public License along with MATAA; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA\n\n");
+		printf("Copyright (C) 2007, 2008, 2009 Matthias S. Brennwald.\nContact: info@audioroot.net\nFurther information: http://www.audioroot.net/mataa.html\n");
+		exit(1);
+	}
     
     Pa_Initialize();
 
