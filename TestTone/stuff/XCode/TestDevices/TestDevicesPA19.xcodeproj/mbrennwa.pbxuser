@@ -3,9 +3,12 @@
 	08FB7793FE84155DC02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = 25D46FE60B752EFD000D0F5D /* TestDevicesPA19 */;
+		activeSDKPreference = macosx10.4;
 		activeTarget = 8DD76FA90486AB0100D96B5E /* TestDevicesPA19 */;
 		addToTargets = (
 			8DD76FA90486AB0100D96B5E /* TestDevicesPA19 */,
+		);
+		breakpoints = (
 		);
 		codeSenseManager = 25D46FEC0B752F01000D0F5D /* Code sense */;
 		executables = (
@@ -17,7 +20,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					408,
+					314,
 					20,
 					48,
 					43,
@@ -34,42 +37,68 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 248862580;
-			PBXWorkspaceStateSaveDate = 248862580;
+			PBXPerProjectTemplateStateSaveDate = 270205441;
+			PBXWorkspaceStateSaveDate = 270205441;
 		};
 		perUserProjectItems = {
-			2505A37C0ED555C60005DB21 /* PBXTextBookmark */ = 2505A37C0ED555C60005DB21 /* PBXTextBookmark */;
-			25F38FFF0ED5578F00A044F8 /* PBXTextBookmark */ = 25F38FFF0ED5578F00A044F8 /* PBXTextBookmark */;
+			25478537101AF7C4005780AE = 25478537101AF7C4005780AE /* PBXTextBookmark */;
+			254E92CC101B01D70065297C = 254E92CC101B01D70065297C /* PBXTextBookmark */;
+			25BD1EC5101B02120045CD74 /* PBXTextBookmark */ = 25BD1EC5101B02120045CD74 /* PBXTextBookmark */;
+			25DEE150101AEFB900481DF0 = 25DEE150101AEFB900481DF0 /* PBXTextBookmark */;
+			25DEE167101AF35700481DF0 = 25DEE167101AF35700481DF0 /* PBXTextBookmark */;
+			25DEE169101AF35700481DF0 = 25DEE169101AF35700481DF0 /* PBXTextBookmark */;
+			25E64ADD101B01A000C9791D = 25E64ADD101B01A000C9791D /* PBXTextBookmark */;
+			25E64ADF101B01A000C9791D = 25E64ADF101B01A000C9791D /* PBXTextBookmark */;
 		};
 		sourceControlManager = 25D46FEB0B752F01000D0F5D /* Source Control */;
 		userBuildSettings = {
 		};
 	};
-	2505A37C0ED555C60005DB21 /* PBXTextBookmark */ = {
+	25478537101AF7C4005780AE /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 251ECE0B0ED4AE4700F7374D /* TestDevicesPA19.c */;
-		name = "TestDevicesPA19.c: 1";
-		rLen = 0;
-		rLoc = 0;
+		fRef = 25478538101AF7C4005780AE /* pa_devs.c */;
+		name = "pa_devs.c: 57";
+		rLen = 1263;
+		rLoc = 1166;
 		rType = 0;
-		vrLen = 1682;
-		vrLoc = 0;
+		vrLen = 1329;
+		vrLoc = 2367;
 	};
-	251ECE0B0ED4AE4700F7374D /* TestDevicesPA19.c */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {3608, 2954}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRect = "{{0, 0}, {606, 632}}";
-		};
+	25478538101AF7C4005780AE /* pa_devs.c */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
+		name = pa_devs.c;
+		path = /Users/mbrennwa/Desktop/portaudio/test/pa_devs.c;
+		sourceTree = "<absolute>";
+	};
+	254E92CC101B01D70065297C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */;
+		name = "TestDevicesPA19.c: 162";
+		rLen = 0;
+		rLoc = 5829;
+		rType = 0;
+		vrLen = 2221;
+		vrLoc = 4119;
+	};
+	25BD1EC5101B02120045CD74 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */;
+		name = "TestDevicesPA19.c: 162";
+		rLen = 0;
+		rLoc = 5829;
+		rType = 0;
+		vrLen = 2166;
+		vrLoc = 4570;
 	};
 	25D46FE60B752EFD000D0F5D /* TestDevicesPA19 */ = {
 		isa = PBXExecutable;
-		activeArgIndex = 2147483647;
 		activeArgIndices = (
 		);
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -83,8 +112,12 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = TestDevicesPA19;
+		savedGlobals = {
+		};
 		sourceDirectories = (
 		);
+		variableFormatDictionary = {
+		};
 	};
 	25D46FEB0B752F01000D0F5D /* Source Control */ = {
 		isa = PBXSourceControlManager;
@@ -98,15 +131,78 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
-	25F38FFF0ED5578F00A044F8 /* PBXTextBookmark */ = {
+	25D470380B752FB3000D0F5D /* portaudio.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {691, 15820}}";
+			sepNavSelRange = "{18650, 19}";
+			sepNavVisRange = "{17491, 2314}";
+			sepNavWindowFrame = "{{15, 44}, {750, 834}}";
+		};
+	};
+	25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {726, 2996}}";
+			sepNavSelRange = "{5829, 0}";
+			sepNavVisRange = "{4570, 2166}";
+			sepNavWindowFrame = "{{541, 44}, {750, 834}}";
+		};
+	};
+	25DEE150101AEFB900481DF0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 251ECE0B0ED4AE4700F7374D /* TestDevicesPA19.c */;
-		name = "TestDevicesPA19.c: 1";
+		fRef = 25D470380B752FB3000D0F5D /* portaudio.h */;
+		name = "portaudio.h: 1";
 		rLen = 0;
 		rLoc = 0;
 		rType = 0;
-		vrLen = 1682;
-		vrLoc = 0;
+		vrLen = 1890;
+		vrLoc = 18554;
+	};
+	25DEE167101AF35700481DF0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 25D470380B752FB3000D0F5D /* portaudio.h */;
+		name = "portaudio.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1890;
+		vrLoc = 18554;
+	};
+	25DEE169101AF35700481DF0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */;
+		name = "TestDevicesPA19.c: 71";
+		rLen = 0;
+		rLoc = 2;
+		rType = 0;
+		vrLen = 1565;
+		vrLoc = 1251;
+	};
+	25E64AD1101B014E00C9791D /* pa_devs.c */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
+		name = pa_devs.c;
+		path = /Users/mbrennwa/Desktop/portaudio/test/pa_devs.c;
+		sourceTree = "<absolute>";
+	};
+	25E64ADD101B01A000C9791D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 25E64AD1101B014E00C9791D /* pa_devs.c */;
+		name = "pa_devs.c: 103";
+		rLen = 0;
+		rLoc = 4623;
+		rType = 0;
+		vrLen = 2249;
+		vrLoc = 5526;
+	};
+	25E64ADF101B01A000C9791D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */;
+		name = "TestDevicesPA19.c: 148";
+		rLen = 0;
+		rLoc = 5238;
+		rType = 0;
+		vrLen = 2070;
+		vrLoc = 242;
 	};
 	8DD76FA90486AB0100D96B5E /* TestDevicesPA19 */ = {
 		activeExec = 0;

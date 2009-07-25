@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		251ECE0C0ED4AE4700F7374D /* TestDevicesPA19.c in Sources */ = {isa = PBXBuildFile; fileRef = 251ECE0B0ED4AE4700F7374D /* TestDevicesPA19.c */; };
+		252AEC241018FC760069A490 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 252AEC231018FC760069A490 /* libportaudio.a */; };
 		2572DDE10B7897BC000CA894 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2572DDE00B7897BC000CA894 /* CoreServices.framework */; };
 		258376120B75F1CC0004BEF0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 258376100B75F1CC0004BEF0 /* AudioUnit.framework */; };
 		25D46FF40B752F41000D0F5D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D46FF30B752F41000D0F5D /* AudioToolbox.framework */; };
 		25D46FF80B752F56000D0F5D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D46FF70B752F56000D0F5D /* CoreAudio.framework */; };
-		25D4702A0B752F6A000D0F5D /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D470290B752F6A000D0F5D /* libportaudio.a */; };
 		25D470390B752FB3000D0F5D /* portaudio.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25D470380B752FB3000D0F5D /* portaudio.h */; };
+		25DEE14C101AEE8100481DF0 /* TestDevicesPA19.c in Sources */ = {isa = PBXBuildFile; fileRef = 25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */; };
 		8DD76FB00486AB0100D96B5E /* TestDevicesPA19.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* TestDevicesPA19.1 */; };
 /* End PBXBuildFile section */
 
@@ -32,13 +32,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		251ECE0B0ED4AE4700F7374D /* TestDevicesPA19.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = TestDevicesPA19.c; path = ../../../source/TestDevicesPA19.c; sourceTree = SOURCE_ROOT; };
+		252AEC231018FC760069A490 /* libportaudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libportaudio.a; sourceTree = "<group>"; };
 		2572DDE00B7897BC000CA894 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		258376100B75F1CC0004BEF0 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		25D46FF30B752F41000D0F5D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		25D46FF70B752F56000D0F5D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
-		25D470290B752F6A000D0F5D /* libportaudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libportaudio.a; sourceTree = "<group>"; };
 		25D470380B752FB3000D0F5D /* portaudio.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = portaudio.h; sourceTree = "<group>"; };
+		25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = TestDevicesPA19.c; path = ../../../source/TestDevicesPA19.c; sourceTree = SOURCE_ROOT; };
 		8DD76FB20486AB0100D96B5E /* TestDevicesPA19 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestDevicesPA19; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6A0FF2C0290799A04C91782 /* TestDevicesPA19.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = TestDevicesPA19.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -50,9 +50,9 @@
 			files = (
 				25D46FF40B752F41000D0F5D /* AudioToolbox.framework in Frameworks */,
 				25D46FF80B752F56000D0F5D /* CoreAudio.framework in Frameworks */,
-				25D4702A0B752F6A000D0F5D /* libportaudio.a in Frameworks */,
 				258376120B75F1CC0004BEF0 /* AudioUnit.framework in Frameworks */,
 				2572DDE10B7897BC000CA894 /* CoreServices.framework in Frameworks */,
+				252AEC241018FC760069A490 /* libportaudio.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +66,7 @@
 				2572DDE00B7897BC000CA894 /* CoreServices.framework */,
 				25D46FF30B752F41000D0F5D /* AudioToolbox.framework */,
 				25D46FF70B752F56000D0F5D /* CoreAudio.framework */,
-				25D470290B752F6A000D0F5D /* libportaudio.a */,
+				252AEC231018FC760069A490 /* libportaudio.a */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6A0FF2B0290797F04C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -77,8 +77,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				251ECE0B0ED4AE4700F7374D /* TestDevicesPA19.c */,
 				25D470380B752FB3000D0F5D /* portaudio.h */,
+				25DEE14B101AEE8100481DF0 /* TestDevicesPA19.c */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -126,9 +126,11 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "TestDevicesPA19" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* TestDevicesPA19 */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8DD76FA90486AB0100D96B5E /* TestDevicesPA19 */,
 			);
@@ -140,7 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				251ECE0C0ED4AE4700F7374D /* TestDevicesPA19.c in Sources */,
+				25DEE14C101AEE8100481DF0 /* TestDevicesPA19.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,8 +161,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				PRODUCT_NAME = TestDevicesPA19;
 				ZERO_LINK = YES;
 			};
@@ -179,8 +183,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				PRODUCT_NAME = TestDevicesPA19;
 			};
 			name = Release;
