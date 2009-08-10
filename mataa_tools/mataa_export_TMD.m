@@ -6,7 +6,7 @@ function mataa_export_TMD (t,s,comment,file);
 % Export time-domain data to a TMD file (or, in other words: export the samples a signal s(t) to an ASCII file). A TMD file is essentially an ASCII file containing two columns of data: time and signal samples. The 'TMD format' is modelled after the FRD format for frequency-domain data (see mataa_export_FRD for more information).
 %
 % INPUT:
-% t: time values (Hz)
+% t: time values (seconds)
 % s: signal samples
 % comment: string containing a comment to be saved with the data, e.g. a description of the data. Use comment = '' if you do not want a comment in the data file.
 % 
@@ -34,6 +34,7 @@ function mataa_export_TMD (t,s,comment,file);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
+
 t = t(:);
 s = s(:);
 
@@ -53,6 +54,17 @@ end
 
 if ~strcmp (upper (file(end-3:end)),'.TMD')
     file = sprintf ('%s.TMD',file); % append '.TMD'
+end
+
+if exist(file,"file")
+    beep;
+    overwrite = input(sprintf("File %s exists. Enter 'Y' or 'y' to overwrite, or anything else to cancel.",file),"s");
+    if ~strcmp(lower(overwrite),"y")
+        disp ('File not saved, user cancelled.')
+        return
+    else
+        disp (sprintf('Overwriting %s...',file));
+    end
 end
 
 [fid,msg] = fopen (file,'wt');

@@ -105,6 +105,17 @@ if ~strcmp (upper (file(end-3:end)),'.FRD')
     file = sprintf ('%s.FRD',file); % append '.FRD'
 end
 
+if exist(file,"file")
+    beep;
+    overwrite = input(sprintf("File %s exists. Enter 'Y' or 'y' to overwrite, or anything else to cancel.",file),"s");
+    if ~strcmp(lower(overwrite),"y")
+        disp ('File not saved, user cancelled.')
+        return
+    else
+        disp (sprintf('Overwriting %s...',file));
+    end
+end
+
 [fid,msg] = fopen (file,'wt');
 
 if fid == -1
