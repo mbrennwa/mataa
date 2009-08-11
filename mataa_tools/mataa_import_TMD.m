@@ -53,18 +53,25 @@ if fid == -1
     error (sprintf ('mataa_import_TMD: %s (file: %s).',msg,file))
 end
 
-l = fgetl (fid); % read first line
-while ~(l < 0)
-    l = fliplr (deblank (fliplr (l))); % remove trailing zeroes
-    if ~strcmp (l(1),'*')
-        x = str2num (l);
-        t = [t;x(1)];
-        s = [s;x(2)];
-    else
+%%% s = char (fread(fid,[2,Inf]));
+%%% s = strsplit(s(1:end),"\n");
+
+% read the header
+try_header = 1;
+while try_header
+    l0 = fgetl (fid);
+    l = fliplr(deblank(fliplr(l0)));
+    if strcmp (l(1),'*')
         nc = nc+1;
-        comments{nc} = fliplr (deblank (fliplr (l(2:end))));
+        comments{nc} = fliplr(deblank(fliplr(l)))(2:end);
+    else
+        try_header = 0;
+        fseek (fid,-length(l0)-1,"cof"); % go back to beginning of the line
     end
-    l = fgetl (fid); % read next line
 end
 
+x = fscanf(fid, '%f%f', Inf);
 fclose (fid);
+x = reshape (x,2,length(x)/2)';
+t = x(:,1);
+s = x(:,2);

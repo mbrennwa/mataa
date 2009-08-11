@@ -1,6 +1,6 @@
 function s = mataa_signal_window (s0,window,par);
 
-% function [s,t] = mataa_signal_window (s0,window,par);
+% function s = mataa_signal_window (s0,window,par);
 %
 % DESCRIPTION:
 % Multiplies the signal s0 by the window function with the name 'window', and returns the result in s.

@@ -1,6 +1,6 @@
 function [f,mag,phase,comments] = mataa_import_FRD (file);
 
-% function [f,mag,phase,comments] = mataa_export_FRD (file);
+% function [f,mag,phase,comments] = mataa_import_FRD (file);
 %
 % DESCRIPTION:
 % Import frequency-domain data from a FRD file.
@@ -59,19 +59,23 @@ if fid == -1
     error (sprintf ('mataa_import_TMD: %s (file: %s).',msg,file))
 end
 
-s = fgetl (fid); % read first line
-while ~(s < 0)
-    s = fliplr (deblank (fliplr (s))); % remove trailing zeroes
-    if ~strcmp (s(1),'*')
-        x = str2num (s);
-        f = [f;x(1)];
-        mag = [mag;x(2)];
-        phase = [phase;x(3)];
-    else
+% read the header
+try_header = 1;
+while try_header
+    l0 = fgetl (fid);
+    l = fliplr(deblank(fliplr(l0)));
+    if strcmp (l(1),'*')
         nc = nc+1;
-        comments{nc} = fliplr (deblank (fliplr (s(2:end))));
+        comments{nc} = fliplr(deblank(fliplr(l)))(2:end);
+    else
+        try_header = 0;
+        fseek (fid,-length(l0)-1,"cof"); % go back to beginning of the line
     end
-    s = fgetl (fid); % read next line
 end
 
+x = fscanf(fid, '%f%f', Inf);
 fclose (fid);
+x = reshape (x,3,length(x)/3)';
+f = x(:,1);
+mag = x(:,2);
+phase = x(:,3);
