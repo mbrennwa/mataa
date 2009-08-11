@@ -60,13 +60,17 @@ end
 try_header = 1;
 while try_header
     l0 = fgetl (fid);
-    l = fliplr(deblank(fliplr(l0)));
-    if strcmp (l(1),'*')
-        nc = nc+1;
-        comments{nc} = fliplr(deblank(fliplr(l)))(2:end);
+    if l0 == -1
+        return
     else
-        try_header = 0;
-        fseek (fid,-length(l0)-1,"cof"); % go back to beginning of the line
+        l = fliplr(deblank(fliplr(l0)));
+        if strcmp (l(1),'*')
+            nc = nc+1;
+            comments{nc} = fliplr(deblank(fliplr(l)))(2:end);
+        else
+            try_header = 0;
+            fseek (fid,-length(l0)-1,"cof"); % go back to beginning of the line
+        end
     end
 end
 
