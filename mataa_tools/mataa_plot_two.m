@@ -58,13 +58,16 @@ end
 mataa_plot_defaults;
 
 if length (y2) > 0
-    subplot(2,1,1)
+    subplot(2,1,1);
+    % no xlabel on upper subplot
+else
+    subplot(1,1,1) % make sure there's only one (sub)plot, e.g. if there was as previous figure with more than one subplots
+    xlabel (xtit);
 end
 
 plot (x,y1,color)
 title (plottit);
 ylabel (y1tit);
-xlabel (xtit);
 
 h(1) = gca;
 

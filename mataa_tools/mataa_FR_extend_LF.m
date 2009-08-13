@@ -76,9 +76,9 @@ ih = find (fh >= f1 & fh <= f2);
 mB = [ ml(il) ; mh(ih) ]; pB = [ pl(il) ; ph(ih) ]; fB = [ fl(il) ; fh(ih) ]; % data with f in [f1,f2]
 i = find (fh > f2);
 mC = mh(i); pC = ph(i); fC = fh(i); % data with f > f2
-m = [ mA ; mB ; mC ]; p = [ pA ; pB ; pC ]; f = [ fA ; fB ; fC ]; % complete data
+mag = [ mA ; mB ; mC ]; phase = [ pA ; pB ; pC ]; f = [ fA ; fB ; fC ]; % complete data
 
 % make sure everything is nicely sorted with increasing frequency:
 [f,i] = sort (f);
-m = m(i); p = p(i);
+mag = mag(i); phase = phase(i);
 

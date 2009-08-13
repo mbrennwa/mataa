@@ -67,7 +67,7 @@ end
 annote = sprintf ('MATAA: frequency response%s',annote);
 
 if phaseUnwrap
-        phase = unwrap(phase/180*pi)/pi*180;
+    phase = unwrap(phase/180*pi)/pi*180;
 else
     phase = mod (phase+180,360)-180;
 end
