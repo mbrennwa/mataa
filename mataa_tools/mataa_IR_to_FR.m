@@ -46,6 +46,8 @@ if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];
 end
 
+h = h - linspace(h(1),h(end),length(h))' + mean(h); % make sure s is periodic
+
 if exist('smooth_interval')
 	T = max(t)-min(t);
 	fMin = 1/T;
