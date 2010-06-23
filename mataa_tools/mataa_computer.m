@@ -66,6 +66,9 @@ else % we're running matlab
     if strcmp(platform,'MACI') % Intel MAC
         platform = 'MAC'
     end
+    if strcmp(platform,'PCWIN64') % PCWIN64
+        platform = 'PCWIN'
+    end
     
 	if ( ~strcmp(platform,'MAC') && ~strcmp(platform,'PCWIN') )
 		platform='UNKNOWN';
