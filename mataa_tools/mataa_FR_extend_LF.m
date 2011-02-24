@@ -3,15 +3,15 @@ function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;
 % function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;
 %
 % DESCRIPTION:
-% Extend frequency response (e.g. from an anechoic analysis of a loudspeaker impulse response measured in the far field) with low-frequency data (e.g. from a near-field measurement). The frequency ranges of the two frequency responses need to overlap, and the common data in the frequency range [f1,f2] is used to determine the offsets in the magnitude and phase of the two frequency-response data sets. The low-frequency response is adjusted to fit the high-frequency data, so the combined data is identical to the high-frequency data (above the The phase data (ph, pl) may be wrapped (e.g. to a range of -180..+180 deg), but unwrapped data is also accepted.
+% Extend frequency response (e.g. from an anechoic analysis of a loudspeaker impulse response measured in the far field) with low-frequency data (e.g. from a near-field measurement). The frequency ranges of the two frequency responses need to overlap, and the common data in the frequency range [f1,f2] is used to determine the offsets in the magnitude and phase of the two frequency-response data sets. The low-frequency magnitude and phase (ml, pl) is adjusted to fit the high-frequency data (mh, ph). The phase data (ph, pl) may either be wrapped (e.g. to a range of -180..+180 deg) or unwrapped.
 %
 % INPUT:
 % mh, ph, fh: magnitude (dB), phase (deg.) and frequency (Hz) data of the frequency response covering the high-frequency range
-% ml, pl, fl: magnitude (dB), phase (deg.) and frequency (Hz) data of the frequency response covering the high-frequency range
-% f1, f2: frequency range used to determine the relative magnitude and phase difference of (mh,ph,fh) and (ml,pl,fl).
+% ml, pl, fl: magnitude (dB), phase (deg.) and frequency (Hz) data of the frequency response covering the low-frequency range
+% f1, f2: [f1,f2] is the frequency range used to determine the offsets of the low-frequency magnitude and phase (ml, pl) relative to the high-frequency data (mh, ph).
 %
 % OUTPUT:
-% m, p, f: magnitude (dB), phase (deg, unwrapped) and frequency (Hz) of the combined frequency response. The data with f > f2 are identical to (mh,ph,fh), those with f < f1 correspond to (ml,pl,fl) with the magnitude and phase offsets removed. The data in the range [f1,f2]Êcorresponds to the combination of the data of both data sets, where offset in the corresponding (ml,pl) values are corrected for their offset relative to the (mh,ph) values.
+% mag, phase, f: magnitude (dB), phase (deg, unwrapped) and frequency (Hz) of the combined frequency response. The data with f > f2 are identical to (mh,ph,fh), those with f < f1 correspond to (ml,pl,fl) with the magnitude and phase offsets removed. The data in the range [f1,f2] corresponds to the combination of the data of both data sets, where (ml,pl) values are corrected for their offsets relative to the (mh,ph) values.
 %  
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -34,8 +34,7 @@ function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-% make sure ph and pl are unwrapped:
-ph = unwrap (ph/180*pi)/pi*180;
+ph = unwrap (ph/180*pi)/pi*180; % make sure ph and pl are unwrapped
 pl = unwrap (pl/180*pi)/pi*180;
 
 if min(fh) > max(fl)

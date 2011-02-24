@@ -12,7 +12,8 @@ function platform = mataa_computer;
 % platform: string indicating the computer platform:
 % MAC:      Mac OS X (Darwin)
 % PCWIN:    MS Windows
-% LINUX_X86:  Linux on x86 platform
+% LINUX_X86-32:  Linux on x86 / 32 Bit platform
+% LINUX_X86-64:  Linux on AMD / 64 Bit platform
 % UNKNOWN:  unknown platform (unknown to MATAA)
 % 
 % DISCLAIMER:

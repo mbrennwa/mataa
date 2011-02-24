@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 01-Dec-2008.
+This section contains a list of the MATAA tools and their usage information as of 13-Aug-2009.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -173,7 +173,7 @@ DESCRIPTION:@*
 Export time-domain data to a TMD file (or, in other words: export the samples a signal s(t) to an ASCII file). A TMD file is essentially an ASCII file containing two columns of data: time and signal samples. The 'TMD format' is modelled after the FRD format for frequency-domain data (see mataa_export_FRD for more information).@*
 
 INPUT:@*
-t: time values (Hz)@*
+t: time values (seconds)@*
 s: signal samples@*
 comment: string containing a comment to be saved with the data, e.g. a description of the data. Use comment = '' if you do not want a comment in the data file.@*
 
@@ -198,6 +198,26 @@ ask: flag to specify if the user should be asked for a file name. If 'ask' is no
 OUTPUT:@*
 name: file name@*
 
+
+@findex mataa_FR_extend_LF
+@node mataa_FR_extend_LF
+@section mataa_FR_extend_LF
+
+file: ...mataa_tools/mataa_FR_extend_LF.m@*
+
+function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;@*
+
+DESCRIPTION:@*
+Extend frequency response (e.g. from an anechoic analysis of a loudspeaker impulse response measured in the far field) with low-frequency data (e.g. from a near-field measurement). The frequency ranges of the two frequency responses need to overlap, and the common data in the frequency range [f1,f2] is used to determine the offsets in the magnitude and phase of the two frequency-response data sets. The low-frequency magnitude and phase (ml, pl) is adjusted to fit the high-frequency data (mh, ph). The phase data (ph, pl) may either be wrapped (e.g. to a range of -180..+180 deg) or unwrapped.@*
+
+INPUT:@*
+mh, ph, fh: magnitude (dB), phase (deg.) and frequency (Hz) data of the frequency response covering the high-frequency range@*
+ml, pl, fl: magnitude (dB), phase (deg.) and frequency (Hz) data of the frequency response covering the low-frequency range@*
+f1, f2: [f1,f2] is the frequency range used to determine the offsets of the low-frequency magnitude and phase (ml, pl) relative to the high-frequency data (mh, ph).@*
+
+OUTPUT:@*
+mag, phase, f: magnitude (dB), phase (deg, unwrapped) and frequency (Hz) of the combined frequency response. The data with f > f2 are identical to (mh,ph,fh), those with f < f1 correspond to (ml,pl,fl) with the magnitude and phase offsets removed. The data in the range [f1,f2] corresponds to the combination of the data of both data sets, where (ml,pl) values are corrected for their offsets relative to the (mh,ph) values.@*
+ @*
 
 @findex mataa_f_to_t
 @node mataa_f_to_t
@@ -343,7 +363,7 @@ semilogx (f,mag,f,phase)@*
 
 file: ...mataa_tools/mataa_import_FRD.m@*
 
-function [f,mag,phase,comments] = mataa_export_FRD (file);@*
+function [f,mag,phase,comments] = mataa_import_FRD (file);@*
 
 DESCRIPTION:@*
 Import frequency-domain data from a FRD file.@*
@@ -367,8 +387,50 @@ HISTORY:@*
 
 file: ...mataa_tools/mataa_import_mlssa.m@*
 
+function [mlsvec,mlsfs,stimulus_amp,mlsdf] = mataa_import_mlssa (File,Outfile,Withir);@*
 
-Reads a MLSSA .TIM or .FRQ file and extracts all data from it. Note that this function has been designed using Matlab only (i.e. it might not work as well with Octave).%% INPUT:% File (optional): should contain the filename, including path and extension (.TIM or .FRQ). If File is empty, a file dialog is presented.% Outfile: should contain a filename, including path but no extension (will be given.mat). The output data will be saved in this file.% Withir (optional): parameter, should be included and with the text 'Withir' if the impulse response (or transfer function) mlsvec should be included in the Output file.%% OUTPUT:%	mlsvec	       the impulse response (for .TIM files) or the transfer function (for .FRQ%		       files; containing nfft/2 + 1 complex values).%	mlsfs	       the sampling frequency%	stimulus_amp   the stimulus amplitude used during the measurement%	mlsdf	       the frequency increment (only for .FRQ files)%% Comment 1:    Note that an MLS file (.TIM or .FRQ) is half the size of the%		corresponding Matlab file (MLSSA uses single precision whereas Matlab%		uses double precision). Thus the MLS files can be used and opened every time%		data is needed, instead of creating a Matlab copy of the file.%% Comment 2:	The output parameter stimulus_amp might be needed to scale the impulse%		response correctly. MLSSA does not scale the impulse versus the stimulus_amp%		so that if different stimulus_amp have been used, the corresponding impulse%		responses will display different amplitudes. The transfer functions (.FRQ)%		are however scaled correctly.%% Comment 3:	The impulse response can be retrieved from the transfer function by inserting%		the values for negative frequencies:%		   [mlsvec,mlsfs,stimulus_amp,mlsdf] = readmls('TEST.FRQ',Outfile);%		   npoints = length(mlsvec);%		   mlsvec = [mlsvec; conj(mlsvec( npoints-1:-1:2 ))];%		   ir = real(ifft(mlsvec));	% ir should be a real quantity. Any remaining%						% imaginary values will reflect numerical errors%						% or an incorrect transfer function.%		Note however that if a window was used before calculating the transfer function%		the windowed impulse response will be extracted.%% Comment 4:	The MLSSA files contain a large number of auxilliary parameters that are saved in%		the Outfile. Refer to the appendix of the MLSSA manual for information about these%		parameters, which are those in the setup of the MLSSA measurements. According to%		the manual, this setup structure can be changed in future versions. This one is%		valid for version 9.0.%@*
+Reads a MLSSA .TIM or .FRQ file and extracts all data from it. Note that this function has been designed using Matlab only (i.e. it might not work as well with Octave).@*
+
+INPUT:@*
+File (optional): should contain the filename, including path and extension (.TIM or .FRQ). If File is empty, a file dialog is presented.@*
+Outfile: should contain a filename, including path but no extension (will be given.mat). The output data will be saved in this file.@*
+Withir (optional): parameter, should be included and with the text 'Withir' if the impulse response (or transfer function) mlsvec should be included in the Output file.@*
+
+OUTPUT:@*
+mlsvec	       the impulse response (for .TIM files) or the transfer function (for .FRQ@*
+	       files; containing nfft/2 + 1 complex values).@*
+mlsfs	       the sampling frequency@*
+stimulus_amp   the stimulus amplitude used during the measurement@*
+mlsdf	       the frequency increment (only for .FRQ files)@*
+
+Comment 1:    Note that an MLS file (.TIM or .FRQ) is half the size of the@*
+	corresponding Matlab file (MLSSA uses single precision whereas Matlab@*
+	uses double precision). Thus the MLS files can be used and opened every time@*
+	data is needed, instead of creating a Matlab copy of the file.@*
+
+Comment 2:	The output parameter stimulus_amp might be needed to scale the impulse@*
+	response correctly. MLSSA does not scale the impulse versus the stimulus_amp@*
+	so that if different stimulus_amp have been used, the corresponding impulse@*
+	responses will display different amplitudes. The transfer functions (.FRQ)@*
+	are however scaled correctly.@*
+
+Comment 3:	The impulse response can be retrieved from the transfer function by inserting@*
+	the values for negative frequencies:@*
+	   [mlsvec,mlsfs,stimulus_amp,mlsdf] = readmls('TEST.FRQ',Outfile);@*
+	   npoints = length(mlsvec);@*
+	   mlsvec = [mlsvec; conj(mlsvec( npoints-1:-1:2 ))];@*
+	   ir = real(ifft(mlsvec));	% ir should be a real quantity. Any remaining@*
+					% imaginary values will reflect numerical errors@*
+					% or an incorrect transfer function.@*
+	Note however that if a window was used before calculating the transfer function@*
+	the windowed impulse response will be extracted.@*
+
+Comment 4:	The MLSSA files contain a large number of auxilliary parameters that are saved in@*
+	the Outfile. Refer to the appendix of the MLSSA manual for information about these@*
+	parameters, which are those in the setup of the MLSSA measurements. According to@*
+	the manual, this setup structure can be changed in future versions. This one is@*
+	valid for version 9.0.@*
+
 The program is based on code written by Peter Svensson (svensson[at]iet.ntnu.no) available at http://www.iet.ntnu.no/~svensson/readmls.m. Peter Svensson explicitly agreed to provide his work for inclusion in MATAA.@*
 
 @findex mataa_import_TMD
@@ -867,6 +929,39 @@ options: plot options (sting or cell string containing multiple options, optiona
     options = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)@*
 
 
+@findex mataa_plot_defaults
+@node mataa_plot_defaults
+@section mataa_plot_defaults
+
+file: ...mataa_tools/mataa_plot_defaults.m@*
+
+function mataa_plot_defaults@*
+
+DESCRIPTION:@*
+In earlier version of MATAA, this function sets default gnuplot state for MATAA plots in Octave. With the current version of MATAA, this function has no effect.@*
+
+HISTORY:@*
+26. December 2007 (Matthias Brennwald): commented out all commands so they have no effect anymore. Leave setting of plotting options to the user.@*
+first version: 7. November 2006, Matthias Brennwald@*
+%% if exist('OCTAVE_VERSION')@*
+%%     % do Octave specific stuff here@*
+%% else@*
+%%     % do Matlab specific stuff here@*
+%%     %%% fh = gcf;@*
+%%     %%% p = get(fh,'Position');@*
+%%     %%% if p([3,4]) == [560   420];@*
+%%     %%%     % make plots somewhat smaller than default@*
+%%     %%%     p([3,4]) = [450   280];@*
+%%     %%%     set(fh,'Position',p); @*
+%%     %%% end@*
+%%     %%% set(fh,'PaperPositionMode','auto'); % use same plot size for saving files as for plotting on screen@*
+%% end@*
+%% if mataa_settings('plotHoldState')@*
+%%     hold on@*
+%% end@*
+%% @*
+%% % otherwise leave the plot state as it is (the user may have typed 'hold on' or something@*
+
 @findex mataa_plot_ETC_dB
 @node mataa_plot_ETC_dB
 @section mataa_plot_ETC_dB
@@ -1072,24 +1167,6 @@ xtit, ytit: labels for the x-axis and y-axis@*
 plotWindow: number (handle) of the figure window to be used for the plot. Use plotWindow = [] if the default window is to be used (e.g. the current plot window)@*
 
 
-@findex mataa_plot_two_logX
-@node mataa_plot_two_logX
-@section mataa_plot_two_logX
-
-file: ...mataa_tools/mataa_plot_two_logX.m@*
-
-function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
-
-DESCRIPTION:@*
-Same as mataa_plot_two, but with logarithmic x axes.@*
-
-INPUT:@*
-(see mataa_plot_two)@*
-
-OUTPUT:@*
-(see mataa_plot_two)@*
-
-
 @findex mataa_plot_two
 @node mataa_plot_two
 @section mataa_plot_two
@@ -1113,24 +1190,22 @@ OUTPUT:@*
 h: a 2-vector containig the handles to the axes of the two plots. If the second plot is omitted h(2) will be set to NaN,@*
 
 
-@findex mataa_realFT0
-@node mataa_realFT0
-@section mataa_realFT0
+@findex mataa_plot_two_logX
+@node mataa_plot_two_logX
+@section mataa_plot_two_logX
 
-file: ...mataa_tools/mataa_realFT0.m@*
+file: ...mataa_tools/mataa_plot_two_logX.m@*
 
-function [S,f] = mataa_realFT0 (s,t);@*
+function h = mataa_plot_two_log (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);@*
 
 DESCRIPTION:@*
-Calculates the complex fourier-spectrum S of a real signal s for frequencies f >= 0. Only the half spectrum corresponding to positive frequencies is returned, because for a real signal S(-f)=S*(f). S is normalized to length of s. The fourier spectrum S therefore does not depend on the sample rate used to digitize a given signal (i.e. S does not depend on the length of the signal). s can be of any length (no padding to length of 2n or even length necessary). In order to avoid frequency leakage, mataa_realFT does NOT pad s to even length. Each column of s represents one audio channel.@*
+Same as mataa_plot_two, but with logarithmic x axes.@*
 
 INPUT:@*
-s: signal samples (vector containing the real-valued samples)@*
-t: time values of the signal samples (vector, with evenly spaced values) or sample rate (scalar)@*
+(see mataa_plot_two)@*
 
 OUTPUT:@*
-S: complex fourier spectrum of s ('positive' half, see also DESCRIPTION).@*
-f: frequency values (vector)@*
+(see mataa_plot_two)@*
 
 
 @findex mataa_realFT
@@ -1151,24 +1226,24 @@ OUTPUT:@*
 (see mataa_realFT0)@*
 
 
-@findex mataa_realIFT0
-@node mataa_realIFT0
-@section mataa_realIFT0
+@findex mataa_realFT0
+@node mataa_realFT0
+@section mataa_realFT0
 
-file: ...mataa_tools/mataa_realIFT0.m@*
+file: ...mataa_tools/mataa_realFT0.m@*
 
-function [s,t] = mataa_realIFT0 (S,f);@*
+function [S,f] = mataa_realFT0 (s,t);@*
 
 DESCRIPTION:@*
-Calculates the inverse Fourier transform of a spectrum S(f) of a signal with real-valued samples. Only the 'positive' half of the spectrum is used, i.e. only positive frequencies (including f=0) must be given as input. See also mataa_realFT0.@*
+Calculates the complex fourier-spectrum S of a real signal s for frequencies f >= 0. Only the half spectrum corresponding to positive frequencies is returned, because for a real signal S(-f)=S*(f). S is normalized to length of s. The fourier spectrum S therefore does not depend on the sample rate used to digitize a given signal (i.e. S does not depend on the length of the signal). s can be of any length (no padding to length of 2n or even length necessary). In order to avoid frequency leakage, mataa_realFT does NOT pad s to even length. Each column of s represents one audio channel.@*
 
 INPUT:@*
-S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
-f: frequency values (vector)@*
+s: signal samples (vector containing the real-valued samples)@*
+t: time values of the signal samples (vector, with evenly spaced values) or sample rate (scalar)@*
 
 OUTPUT:@*
-s: signal samples (real-valued samples)@*
-t: time values of the signal@*
+S: complex fourier spectrum of s ('positive' half, see also DESCRIPTION).@*
+f: frequency values (vector)@*
 
 
 @findex mataa_realIFT
@@ -1181,6 +1256,26 @@ function [s,t] = mataa_realIFT (S,f);@*
 
 DESCRIPTION:@*
 Same as mataa_realIFT0, but without f=0.@*
+
+INPUT:@*
+S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
+f: frequency values (vector)@*
+
+OUTPUT:@*
+s: signal samples (real-valued samples)@*
+t: time values of the signal@*
+
+
+@findex mataa_realIFT0
+@node mataa_realIFT0
+@section mataa_realIFT0
+
+file: ...mataa_tools/mataa_realIFT0.m@*
+
+function [s,t] = mataa_realIFT0 (S,f);@*
+
+DESCRIPTION:@*
+Calculates the inverse Fourier transform of a spectrum S(f) of a signal with real-valued samples. Only the 'positive' half of the spectrum is used, i.e. only positive frequencies (including f=0) must be given as input. See also mataa_realFT0.@*
 
 INPUT:@*
 S: complex fourier spectrum of the signal ('positive' half, see also DESCRIPTION).@*
@@ -1510,7 +1605,7 @@ check format of input data:@*
 
 file: ...mataa_tools/mataa_signal_window.m@*
 
-function [s,t] = mataa_signal_window (s0,window,par);@*
+function s = mataa_signal_window (s0,window,par);@*
 
 DESCRIPTION:@*
 Multiplies the signal s0 by the window function with the name 'window', and returns the result in s.@*
@@ -1554,14 +1649,14 @@ file: ...mataa_tools/mataa_smooth_log.m@*
 function [y,x] = mataa_smooth_log (yRaw,xRaw,step)@*
 
 DESCRIPTION:@*
-This function smoothes a data set (xRaw,yRaw) reflecting a function y(x), where the size of the averaging bins of x increases exponentially.@*
+This function smoothes a data set (xRaw,yRaw) reflecting a function y(x), where the size of the averaging bins of x increases exponentially. y may be a multi-dimensional function of x.@*
 
 INPUT:@*
-yRaw, xRaw: vectors containing raw data corresponding to function y(x)@*
+yRaw, xRaw: vectors containing raw data corresponding to function y(x). If y(x) is multi dimensional, yRaw is a matrix.@*
 step: smoothing width in octaves (e.g. step = 1/12 gives smoothed data with 1/12-octave resolution)@*
 
 OUTPUT:@*
-y, x: vectors containing smoothed data@*
+y, x: vectors containing smoothed data. If y(x) is multi dimensional, y is a matrix.@*
 
 
 @findex mataa_tempfile
@@ -1582,24 +1677,6 @@ OUTPUT:@*
 filepath: string containing the path to the tempfile (including the file name).@*
 
 
-@findex mataa_t_to_f0
-@node mataa_t_to_f0
-@section mataa_t_to_f0
-
-file: ...mataa_tools/mataa_t_to_f0.m@*
-
-function f = mataa_t_to_f0 (t);@*
-
-DESCRIPTION:@*
-This function returns the frequency bins of the fourier spectrum of a signal sampled at times t (vector). t must be  be sorted and evenly spaced for this.@*
-
-INPUT:@*
-t: time values (vector, in seconds) of the signal@*
-
-OUTPUT:@*
-f: vector of the fourier-frequency bins (in Hz)@*
-
-
 @findex mataa_t_to_f
 @node mataa_t_to_f
 @section mataa_t_to_f
@@ -1616,6 +1693,24 @@ INPUT:@*
 
 OUTPUT:@*
 (see mataa_to_f0).@*
+
+
+@findex mataa_t_to_f0
+@node mataa_t_to_f0
+@section mataa_t_to_f0
+
+file: ...mataa_tools/mataa_t_to_f0.m@*
+
+function f = mataa_t_to_f0 (t);@*
+
+DESCRIPTION:@*
+This function returns the frequency bins of the fourier spectrum of a signal sampled at times t (vector). t must be  be sorted and evenly spaced for this.@*
+
+INPUT:@*
+t: time values (vector, in seconds) of the signal@*
+
+OUTPUT:@*
+f: vector of the fourier-frequency bins (in Hz)@*
 
 
 

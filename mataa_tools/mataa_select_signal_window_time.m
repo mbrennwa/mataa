@@ -33,20 +33,24 @@ function [t_start,t_end] = mataa_select_signal_window_time;
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')
-disp('Click on start of signal (press ENTER to confirm)...')
+% input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')
+
+r = axis;
+
+disp('Click on start of signal (press ENTER to confirm)...');
+fflush (stdout);
 [x,y] = ginput;
-t_start=x(end); % use last value befor ENTER was pressed;
-disp(sprintf('  t_start = %d\n', t_start))
+t_start=x(end); % use last value before ENTER was pressed;
+disp(sprintf('  t_start = %g\n', t_start));  fflush (stdout);
 
-line([t_start t_start],[-1 1],'Color',0.5*[1 1 1]);
+line([t_start t_start],[-1 1],'Color',0.5*[1 1 1]); axis (r);
 
-disp('Click on end of signal (press ENTER to confirm)...')
+disp('Click on end of signal (press ENTER to confirm)...');  fflush (stdout);
 [x,y] = ginput;
 t_end=x(end); % use last value befor ENTER was pressed;
-disp(sprintf('  t_end = %d\n', t_end))
+disp(sprintf('  t_end = %g\n', t_end));  fflush (stdout);
 
-disp(sprintf('  T = t_end - t_start = %d\n', t_end-t_start))
-disp(sprintf('  f_min = 1/T = %d\n', 1/(t_end-t_start)))
+disp(sprintf('  T = t_end - t_start = %g\n', t_end-t_start));  fflush (stdout);
+disp(sprintf('  f_min = 1/T = %g\n', 1/(t_end-t_start)));  fflush (stdout);
 
-line([t_end t_end],[-1 1],'Color',0.5*[1 1 1]);
+line([t_end t_end],[-1 1],'Color',0.5*[1 1 1]); axis (r);

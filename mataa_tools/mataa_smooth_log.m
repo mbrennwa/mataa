@@ -6,7 +6,7 @@ function [y,x] = mataa_smooth_log (yRaw,xRaw,step)
 % This function smoothes a data set (xRaw,yRaw) reflecting a function y(x), where the size of the averaging bins of x increases exponentially. y may be a multi-dimensional function of x.
 % 
 % INPUT:
-% yRaw, xRaw: vectors containing raw data corresponding to function y(x). If y(x) is multi dimensional, yRaw is a matrix.
+% yRaw, xRaw: vectors containing raw data corresponding to function y(x). 
 % step: smoothing width in octaves (e.g. step = 1/12 gives smoothed data with 1/12-octave resolution)
 %
 % OUTPUT:
@@ -44,21 +44,15 @@ x = logspace(log10(xMin),log10(xMax),2*n+1);
 x = x(2:2:end-1);
 
 lenY = length(x); % length of series
-numY = size (yRaw,1); % number of data series in y
-
-y = repmat(NaN,numY,lenY);
+y = repmat(NaN,lenY,1);
 
 for k=1:n
     l = find(xRaw >= x(k)/sqrt(step) & xRaw <= x(k)*sqrt(step));
     if ~isempty(l)
-        for m = 1:numY
-            y(m,k) = mean(yRaw(m,l));
-        end
+        y(k) = mean(yRaw(l));
     end
 end
 
 i = ~isnan(y);
-i = find(i(1,:));
-
-x = x(i);
-y = y(:,i);
+x = x(find(i));
+y = y(find(i));

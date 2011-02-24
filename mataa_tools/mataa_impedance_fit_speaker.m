@@ -96,15 +96,16 @@ global x1
 
 % fit low-frequency part
 x0 = [Rdc f0 Qe Qm];
-x1 = fminsearch(@ZspeakerMin_low,x0);
+x1 = fminsearch (@ZspeakerMin_low,x0);
 
 % fit high-frequency part:
-x0 = [1 1 10];
-x2 = fminsearch(@ZspeakerMin_high,x0);
+x0 = [1 1 1];
+x2 = fminsearch (@ZspeakerMin_high,x0);
 
 % fit full frequency range:
 x0 = [x1 x2];
-x = fminsearch(@ZspeakerMin_full,x0);
+x = fminsearch (@ZspeakerMin_full,x0);
+% x = x0;
 
 clear global ff
 clear global mm
