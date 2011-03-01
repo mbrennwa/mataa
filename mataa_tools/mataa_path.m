@@ -74,6 +74,6 @@ switch whichPath
 %    case 'user_scripts',    path = [main 'user_scripts' filesep];
     case 'microphone',      path = [main 'microphone_data' filesep];
 %    case 'data',            path = [main 'mataa_data' filesep];
-    case 'settings',        path = ['~' filesep];
+    case 'settings',        path = [main filesep];
     otherwise               error(sprintf('mataa_path: Unkown path specifier (''%s'').',whichPath))
 end
