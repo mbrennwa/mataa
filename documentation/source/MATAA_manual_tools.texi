@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 13-Aug-2009.
+This section contains a list of the MATAA tools and their usage information as of 26-Feb-2011.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -67,7 +67,8 @@ OUTPUT@*
 platform: string indicating the computer platform:@*
 MAC:      Mac OS X (Darwin)@*
 PCWIN:    MS Windows@*
-LINUX_X86:  Linux on x86 platform@*
+LINUX_X86-32:  Linux on x86 / 32 Bit platform@*
+LINUX_X86-64:  Linux on AMD / 64 Bit platform@*
 UNKNOWN:  unknown platform (unknown to MATAA)@*
 
 
@@ -1330,6 +1331,7 @@ OUTPUT:@*
 t_start: start of selected signal range@*
 t_end: end of selected signal range@*
 
+input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')@*
 
 @findex mataa_settings
 @node mataa_settings
@@ -1652,7 +1654,7 @@ DESCRIPTION:@*
 This function smoothes a data set (xRaw,yRaw) reflecting a function y(x), where the size of the averaging bins of x increases exponentially. y may be a multi-dimensional function of x.@*
 
 INPUT:@*
-yRaw, xRaw: vectors containing raw data corresponding to function y(x). If y(x) is multi dimensional, yRaw is a matrix.@*
+yRaw, xRaw: vectors containing raw data corresponding to function y(x). @*
 step: smoothing width in octaves (e.g. step = 1/12 gives smoothed data with 1/12-octave resolution)@*
 
 OUTPUT:@*

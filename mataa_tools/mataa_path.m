@@ -74,6 +74,11 @@ switch whichPath
 %    case 'user_scripts',    path = [main 'user_scripts' filesep];
     case 'microphone',      path = [main 'microphone_data' filesep];
 %    case 'data',            path = [main 'mataa_data' filesep];
-    case 'settings',        path = ['~' filesep]; % this may cause issues if the tilde is not supported, e.g. on fancy Windows systems
+    case 'settings',        
+        if strcmp (mataa_computer,'PCWIN')
+            path = userpath;
+        else
+            path = ['~' filesep]; % this may cause issues if the tilde is not supported, e.g. on fancy Windows systems
+        end
     otherwise               error(sprintf('mataa_path: Unkown path specifier (''%s'').',whichPath))
 end
