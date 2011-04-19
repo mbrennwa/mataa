@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010/MacPorts 2010_2) (format=pdfetex 2011.2.1)  26 FEB 2011 17:24
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010/MacPorts 2010_4) (format=pdfetex 2011.4.16)  19 APR 2011 22:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -603,7 +603,7 @@ Overfull \vbox (33.91702pt too high) has occurred while \output is active
 [71] (./MATAA_manual.fns) [72] ) 
 Here is how much of TeX's memory you used:
  2265 strings out of 496720
- 30865 string characters out of 3192068
+ 30865 string characters out of 3192067
  103904 words of memory out of 3000000
  3247 multiletter control sequences out of 15000+200000
  32127 words of font info for 112 fonts, out of 3000000 for 9000
@@ -626,7 +626,7 @@ pt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb><
 /opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><
 /opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb><
 /opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (77 pages, 479461 bytes).
+Output written on MATAA_manual.pdf (77 pages, 479435 bytes).
 PDF statistics:
  1125 PDF objects out of 1200 (max. 8388607)
  1014 compressed objects within 11 object streams

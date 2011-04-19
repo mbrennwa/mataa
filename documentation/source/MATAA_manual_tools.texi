@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 26-Feb-2011.
+This section contains a list of the MATAA tools and their usage information as of 19-Apr-2011.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
