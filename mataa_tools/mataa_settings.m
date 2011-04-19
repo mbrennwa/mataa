@@ -44,8 +44,8 @@ function val = mataa_settings (field,value)
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-path = mataa_path ("settings");
-path = sprintf("%s.mataa_settings.mat",path);
+path = mataa_path ('settings');
+path = sprintf('%s.mataa_settings.mat',path);
 
 reset_to_def = ~exist(path);
 
