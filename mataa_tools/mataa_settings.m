@@ -53,7 +53,6 @@ if (~reset_to_def && exist('field')) reset_to_def = strcmp(field,'reset'); end
 
 if reset_to_def
 	% create / reset to default settings:
-	disp('Creating / resetting to MATAA default settings...');
 	mataa_settings.plotColor = 'b';
 	mataa_settings.microphone = 'unknown_microphone';
 	mataa_settings.plotWindow_IR = 1;
@@ -70,7 +69,9 @@ if reset_to_def
 	
     mataa_settings.interchannel_delay = 0;
 	
-	eval( [ 'save -mat ' path ' mataa_settings ; ' ] );
+	cc = [ 'save -mat ' path ' mataa_settings ; ' ];
+	disp(sprintf('Creating / resetting to MATAA default settings (command: %s)...',cc));
+	eval( cc );
 	val = mataa_settings;
 	disp(mataa_settings);
 	disp('...done.');
