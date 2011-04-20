@@ -77,6 +77,12 @@ switch whichPath
     case 'settings',        
         if strcmp (mataa_computer,'PCWIN')
             path = userpath;
+            if strcmp(path(end),';')
+                path = path(1:end-1);
+            end
+            if ~strcmp(path(end),filesep)
+                path = [ path filesep ];
+            end
         else
             path = ['~' filesep]; % this may cause issues if the tilde is not supported, e.g. on fancy Windows systems
         end
