@@ -17,7 +17,7 @@ function [THD,kn,f1] = mataa_measure_HD (f1,T,fs,N);
 % f1: true value of f1 used for analyses (value may be adjusted slightly to fit in the resolution of the fourier spectrum).
 %
 % NOTE 1: THD is computed WITHOUT the noise in the spectrum ranges between the harmoics.
-
+%
 % NOTE 2: There exist different definitions of THD (see e.g. http://en.wikipedia.org/wiki/THD and the external links cited there for some of these definitions). Here, the following definition is used:
 % THD = sqrt( k2^2 + k3^2 + ... + kN^2 ) / k1
 % 
