@@ -26,6 +26,7 @@ function [mag,phase] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1,L2,R2)
 %
 % EXAMPLE:
 % The following gives a good approximation of the data shown in Fig. 7.18 in J. d'Appolito, "Testing oudspeaker" on page 122:
+% f = logspace(1,4,100);
 % [mag,phase] = mataa_impedance_speaker_model (f,7.66,33.22,0.45,3.4,0.4e-3,1.1e-3,13);
 % semilogx (f,mag,f,phase)
 % DISCLAIMER:

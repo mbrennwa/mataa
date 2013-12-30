@@ -118,6 +118,7 @@ L1  = x(5)/1000;
 L2  = x(6)/1000;
 R2  = x(7);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function chiSquare = ZspeakerMin_general (f,MAG,PHAS,Rdc,f0,Qe,Qm,L1,L2,R2)
 x = [Rdc,f0,Qe,Qm,L1,L2,R2];
@@ -139,6 +140,8 @@ else
 end
 
 
+
+
 function chiSquare = ZspeakerMin_low (x)
     global ff_low;
     global mm_low;
@@ -146,7 +149,8 @@ function chiSquare = ZspeakerMin_low (x)
     
     chiSquare = ZspeakerMin_general(ff_low,mm_low,pp_low,x(1),x(2),x(3),x(4),0,0,Inf);
 
-endfunction
+
+
 
 function chiSquare = ZspeakerMin_high (x)
     global ff_high;
@@ -154,15 +158,14 @@ function chiSquare = ZspeakerMin_high (x)
     global pp_high;
     global x1;
     
-    chiSquare = ZspeakerMin_general(ff_high,mm_high,pp_high,x1(1),x1(2),x1(3),x1(4),x(1),x(2),x(3));
-    
-endfunction
+    chiSquare = ZspeakerMin_general(ff_high,mm_high,pp_high,x1(1),x1(2),x1(3),x1(4),x(1),x(2),x(3)); 
+
+
+
 
 function chiSquare = ZspeakerMin_full (x)
     global ff;
     global mm;
     global pp;
 
-    chiSquare = ZspeakerMin_general(ff,mm,pp,x(1),x(2),x(3),x(4),x(5),x(6),x(7));
-    
-endfunction
+    chiSquare = ZspeakerMin_general(ff,mm,pp,x(1),x(2),x(3),x(4),x(5),x(6),x(7)); 

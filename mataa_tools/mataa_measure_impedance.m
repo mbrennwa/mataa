@@ -64,7 +64,7 @@ end
 
 % setup test signal:
 T = max(1/fLow,log2(fHigh/fLow)/2); % set length of test signal (seconds)
-s = mataa_signal_generator('sweep',fs,T,[fLow fHigh]);
+s = mataa_signal_generator('sweep_smooth',fs,T,[fLow fHigh]);
 
 % play the test signal and record the response signals:
 [response,original] = mataa_measure_signal_response(s,fs,0.1); % play the test signal and record the response signals

@@ -18,6 +18,7 @@ function [s,t] = mataa_signal_generator (kind,fs,T,param);
 % 'sine','sin':       Sine wave (param = frequency in Hz)
 % 'cosine','cos':     Cosine wave (param = frequency in Hz)
 % 'sweep','sweep_exp':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)
+% 'sweep_smooth','sweep_exp_smooth': Same as 'sweep' and 'sweep_exp', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)
 % 'square':           Square (rectangle) wave (param = frequency in Hz)
 % 'rectangle','rect:  Same as 'square'
 % 'sawtoot','saw':    Sawtooth wave (param = frequency in Hz)
@@ -116,6 +117,16 @@ switch kind
         t = [0:N-1]*dt;
         k = (f2/f1)^(1/T);
         s = sin(2*pi*f1/log(k)*(k.^t-1));
+    case {'sweep_smooth','sweep_exp_smooth'},
+        [s,t] = mataa_signal_generator ('sweep_exp',fs,T,param);
+        % fade in and fade out:
+        T  = (max(t)-min(t)) / 20;
+        i1 = find(t <= T);
+        i2 = find(t >= t(end)-T);
+        w1 = sin(t(i1)/T/2*pi); w1 = w1(:);
+        w2 = flipud(w1);        
+        s(i1) = w1 .* s(i1);
+        s(i2) = w2 .* s(i2);
     case {'sweep_lin'},
         f1 = param(1); f2=param(2);
         N = round(T/dt);
