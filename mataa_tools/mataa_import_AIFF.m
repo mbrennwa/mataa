@@ -1,6 +1,6 @@
-function [t,s,comments] = mataa_import_AIFF (file);
+function [t,s] = mataa_import_AIFF (file);
 
-% function [t,s,comments] = mataa_import_AIFF (file)
+% function [t,s] = mataa_import_AIFF (file)
 %
 % DESCRIPTION:
 % Import time-domain data from an AIFF file. This function requires the sndfile-convert utiliy, which is part of libsndfile ( http://www.mega-nerd.com/libsndfile ).
@@ -11,7 +11,6 @@ function [t,s,comments] = mataa_import_AIFF (file);
 % OUTPUT:
 % t: time values (s)
 % s: signal samples
-% comments: cell string containing the comments in the data file (if any)
 %
 % DISCLAIMER:
 % This file is part of MATAA.
