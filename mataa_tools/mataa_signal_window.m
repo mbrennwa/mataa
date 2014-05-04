@@ -14,6 +14,7 @@ function s = mataa_signal_window (s0,window,par);
 % 'bartlett','bart','triangular': Bartlett (triangular) window.
 % 'blackman', 'black': Blackman window
 % 'kaiser': Kaiser window with parameter alpha = par
+% 'bingham': Bingham window with parameter par (par = 0 --> rectangular window, par = 1 --> Hann window).
 %
 % Also, 'half' windows may be used, whereby the second half of the window is used. This is done by appending '_half' to the window name. This is useful, for instance, to attenuate echoes towards the end in an impulse response, while retaining the information at the beginning of the signal.
 %
@@ -60,10 +61,13 @@ n = [0:N-1];
 
 window = lower(window);
 
-if length(window)>5
+if length(window) > 5
     if strcmp(window(end-4:end),'_half')
         window = window(1:end-5);
         n = n/2 + (N-1)/2;
+        ishalf = true;
+    else
+        ishalf = false;
     end
 end
 
@@ -86,6 +90,22 @@ switch window
     case {'kaiser'}
         w = pi*par*sqrt(1-(2*n/(N-1)-1).^2);
         w = besseli(0,w)./besseli(0,pi*par);
+    case {'bingham'}
+        if (nargin < 3)
+            par = 0.2;
+        end
+        if (par > 1 || par < 0)
+            error ('mataa_signal_window: Bingham parameter must be between 0 and 1!');
+        end
+        if ~ishalf
+            n1=floor(par/2*N);
+            n2=N-2*n1;
+            w1 = 0.5 * (1 - cos(2*pi*(1:n1)/(par*(N+1))));
+            w=[w1 ones(1,n2) w1(n1:-1:1) ]';
+        else
+            w = mataa_signal_window (repmat(1,1,2*N),'bingham',par); % get a full Bingham window
+            w = w(N+1:end); % keep only second half
+        end
     otherwise
         error('Unknown window function!');
 end

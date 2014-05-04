@@ -16,11 +16,11 @@
 \entry {Download, MATAA}{3}
 \entry {DUT channel}{7}
 \initial {F}
-\entry {FDL, GNU Free Documentation License}{62}
+\entry {FDL, GNU Free Documentation License}{63}
 \entry {Filter, anti-aliasing}{6}
 \initial {G}
-\entry {GNU General Public License}{58}
-\entry {GPL, GNU General Public License}{58}
+\entry {GNU General Public License}{59}
+\entry {GPL, GNU General Public License}{59}
 \initial {H}
 \entry {Hardware Setup}{5}
 \entry {Hardware setup, sound}{5}

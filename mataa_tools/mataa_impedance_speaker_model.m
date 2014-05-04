@@ -90,4 +90,4 @@ Zhigh = Z1 + Z2;
 % total impedance:
 Z = Rdc + Zlow + Zhigh;
 mag = abs (Z);
-phase = arg (Z) / pi * 180;
+phase = angle (Z) / pi * 180;

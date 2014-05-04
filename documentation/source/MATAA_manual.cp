@@ -71,6 +71,6 @@
 \entry{Column vector}{57}{Column vector}
 \entry{Vector}{57}{Vector}
 \entry{Scalar}{57}{Scalar}
-\entry{GNU General Public License}{58}{GNU General Public License}
-\entry{GPL, GNU General Public License}{58}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{62}{FDL, GNU Free Documentation License}
+\entry{GNU General Public License}{59}{GNU General Public License}
+\entry{GPL, GNU General Public License}{59}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{63}{FDL, GNU Free Documentation License}

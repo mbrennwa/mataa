@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 19-Apr-2011.
+This section contains a list of the MATAA tools and their usage information as of 06-Jan-2014.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -355,8 +355,28 @@ NOTES:@*
 
 EXAMPLE:@*
 The following gives a good approximation of the data shown in Fig. 7.18 in J. d'Appolito, "Testing oudspeaker" on page 122:@*
+f = logspace(1,4,100);@*
 [mag,phase] = mataa_impedance_speaker_model (f,7.66,33.22,0.45,3.4,0.4e-3,1.1e-3,13);@*
 semilogx (f,mag,f,phase)@*
+
+@findex mataa_import_AIFF
+@node mataa_import_AIFF
+@section mataa_import_AIFF
+
+file: ...mataa_tools/mataa_import_AIFF.m@*
+
+function [t,s] = mataa_import_AIFF (file)@*
+
+DESCRIPTION:@*
+Import time-domain data from an AIFF file. This function requires the sndfile-convert utiliy, which is part of libsndfile ( http://www.mega-nerd.com/libsndfile ).@*
+
+INPUT:@*
+file: string containing the name of the file containing the data to be imported. The string may contain a complete path. If no path is given, the file is assumed to be located in the current working directory.@*
+
+OUTPUT:@*
+t: time values (s)@*
+s: signal samples@*
+
 
 @findex mataa_import_FRD
 @node mataa_import_FRD
@@ -641,6 +661,7 @@ kn: harmonic distortion spectrum, in voltage units (not power). kn is a vector c
 f1: true value of f1 used for analyses (value may be adjusted slightly to fit in the resolution of the fourier spectrum).@*
 
 NOTE 1: THD is computed WITHOUT the noise in the spectrum ranges between the harmoics.@*
+
 NOTE 2: There exist different definitions of THD (see e.g. http://en.wikipedia.org/wiki/THD and the external links cited there for some of these definitions). Here, the following definition is used:@*
 THD = sqrt( k2^2 + k3^2 + ... + kN^2 ) / k1@*
 
@@ -1485,6 +1506,7 @@ kind can be one of the following:@*
 'sine','sin':       Sine wave (param = frequency in Hz)@*
 'cosine','cos':     Cosine wave (param = frequency in Hz)@*
 'sweep','sweep_exp':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)@*
+'sweep_smooth','sweep_exp_smooth': Same as 'sweep' and 'sweep_exp', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)@*
 'square':           Square (rectangle) wave (param = frequency in Hz)@*
 'rectangle','rect:  Same as 'square'@*
 'sawtoot','saw':    Sawtooth wave (param = frequency in Hz)@*
@@ -1621,6 +1643,7 @@ The following window functions are available (see e.g. http://en.wikipedia.org/w
 'bartlett','bart','triangular': Bartlett (triangular) window.@*
 'blackman', 'black': Blackman window@*
 'kaiser': Kaiser window with parameter alpha = par@*
+'bingham': Bingham window with parameter par (par = 0 --> rectangular window, par = 1 --> Hann window).@*
 
 Also, 'half' windows may be used, whereby the second half of the window is used. This is done by appending '_half' to the window name. This is useful, for instance, to attenuate echoes towards the end in an impulse response, while retaining the information at the beginning of the signal.@*
 

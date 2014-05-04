@@ -55,5 +55,5 @@ X = load (outfile); % load the mat file
 
 delete (outfile); % clean up
 
-s = X.wavedata;
-t = linspace (0,(length(s)-1)/X.samplerate,length(s));
+s = X.wavedata; s = s(:);
+t = linspace (0,(length(s)-1)/X.samplerate,length(s)); t = t(:);
