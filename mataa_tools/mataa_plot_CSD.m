@@ -1,6 +1,6 @@
-function mataa_plot_CSD (spl,f,t,spl_range,annote,options);
+function mataa_plot_CSD (spl,f,t,spl_range,annote,opts);
 
-% function mataa_plot_CSD (spl,f,t,spl_range,annote,options);
+% function mataa_plot_CSD (spl,f,t,spl_range,annote,opts);
 %
 % DESCRIPTION:
 % Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)
@@ -10,10 +10,10 @@ function mataa_plot_CSD (spl,f,t,spl_range,annote,options);
 % spl,f,t: see description of output of mataa_IR_to_CSD
 % spl_range: the range covered on the y axis of the waterfall diagram (in dB)
 % annote: annotations to the plot title (string, optional)
-% options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):
-%     options = 'contours' : plot contours of waterfall diagram below the waterfall
-%     options = 'countours2': plot contours (lines) only in a 2-D plot
-%     options = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)
+% opts: plot opts (sting or cell string containing multiple opts, optional). Currently, the following opts are available (for Octave 2.9.10 or newer):
+%     opts = 'contours' : plot contours of waterfall diagram below the waterfall
+%     opts = 'countours2': plot contours (lines) only in a 2-D plot
+%     opts = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -40,8 +40,8 @@ if ~exist('annote')
     annote = '';
 end
 
-if ~exist('options')
-    options = '';
+if ~exist('opts')
+    opts = '';
 end
 
 if length(annote) > 0
@@ -80,25 +80,24 @@ if exist('OCTAVE_VERSION')
         Z(n, F < min(f(i)) ) = -spl_range;
     end
     
-    Z = flipud(Z);
-    [X,Y] = meshdom(F,T/10^scale);
+    [X,Y] = meshgrid(F,T/10^scale);
 
     ov = OCTAVE_VERSION;
     i=findstr('.',ov);
         
     if ( str2num(ov(1:i(1)-1)) >= 3 ) % running Octave 3.0.0 or later
-        if any(strcmp(options,'contours'))
+        if any(strcmp(opts,'contours'))
             meshc(X,Y,Z);
-        elseif any(strcmp(options,'contours2'))
+        elseif any(strcmp(opts,'contours2'))
             contour(X,Y,Z);
-        elseif any(strcmp(options,'shaded2'))
+        elseif any(strcmp(opts,'shaded2'))
             contourf(X,Y,Z);
         else
             mesh(X,Y,Z);
         end
             
         view(20,25);
-        replot
+        
         r = axis;
         r([1,2]) = [ min(F) , max(F) ];
         r([3,4]) = [ 0 , max(max(Y)) ];
@@ -108,7 +107,6 @@ if exist('OCTAVE_VERSION')
         set(gca,'xscale','log');
         set(gca,'box','off');
         
-        replot
     else % running Octave 2.x or earlier
         error (sprintf('mataa_plot_CSD: You are running Octave %s, but version 3.0 or later is required.',ov));     
     end

@@ -54,7 +54,7 @@ input('...done. Hit ENTER to continue.');
 disp('Calculate and plot the cumulative spectral decay (CSD, smoothed to 1/48 octave). This may take a while...');
 T = linspace(0,0.005,40);
 [spl,f,d] = mataa_IR_to_CSD(h,t,T,1/48);
-mataa_plot_CSD(spl,f,d,50,[],'contours');
+mataa_plot_CSD(spl,f,d,50);
 if exist('OCTAVE_VERSION')
 	disp('...done (plot may take a while to appear).')
 else
