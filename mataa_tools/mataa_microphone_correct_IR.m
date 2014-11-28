@@ -49,7 +49,7 @@ mic_name = [ mic_name '_transfer.txt' ];
 if exist(mic_name)==2
 	
 	
-	if exist('OCTAVE_VERSION')
+	if exist('OCTAVE_VERSION','builtin')
 		more('off'),
 	end
 	

@@ -422,7 +422,7 @@ end
 if flag == 1
 	abuff = ones(1,n);
 else
-    if exist('OCTAVE_VERSION')
+    if exist('OCTAVE_VERSION','builtin')
         rand('seed',sum(100*clock));
     else
 	   rand('state',sum(100*clock));

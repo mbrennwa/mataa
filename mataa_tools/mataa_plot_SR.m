@@ -36,7 +36,7 @@ function mataa_plot_SR (h,t,annote);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('annote')
+if ~exist('annote','var')
     annote = '';
 end
 

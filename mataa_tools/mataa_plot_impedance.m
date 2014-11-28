@@ -35,7 +35,7 @@ function mataa_plot_impedance (mag,phase,f,annote);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist ('annote')
+if ~exist ('annote','var')
     annote = '';
 end
 

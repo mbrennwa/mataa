@@ -33,7 +33,7 @@ elseif ~strcmp(fileName(end-3:end),'.eps')
     fileName = [fileName '.eps'];
 end
 
-if exist('print')
+if exist('print','file')
     or = orient;
     orient('landscape');
     print('-dpsc',fileName);

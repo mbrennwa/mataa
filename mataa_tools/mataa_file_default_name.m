@@ -32,7 +32,7 @@ function name = mataa_file_default_name (ask);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('ask')
+if ~exist('ask','var')
     ask = 0;
 end
 

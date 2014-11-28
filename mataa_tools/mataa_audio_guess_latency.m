@@ -40,7 +40,7 @@ function latency = mataa_audio_guess_latency (fs,maxLatency);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('maxLatency')
+if ~exist('maxLatency','var')
     maxLatency = input('Enter maximum expected latency (in ms):');
     maxLatency=maxLatency/1000;
 end

@@ -39,7 +39,7 @@ function platform = mataa_computer;
 
 platform = computer;
 
-if (exist('OCTAVE_VERSION')~=0) % we're running Octave
+if (exist('OCTAVE_VERSION','builtin')) % we're running Octave
 	if (~isempty(findstr(platform,'apple')) && ~isempty(findstr(platform,'darwin')))
 		platform='MAC';
 	elseif ~isempty(findstr(platform,'linux')) % e.g. platform = 'x86_64-unknown-linux-gnu'

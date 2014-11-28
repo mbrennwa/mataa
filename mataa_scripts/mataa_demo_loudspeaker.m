@@ -20,7 +20,7 @@
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
 	more('off'),
 end
 
@@ -55,7 +55,7 @@ disp('Calculate and plot the cumulative spectral decay (CSD, smoothed to 1/48 oc
 T = linspace(0,0.005,40);
 [spl,f,d] = mataa_IR_to_CSD(h,t,T,1/48);
 mataa_plot_CSD(spl,f,d,50);
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
 	disp('...done (plot may take a while to appear).')
 else
     disp('...done.')

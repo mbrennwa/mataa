@@ -105,7 +105,7 @@ if ~strcmp (upper (file(end-3:end)),'.FRD')
     file = sprintf ('%s.FRD',file); % append '.FRD'
 end
 
-if exist(file,"file")
+if exist(file,'file')
     beep;
     overwrite = input(sprintf("File %s exists. Enter 'Y' or 'y' to overwrite, or anything else to cancel.",file),"s");
     if ~strcmp(lower(overwrite),"y")

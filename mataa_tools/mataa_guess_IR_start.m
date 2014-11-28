@@ -44,7 +44,7 @@ function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('verbose')
+if ~exist('verbose','var')
     verbose=1;
 end
 

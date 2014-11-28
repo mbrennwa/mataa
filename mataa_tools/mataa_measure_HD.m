@@ -50,7 +50,7 @@ function [THD,kn,f1] = mataa_measure_HD (f1,T,fs,N);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('N')
+if ~exist('N','var')
     N = 12;
 end
 

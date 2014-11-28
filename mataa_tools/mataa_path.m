@@ -43,7 +43,7 @@ function path = mataa_path (whichPath);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('whichPath')
+if ~exist('whichPath','var')
     warning('mataa_path: no path specified, assuming whichPath=main.');
     whichPath = 'main';
 end

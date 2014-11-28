@@ -38,11 +38,11 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('fs')
+if ~exist('fs','var')
     fs = [];
 end
 
-if ~exist('resolution')
+if ~exist('resolution','var')
     resolution = [];
 end
 

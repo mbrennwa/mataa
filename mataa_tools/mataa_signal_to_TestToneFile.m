@@ -49,7 +49,7 @@ if nFrames < nChannels
     warning('mataa_signal_to_TestToneFile: the test-signal data contains more channels than frames. Is this intended? Or has the input data been transposed by accident?')
 end
 
-if ~exist('pathToFile')
+if ~exist('pathToFile','var')
     pathToFile = '';
 end
 
@@ -57,8 +57,8 @@ if strcmp(pathToFile,'')
     pathToFile = mataa_tempfile;
 end
 
-if exist('zeroTime')
-    if ~exist('fs')
+if exist('zeroTime','var')
+    if ~exist('fs','var')
         error('mataa_signal_to_TestToneFile: need fs to determine number of zeros to be padded the the signal')
     end
     n = zeroTime*fs;

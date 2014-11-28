@@ -47,9 +47,9 @@ function val = mataa_settings (field,value)
 path = mataa_path ('settings');
 path = sprintf('%s.mataa_settings.mat',path);
 
-reset_to_def = ~exist(path);
+reset_to_def = ~exist(path,'file');
 
-if (~reset_to_def && exist('field')) reset_to_def = strcmp(field,'reset'); end
+if (~reset_to_def && exist('field','var')) reset_to_def = strcmp(field,'reset'); end
 
 if reset_to_def
 	% create / reset to default settings:

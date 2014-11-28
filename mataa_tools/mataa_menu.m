@@ -44,7 +44,7 @@ function out = mataa_menu (title, varargin)
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
 % Force pending output to appear before the menu.
     fflush (stdout);
 end

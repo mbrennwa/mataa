@@ -43,7 +43,7 @@ function [h,t] = mataa_IR_demo (IRtype)
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('IRtype')
+if ~exist('IRtype','var')
     IRtype = 'default';
 end
 

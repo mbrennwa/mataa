@@ -35,7 +35,7 @@ function mataa_plot_HD (kn,annote);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('annote')
+if ~exist('annote','var')
     annote = '';
 end
 
@@ -50,7 +50,7 @@ holdstate=ishold;
 
 style=mataa_settings('plotStyle');
 style1 = [ style(find(isletter(style))) '-' ];
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
     style2 = [ style(find(isletter(style))) '*' ];
 else
     style2 = [ style(find(isletter(style))) '.' ];

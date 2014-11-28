@@ -63,7 +63,7 @@ for n=1:length(T)
 	h = window.*h;
 
 	if T(n) <= max(t)
-		if exist('smooth_interval')
+		if exist('smooth_interval','var')
 			[splI,phase,fI] = mataa_IR_to_FR(h,t,smooth_interval);
 		else
 			[splI,phase,fI] = mataa_IR_to_FR(h,t);

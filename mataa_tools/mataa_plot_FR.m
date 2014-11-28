@@ -41,7 +41,7 @@ function mataa_plot_FR (mag,phase,f,annote,fNorm,phaseUnwrap);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist ('annote')
+if ~exist ('annote','var')
     annote = '';
 end
 
@@ -49,7 +49,7 @@ if length (annote) > 0
     annote = sprintf (' (%s)',annote);
 end
 
-if ~exist('fNorm')
+if ~exist('fNorm','var')
     fNorm = [];
 end
 
@@ -60,7 +60,7 @@ else
     y1lab = 'Magnitude (dB)';
 end
 
-if ~exist('phaseUnwrap')
+if ~exist('phaseUnwrap','var')
     phaseUnwrap = 0;
 end
 

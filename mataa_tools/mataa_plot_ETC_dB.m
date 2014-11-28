@@ -27,7 +27,7 @@ function mataa_plot_ETC_dB (etc,t,annote,dB_range);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('annote')
+if ~exist('annote','var')
     annote = '';
 end
 
@@ -40,7 +40,7 @@ etc = 20*log(etc);
 
 h = mataa_plot_one (t,etc,mataa_settings ('plotWindow_ETC'),annote,'Time (s)','ETC (dB)');
 
-if ~exist('dB_range')
+if ~exist('dB_range','var')
     dB_range=60;
 end
 

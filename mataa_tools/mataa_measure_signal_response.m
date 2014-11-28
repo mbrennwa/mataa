@@ -51,7 +51,7 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_s
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('verbose')
+if ~exist('verbose','var')
     verbose=1;
 end
 
@@ -118,7 +118,7 @@ deleteInputFileAfterIO = 0;
 
 if ~ischar(input_signal)
 % signal samples have been specified instead of file name:
-    if ~exist('latency')
+    if ~exist('latency','var')
 	warning('mataa_measure_signal_response: latency not specified. Assuming latency = 0.1 seconds. Check for truncated data!');
 	latency = 0.1;
     end
@@ -151,7 +151,7 @@ end
 
 out_path = mataa_tempfile;
 
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
 	more('off'),
 end
 if verbose

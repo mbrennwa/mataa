@@ -31,7 +31,7 @@ function mataa_gnuplot (cmd);
 
 warning('mataa_gnuplot: THE FUNCTION mataa_gnuplot SHOULD NOT BE USED ANYMORE, BECAUSE THE GNUPLOT INTERFACE TO OCTAVE HAS CHANGED CONSIDERABLY IN OCTAVE 2.9.X. IT WILL PROPABLY BE CHANGED FURTHER, BREAKING THIS FUNCTION.')
 
-if ~exist('OCTAVE_VERSION')
+if ~exist('OCTAVE_VERSION','builtin')
     warning('mataa_gnuplot: talking to Gnuplot from within MATAA only makes sense with GNU Octave.')
 else
     try

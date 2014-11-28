@@ -40,7 +40,7 @@ function y = mataa_running_mean (x,n,w);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist('w')
+if ~exist('w','var')
     w = 'rectangular';
 end
 

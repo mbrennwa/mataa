@@ -38,7 +38,7 @@ if isscalar(t) % sample rate given instead of time values
 	t = [0:1/t:(length(s)-1)/t];
 end
 
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
     c = autocov(s);
     c = c/c(1);
 else

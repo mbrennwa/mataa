@@ -31,7 +31,7 @@ function y = mataa_interp (xi,yi,x);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if exist('interp1')
+if exist('interp1','file')
     y = interp1(xi,yi,x,'linear','extrap');
 else
     X = x;

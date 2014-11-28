@@ -34,7 +34,7 @@ function [h,t] = mataa_measure_IR (input_signal,fs,N);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if ~exist ('N')
+if ~exist ('N','var')
 	N=1;
 end
 
@@ -43,7 +43,7 @@ for i = 1:N
 [out,in,t] = mataa_measure_signal_response (input_signal,fs); % do the sound I/O
 
 % deconvolve in and out signals to yield h:
-if exist ('OCTAVE_VERSION')
+if exist ('OCTAVE_VERSION','builtin')
 	more ('off');
 end
 

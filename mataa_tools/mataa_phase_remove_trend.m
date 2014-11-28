@@ -37,8 +37,8 @@ function [phase,delay] = mataa_phase_remove_trend (phase,f,f1,f2);
 
 i=[];
 
-if exist('f1')
-    if exist('f2')
+if exist('f1','var')
+    if exist('f2','var')
         if f1 > f2
             ff = f2; f2 = f1; f1 = ff; clear ff;
         end

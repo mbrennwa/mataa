@@ -34,8 +34,8 @@ function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if exist ('OCTAVE_VERSION')
-    if ~exist ('fminsearch')
+if exist ('OCTAVE_VERSION','builtin')
+    if ~exist ('fminsearch','file')
         error ('mataa_impedance_fit_speaker: the ''fminsearch'' function is missing. You may need to install the optim package from Octave forge.')
     end
 end
@@ -51,7 +51,7 @@ phase = unwrap (phase/180*pi)/pi*180;
 u = diff (mag);
 F = ( f(1:end-1) + f(2:end))/2;
 [u1,k1] = max (u); [u2,k2] = min (u);
-if ~exist ('f0')
+if ~exist ('f0','var')
     f0 = (F(k1)+F(k2))/2;
 end
 clear F
@@ -67,12 +67,12 @@ end
 u_peak = u(k);
 f_peak = f(k);
 f1 = min (f_peak); f2 = max (f_peak);
-if ~exist ('Qe')
+if ~exist ('Qe','var')
     Qe = f0 / (f2-f1);
 end
 
 % guess starting value for Qm:
-if ~exist ('Qm')
+if ~exist ('Qm','var')
     Qm = 0;
 end
 
