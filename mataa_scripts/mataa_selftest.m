@@ -21,7 +21,7 @@
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
 	more('off'),
 end
 
@@ -29,7 +29,7 @@ err = 0;
 
 disp('****** MATAA self test ******')
 
-if exist('OCTAVE_VERSION')
+if exist('OCTAVE_VERSION','builtin')
     disp(sprintf('You are running Octave version %s.',version))
 else
     disp(sprintf('You are running Matlab version %s.',version))
@@ -39,7 +39,7 @@ disp(sprintf('The computer platform is %s.',mataa_computer))
 
 try
     p = mataa_path('main');
-    if exist(p);
+    if exist(p,'dir');
         disp(sprintf('MATAA main path is %s.',mataa_path('main')))
     else
         disp(sprintf('** ERROR: MATAA main path does not exist (%s)!',p))
@@ -57,7 +57,7 @@ end
 
 try
     p = mataa_path('signals');
-    if exist(p);
+    if exist(p,'dir');
         disp(sprintf('MATAA test-signals path is %s.',p))
     else
         disp(sprintf('** ERROR: MATAA test-signals path does not exist (%s)!',p))
@@ -68,7 +68,7 @@ end
 
 try
     p = mataa_path('tools');
-    if exist(p);
+    if exist(p,'dir');
         disp(sprintf('MATAA tools path is %s.',p))
     else
         disp(sprintf('** ERROR: MATAA tools path does not exist (%s)!',p))
@@ -79,7 +79,7 @@ end
 
 try
     p = mataa_path('TestTone');
-    if exist(p);
+    if exist(p,'dir');
         disp(sprintf('MATAA TestTone path is %s.',p))
     else
         disp(sprintf('** ERROR: MATAA TestTone path does not exist (%s). This may be no problem, if audio I/O does not rely on TestTone (see MATAA manual).',p))
@@ -90,7 +90,7 @@ end
 
 try
     p = mataa_path('mataa_scripts');
-    if exist(p);
+    if exist(p,'dir');
         disp(sprintf('MATAA scripts path is %s.',p))
     else
         disp(sprintf('** ERROR: path to MATAA scripts does not exist (%s)!',p))
@@ -101,7 +101,7 @@ end
 
 try
     p = mataa_path('microphone');
-    if exist(p);
+    if exist(p,'dir');
         disp(sprintf('MATAA path to microphone data is %s.',p))
     else
         disp(sprintf('** ERROR: path to microphone data does not exist (%s). This may be no problem if you do not use microphones.',p))
