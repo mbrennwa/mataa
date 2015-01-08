@@ -77,6 +77,10 @@ switch whichPath
     case 'settings',        
         if strcmp (mataa_computer,'PCWIN')
             path = userpath;
+            if isempty(path) % userpath may be return an empty string on Windows (argh!)
+                path = pwd;
+                warning('mataa_path: Windows userpath empty, using current working directory (pwd) as settings path.');
+            end
             if strcmp(path(end),';')
                 path = path(1:end-1);
             end
