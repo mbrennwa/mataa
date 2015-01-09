@@ -1,9 +1,10 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  6 JAN 2014 10:04
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  9 JAN 2015 09:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**./MATAA_manual.texi
+**\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
+MATAA_manual.texi
 (./MATAA_manual.texi
 (/usr/local/texlive/2012/texmf-dist/tex/texinfo/texinfo.tex
 Loading texinfo [version 2012-06-05.14]:
@@ -285,8 +286,8 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
  [19] [20] [21] [22] [23] [24] [25] [26]
-[27] [28] [29] [30]
-Overfull \hbox (9.87344pt too wide) in paragraph at lines 665--667
+[27] [28] [29] [30] [31]
+Overfull \hbox (9.87344pt too wide) in paragraph at lines 688--690
 []@textrm NOTE 2: There ex-ist dif-fer-ent def-i-ni-tions of THD (see e.g. http
 ://en.wikipedia.org/wiki/THD|
 
@@ -298,8 +299,8 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 665--667
 .@textrm E
 .etc.
 
-[31] [32]
-Underfull \hbox (badness 10000) in paragraph at lines 727--728
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 750--751
 []@textrm function [re-spons-eS-ig-nal,inputSignal,t] = mataa[]measure[]signal[
 ]response (in-
 
@@ -311,8 +312,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 727--728
 .@textrm c
 .etc.
 
-[33] [34]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 819--821
+[33] [34] [35]
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 842--844
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -325,16 +326,16 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--821
+Underfull \hbox (badness 10000) in paragraph at lines 842--844
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49]
-[50]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1536--1540
+[36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50]
+[51]
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1559--1563
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -347,15 +348,15 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1536--1540
+Underfull \hbox (badness 10000) in paragraph at lines 1559--1563
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[51] [52] [53]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1638--1647
+[52] [53] [54]
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1695--1704
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -367,10 +368,10 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 1638--1647
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-[54] [55])
+[55] [56])
 texinfo.tex: doing @include of MATAA_manual_MatOctPrimer.texi
 
- (./MATAA_manual_MatOctPrimer.texi Chapter 5 [56]
+ (./MATAA_manual_MatOctPrimer.texi Chapter 5 [57]
 Missing character: There is no Ê in font cmr10!
 
 Overfull \hbox (34.82065pt too wide) in paragraph at lines 35--36
@@ -390,10 +391,10 @@ ia.org/wiki/MATLAB)|
 .@textrm n
 .etc.
 
-[57])
+[58])
 texinfo.tex: doing @include of MATAA_manual_licenses.texi
 
- (./MATAA_manual_licenses.texi Appendix A [58] [59] [60] [61] [62]
+ (./MATAA_manual_licenses.texi Appendix A [59] [60] [61] [62] [63]
 ./MATAA_manual_licenses.texi:295: This command can appear only outside of any e
 nvironment, not in environment @enumerate.
 @badenverr ...temp , not @inenvironment @thisenv }
@@ -408,8 +409,8 @@ nvironment, not in environment @enumerate.
 l.295 @heading NO WARRANTY
                           
 ? 
-[63] [64] [65] [66] [67] [68] [69]) (Concept index) [70] (./MATAA_manual.cps)
-(MATAA tools index) [71]
+[64] [65] [66] [67] [68] [69] [70]) (Concept index) [71] (./MATAA_manual.cps)
+(MATAA tools index) [72]
 Overfull \vbox (33.91702pt too high) has occurred while \output is active
 \vbox(643.2+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
@@ -427,15 +428,15 @@ Overfull \vbox (33.91702pt too high) has occurred while \output is active
 .etc.
 
 
-[72] (./MATAA_manual.fns) [73] ) 
+[73] (./MATAA_manual.fns) [74] ) 
 Here is how much of TeX's memory you used:
- 2452 strings out of 495044
- 33610 string characters out of 3155949
- 112748 words of memory out of 3000000
- 3627 multiletter control sequences out of 15000+200000
+ 2463 strings out of 495044
+ 33816 string characters out of 3155949
+ 113506 words of memory out of 3000000
+ 3635 multiletter control sequences out of 15000+200000
  32127 words of font info for 112 fonts, out of 3000000 for 9000
  1269 hyphenation exceptions out of 8191
- 15i,6n,16p,1683b,780s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 15i,6n,16p,1758b,790s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{Impedance\040measur
 ement} has been referenced but does not exist, replaced by a fixed one
 
@@ -453,10 +454,10 @@ l/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (78 pages, 1101554 bytes).
+Output written on MATAA_manual.pdf (79 pages, 1103107 bytes).
 PDF statistics:
- 1246 PDF objects out of 1440 (max. 8388607)
- 1064 compressed objects within 11 object streams
- 174 named destinations out of 1000 (max. 500000)
- 777 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1264 PDF objects out of 1440 (max. 8388607)
+ 1081 compressed objects within 11 object streams
+ 177 named destinations out of 1000 (max. 500000)
+ 793 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -5,7 +5,7 @@
 \initial {C}
 \entry {Calibration file (microphone)}{4}
 \entry {Channel allocation}{7}
-\entry {Column vector}{57}
+\entry {Column vector}{58}
 \entry {Copyright}{2}
 \initial {D}
 \entry {Default path (MATAA)}{4}
@@ -16,11 +16,11 @@
 \entry {Download, MATAA}{3}
 \entry {DUT channel}{7}
 \initial {F}
-\entry {FDL, GNU Free Documentation License}{63}
+\entry {FDL, GNU Free Documentation License}{64}
 \entry {Filter, anti-aliasing}{6}
 \initial {G}
-\entry {GNU General Public License}{59}
-\entry {GPL, GNU General Public License}{59}
+\entry {GNU General Public License}{60}
+\entry {GPL, GNU General Public License}{60}
 \initial {H}
 \entry {Hardware Setup}{5}
 \entry {Hardware setup, sound}{5}
@@ -40,15 +40,15 @@
 \entry {MATAA tools}{4}
 \entry {MATAA, installation}{3}
 \entry {MATAA, obtaining/download}{3}
-\entry {MATLAB}{56}
+\entry {MATLAB}{57}
 \entry {MATLAB default path}{3}
 \entry {MATLAB, installation}{3}
 \entry {MATLAB, startup file}{4}
-\entry {Matrix}{57}
+\entry {Matrix}{58}
 \entry {Measurement setup}{5}
 \entry {Microphone calibration file}{4}
 \initial {O}
-\entry {Octave}{56}
+\entry {Octave}{57}
 \entry {Octave default path}{3}
 \entry {Octave, installation}{3}
 \entry {Octave, startup file}{4}
@@ -60,9 +60,9 @@
 \entry {Preferences, MATAA}{4}
 \initial {R}
 \entry {REF channel}{7}
-\entry {Row vector}{57}
+\entry {Row vector}{58}
 \initial {S}
-\entry {Scalar}{57}
+\entry {Scalar}{58}
 \entry {Scripts, MATAA}{4}
 \entry {Settings, Audio hardware}{5}
 \entry {Settings, MATAA}{4}
@@ -82,5 +82,5 @@
 \entry {TestTone}{4, 7, 12}
 \entry {Tools}{4}
 \initial {V}
-\entry {Vector}{57}
-\entry {Vector (row, column)}{57}
+\entry {Vector}{58}
+\entry {Vector (row, column)}{58}

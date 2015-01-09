@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 06-Jan-2014.
+This section contains a list of the MATAA tools and their usage information as of 09-Jan-2015.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -70,6 +70,29 @@ PCWIN:    MS Windows@*
 LINUX_X86-32:  Linux on x86 / 32 Bit platform@*
 LINUX_X86-64:  Linux on AMD / 64 Bit platform@*
 UNKNOWN:  unknown platform (unknown to MATAA)@*
+
+
+@findex mataa_convolve
+@node mataa_convolve
+@section mataa_convolve
+
+file: ...mataa_tools/mataa_convolve.m@*
+
+function z = mataa_convolve(x,y);@*
+
+DESCRIPTION:@*
+This function convolves two data series x and y. The convolution is done using the fourier-transform method. x and y should have the same length (pad zeroes, if necessary). The result of the convolution (z) will also be of the same length as x and y.@*
+
+see also http://rkb.home.cern.ch/rkb/AN16pp/node38.html@*
+
+EXAMPLE:@*
+T = 1; fs = 44100; f0 = 10;@*
+t = [1/fs:1/fs:T];@*
+x = sin(2*pi*f0*t);@*
+y = zeros (size(x));@*
+y(1000) = -1.5;@*
+z = mataa_convolve (x,y);@*
+plot (t,x,'r',t,y,'k',t,z,'b')@*
 
 
 @findex mataa_deConvolve
@@ -935,7 +958,7 @@ delay: time delay corresponding the the removed phase trend (in seconds)@*
 
 file: ...mataa_tools/mataa_plot_CSD.m@*
 
-function mataa_plot_CSD (spl,f,t,spl_range,annote,options);@*
+function mataa_plot_CSD (spl,f,t,spl_range,annote,opts);@*
 
 DESCRIPTION:@*
 Plot cumulative spectral decay (CSD) data from mataa_IR_to_CSD(...)@*
@@ -945,10 +968,10 @@ INPUT:@*
 spl,f,t: see description of output of mataa_IR_to_CSD@*
 spl_range: the range covered on the y axis of the waterfall diagram (in dB)@*
 annote: annotations to the plot title (string, optional)@*
-options: plot options (sting or cell string containing multiple options, optional). Currently, the following options are available (for Octave 2.9.10 or newer):@*
-    options = 'contours' : plot contours of waterfall diagram below the waterfall@*
-    options = 'countours2': plot contours (lines) only in a 2-D plot@*
-    options = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)@*
+opts: plot opts (sting or cell string containing multiple opts, optional). Currently, the following opts are available (for Octave 2.9.10 or newer):@*
+    opts = 'contours' : plot contours of waterfall diagram below the waterfall@*
+    opts = 'countours2': plot contours (lines) only in a 2-D plot@*
+    opts = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)@*
 
 
 @findex mataa_plot_defaults
@@ -1509,7 +1532,7 @@ kind can be one of the following:@*
 'sweep_smooth','sweep_exp_smooth': Same as 'sweep' and 'sweep_exp', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)@*
 'square':           Square (rectangle) wave (param = frequency in Hz)@*
 'rectangle','rect:  Same as 'square'@*
-'sawtoot','saw':    Sawtooth wave (param = frequency in Hz)@*
+'sawtooth','saw':   Sawtooth wave (param = frequency in Hz)@*
 'triangle','tri':   Triangle wave (param = frequency in Hz)@*
 'dirac':            Dirac signal (First sample 1, zeroes otherwise)@*
 'zero':             Zero signal ('silence')@*
@@ -1593,6 +1616,40 @@ INPUT:@*
 OUTPUT:@*
 ...@*
 
+
+@findex mataa_signal_spectrogram
+@node mataa_signal_spectrogram
+@section mataa_signal_spectrogram
+
+file: ...mataa_tools/mataa_signal_spectrogram.m@*
+
+function [m,t,f] = mataa_signal_spectrogram (s,t,dt);@*
+
+DESCRIPTION:@*
+Calculate spectrogram (aka sonogram) of the signal s(t).@*
+
+INPUT:@*
+s: vector containing the samples values of the signal.@*
+t: time values of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
+dt: width time chunks used to calculate of spectrogram lines@*
+
+OUTPUT:@*
+m: magnitude values in dB (matrix)@*
+t: time values@*
+f: frequency values@*
+
+EXAMPLE:@*
+fs = 44100; L = 3;@*
+[s1,t] = mataa_signal_generator ("sweep_lin",fs,L,[1000 20000]);@*
+s2     = mataa_signal_generator ("sweep_exp",fs,L,[1000 20000]);@*
+s3     = s1+s2;@*
+[M1,T1,F1] = mataa_signal_spectrogram (s1,t,0.05);@*
+[M2,T2,F2] = mataa_signal_spectrogram (s2,t,0.05);@*
+[M3,T3,F3] = mataa_signal_spectrogram (s3,t,0.05);@*
+subplot (3,1,1); surf (T1,F1/1000,M1); shading interp; view (0,90); ylabel ('Frequency (kHz)');@*
+subplot (3,1,2); surf (T2,F2/1000,M2); shading interp; view (0,90); ylabel ('Frequency (kHz)');@*
+subplot (3,1,3); surf (T3,F3/1000,M3); shading interp; view (0,90); xlabel ('Time (s)'); ylabel ('Frequency (kHz)');@*
+ @*
 
 @findex mataa_signal_to_TestToneFile
 @node mataa_signal_to_TestToneFile

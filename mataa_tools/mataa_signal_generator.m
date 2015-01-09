@@ -21,7 +21,7 @@ function [s,t] = mataa_signal_generator (kind,fs,T,param);
 % 'sweep_smooth','sweep_exp_smooth': Same as 'sweep' and 'sweep_exp', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)
 % 'square':           Square (rectangle) wave (param = frequency in Hz)
 % 'rectangle','rect:  Same as 'square'
-% 'sawtoot','saw':    Sawtooth wave (param = frequency in Hz)
+% 'sawtooth','saw':   Sawtooth wave (param = frequency in Hz)
 % 'triangle','tri':   Triangle wave (param = frequency in Hz)
 % 'dirac':            Dirac signal (First sample 1, zeroes otherwise)
 % 'zero':             Zero signal ('silence')
