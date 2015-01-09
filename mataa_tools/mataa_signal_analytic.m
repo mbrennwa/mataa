@@ -14,7 +14,7 @@ function a = mataa_signal_analytic (s);
 % EXAMPLE:
 % calculate the amplitude envelope of the impulse response of a loudspeaker
 % > [h,t] = mataa_IR_demo;        % load demo impulse response
-% > a = mataa_signal_analytic;    % calculate analytic response
+% > a = mataa_signal_analytic(h); % calculate analytic response
 % > a = abs(a);                   % abs(a) is the amplitude envelope of impulse response
 % > plot(t,a);
 %  
