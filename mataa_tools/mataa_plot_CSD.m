@@ -15,6 +15,12 @@ function mataa_plot_CSD (spl,f,t,spl_range,annote,opts);
 %     opts = 'countours2': plot contours (lines) only in a 2-D plot
 %     opts = 'shaded2': similar to 'contours2', but fills the areas in between the contours with a solid color)
 % 
+% EXAMPLE:
+% [h,t] = mataa_IR_demo ('FE108');
+% T = [0:1E-4:4E-3];
+% [spl,f,t] = mataa_IR_to_CSD (h,t,T,1/24);
+% mataa_plot_CSD (spl,f,t,50);
+%
 % DISCLAIMER:
 % This file is part of MATAA.
 % 
