@@ -62,15 +62,15 @@
 \entry{TestDevices}{12}{TestDevices}
 \entry{PortAudio}{12}{PortAudio}
 \entry{Linux}{12}{Linux}
-\entry{MATLAB}{57}{MATLAB}
-\entry{Octave}{57}{Octave}
-\entry{Matrix}{58}{Matrix}
-\entry{Vector}{58}{Vector}
-\entry{Vector (row, column)}{58}{Vector (row, column)}
-\entry{Row vector}{58}{Row vector}
-\entry{Column vector}{58}{Column vector}
-\entry{Vector}{58}{Vector}
-\entry{Scalar}{58}{Scalar}
-\entry{GNU General Public License}{60}{GNU General Public License}
-\entry{GPL, GNU General Public License}{60}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{64}{FDL, GNU Free Documentation License}
+\entry{MATLAB}{58}{MATLAB}
+\entry{Octave}{58}{Octave}
+\entry{Matrix}{59}{Matrix}
+\entry{Vector}{59}{Vector}
+\entry{Vector (row, column)}{59}{Vector (row, column)}
+\entry{Row vector}{59}{Row vector}
+\entry{Column vector}{59}{Column vector}
+\entry{Vector}{59}{Vector}
+\entry{Scalar}{59}{Scalar}
+\entry{GNU General Public License}{61}{GNU General Public License}
+\entry{GPL, GNU General Public License}{61}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{65}{FDL, GNU Free Documentation License}

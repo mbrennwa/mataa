@@ -20,7 +20,7 @@ function [spl,f,d] = mataa_IR_to_CSD (h,t,T,smooth_interval);
 % [h,t] = mataa_IR_demo ('FE108');
 % T = [0:1E-4:4E-3];
 % [spl,f,t] = mataa_IR_to_CSD (h,t,T,1/24);
-% mataa_plot_CSD (spl,f,t,50);
+% mataa_plot_CSDt (spl,f,t,50);
 %
 % DISCLAIMER:
 % This file is part of MATAA.
