@@ -37,6 +37,10 @@ function z = mataa_convolve(x,y);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
+if length(x) ~= length(y)
+	error ('mataa_convolve: arguments x and y must be same length!')
+end
+
 X = mataa_realFT0 (x,[1:length(x)]);
 Y = mataa_realFT0 (y,[1:length(y)]);
 Z = X .* Y;
