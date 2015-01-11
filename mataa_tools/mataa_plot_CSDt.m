@@ -92,34 +92,28 @@ if exist('OCTAVE_VERSION') % use Octave plotting
     		V = [ xi(:) yi(:) zi(:) ];
     
     		% construct faces matrix (list of vertices defining triangles that make up the patch, values in list correspond to line in V matrix):
-    		F = [];
-    		for i = 3:length(xi)
-        		F = [  F  ;  [ 1 i-1 i ]  ];
-    		end
-
+			F = [ 1:length(xi) ];
+			
 		    % plot slice
-    		p = patch ('Vertices',V, 'Faces',F, 'Edgecolor','none', 'Facecolor',[1 1 1] , 'Linestyle','none' ); hold on; % fill slice
-    		b = [ V ; V(1,:) ]; b = plot3(b(:,1),b(:,2),b(:,3) , 'linewidth',2 , 'color',[0 0 0] ); % draw edges of slice
+    		p = patch ('Vertices',V, 'Faces',F, 'Edgecolor','k', 'Facecolor',[1 1 1] , 'Linestyle','-' ); hold on; % fill slice
     		
-%    		if ~isempty(f)
-%        		% make closed path:
-%        		xi = [ xi ; xi(end) ; xi(1) ; xi(1) ];
-%        		zi = [ zi ; -spl_range ; -spl_range ; zi(1) ];
-%      		
-%      		poly=fill3(xi,yi,zi,'w');
-%            set(poly,'EdgeColor',color);
-%        	hold on
     	end % plotting slices
 
 		hold off
 		set(gca,'XScale','log');
 		set(gca,'YDir','reverse')
-		% grid on
+		grid on
 		view(12,30)
 		
 		r=axis; r([1 2 5 6]) = [min(f) max(f) max(spl)-spl_range max(spl)];
-		axis(r);
-
+    	axis(r);
+    	% plot 'frame in the back':
+    	set(gca,'Box','off'); % should be off anyway, but...
+    	l=line([r(1) r(2)], [r(3) r(3)], [r(6) r(6)]); set(l,'Color','k');
+    	l=line([r(1) r(1)], [r(3) r(4)], [r(6) r(6)]); set(l,'Color','k');
+    	l=line([r(1) r(1)], [r(3) r(4)], [r(5) r(5)]); set(l,'Color','k');
+    	l=line([r(1) r(1)], [r(3) r(3)], [r(5) r(6)]); set(l,'Color','k');
+    	l=line([r(2) r(2)], [r(3) r(3)], [r(5) r(6)]); set(l,'Color','k');
 		
 	else
 		% we're running Octave without FLTK graphics backend (propably GnuPlot), which does a bad job in plotting waterfalls like CLIO or MLSSA.
@@ -186,7 +180,7 @@ else % We're running Matlab
     hold off
     set(gca,'XScale','log');
 	set(gca,'YDir','reverse')
-	% grid on
+	grid on
 	view(12,30)
 
 	r=axis; r([1 2 5 6]) = [min(f) max(f) max(spl)-spl_range max(spl)];
