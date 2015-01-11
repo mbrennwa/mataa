@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  10 JAN 2015 21:58
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  11 JAN 2015 12:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -395,20 +395,6 @@ ia.org/wiki/MATLAB)|
 texinfo.tex: doing @include of MATAA_manual_licenses.texi
 
  (./MATAA_manual_licenses.texi Appendix A [60] [61] [62] [63] [64]
-./MATAA_manual_licenses.texi:295: This command can appear only outside of any e
-nvironment, not in environment @enumerate.
-@badenverr ...temp , not @inenvironment @thisenv }
-                                                  
-@checkenv ...@ifx @thisenv @temp @else @badenverr 
-                                                  @fi 
-@sectionheading #1#2#3#4->{@checkenv {}
-                                       @csname #2fonts@endcsname @rmisbold @...
-
-@\heading ...tionheading {#1}{sec}{Yomitfromtoc}{}
-                                                   @suppressfirstparagraphin...
-l.295 @heading NO WARRANTY
-                          
-? 
 [65] [66] [67] [68] [69] [70] [71]) (Concept index) [72] (./MATAA_manual.cps)
 (MATAA tools index) [73]
 Overfull \vbox (33.91702pt too high) has occurred while \output is active
@@ -454,7 +440,7 @@ l/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (80 pages, 1103859 bytes).
+Output written on MATAA_manual.pdf (80 pages, 1103857 bytes).
 PDF statistics:
  1268 PDF objects out of 1440 (max. 8388607)
  1084 compressed objects within 11 object streams
