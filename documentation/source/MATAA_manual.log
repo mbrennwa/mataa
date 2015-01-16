@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  11 JAN 2015 12:46
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  16 JAN 2015 19:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -356,7 +356,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1570--1574
 .@glue(@rightskip) 0.0
 
 [52] [53] [54]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1706--1715
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1707--1716
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -440,7 +440,7 @@ l/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (80 pages, 1103857 bytes).
+Output written on MATAA_manual.pdf (80 pages, 1104014 bytes).
 PDF statistics:
  1268 PDF objects out of 1440 (max. 8388607)
  1084 compressed objects within 11 object streams

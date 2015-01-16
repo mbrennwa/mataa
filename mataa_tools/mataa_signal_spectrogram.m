@@ -19,7 +19,7 @@ function [m,t,f] = mataa_signal_spectrogram (s,t,dt,smooth);
 % EXAMPLE:
 % fs = 44100; L = 3;
 % [s1,t] = mataa_signal_generator ("sweep_lin",fs,L,[1000 20000]);
-% s2     = mataa_signal_generator ("sweep_exp",fs,L,[1000 20000]);
+% s2     = mataa_signal_generator ("sweep_log",fs,L,[1000 20000]);
 % s3     = s1+s2;
 % [M1,T1,F1] = mataa_signal_spectrogram (s1,t,0.05);
 % [M2,T2,F2] = mataa_signal_spectrogram (s2,t,0.05);

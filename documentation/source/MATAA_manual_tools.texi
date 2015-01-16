@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 11-Jan-2015.
+This section contains a list of the MATAA tools and their usage information as of 16-Jan-2015.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -1539,8 +1539,8 @@ kind can be one of the following:@*
 'MLS':              Maximum length sequence (MLS). The 'T' parameter is ignored, and param = n is the number of taps to be used for the MLS. The length of the MLS will be 2^n-1 samples.@*
 'sine','sin':       Sine wave (param = frequency in Hz)@*
 'cosine','cos':     Cosine wave (param = frequency in Hz)@*
-'sweep','sweep_exp':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)@*
-'sweep_smooth','sweep_exp_smooth': Same as 'sweep' and 'sweep_exp', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)@*
+'sweep','sweep_log':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)@*
+'sweep_smooth','sweep_log_smooth': Same as 'sweep' and 'sweep_log', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)@*
 'square':           Square (rectangle) wave (param = frequency in Hz)@*
 'rectangle','rect:  Same as 'square'@*
 'sawtooth','saw':   Sawtooth wave (param = frequency in Hz)@*
@@ -1634,7 +1634,7 @@ OUTPUT:@*
 
 file: ...mataa_tools/mataa_signal_spectrogram.m@*
 
-function [m,t,f] = mataa_signal_spectrogram (s,t,dt);@*
+function [m,t,f] = mataa_signal_spectrogram (s,t,dt,smooth);@*
 
 DESCRIPTION:@*
 Calculate spectrogram (aka sonogram) of the signal s(t).@*
@@ -1643,6 +1643,7 @@ INPUT:@*
 s: vector containing the samples values of the signal.@*
 t: time values of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
 dt: width time chunks used to calculate of spectrogram lines@*
+smooth (optional): if specified, the data is smoothed in the frequency domain over the octave interval smooth_interval.@*
 
 OUTPUT:@*
 m: magnitude values in dB (matrix)@*
@@ -1652,7 +1653,7 @@ f: frequency values@*
 EXAMPLE:@*
 fs = 44100; L = 3;@*
 [s1,t] = mataa_signal_generator ("sweep_lin",fs,L,[1000 20000]);@*
-s2     = mataa_signal_generator ("sweep_exp",fs,L,[1000 20000]);@*
+s2     = mataa_signal_generator ("sweep_log",fs,L,[1000 20000]);@*
 s3     = s1+s2;@*
 [M1,T1,F1] = mataa_signal_spectrogram (s1,t,0.05);@*
 [M2,T2,F2] = mataa_signal_spectrogram (s2,t,0.05);@*
