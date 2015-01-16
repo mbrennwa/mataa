@@ -1,6 +1,6 @@
-function [m,t,f] = mataa_signal_spectrogram (s,t,dt);
+function [m,t,f] = mataa_signal_spectrogram (s,t,dt,smooth);
 
-% function [m,t,f] = mataa_signal_spectrogram (s,t,dt);
+% function [m,t,f] = mataa_signal_spectrogram (s,t,dt,smooth);
 %
 % DESCRIPTION:
 % Calculate spectrogram (aka sonogram) of the signal s(t).
@@ -9,6 +9,7 @@ function [m,t,f] = mataa_signal_spectrogram (s,t,dt);
 % s: vector containing the samples values of the signal.
 % t: time values of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
 % dt: width time chunks used to calculate of spectrogram lines
+% smooth (optional): if specified, the data is smoothed in the frequency domain over the octave interval smooth_interval.
 % 
 % OUTPUT:
 % m: magnitude values in dB (matrix)
@@ -66,8 +67,7 @@ nt = ceil ( length (t) / (length(tt)-1) ) ; % number of samples per signal chunk
 
 nf = floor (nt/2); % number of frequency values in each spectrogram line
 
-m = repmat (NaN,nf,length(tt)-1);
-
+m = [];
 for i = 1:length(tt)-1
     j = find ( t >= tt(i)  &  t < tt(i+1) );
     x = s(j); x = x(:);
@@ -77,7 +77,14 @@ for i = 1:length(tt)-1
         x = [ x ; repmat(0,nt-length(x),1) ];
     end
     x = x(1:nt); % in case there's one too many
-    [m(:,i),u,f] = mataa_IR_to_FR (x,fs);
+        
+    if exist ('smooth','var')
+	    [M,u,f] = mataa_IR_to_FR (x,fs,smooth);
+	    
+	else
+	    [M,u,f] = mataa_IR_to_FR (x,fs);
+	end
+	m = [ m M ];
 end
 
 t = ( tt(1:end-1) + tt(2:end) ) / 2;
