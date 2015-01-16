@@ -17,8 +17,8 @@ function [s,t] = mataa_signal_generator (kind,fs,T,param);
 % 'MLS':              Maximum length sequence (MLS). The 'T' parameter is ignored, and param = n is the number of taps to be used for the MLS. The length of the MLS will be 2^n-1 samples.
 % 'sine','sin':       Sine wave (param = frequency in Hz)
 % 'cosine','cos':     Cosine wave (param = frequency in Hz)
-% 'sweep','sweep_exp':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)
-% 'sweep_smooth','sweep_exp_smooth': Same as 'sweep' and 'sweep_exp', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)
+% 'sweep','sweep_log':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)
+% 'sweep_smooth','sweep_log_smooth': Same as 'sweep' and 'sweep_log', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)
 % 'square':           Square (rectangle) wave (param = frequency in Hz)
 % 'rectangle','rect:  Same as 'square'
 % 'sawtooth','saw':   Sawtooth wave (param = frequency in Hz)
@@ -111,14 +111,14 @@ switch kind
             error('mataa_signal_generator: required signal frequency is higher than fs/2.')
         end;
         s = cos(2*pi*param*t);
-    case {'sweep','sweep_exp'},
+    case {'sweep','sweep_log'},
         f1 = param(1); f2=param(2);
         N = round(T/dt);
         t = [0:N-1]*dt;
         k = (f2/f1)^(1/T);
         s = sin(2*pi*f1/log(k)*(k.^t-1));
-    case {'sweep_smooth','sweep_exp_smooth'},
-        [s,t] = mataa_signal_generator ('sweep_exp',fs,T,param);
+    case {'sweep_smooth','sweep_log_smooth'},
+        [s,t] = mataa_signal_generator ('sweep_log',fs,T,param);
         % fade in and fade out:
         T  = (max(t)-min(t)) / 20;
         i1 = find(t <= T);
