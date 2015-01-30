@@ -7,7 +7,7 @@ function [t,s,comments] = mataa_import_TMD (file,timefix);
 %
 % INPUT:
 % file: string containing the name of the file containing the data to be imported. The string may contain a complete path. If no path is given, the file is assumed to be located in the current working directory.
-% timefix (optional): flag indicating if (and how) mataa_import_TMD should try to make time values evenly spaced. If timefix > 0: t = timefix * round (1/mean(diff(t))/timefix)
+% timefix (optional): flag indicating if (and how) mataa_import_TMD should try to make time values evenly spaced. If timefix > 1: t = timefix * round (1/mean(diff(t))/timefix)
 % 
 % OUTPUT:
 % t: time values (s)
@@ -34,6 +34,10 @@ function [t,s,comments] = mataa_import_TMD (file,timefix);
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
+%
+% EXAMPLE:
+% 
+% > [t,h,comments] = mataa_import_TMD ('scanspeaker_0deg_no_filter_tweeter.tmd',10);
 
 if nargin == 0
     file = '';
@@ -82,7 +86,7 @@ t = x(:,1);
 s = x(:,2);
 
 if exist ('timefix','var')
-	if timefix > 0
+	if timefix > 1
 		fs = timefix * round (1/mean(diff(t))/timefix);
 		t  = t(1) + [ 0 : 1/fs : (length(s)-1)/fs ]';
 	end
