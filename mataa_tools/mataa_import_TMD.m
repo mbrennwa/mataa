@@ -1,12 +1,13 @@
-function [t,s,comments] = mataa_import_TMD (file);
+function [t,s,comments] = mataa_import_TMD (file,timefix);
 
-% function [t,s,comments] = mataa_import_TMD (file)
+% function [t,s,comments] = mataa_import_TMD (file,timefix)
 %
 % DESCRIPTION:
 % Import time-domain data from a TMD file (see also mataa_export_TMD).
 %
 % INPUT:
 % file: string containing the name of the file containing the data to be imported. The string may contain a complete path. If no path is given, the file is assumed to be located in the current working directory.
+% timefix (optional): flag indicating if (and how) mataa_import_TMD should try to make time values evenly spaced. If timefix > 0: t = timefix * round (1/mean(diff(t))/timefix)
 % 
 % OUTPUT:
 % t: time values (s)
@@ -79,3 +80,14 @@ fclose (fid);
 x = reshape (x,2,length(x)/2)';
 t = x(:,1);
 s = x(:,2);
+
+if exist ('timefix','var')
+	if timefix > 0
+		fs = timefix * round (1/mean(diff(t))/timefix);
+		t  = t(1) + [ 0 : 1/fs : (length(s)-1)/fs ]';
+	end
+end
+
+if max(diff(t)) - min(diff(t)) > 2.5*eps
+	warning ('mataa_import_TMD: time values are not evenly spaced. Be careful!')
+end

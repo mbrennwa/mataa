@@ -20,7 +20,7 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % 'sweep','sweep_log':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)
 % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)
 % 'sweep_smooth','sweep_log_smooth': Same as 'sweep' and 'sweep_log', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)
-% 'stepsweep','stepsweep_log': Stepped sine sweep; a series of time-shaped sine bursts, whereby the frequency is constant throughout each burst, and increases exponentially from one burst to the next. Bursts are shaped by a Blackman envelope for smooth transition from one burst to the next. The length of each burst is such that all burst contain the same number of sine cycles. param(1): frequency of first burst, param(2): frequency of last burst, param(3): number of bursts, param(4): fractional length of burst envelope with full amplitude [optional, default value: 0.7]. info.f: frequencies of bursts, info.i_end: indices to last sample in each burst
+% 'stepsweep','stepsweep_log': Stepped sine sweep; a series of time-shaped sine bursts, whereby the frequency is constant throughout each burst, and increases exponentially from one burst to the next. Bursts are shaped by a Blackman envelope for smooth transition from one burst to the next. The length of each burst is such that all burst contain the same number of sine cycles. param(1): frequency of first burst, param(2): frequency of last burst, param(3): number of bursts, param(4): fractional length of burst envelope with full amplitude [optional, default value: 0.7]. info.f: frequencies of bursts, info.i_end: indices to last sample in each burst, info.Nc: number of cycles in each burst
 % 'square':           Square (rectangle) wave (param = frequency in Hz)
 % 'rectangle','rect:  Same as 'square'
 % 'sawtooth','saw':   Sawtooth wave (param = frequency in Hz)
@@ -170,7 +170,7 @@ switch kind
 			
 			% compute burst:
 			b = mataa_signal_generator ('sine',fs,tt,f(i));
-			b = mataa_signal_window(b,'blackman',bl);
+			b = mataa_signal_window(b,'blackman',[],bl);
 			
 			% append:
 			s = [ s ; b ];
@@ -178,6 +178,7 @@ switch kind
 		end
 		info.f = f;
 		info.i_end = i_end;
+		info.Nc = Nc;
     case {'square','rectangle','rect'},
         s = mataa_signal_generator('sin',fs,T,param);
         i = find(s >= 0); j = find(s < 0);
