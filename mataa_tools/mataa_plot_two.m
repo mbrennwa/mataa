@@ -35,7 +35,7 @@ function h = mataa_plot_two (x,y1,y2,figNum,plottit,xtit,y1tit,y2tit);
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 h = repmat (NaN,2,1);
 

@@ -35,7 +35,7 @@ function [h_corr,t] = mataa_microphone_correct_IR (mic_name,h,t)
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];

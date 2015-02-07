@@ -27,7 +27,7 @@ function mataa_gnuplot (cmd);
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 warning('mataa_gnuplot: THE FUNCTION mataa_gnuplot SHOULD NOT BE USED ANYMORE, BECAUSE THE GNUPLOT INTERFACE TO OCTAVE HAS CHANGED CONSIDERABLY IN OCTAVE 2.9.X. IT WILL PROPABLY BE CHANGED FURTHER, BREAKING THIS FUNCTION.')
 

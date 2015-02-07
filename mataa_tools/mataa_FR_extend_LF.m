@@ -32,7 +32,7 @@ function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;
 % 
 % Copyright (C) 2009 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 ph = unwrap (ph/180*pi)/pi*180; % make sure ph and pl are unwrapped
 pl = unwrap (pl/180*pi)/pi*180;

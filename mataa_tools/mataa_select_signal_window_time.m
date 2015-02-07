@@ -31,7 +31,7 @@ function [t_start,t_end] = mataa_select_signal_window_time;
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 % input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')
 

@@ -34,7 +34,7 @@ function [f,mag,phase,comments] = mataa_import_FRD (file);
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 %
 % HISTORY:
 % 9. January 2008  (Matthias Brennwald): first version

@@ -32,10 +32,7 @@ function [s,t] = mataa_signal_crop (s,t,t_start,t_end);
 % 
 % Copyright (C) 2006, 2007 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
-
-keyboard
-
+% Further information: http://www.audioroot.net/MATAA
 
 if isscalar(t) % t is the sampling frequency
     t = [0 : 1/t : (length(s)-1)/t];

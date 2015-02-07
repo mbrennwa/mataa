@@ -55,7 +55,7 @@ function s = mataa_signal_window (s0,window,par,len);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 N = length(s0);
 n = [0:N-1];

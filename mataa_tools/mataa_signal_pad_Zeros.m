@@ -28,7 +28,7 @@ function [s,t] = mataa_signal_pad_Zeros (s0,t0,T);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if (max(t0)-min(t0)) > T
 	warning('Signal is longer than desired length after zero padding. No zero padding applied.')

@@ -31,7 +31,7 @@ function [y,x] = mataa_smooth_log (yRaw,xRaw,step)
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 xMin = min(xRaw);
 xMax = max(xRaw);

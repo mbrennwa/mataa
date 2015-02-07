@@ -72,7 +72,7 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 rand('seed',sum(100*clock)); % 'randomize' rand random generator, in case we need it
 

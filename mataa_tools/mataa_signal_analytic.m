@@ -37,6 +37,6 @@ function a = mataa_signal_analytic (s);
 % 
 % Copyright (C) 2007 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 a = s + i*mataa_hilbert(s);

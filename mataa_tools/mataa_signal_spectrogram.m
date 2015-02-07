@@ -47,7 +47,7 @@ function [m,t,f] = mataa_signal_spectrogram (s,t,dt,smooth);
 % 
 % Copyright (C) 2014 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if isscalar(t)
     fs = t;

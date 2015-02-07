@@ -32,7 +32,7 @@ function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if exist ('OCTAVE_VERSION','builtin')
     if ~exist ('fminsearch','file')

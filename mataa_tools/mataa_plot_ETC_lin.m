@@ -37,7 +37,7 @@ function mataa_plot_ETC_lin (etc,t,annote);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if ~exist('annote','var')
     annote = '';

@@ -32,7 +32,7 @@ function [c,T] = mataa_signal_autocorr (s,t);
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if isscalar(t) % sample rate given instead of time values
 	t = [0:1/t:(length(s)-1)/t];

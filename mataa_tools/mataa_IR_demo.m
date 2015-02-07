@@ -41,7 +41,7 @@ function [h,t] = mataa_IR_demo (IRtype)
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if ~exist('IRtype','var')
     IRtype = 'default';
@@ -385,7 +385,13 @@ switch IRtype
         h = h/max(abs(h));
         
         t = [0:1/96000:(length(h)-1)/96000]';
+        
     otherwise
         error(sprintf('mataa_IR_demo: unknown type %s.',IRtype))
-    end
+
 end
+
+% make sure h and t are column vectors:
+h = h(:);
+t = t(:);
+

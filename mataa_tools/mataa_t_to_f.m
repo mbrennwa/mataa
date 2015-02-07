@@ -30,7 +30,7 @@ function f = mataa_t_to_f (t);
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 f = mataa_t_to_f0(t);
 f = f(2:end); % remove f=0

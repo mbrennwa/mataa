@@ -40,11 +40,13 @@ function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];
 end
+
+h = h(:); % make sure h is column vector
 
 h = h - linspace(h(1),h(end),length(h))' + mean(h); % make sure s is periodic
 

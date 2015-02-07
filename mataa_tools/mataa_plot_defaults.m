@@ -24,7 +24,7 @@ function mataa_plot_defaults
 % 
 % Copyright (C) 2006 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 %
 % HISTORY:
 % 26. December 2007 (Matthias Brennwald): commented out all commands so they have no effect anymore. Leave setting of plotting options to the user.

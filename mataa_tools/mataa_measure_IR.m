@@ -32,7 +32,7 @@ function [h,t] = mataa_measure_IR (input_signal,fs,N);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if ~exist ('N','var')
 	N=1;

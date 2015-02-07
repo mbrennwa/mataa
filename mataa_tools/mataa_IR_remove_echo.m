@@ -34,7 +34,7 @@ function [h,t] = mataa_IR_remove_echo (h,t,t_echo_start,t_echo_end);
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 ii = find (t < t_echo_start | t > t_echo_end);
 

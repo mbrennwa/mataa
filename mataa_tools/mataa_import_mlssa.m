@@ -21,7 +21,7 @@ function [mlsvec,mlsfs,stimulus_amp,mlsdf] = mataa_import_mlssa (File,Outfile,Wi
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 %
 % The program is based on code written by Peter Svensson (svensson[at]iet.ntnu.no) available at http://www.iet.ntnu.no/~svensson/readmls.m. Peter Svensson explicitly agreed to provide his work for inclusion in MATAA.
 

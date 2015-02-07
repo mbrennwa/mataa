@@ -42,7 +42,7 @@ function out = mataa_menu (title, varargin)
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if exist('OCTAVE_VERSION','builtin')
 % Force pending output to appear before the menu.

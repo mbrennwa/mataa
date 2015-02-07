@@ -48,7 +48,7 @@ function [mag,phase] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1,L2,R2)
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if nargin < 8;
     R2 = Inf;

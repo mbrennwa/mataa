@@ -45,7 +45,7 @@ function n = mataa_signal_clipcheck (s,N);
 % 
 % Copyright (C) 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 x = size(s);
 if x(1) < x(2)

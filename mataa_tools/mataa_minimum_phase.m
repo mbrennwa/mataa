@@ -32,7 +32,7 @@ function min_phase = mataa_minimum_phase (mag,f);
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 %%%%    % calculate minimum phase using the Hilbert transform:
 %%%%    % see: http://www.fourelectronics.com/Hilbert-transform-to-calculate-Magnitude-from-Phase-10052397.html

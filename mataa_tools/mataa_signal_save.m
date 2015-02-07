@@ -30,7 +30,7 @@ function mataa_signal_save (s,fs,file,description);
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if ~any (size (s) == 1)
     error ('mataa_signal_save: only signals containing one data channel are supported at the moment.')

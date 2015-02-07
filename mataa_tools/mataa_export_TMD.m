@@ -32,7 +32,7 @@ function mataa_export_TMD (t,s,comment,file);
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 
 t = t(:);

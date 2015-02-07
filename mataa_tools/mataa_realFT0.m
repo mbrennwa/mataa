@@ -32,7 +32,7 @@ function [S,f] = mataa_realFT0 (s,t);
 % 
 % Copyright (C) 2006,2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if ~any (size (s) == 1)
     error ('mataa_realFT0: the input signal s must be of dimension 1xN or Nx1 !')

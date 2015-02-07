@@ -49,7 +49,7 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_s
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if ~exist('verbose','var')
     verbose=1;

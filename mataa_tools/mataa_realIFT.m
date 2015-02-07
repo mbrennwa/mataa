@@ -32,7 +32,7 @@ function [s,t] = mataa_realIFT (S,f);
 % 
 % Copyright (C) 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
-% Further information: http://www.audioroot.net/MATAA.html
+% Further information: http://www.audioroot.net/MATAA
 
 if f(1) ~= 0
     f = [0 ; f];
