@@ -9,6 +9,7 @@ function s = mataa_signal_window (s0,window,par,len);
 % The following window functions are available (see e.g. http://en.wikipedia.org/wiki/Window_function for a description of these functions):
 % 'rectangular', 'rect', 'nowindow' : rectangular window (i.e. no window at all)
 % 'gauss': gauss window, whith shape parameter sigma = par (par <= 0.5)
+% 'sin', 'cos','sine','cosine': sine / cosine window
 % 'hamming', 'hamm': Hamming window
 % 'hann': Hann window (cosine window). Note: in anology to the 'Hamming' window, this is often wrongly referred to as 'Hanning'. However, the name relates to a guy called Julius von Hann.
 % 'bartlett','bart','triangular': Bartlett (triangular) window.
@@ -104,6 +105,8 @@ else % full window
 			s = s0;
 		case {'gauss'}        
 			w = exp( -0.5 * ( (n-(N-1)/2) ./ (par*(N-1)/2) ).^2 );
+		case {'sin','cos','sine','cosine'}
+			w = sin(pi*n/(N-1));
 		case {'hamm', 'hamming'}
 			w = 0.53836 - 0.46164*cos(2*pi*n/(N-1));
 		case {'hann', 'hanning'}

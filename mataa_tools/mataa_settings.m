@@ -62,6 +62,7 @@ if reset_to_def
 	mataa_settings.plotWindow_ETC = 5;
 	mataa_settings.plotWindow_HD = 6;
 	mataa_settings.plotWindow_impedance = 7;
+	mataa_settings.plotWindow_TBES = 8;
 	mataa_settings.openPlotAfterSafe = 1;
 	
 	mataa_settings.channel_DUT = 1;
