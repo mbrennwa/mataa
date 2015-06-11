@@ -72,7 +72,8 @@ switch whichPath
     	path = [main 'TestTone' filesep plat filesep];
     case 'mataa_scripts',     path = [main 'mataa_scripts' filesep];
 %    case 'user_scripts',    path = [main 'user_scripts' filesep];
-    case 'microphone',      path = [main 'microphone_data' filesep];
+%    case 'microphone',      path = [main 'microphone_data' filesep];
+    case 'sensor',      path = [main 'sensor_data' filesep];
 %    case 'data',            path = [main 'mataa_data' filesep];
     case 'settings',        
         if strcmp (mataa_computer,'PCWIN')

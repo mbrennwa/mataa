@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_signal,fs,latency,verbose);
+function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,hw_info);
 
-% function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_signal,fs,latency,verbose);
+% function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,hw_info);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -13,6 +13,15 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_s
 % latency: if the signal samples were specified rather than a file name/path, the signal is padded with zeros at its beginning and end to avoid cutting off the test signals early due to the latency of the sound input/output device(s). 'latency' is the length of the zero signals padded to the beginning and the end of the test signal (in seconds). If a file name is specified instead of the signal samples, the value of 'latency' is ignored.
 % 
 % verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.
+%
+% hw_info (optional): struct containing information relating the measurement hardware (DAC, ADC, microphone, etc.). Use of this information is not yet implemented, but the idea is to use this to consider the sensitivity or to compensate for non-ideal freqency response or impulse response of the measurement equipment. hw_info might look something like this:
+%
+% hw_info.ADC.sensitivity: sensitivity of the soundcard input (e.g., hw_info.ADC.sensitivity = 2.5 if input voltage of 2.5V results in sample value of 1.0 in digitized data)
+% hw_info.DAC.sensitivity: sensitivity of the soundcard output (e.g., hw_info.DAC.sensitivity = 0.7 if digital value of 1.0 results in 0.7V at analog output)
+% hw_info.sensor.sensitivity.val and hw_info.sensor.sensitivity.unit: sensitivity of the sensor (value and unit)
+%    example (microphone with sensitivity is 30mV/Pa): hw_info.mic.sensitivity.val = 30E-3; hw_info.mic.sensitivity.unit = "V/Pa";
+% hw_info.sensor.sensitivity.unit: unit of sensor sensitivity (e.g., hw_info.mic.sensitivity.unit = V/Pa if microphone sensitivity is 30mV/Pa)
+% hw_info.sensor.calfile: name of file with sensor calibration data for use with mataa_microphone_correct_IR (...)
 % 
 % OUTPUT:
 % inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.
@@ -20,6 +29,8 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_s
 % responseSignal: matrix containing the signal(s) from the audio input device. This will contain the data from all channels used for signal recording, where each matrix colum corresponds to one channel.
 %
 % t is vector containing the times corresponding the samples in responseSignal and inputSignal (in seconds)
+%
+% signal_unit: unit of the recorded signal (not yet implemented)
 %
 % FURTHER INFORMATION:
 % The signal samples range from -1.0 to +1.0).
@@ -53,6 +64,10 @@ function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_s
 
 if ~exist('verbose','var')
     verbose=1;
+end
+
+if ~exist('hw_info','var')
+	hw_info = [];
 end
 
 % check computer platform:
@@ -253,3 +268,6 @@ if verbose
     	end
     end
 end
+
+warning ('mataa_measure_signal_response: compensation of test hardware characteristics not yet implemented!')
+signal_unit = '(undefined)';

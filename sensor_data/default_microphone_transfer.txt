@@ -1,0 +1,1 @@
+% dummy frequency-response file for use if no correction is desired% column-1: frequency, column-2: relative gain in (dB)0          0100000     0

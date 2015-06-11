@@ -1,0 +1,1 @@
+% frequency response of Behringer ECM8000 measurement microphone (estimated from generic data plotted in Behringer documentation)%% column-1: frequency, column-2: response / relative gain (dB)%15          060          02000        05000        1.58000        1.510000       1.318000       020000      -122000      -130000      -10
