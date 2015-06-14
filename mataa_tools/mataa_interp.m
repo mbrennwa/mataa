@@ -6,7 +6,7 @@ function y = mataa_interp (xi,yi,x);
 % Linear interpolation of y(x) from yi(xi)
 % if x is outside the range of xi, mataa_interp returns a linear extrapolation of the yi
 %
-% Linear interpolation is of course available in Matlab and Octave-Forge as interp1. However, it's available in plain-vanilla Octave, which is a shame, I think. I therefore provided this function for MATAA so that I don't have to worry about interp1 missing in Octave while still being able to easily write code that is compatible with both Matlab and Octave.
+% Linear interpolation is of course available in Matlab and Octave-Forge as interp1. However, it's not available in plain-vanilla Octave, which is a shame, I think (this was fixed a while ago, so mataa_interp is obsolete and may be removed in the future). I therefore provided this function for MATAA so that I don't have to worry about interp1 missing in Octave while still being able to easily write code that is compatible with both Matlab and Octave.
 %
 % FIXME: THIS CODE IS AS INEFFICIENT AS IT GETS!
 % 

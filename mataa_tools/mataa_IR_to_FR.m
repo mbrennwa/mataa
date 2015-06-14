@@ -1,6 +1,6 @@
-function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
+function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 
-% function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
+% function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 %
 % DESCRIPTION:
 % Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)
@@ -9,9 +9,10 @@ function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
 % h: impulse response (in volts)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
 % smooth_interval (optional): if specified, the frequency response is smoothed over the octave interval smooth_interval.
+% unit (optional): unit of h.
 %
 % OUTPUT:
-% mag: magnitude of frequency response (in dB)
+% mag: magnitude of frequency response (in dB). If unit of h is 'Pa' (Pascal), then mag is referenced to 20 microPa (standard reference sound pressure level).
 % phase: phase of frequency response (in degrees). This is the TOTAL phase including the 'excess phase' due to (possible) time delay of h(h). phase is unwrapped (i.e. it is not limited to +/-180 degrees, and there are no discontinuities at +/- 180 deg.)
 % f: frequency coordinates of mag and phase
 %
@@ -42,6 +43,10 @@ function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
+if ~exist ('unit','var')
+	unit = 'unknown';
+end
+
 if isscalar(t)
     t = [0:1/t:(length(h)-1)/t];
 end
@@ -61,13 +66,20 @@ end
 [p,f] = mataa_realFT(h,t);
 
 % mag:
-mag = 20*log10(abs(p)); % identical to 10*log(p^2)=2*10*log(p)=20*log(p)
-mag = mag + 112;
+if strcmp (unit,'Pa')
+	p_ref = 20E-6; % reference sound pressure
+	mag = 20*log(abs(p)/p_ref);
+	unit = 'dB SPL';
+else
+	mag = 20*log10(abs(p));
+	mag = mag + 112;
+	unit = 'dB';
+end
 
 % unwrap the phase, and convert from radians to degrees
 phase = unwrap(angle(p))/pi*180;
 
-if exist('smooth_interval')
+if exist("smooth_interval","var")
 	
 	f0=f; mag0=mag; phase0=phase;
 	

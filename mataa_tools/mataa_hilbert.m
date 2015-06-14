@@ -5,7 +5,7 @@ function y = mataa_hilbert (x)
 % DESCRIPTION:
 % Calculates the Hilbert transform of x.
 %
-%This code was modelled after the Hilbert transform function 'hilbert.m' available from Octave-Forge
+% This code was modelled after the Hilbert transform function 'hilbert.m' available from Octave-Forge
 % 
 % INPUT:
 % x: input signal (column vector). If x contains complex values, only the real part of these values will be used.

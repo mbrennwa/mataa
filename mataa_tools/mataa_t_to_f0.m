@@ -36,7 +36,7 @@ t = sort(t); % t should be sorted anyway, but it does not hurt to make sure it i
 u = diff(t);
 dt = mean(u);
 
-if (dt/std(u) < 100) % if the variability in the time values exceeds 1%:
+if (std(u)/dt > 200) % if the relative variability in the time values exceeds 2%:
     error('mataa_t_to_f0: t must be even spaced!')
 end
 
