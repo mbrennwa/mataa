@@ -16,6 +16,7 @@ function path = mataa_path (whichPath);
 % 'mataa_scripts'    the path to the MATAA scripts
 % 'microphone'       the path to the microphone-data files
 % 'settings'	     the path where the MATAA settings are stored
+% 'calibration'      the path where calibration files are stored (microphones, audio interfaces / soundcards, etc.)
 %
 % If whichPath is not specified, it is set to 'main' by default.
 % 
@@ -73,7 +74,7 @@ switch whichPath
     case 'mataa_scripts',     path = [main 'mataa_scripts' filesep];
 %    case 'user_scripts',    path = [main 'user_scripts' filesep];
 %    case 'microphone',      path = [main 'microphone_data' filesep];
-    case 'sensor',      path = [main 'sensor_data' filesep];
+    case 'calibration',      path = [main 'calibration' filesep];
 %    case 'data',            path = [main 'mataa_data' filesep];
     case 'settings',        
         if strcmp (mataa_computer,'PCWIN')

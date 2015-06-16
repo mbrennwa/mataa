@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,hw_info);
+function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal_DAC,cal_ADC,cal_SENSOR);
 
-% function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,hw_info);
+% function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal_DAC,cal_ADC,cal_SENSOR);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -14,18 +14,7 @@ function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_respo
 % 
 % verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.
 %
-% hw_info (optional): struct containing information relating the measurement hardware (DAC, ADC, microphone, etc.). This information is used determine the correct signal level and unit and to compensate for non-ideal frequency response of the measurement equipment.
-% If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
-% The struct format is as follows (omit fields if not applicable):
-%    hw_info.ADC.name: name of the ADC device (string)
-%    hw_info.ADC.sensitivity: sensitivity of the soundcard input (e.g., hw_info.ADC.sensitivity = 0.5 if input voltage of 2.0V results in sample value of 1.0 in digitized data)
-%    hw_info.DAC.name: name of the DAC device (string)
-%    hw_info.DAC.sensitivity: sensitivity of the soundcard output (e.g., hw_info.DAC.sensitivity = 2.5 if digital value of 1.0 results in 2.5V at analog output)
-%    hw_info.sensor.name: name of the sensor (string)
-%    hw_info.sensor.sensitivity.val and hw_info.sensor.sensitivity.unit: sensitivity of the sensor (value and unit), for example (microphone with sensitivity is 30mV/Pa):
-%		hw_info.sensor.sensitivity.val = 10E-3;
-%		hw_info.sensor.sensitivity.unit = "V/Pa";
-%    hw_info.sensor.calfile: name of file with sensor calibration data for use with mataa_microphone_correct_IR (...)
+% cal_DAC, cal_ADC, and cal_SENSOR (optional): calibration data for use with mataa_signal_calibrate (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
 % 
 % OUTPUT:
 % inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.
@@ -269,106 +258,69 @@ if verbose
     end
 end
 
-
-% Process info on test hardware:
-
-signal_unit = cellstr (repmat('V',numChan,1)); % assume signal unit to be Volt. May be changed below, depending on sensor information.
-
-% process hardware information
-if ~exist('hw_info','var')
-	warning ('mataa_measure_signal_response: no information about test hardware available. Returning raw and uncalibrated data!');
-else
-
-	% make sure hw_info is cell array:
-	if ~iscell(hw_info)
-		u{1} = hw_info;
-		hw_info = u;
-		clear u;
-	end
-	
-	% make sure there is hardware info for each data channel:
-	if length(hw_info) < numChan
-		if numChan-length(hw_info) == 1
-			warning (sprintf('mataa_measure_signal_response: no info available about test hardware used for data channel %i. Assuming same info as given for channel %i.',numChan,length(hw_info)));
-		else
-			warning (sprintf('mataa_measure_signal_response: no info available about test hardware used for data channels %i...%i. Assuming same info as given for channel %i.',length(hw_info)+1,numChan,length(hw_info)));
-		end
-		hw_info{end+numChan-length(hw_info)} = hw_info{end};
-	end
-	
-	% process hardware info for each channel:
-	for k = 1:numChan
-	
-		disp (sprintf('Calibrating data of channel %i:',k))
-		
-		% process ADC:	
-		if ~isfield (hw_info{k},'ADC')
-			disp ('No ADC information available!');
-		else
-			disp (sprintf('Compensating for ADC \"%s\":',hw_info{k}.ADC.name))
-			
-			if isfield (hw_info{k}.ADC,'sensitivity') % we know the sensitivity of the ADC (example: hw_info{k}.ADC.sensitivity = 0.5 if input voltage of 2.0V results in sample value of 1.0 in digitized data)
-				disp (sprintf('     sensitivity: %g per V.',hw_info{k}.ADC.sensitivity.val))
-				responseSignal(:,k) = responseSignal(:,k) / hw_info{k}.ADC.sensitivity;
-			else
-				disp ('     sensitivity unknown!')
-			end		
-		end
-		
-		% process DAC
-		if ~isfield (hw_info{k},'DAC')
-			disp ('No DAC information available!');
-		else
-			disp (sprintf('Compensating for DAC \"%s\":',hw_info{k}.DAC.name))
-					
-			if isfield (hw_info{k}.DAC,'sensitivity') % we know the sensitivity of the DAC (example: hw_info{k}.DAC.sensitivity = 2.5 if digital value of 1.0 results in 2.5V at analog output)
-				disp (sprintf('     sensitivity: %g V.',hw_info{k}.ADC.sensitivity.val))
-				responseSignal(:,k) = responseSignal(:,k) * hw_info{k}.DAC.sensitivity;
-			else
-				disp ('     sensitivity unknown!')
-			end		
-		end
-		
-		% process sensor (e.g., microphone, accelerometer, etc.):
-		if ~isfield (hw_info{k},'sensor')
-			disp ('No sensor information available!');
-		else
-			disp (sprintf('Compensating for sensor \"%s\":',hw_info{k}.sensor.name))
-			
-			% process sensitivity (including data units)
-			if ~isfield (hw_info{k}.sensor,'sensitivity')
-				disp ('     sensitivity unknown!')
-			else
-				disp (sprintf('     sensitivity: %g %s.',hw_info{k}.sensor.sensitivity.val,hw_info{k}.sensor.sensitivity.unit))
-				responseSignal(:,k) = responseSignal(:,k) / hw_info{k}.sensor.sensitivity.val;
-				uu = [];				
-				if strcmp(hw_info{k}.sensor.sensitivity.unit(1),'V')
-					kk = findstr (hw_info{k}.sensor.sensitivity.unit,'/');
-					if any(kk)
-						if kk(1) < length(hw_info{k}.sensor.sensitivity.unit)
-							uu = hw_info{k}.sensor.sensitivity.unit(kk(1)+1:end);
-						end
-					end
-				end
-				if isempty (uu)
-					warning (sprintf('mataa_measure_signal_response: dont know how to parse units of sensor signal (%s).',hw_info{k}.sensor.sensitivity.unit))
-					signal_unit = '?';
-				else
-					signal_unit = uu;
-				end
-			end
-						
-			% process calibration file / transfer function
-			if ~isfield (hw_info{k}.sensor,'calfile')
-				disp ('     calibration file / transfer function unknown!')
-			else
-				disp (sprintf('     calibration file: %s.',hw_info{k}.sensor.calfile))
-				responseSignal(:,k) = mataa_sensor_correct_signal (hw_info{k}.sensor.calfile,responseSignal(:,k),t);	
-			end
-		
-		end
-	end
-
+signal_unit = "UNKNOWN";
+if numChan > 1
+	signal_unit = cellstr (repmat(signal_unit,numChan,1));
 end
+
+% calibrate data
+if ~exist ('cal_DAC','var')
+	cal_DAC = '';
+end
+if ~exist ('cal_ADC','var')
+	cal_ADC = '';
+end
+if ~exist ('cal_SENSOR','var')
+	cal_SENSOR = '';
+end
+
+
+
+
+
+% DAC, ADC and SENSOR calibration:
+if ~iscell(cal_DAC)
+	cal_DAC = cellstr (cal_DAC);
+end
+if ~iscell(cal_ADC)
+	cal_ADC = cellstr (cal_ADC);
+end
+if ~iscell(cal_SENSOR)
+	cal_SENSOR = cellstr (cal_SENSOR);
+end
+
+if isempty(cal_DAC)
+	disp ("No information available for DAC calibration. Data will not be calibrated for DAC!")
+end
+if isempty(cal_ADC)
+	disp ("No information available for ADC calibration. Data will not be calibrated for ADC!")
+end
+if isempty(cal_SENSOR)
+	disp ("No information available for SENSOR calibration. Data will not be calibrated for SENSOR!")
+end
+
+for k = 1:numChan
+
+	% DAC calibration:
+	if ~isempty(cal_DAC)
+		if length(cal_DAC) < k
+			warning (sprintf("mataa_measure_signal_response: no DAC calibration data available for channel %i. Will use calibration data given for channel %i!",k,length(cal_DAC)));
+			cal = cal_DAC{end}
+		else
+			cal = cal_DAC{k};
+		end
+ 		[responseSignal(:,k),t,signal_unit] = mataa_signal_calibrate (responseSignal(:,k),t,cal);
+ 		end
+ 	end
+ 	
+end
+
+
+
+
+warning ("mataa_measure_signal_response: calibration of ADC and SENSOR not yet implemented!");
+
+
+
 
 fflush (stdout);
