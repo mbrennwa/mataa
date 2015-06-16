@@ -139,10 +139,10 @@ The basic procedure followed during a MATAA measurement is that MATAA feeds a te
 @ifnottex
 @image{figures/measurement_setup,,,general measurement setup}
 @end ifnottex
-@caption{`Generalised' measurement setup. A: buffer or amplifier to drive the DUT (optional), B: sensor to record the DUT's response signal (e.g. microphone), C: output signal buffer or amplifier (e.g. microphone amplifier), D: anti-alias filter (may be omitted in special cases, see text).}
+@caption{`Generalised' measurement setup. A: buffer or amplifier to drive the DUT (optional), B: sensor to record the DUT's response signal (e.g. microphone), C: output signal buffer or amplifier (e.g. microphone amplifier), D: anti-alias filter (may be omitted in special cases, see text). To calibrate the signal levels, MATAA takes into account the gain and transfer functions of the soundcard (input and output), amplifiers, and the detector; The DAC (digital-to-analog conversion including buffer or amplifier), the sensor (B), and the ADC (analog to digital conversion including buffer or amplifier) are considered separately for calibration (see text).}
 @end float
 
-@ref{fig:measurement_setup} shows that the measurement setup comprises several building blocks. Depending on the type of measurement and setup, some (or most) of these building blocks are obsolete. In @ref{fig:measurement_setup}, the test signal travels through the following blocks:
+@ref{fig:measurement_setup} shows the measurement setup, which consists of several building blocks. Depending on the type of measurement and setup, some (or most) of these building blocks are obsolete. In @ref{fig:measurement_setup}, the test signal travels through the following blocks:
 
 @cindex Sound hardware setup
 @cindex Hardware setup, sound
@@ -164,6 +164,8 @@ The basic procedure followed during a MATAA measurement is that MATAA feeds a te
 @item The anti-aliasing filter (D in @ref{fig:measurement_setup}) removes high-frequency components from the DUT's response signal. If the the DUT response contains signal components with frequencies higher than the Nyquist frequency (half the sampling frequency) of the sound input's analog-to-digital (A/D) converter, these signal components will be aliased to lower frequencies during A/D conversion. This signal `contamination' can be avoided (or at least constrained) by removing the signal components higher than the Nyquist frequency @emph{before}ÊA/D conversion. Many soundcards have a built-in anti-aliasing filter with a cut-off frequency that is automatically adjusted to the sampling rate. You can check for the presence of an anti-aliasing filter by applying sine signals with frequencies higher than the Nyquist frequency (e.g. using an analog signal generator). Then check the digitized signal for alias signals in the frequency range below the Nyquist frequency. Furhter, if the signal from the DUT is (virtually) free of frequencies higher then the Nyquist frequency, you can omit the anti-aliasing filter. Vice versa, you can omit the anti-aliasing filter, if the soundcard samples the test signal with a sampling rate of at least twice the highest frequency contained in the test signal. For instance, loudspeakers and test microphones rarely extend to frequencies higher than 40 kHz. Thus, if your soundcard allows setting the sampling rate to 80 kHz or higher (e.g. 96 kHz or 192 kHz), you can omit the anti-aliasing filter by using a sampling rate of at least 80 kHz.
 
 @item The Soundcard audio input: Here, the same applies as with the audio input, with a few exceptions. Firstly, a high input impedance is preferable so that the previous stage can easily drive the audio input. Secondly, the sensitivity of the analog-to-digital (A/D) converter should be set as high as possible (to maximise SNR), but not too high (to avoid clipping of the signal).
+
+@item Signal calibration: MATAA takes into account the sensitivity and gain of the DAC and ADC blocks, as well as the sensitivity and the potentially frequency-dependent transfer function of the signal sensor. See @ref{Data calibration}.
 
 @end itemize
 

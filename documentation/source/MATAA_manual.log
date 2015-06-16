@@ -1,13 +1,12 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdfetex 2012.11.5)  16 JAN 2015 19:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdfetex 2014.11.11)  16 JUN 2015 11:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
-MATAA_manual.texi
+**\input ./MATAA_manual.texi
 (./MATAA_manual.texi
-(/usr/local/texlive/2012/texmf-dist/tex/texinfo/texinfo.tex
-Loading texinfo [version 2012-06-05.14]:
+(/usr/local/texlive/2014/texmf-dist/tex/texinfo/texinfo.tex
+Loading texinfo [version 2014-05-20.16]:
 \bindingoffset=\dimen16
 \normaloffset=\dimen17
 \pagewidth=\dimen18
@@ -130,7 +129,7 @@ defuns,
 \SAVEfootins=\box27
 \SAVEmargin=\box28
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/epsf/epsf.tex
+(/usr/local/texlive/2014/texmf-dist/tex/generic/epsf/epsf.tex
 This is `epsf.tex' v2.7.4 <14 February 2011>
 \epsffilein=\read1
 \epsfframemargin=\dimen39
@@ -173,7 +172,7 @@ This is `epsf.tex' v2.7.4 <14 February 2011>
 
 \openout7 = `MATAA_manual.pg'.
 
-{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (./
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (./
 MATAA_manual.toc [-1] [-2]) [-3] (./MATAA_manual.toc)
 (./MATAA_manual.toc)
 texinfo.tex: doing @include of MATAA_manual_overview.texi
@@ -202,14 +201,16 @@ Missing character: There is no Ê in font cmr10!
 @Figurefloatno=@count57
  <./figures/measurement_setup.pdf> [5]
 Missing character: There is no Ê in font cmr10!
- [6]
-l.197: Undefined cross reference `Impedance measurement-snt'.
-l.197: Undefined cross reference `Impedance measurement-snt'.
-l.197: Undefined cross reference `Impedance measurement-pg'.
+ [6] l.168: Undefined cross reference `Data calibration-snt'.
+l.168: Undefined cross reference `Data calibration-snt'.
+l.168: Undefined cross reference `Data calibration-pg'.
+l.199: Undefined cross reference `Impedance measurement-snt'.
+l.199: Undefined cross reference `Impedance measurement-snt'.
+l.199: Undefined cross reference `Impedance measurement-pg'. [7]
 Missing character: There is no Ê in font cmr10!
- <./figures/ref_signal_paths.pdf> [7] [8] [9] <./figures/jack.pdf> <./figures/m
-ac_os_x_audio_settings.pdf> [10] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 317--321
+ <./figures/ref_signal_paths.pdf> [8] [9] <./figures/jack.pdf> <./figures/mac_o
+s_x_audio_settings.pdf> [10] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 319--323
  []@texttt gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c
 
 @hbox(6.69167+2.43333)x433.62
@@ -236,14 +237,14 @@ cate ignored
                                                   \fi \fi 
 \item ...no by 1 {\let \par =\endgraf \smallbreak 
                                                   }{\ifnum \lastpenalty <100...
-l.322 @item
+l.324 @item
             Finally, move the binaries you just compiled to the path where M...
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 322--325
- @textrm ex-pects to find them (i.e. `@texttt ~/matlab/mataa/TestTone/LINUX_X86
--32[]@textrm '[],
+Underfull \hbox (badness 10000) in paragraph at lines 324--327
+ @textrm ex-pects to find them (i.e. @texttt ~/matlab/mataa/TestTone/LINUX_X86-
+32[]@textrm ,
 
-@hbox(8.2125+2.73749)x433.62, glue set 5.5173
+@hbox(8.2125+2.73749)x433.62, glue set 5.99348
 .@glue(@leftskip) 21.68121
 .@textrm e
 .@textrm x
@@ -253,41 +254,47 @@ Underfull \hbox (badness 10000) in paragraph at lines 322--325
 .etc.
 
 
-Overfull \hbox (18.81781pt too wide) in paragraph at lines 322--325
- @textrm `@texttt ~/matlab/mataa/TestTone/LINUX_X86-64[]@textrm '[] or `@texttt
- ~/matlab/mataa/TestTone/LINUX_PPC[]@textrm '[]):|
+Underfull \hbox (badness 7595) in paragraph at lines 324--327
+ @texttt ~/matlab/mataa/TestTone/LINUX_X86-64[] @textrm or @texttt ~/matlab/mat
+aa/TestTone/LINUX_
 
-@hbox(8.2125+2.73749)x433.62, glue set - 1.0
+@hbox(7.60416+1.04173)x433.62, glue set 4.23607
 .@glue(@leftskip) 21.68121
-.@textrm `
 .@texttt ~
 .@texttt /
 .@texttt m
+.@texttt a
 .etc.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 322--325
- 
-
-@hbox(0.0+0.0)x433.62
-.@glue(@leftskip) 21.68121
-.@penalty -10000
-.@glue(@rightskip) 0.0
 
 )
 texinfo.tex: doing @include of MATAA_manual_working.texi
 
  (./MATAA_manual_working.texi Chapter 3 [13])
+texinfo.tex: doing @include of MATAA_manual_calibration.texi
+
+ (./MATAA_manual_calibration.texi Chapter 4 [14])
 texinfo.tex: doing @include of MATAA_manual_tools.texi
 
- (./MATAA_manual_tools.texi
-Chapter 4 [14] [15] [16] [17] [18]
+ (./MATAA_manual_tools.texi Chapter 5 [15] [16] [17] [18]
+[19]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [19] [20] [21] [22] [23] [24] [25] [26]
-[27] [28] [29] [30] [31]
-Overfull \hbox (9.87344pt too wide) in paragraph at lines 694--696
+ [20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32]
+Overfull \hbox (76.05469pt too wide) in paragraph at lines 683--686
+[]@textrm The method is based on the ideas of Siegfried Linkwitz (see http://ww
+w.linkwitzlab.com/frontiers[]2.htm#M|
+
+@hbox(8.2125+2.73749)x433.62, glue set - 1.0
+.@hbox(0.0+0.0)x0.0
+.@textrm T
+.@textrm h
+.@textrm e
+.@glue 3.65 plus 1.825 minus 1.21666
+.etc.
+
+[33]
+Overfull \hbox (9.87344pt too wide) in paragraph at lines 727--729
 []@textrm NOTE 2: There ex-ist dif-fer-ent def-i-ni-tions of THD (see e.g. http
 ://en.wikipedia.org/wiki/THD|
 
@@ -299,21 +306,8 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 694--696
 .@textrm E
 .etc.
 
-[32]
-Underfull \hbox (badness 10000) in paragraph at lines 756--757
-[]@textrm function [re-spons-eS-ig-nal,inputSignal,t] = mataa[]measure[]signal[
-]response (in-
-
-@hbox(8.2125+2.73749)x433.62, glue set 8.48238
-.@hbox(0.0+0.0)x0.0
-.@textrm f
-.@textrm u
-.@textrm n
-.@textrm c
-.etc.
-
-[33] [34] [35]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 848--850
+[34] [35] [36] [37]
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 877--879
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -326,16 +320,16 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 848--850
+Underfull \hbox (badness 10000) in paragraph at lines 877--879
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50]
-[51]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1570--1574
+[38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52]
+[53] [54]
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1649--1653
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -348,15 +342,15 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1570--1574
+Underfull \hbox (badness 10000) in paragraph at lines 1649--1653
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[52] [53] [54]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1707--1716
+[55] [56] [57]
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1786--1796
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -368,10 +362,10 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 1707--1716
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-[55] [56] [57])
+[58] [59] [60])
 texinfo.tex: doing @include of MATAA_manual_MatOctPrimer.texi
 
- (./MATAA_manual_MatOctPrimer.texi Chapter 5 [58]
+ (./MATAA_manual_MatOctPrimer.texi Chapter 6 [61]
 Missing character: There is no Ê in font cmr10!
 
 Overfull \hbox (34.82065pt too wide) in paragraph at lines 35--36
@@ -391,12 +385,12 @@ ia.org/wiki/MATLAB)|
 .@textrm n
 .etc.
 
-[59])
+[62])
 texinfo.tex: doing @include of MATAA_manual_licenses.texi
 
- (./MATAA_manual_licenses.texi Appendix A [60] [61] [62] [63] [64]
-[65] [66] [67] [68] [69] [70] [71]) (Concept index) [72] (./MATAA_manual.cps)
-(MATAA tools index) [73]
+ (./MATAA_manual_licenses.texi Appendix A [63] [64] [65] [66] [67]
+[68] [69] [70] [71] [72] [73] [74]) (Concept index) [75] (./MATAA_manual.cps)
+(MATAA tools index) [76]
 Overfull \vbox (33.91702pt too high) has occurred while \output is active
 \vbox(643.2+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
@@ -414,36 +408,39 @@ Overfull \vbox (33.91702pt too high) has occurred while \output is active
 .etc.
 
 
-[74] (./MATAA_manual.fns) [75] ) 
+[77] (./MATAA_manual.fns) [78] ) 
 Here is how much of TeX's memory you used:
- 2464 strings out of 495044
- 33822 string characters out of 3155949
- 113510 words of memory out of 3000000
- 3635 multiletter control sequences out of 15000+200000
- 32127 words of font info for 112 fonts, out of 3000000 for 9000
- 1269 hyphenation exceptions out of 8191
- 15i,6n,16p,1758b,790s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 2526 strings out of 494680
+ 34874 string characters out of 6149418
+ 114411 words of memory out of 5000000
+ 3824 multiletter control sequences out of 15000+600000
+ 32127 words of font info for 112 fonts, out of 8000000 for 9000
+ 1457 hyphenation exceptions out of 8191
+ 15i,6n,16p,1690b,806s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Impedance\040measur
 ement} has been referenced but does not exist, replaced by a fixed one
 
-</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><
-/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
-sr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr
-/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/loca
-l/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local
-/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb></usr/loca
-l/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
-/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
-texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/t
-exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
-xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (80 pages, 1104014 bytes).
+pdfTeX warning (dest): name{Data\040calibration} has been referenced but does n
+ot exist, replaced by a fixed one
+
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr
+/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/loca
+l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb></usr/loca
+l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/t
+exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
+xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on MATAA_manual.pdf (83 pages, 1120703 bytes).
 PDF statistics:
- 1268 PDF objects out of 1440 (max. 8388607)
- 1084 compressed objects within 11 object streams
- 178 named destinations out of 1000 (max. 500000)
- 793 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1309 PDF objects out of 1440 (max. 8388607)
+ 1121 compressed objects within 12 object streams
+ 185 named destinations out of 1000 (max. 500000)
+ 817 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -86,6 +86,8 @@ Matthias Brennwald (@email{@value{CONTACT-EMAIL}})
     
 @include MATAA_manual_working.texi
 
+@include MATAA_manual_calibration.texi
+
 @include MATAA_manual_tools.texi
 
 @c DELETE THIS CHAPTER! ADD DOCUMENTATION OF TOOLS TO THE MATLAB PROGRAMS THEMSELVES. OTHERWISE, EVERY CHANGE IN A TOOL OR ADDING NEW TOOLS WOULD MAKE THIS MANUAL OUT-OF-DATE. 

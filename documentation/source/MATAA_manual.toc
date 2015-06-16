@@ -5,91 +5,94 @@
 @numsecentry{Hardware Setup}{2.3}{Hardware Setup}{5}
 @numsubsecentry{The Building Blocks of the Measurement Setup}{2.3.1}{}{5}
 @numsubsecentry{Soundcard setup, TestTone, and TestDevices}{2.3.2}{}{7}
-@numsubsecentry{Sound channel allocation}{2.3.3}{}{7}
+@numsubsecentry{Sound channel allocation}{2.3.3}{}{8}
 @numsubsecentry{Interchannel delay}{2.3.4}{}{10}
 @numsecentry{Setting up the soundcard of an Apple Macintosh computer running Mac OS X}{2.4}{Setting up the soundcard of an Apple Macintosh computer running Mac OS X}{11}
 @numsecentry{Setting up the soundcard of a computer running Linux}{2.5}{Setting up the soundcard of a computer running Linux}{11}
 @numsecentry{Compiling TestTone and TestDevices on Linux}{2.6}{Compiling TestTone and TestDevices on Linux}{12}
 @numsecentry{Testing the Installation}{2.7}{Testing the Installation}{13}
 @numchapentry{Working with MATAA}{3}{Working with MATAA}{14}
-@numchapentry{MATAA tools reference}{4}{MATAA tools reference}{15}
-@numsecentry{mataa_audio_guess_latency}{4.1}{mataa_audio_guess_latency}{15}
-@numsecentry{mataa_audio_info}{4.2}{mataa_audio_info}{15}
-@numsecentry{mataa_computer}{4.3}{mataa_computer}{16}
-@numsecentry{mataa_convolve}{4.4}{mataa_convolve}{16}
-@numsecentry{mataa_deConvolve}{4.5}{mataa_deConvolve}{17}
-@numsecentry{mataa_export_FRD}{4.6}{mataa_export_FRD}{17}
-@numsecentry{mataa_export_TMD}{4.7}{mataa_export_TMD}{20}
-@numsecentry{mataa_file_default_name}{4.8}{mataa_file_default_name}{20}
-@numsecentry{mataa_FR_extend_LF}{4.9}{mataa_FR_extend_LF}{21}
-@numsecentry{mataa_f_to_t}{4.10}{mataa_f_to_t}{21}
-@numsecentry{mataa_gnuplot}{4.11}{mataa_gnuplot}{22}
-@numsecentry{mataa_guess_IR_start}{4.12}{mataa_guess_IR_start}{22}
-@numsecentry{mataa_hilbert}{4.13}{mataa_hilbert}{23}
-@numsecentry{mataa_impedance_fit_speaker}{4.14}{mataa_impedance_fit_speaker}{23}
-@numsecentry{mataa_impedance_speaker_model}{4.15}{mataa_impedance_speaker_model}{24}
-@numsecentry{mataa_import_AIFF}{4.16}{mataa_import_AIFF}{25}
-@numsecentry{mataa_import_FRD}{4.17}{mataa_import_FRD}{25}
-@numsecentry{mataa_import_mlssa}{4.18}{mataa_import_mlssa}{26}
-@numsecentry{mataa_import_TMD}{4.19}{mataa_import_TMD}{27}
-@numsecentry{mataa_interp}{4.20}{mataa_interp}{27}
-@numsecentry{mataa_IR_demo}{4.21}{mataa_IR_demo}{28}
-@numsecentry{mataa_IR_remove_echo}{4.22}{mataa_IR_remove_echo}{29}
-@numsecentry{mataa_IR_to_CSD}{4.23}{mataa_IR_to_CSD}{29}
-@numsecentry{mataa_IR_to_ETC}{4.24}{mataa_IR_to_ETC}{30}
-@numsecentry{mataa_IR_to_FR}{4.25}{mataa_IR_to_FR}{30}
-@numsecentry{mataa_IR_to_SR}{4.26}{mataa_IR_to_SR}{31}
-@numsecentry{mataa_measure_HD}{4.27}{mataa_measure_HD}{31}
-@numsecentry{mataa_measure_impedance}{4.28}{mataa_measure_impedance}{32}
-@numsecentry{mataa_measure_IR}{4.29}{mataa_measure_IR}{33}
-@numsecentry{mataa_measure_signal_response}{4.30}{mataa_measure_signal_response}{33}
-@numsecentry{mataa_menu}{4.31}{mataa_menu}{35}
-@numsecentry{mataa_microphone_correct_IR}{4.32}{mataa_microphone_correct_IR}{35}
-@numsecentry{mataa_minimum_phase}{4.33}{mataa_minimum_phase}{36}
-@numsecentry{mataa_octave_version}{4.34}{mataa_octave_version}{36}
-@numsecentry{mataa_path}{4.35}{mataa_path}{37}
-@numsecentry{mataa_phase_remove_delay}{4.36}{mataa_phase_remove_delay}{38}
-@numsecentry{mataa_phase_remove_trend}{4.37}{mataa_phase_remove_trend}{38}
-@numsecentry{mataa_plot_CSDt}{4.38}{mataa_plot_CSDt}{38}
-@numsecentry{mataa_plot_defaults}{4.39}{mataa_plot_defaults}{39}
-@numsecentry{mataa_plot_ETC_dB}{4.40}{mataa_plot_ETC_dB}{40}
-@numsecentry{mataa_plot_ETC_lin}{4.41}{mataa_plot_ETC_lin}{40}
-@numsecentry{mataa_plot_FR}{4.42}{mataa_plot_FR}{41}
-@numsecentry{mataa_plot_HD}{4.43}{mataa_plot_HD}{41}
-@numsecentry{mataa_plot_impedance}{4.44}{mataa_plot_impedance}{42}
-@numsecentry{mataa_plot_IR}{4.45}{mataa_plot_IR}{42}
-@numsecentry{mataa_plot_one}{4.46}{mataa_plot_one}{43}
-@numsecentry{mataa_plot_save}{4.47}{mataa_plot_save}{43}
-@numsecentry{mataa_plot_SR}{4.48}{mataa_plot_SR}{43}
-@numsecentry{mataa_plot_time_signal}{4.49}{mataa_plot_time_signal}{44}
-@numsecentry{mataa_plot_two}{4.50}{mataa_plot_two}{44}
-@numsecentry{mataa_plot_two_logX}{4.51}{mataa_plot_two_logX}{45}
-@numsecentry{mataa_realFT}{4.52}{mataa_realFT}{45}
-@numsecentry{mataa_realFT0}{4.53}{mataa_realFT0}{45}
-@numsecentry{mataa_realIFT}{4.54}{mataa_realIFT}{46}
-@numsecentry{mataa_realIFT0}{4.55}{mataa_realIFT0}{46}
-@numsecentry{mataa_running_mean}{4.56}{mataa_running_mean}{47}
-@numsecentry{mataa_select_signal_window_time}{4.57}{mataa_select_signal_window_time}{47}
-@numsecentry{mataa_settings}{4.58}{mataa_settings}{48}
-@numsecentry{mataa_signal_analytic}{4.59}{mataa_signal_analytic}{48}
-@numsecentry{mataa_signal_autocorr}{4.60}{mataa_signal_autocorr}{49}
-@numsecentry{mataa_signal_clipcheck}{4.61}{mataa_signal_clipcheck}{49}
-@numsecentry{mataa_signal_crop}{4.62}{mataa_signal_crop}{50}
-@numsecentry{mataa_signal_generator}{4.63}{mataa_signal_generator}{51}
-@numsecentry{mataa_signal_pad_Zeros}{4.64}{mataa_signal_pad_Zeros}{52}
-@numsecentry{mataa_signal_removeHF}{4.65}{mataa_signal_removeHF}{52}
-@numsecentry{mataa_signal_save}{4.66}{mataa_signal_save}{53}
-@numsecentry{mataa_signal_spectrogram}{4.67}{mataa_signal_spectrogram}{53}
-@numsecentry{mataa_signal_to_TestToneFile}{4.68}{mataa_signal_to_TestToneFile}{54}
-@numsecentry{mataa_signal_window}{4.69}{mataa_signal_window}{55}
-@numsecentry{mataa_smooth_log}{4.70}{mataa_smooth_log}{56}
-@numsecentry{mataa_tempfile}{4.71}{mataa_tempfile}{57}
-@numsecentry{mataa_t_to_f}{4.72}{mataa_t_to_f}{57}
-@numsecentry{mataa_t_to_f0}{4.73}{mataa_t_to_f0}{57}
-@numchapentry{Getting started with MATLAB or Octave}{5}{Getting started with MATLAB or Octave}{59}
-@appentry{Licences}{A}{Licenses}{61}
-@appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{61}
-@appsecentry{GNU Free Documentation License}{A.2}{GNU Free Documentation License}{65}
-@appsubsecentry{ADDENDUM: How to use this License for your documents}{A.2.1}{}{72}
-@unnchapentry{Concept index}{10001}{Concept index}{73}
-@unnchapentry{MATAA tools index}{10002}{MATAA tools index}{75}
+@numchapentry{Data Calibration}{4}{Data Calibration}{15}
+@numchapentry{MATAA tools reference}{5}{MATAA tools reference}{16}
+@numsecentry{mataa_audio_guess_latency}{5.1}{mataa_audio_guess_latency}{16}
+@numsecentry{mataa_audio_info}{5.2}{mataa_audio_info}{16}
+@numsecentry{mataa_computer}{5.3}{mataa_computer}{17}
+@numsecentry{mataa_convolve}{5.4}{mataa_convolve}{17}
+@numsecentry{mataa_deConvolve}{5.5}{mataa_deConvolve}{18}
+@numsecentry{mataa_export_FRD}{5.6}{mataa_export_FRD}{18}
+@numsecentry{mataa_export_TMD}{5.7}{mataa_export_TMD}{21}
+@numsecentry{mataa_file_default_name}{5.8}{mataa_file_default_name}{21}
+@numsecentry{mataa_FR_extend_LF}{5.9}{mataa_FR_extend_LF}{22}
+@numsecentry{mataa_f_to_t}{5.10}{mataa_f_to_t}{22}
+@numsecentry{mataa_gnuplot}{5.11}{mataa_gnuplot}{23}
+@numsecentry{mataa_guess_IR_start}{5.12}{mataa_guess_IR_start}{23}
+@numsecentry{mataa_hilbert}{5.13}{mataa_hilbert}{24}
+@numsecentry{mataa_impedance_fit_speaker}{5.14}{mataa_impedance_fit_speaker}{24}
+@numsecentry{mataa_impedance_speaker_model}{5.15}{mataa_impedance_speaker_model}{25}
+@numsecentry{mataa_import_AIFF}{5.16}{mataa_import_AIFF}{26}
+@numsecentry{mataa_import_FRD}{5.17}{mataa_import_FRD}{26}
+@numsecentry{mataa_import_mlssa}{5.18}{mataa_import_mlssa}{27}
+@numsecentry{mataa_import_TMD}{5.19}{mataa_import_TMD}{28}
+@numsecentry{mataa_interp}{5.20}{mataa_interp}{29}
+@numsecentry{mataa_IR_demo}{5.21}{mataa_IR_demo}{29}
+@numsecentry{mataa_IR_remove_echo}{5.22}{mataa_IR_remove_echo}{30}
+@numsecentry{mataa_IR_to_CSD}{5.23}{mataa_IR_to_CSD}{30}
+@numsecentry{mataa_IR_to_ETC}{5.24}{mataa_IR_to_ETC}{31}
+@numsecentry{mataa_IR_to_FR}{5.25}{mataa_IR_to_FR}{31}
+@numsecentry{mataa_IR_to_SR}{5.26}{mataa_IR_to_SR}{32}
+@numsecentry{mataa_IR_to_TBES}{5.27}{mataa_IR_to_TBES}{32}
+@numsecentry{mataa_measure_HD}{5.28}{mataa_measure_HD}{33}
+@numsecentry{mataa_measure_impedance}{5.29}{mataa_measure_impedance}{34}
+@numsecentry{mataa_measure_IR}{5.30}{mataa_measure_IR}{35}
+@numsecentry{mataa_measure_signal_response}{5.31}{mataa_measure_signal_response}{35}
+@numsecentry{mataa_menu}{5.32}{mataa_menu}{37}
+@numsecentry{mataa_minimum_phase}{5.33}{mataa_minimum_phase}{38}
+@numsecentry{mataa_octave_version}{5.34}{mataa_octave_version}{39}
+@numsecentry{mataa_path}{5.35}{mataa_path}{39}
+@numsecentry{mataa_phase_remove_delay}{5.36}{mataa_phase_remove_delay}{40}
+@numsecentry{mataa_phase_remove_trend}{5.37}{mataa_phase_remove_trend}{40}
+@numsecentry{mataa_plot_CSDt}{5.38}{mataa_plot_CSDt}{41}
+@numsecentry{mataa_plot_defaults}{5.39}{mataa_plot_defaults}{41}
+@numsecentry{mataa_plot_ETC_dB}{5.40}{mataa_plot_ETC_dB}{42}
+@numsecentry{mataa_plot_ETC_lin}{5.41}{mataa_plot_ETC_lin}{42}
+@numsecentry{mataa_plot_FR}{5.42}{mataa_plot_FR}{43}
+@numsecentry{mataa_plot_HD}{5.43}{mataa_plot_HD}{43}
+@numsecentry{mataa_plot_impedance}{5.44}{mataa_plot_impedance}{44}
+@numsecentry{mataa_plot_IR}{5.45}{mataa_plot_IR}{44}
+@numsecentry{mataa_plot_one}{5.46}{mataa_plot_one}{45}
+@numsecentry{mataa_plot_save}{5.47}{mataa_plot_save}{45}
+@numsecentry{mataa_plot_SR}{5.48}{mataa_plot_SR}{45}
+@numsecentry{mataa_plot_TBESf}{5.49}{mataa_plot_TBESf}{46}
+@numsecentry{mataa_plot_time_signal}{5.50}{mataa_plot_time_signal}{46}
+@numsecentry{mataa_plot_two}{5.51}{mataa_plot_two}{47}
+@numsecentry{mataa_plot_two_logX}{5.52}{mataa_plot_two_logX}{47}
+@numsecentry{mataa_realFT}{5.53}{mataa_realFT}{48}
+@numsecentry{mataa_realFT0}{5.54}{mataa_realFT0}{48}
+@numsecentry{mataa_realIFT}{5.55}{mataa_realIFT}{49}
+@numsecentry{mataa_realIFT0}{5.56}{mataa_realIFT0}{49}
+@numsecentry{mataa_running_mean}{5.57}{mataa_running_mean}{49}
+@numsecentry{mataa_select_signal_window_time}{5.58}{mataa_select_signal_window_time}{50}
+@numsecentry{mataa_sensor_correct_signal}{5.59}{mataa_sensor_correct_signal}{50}
+@numsecentry{mataa_settings}{5.60}{mataa_settings}{51}
+@numsecentry{mataa_signal_analytic}{5.61}{mataa_signal_analytic}{52}
+@numsecentry{mataa_signal_autocorr}{5.62}{mataa_signal_autocorr}{52}
+@numsecentry{mataa_signal_clipcheck}{5.63}{mataa_signal_clipcheck}{52}
+@numsecentry{mataa_signal_crop}{5.64}{mataa_signal_crop}{53}
+@numsecentry{mataa_signal_generator}{5.65}{mataa_signal_generator}{54}
+@numsecentry{mataa_signal_pad_Zeros}{5.66}{mataa_signal_pad_Zeros}{55}
+@numsecentry{mataa_signal_removeHF}{5.67}{mataa_signal_removeHF}{56}
+@numsecentry{mataa_signal_save}{5.68}{mataa_signal_save}{56}
+@numsecentry{mataa_signal_spectrogram}{5.69}{mataa_signal_spectrogram}{57}
+@numsecentry{mataa_signal_to_TestToneFile}{5.70}{mataa_signal_to_TestToneFile}{57}
+@numsecentry{mataa_signal_window}{5.71}{mataa_signal_window}{58}
+@numsecentry{mataa_smooth_log}{5.72}{mataa_smooth_log}{60}
+@numsecentry{mataa_tempfile}{5.73}{mataa_tempfile}{60}
+@numsecentry{mataa_t_to_f}{5.74}{mataa_t_to_f}{60}
+@numsecentry{mataa_t_to_f0}{5.75}{mataa_t_to_f0}{61}
+@numchapentry{Getting started with MATLAB or Octave}{6}{Getting started with MATLAB or Octave}{62}
+@appentry{Licences}{A}{Licenses}{64}
+@appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{64}
+@appsecentry{GNU Free Documentation License}{A.2}{GNU Free Documentation License}{68}
+@appsubsecentry{ADDENDUM: How to use this License for your documents}{A.2.1}{}{75}
+@unnchapentry{Concept index}{10001}{Concept index}{76}
+@unnchapentry{MATAA tools index}{10002}{MATAA tools index}{78}

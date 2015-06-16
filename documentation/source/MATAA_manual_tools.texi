@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 16-Jan-2015.
+This section contains a list of the MATAA tools and their usage information as of 16-Jun-2015.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -317,7 +317,7 @@ function y = mataa_hilbert (x)@*
 DESCRIPTION:@*
 Calculates the Hilbert transform of x.@*
 
-his code was modelled after the Hilbert transform function 'hilbert.m' available from Octave-Forge@*
+This code was modelled after the Hilbert transform function 'hilbert.m' available from Octave-Forge@*
 
 INPUT:@*
 x: input signal (column vector). If x contains complex values, only the real part of these values will be used.@*
@@ -483,19 +483,23 @@ The program is based on code written by Peter Svensson (svensson[at]iet.ntnu.no)
 
 file: ...mataa_tools/mataa_import_TMD.m@*
 
-function [t,s,comments] = mataa_import_TMD (file)@*
+function [t,s,comments] = mataa_import_TMD (file,timefix)@*
 
 DESCRIPTION:@*
 Import time-domain data from a TMD file (see also mataa_export_TMD).@*
 
 INPUT:@*
 file: string containing the name of the file containing the data to be imported. The string may contain a complete path. If no path is given, the file is assumed to be located in the current working directory.@*
+timefix (optional): flag indicating if (and how) mataa_import_TMD should try to make time values evenly spaced. If timefix > 1: t = timefix * round (1/mean(diff(t))/timefix)@*
 
 OUTPUT:@*
 t: time values (s)@*
 s: signal samples@*
 comments: cell string containing the comments in the data file (if any)@*
 
+EXAMPLE:@*
+
+> [t,h,comments] = mataa_import_TMD ('scanspeaker_0deg_no_filter_tweeter.tmd',10);@*
 
 @findex mataa_interp
 @node mataa_interp
@@ -509,7 +513,7 @@ DESCRIPTION:@*
 Linear interpolation of y(x) from yi(xi)@*
 if x is outside the range of xi, mataa_interp returns a linear extrapolation of the yi@*
 
-Linear interpolation is of course available in Matlab and Octave-Forge as interp1. However, it's available in plain-vanilla Octave, which is a shame, I think. I therefore provided this function for MATAA so that I don't have to worry about interp1 missing in Octave while still being able to easily write code that is compatible with both Matlab and Octave.@*
+Linear interpolation is of course available in Matlab and Octave-Forge as interp1. However, it's not available in plain-vanilla Octave, which is a shame, I think (this was fixed a while ago, so mataa_interp is obsolete and may be removed in the future). I therefore provided this function for MATAA so that I don't have to worry about interp1 missing in Octave while still being able to easily write code that is compatible with both Matlab and Octave.@*
 
 FIXME: THIS CODE IS AS INEFFICIENT AS IT GETS!@*
 
@@ -625,7 +629,7 @@ EXAMPLE:@*
 
 file: ...mataa_tools/mataa_IR_to_FR.m@*
 
-function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval);@*
+function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);@*
 
 DESCRIPTION:@*
 Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)@*
@@ -634,9 +638,10 @@ INPUT:@*
 h: impulse response (in volts)@*
 t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
 smooth_interval (optional): if specified, the frequency response is smoothed over the octave interval smooth_interval.@*
+unit (optional): unit of h.@*
 
 OUTPUT:@*
-mag: magnitude of frequency response (in dB)@*
+mag: magnitude of frequency response (in dB). If unit of h is 'Pa' (Pascal), then mag is referenced to 20 microPa (standard reference sound pressure level).@*
 phase: phase of frequency response (in degrees). This is the TOTAL phase including the 'excess phase' due to (possible) time delay of h(h). phase is unwrapped (i.e. it is not limited to +/-180 degrees, and there are no discontinuities at +/- 180 deg.)@*
 f: frequency coordinates of mag and phase@*
 
@@ -665,6 +670,34 @@ t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (
 OUTPUT:@*
 s: step response@*
 t: time (seconds)@*
+
+
+@findex mataa_IR_to_TBES
+@node mataa_IR_to_TBES
+@section mataa_IR_to_TBES
+
+file: ...mataa_tools/mataa_IR_to_TBES.m@*
+
+function [A,tau,f] = mataa_IR_to_TBES (h,t,f);@*
+
+DESCRIPTION:@*
+Calculate tone burst energy storage (TBES) data. The impulse response is convolved with shaped tone burst(s) to analyze the transient response and energy storage of the DUT at different frequencies. Tone burst signals used are 4 cycles of pure sine with a Blackman envelope.@*
+The method is based on the ideas of Siegfried Linkwitz (see http://www.linkwitzlab.com/frontiers_2.htm#M ) and Jochen Fabricius.@*
+
+INPUT:@*
+h: values impulse response (vector)@*
+t: time values of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
+f: frequency value(s) of tone burst (Hz)@*
+
+OUTPUT:@*
+A: amplitude envelope (dB, relative to max value)@*
+tau: dimensionless time value (time normalized by period of burst frequency)@*
+f: frequency values (same values as in input, useful for plotting TBES results)@*
+ @*
+EXAMPLE:@*
+> [h,t] = mataa_IR_demo ('FE108');@*
+> f = logspace (2,4,50);@*
+> [A,tau,f] = mataa_IR_to_TBES (h,t,f);@*
 
 
 @findex mataa_measure_HD
@@ -733,18 +766,22 @@ f: vector of frequency values@*
 
 file: ...mataa_tools/mataa_measure_IR.m@*
 
-function [h,t] = mataa_measure_IR (input_signal,fs,N);@*
+function [h,t,h_unit] = mataa_measure_IR (input_signal,fs,N,latency,hw_info);@*
 
 DESCRIPTION:@*
-This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also 'help mataa_measure_signal_response'.@*
-input_signal is the file name of the input signal, for example 'whitenoise1.in'. This file must be in ASCII format. It must contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).@*
+This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal.@*
 
+INPUT:@*
+input_signal: input signal, vector of signal samples or name to file with sample data. Files must be in ASCII format and contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).@*
 N (optional): the impulse response is measured N times and the mean response is calculated from these measurements. N = 1 is used by default.@*
+latency: see mataa_measure_signal_response@*
+hw_info (optional): struct containing information relating the measurement hardware (DAC, ADC, microphone, etc.). This information is used determine the correct signal level and unit and to compensate for non-ideal frequency response of the measurement equipment. See also mataa_measure_signal_response. If hw_info is not given, the raw impulse response is measured, i.e. no compensation for the transfer functions of the test hardware is applied.@*
 
-h(t) is determined from the deconvolution of the DUT's resposne and the original input signal.@*
+OUTPUT:@*
 
-The RAW impulse response is measured, i.e. no filtering or deconvolution@*
-from the impulse responses of the audio hardware or microphone etc. is applied.@*
+h: impulse response@*
+t: time@*
+h_unit: unit of h data@*
 
 
 @findex mataa_measure_signal_response
@@ -753,7 +790,7 @@ from the impulse responses of the audio hardware or microphone etc. is applied.@
 
 file: ...mataa_tools/mataa_measure_signal_response.m@*
 
-function [responseSignal,inputSignal,t] = mataa_measure_signal_response (input_signal,fs,latency,verbose);@*
+function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,hw_info);@*
 
 DESCRIPTION:@*
 This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).@*
@@ -767,12 +804,27 @@ latency: if the signal samples were specified rather than a file name/path, the 
 
 verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.@*
 
+hw_info (optional): struct containing information relating the measurement hardware (DAC, ADC, microphone, etc.). This information is used determine the correct signal level and unit and to compensate for non-ideal frequency response of the measurement equipment.@*
+If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.@*
+The struct format is as follows (omit fields if not applicable):@*
+   hw_info.ADC.name: name of the ADC device (string)@*
+   hw_info.ADC.sensitivity: sensitivity of the soundcard input (e.g., hw_info.ADC.sensitivity = 0.5 if input voltage of 2.0V results in sample value of 1.0 in digitized data)@*
+   hw_info.DAC.name: name of the DAC device (string)@*
+   hw_info.DAC.sensitivity: sensitivity of the soundcard output (e.g., hw_info.DAC.sensitivity = 2.5 if digital value of 1.0 results in 2.5V at analog output)@*
+   hw_info.sensor.name: name of the sensor (string)@*
+   hw_info.sensor.sensitivity.val and hw_info.sensor.sensitivity.unit: sensitivity of the sensor (value and unit), for example (microphone with sensitivity is 30mV/Pa):@*
+	hw_info.sensor.sensitivity.val = 10E-3;@*
+	hw_info.sensor.sensitivity.unit = "V/Pa";@*
+   hw_info.sensor.calfile: name of file with sensor calibration data for use with mataa_microphone_correct_IR (...)@*
+
 OUTPUT:@*
 inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.@*
 
 responseSignal: matrix containing the signal(s) from the audio input device. This will contain the data from all channels used for signal recording, where each matrix colum corresponds to one channel.@*
 
 t is vector containing the times corresponding the samples in responseSignal and inputSignal (in seconds)@*
+
+signal_unit: unit of the recorded signal. If the signal has more than one channel, signal_unit is a cell string with each cell reflecting the units of each signal channel.@*
 
 FURTHER INFORMATION:@*
 The signal samples range from -1.0 to +1.0).@*
@@ -812,29 +864,6 @@ The result will look like this:@*
     Choose a command: @*
 -----------@*
 The user then chooses one of the four commands by entering 'm', 'p', 's' or 'e'. If he/she enteres something else, an error message will be shown, and the menu is displayed again.@*
-
-
-@findex mataa_microphone_correct_IR
-@node mataa_microphone_correct_IR
-@section mataa_microphone_correct_IR
-
-file: ...mataa_tools/mataa_microphone_correct_IR.m@*
-
-function [h,t] = mataa_microphone_correct_IR (mic_name,h,t)@*
-
-DESCRIPTION:@*
-This function corrects h(t) from the transfer function of the specified microphone@*
-the phase response of the microphone are calculated by assuming the microphone to be minimum phase@*
-frequency components outside the range of the specified microphone frequency response are set to zero@*
-
-INPUT:@*
-mic_name: name of microphone@*
-h: impulse response samples@*
-t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
-
-OUTPUT:@*
-h_corr: corrected impulse response@*
-t: time coordinates of samples in h@*
 
 
 @findex mataa_minimum_phase
@@ -1204,6 +1233,29 @@ EXAMPLE:@*
 > mataa_plot_SR(h,t,'demo step response');@*
 
 
+@findex mataa_plot_TBESf
+@node mataa_plot_TBESf
+@section mataa_plot_TBESf
+
+file: ...mataa_tools/mataa_plot_TBESf.m@*
+
+function mataa_plot_TBESf (f,tau,A,ARange,tauRange,annote);@*
+
+DESCRIPTION:@*
+Plot tone burst energy storage data (as obtained from mataa_IR_to_TBES(...) in a 3D diagram using slices of constant frequency t.@*
+
+INPUT:@*
+f,tau,A: see description of output of mataa_IR_to_TBES@*
+ARange: range of A axis@*
+annote: annotations to the plot title (string, optional)@*
+
+EXAMPLE:@*
+> [h,t] = mataa_IR_demo ('FE108');@*
+> f = logspace (2,4,50);@*
+> [A,tau,f] = mataa_IR_to_TBES (h,t,f);@*
+> mataa_plot_TBESf (f,tau,A,40,8,'FE108');@*
+
+
 @findex mataa_plot_time_signal
 @node mataa_plot_time_signal
 @section mataa_plot_time_signal
@@ -1388,6 +1440,30 @@ t_end: end of selected signal range@*
 
 input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')@*
 
+@findex mataa_sensor_correct_signal
+@node mataa_sensor_correct_signal
+@section mataa_sensor_correct_signal
+
+file: ...mataa_tools/mataa_sensor_correct_signal.m@*
+
+function [h,t] = mataa_sensor_correct_signal (calfile,h,t)@*
+
+DESCRIPTION:@*
+This function corrects a signal h(t) from the transfer function of the specified sensor (e.g., a microphone).@*
+The phase response of the sensor ist calculated by assuming the sensor to be minimum phase.@*
+The sensor transfer function (relative gain) is taken from a file in the MATAA 'sensor_data' path (see example files in this path for data format).@*
+Gain at frequencies outside the range of the specified sensor response is set to zero (= -inf dB)@*
+
+INPUT:@*
+calfile: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt')@*
+h: signal samples@*
+t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
+
+OUTPUT:@*
+h_corr: corrected signal@*
+t: time coordinates of samples in h@*
+
+
 @findex mataa_settings
 @node mataa_settings
 @section mataa_settings
@@ -1522,7 +1598,7 @@ t: time coordinates of cropped signal (in seconds)@*
 
 file: ...mataa_tools/mataa_signal_generator.m@*
 
-function [s,t] = mataa_signal_generator (kind,fs,T,param);@*
+function [s,t,info] = mataa_signal_generator (kind,fs,T,param);@*
 
 DESCRIPTION:@*
 This function creates a signal s(t) of a specified type.@*
@@ -1539,8 +1615,10 @@ kind can be one of the following:@*
 'MLS':              Maximum length sequence (MLS). The 'T' parameter is ignored, and param = n is the number of taps to be used for the MLS. The length of the MLS will be 2^n-1 samples.@*
 'sine','sin':       Sine wave (param = frequency in Hz)@*
 'cosine','cos':     Cosine wave (param = frequency in Hz)@*
-'sweep','sweep_log':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)% % 'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)@*
+'sweep','sweep_log':Sine sweep, where frequency increases exponentially with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)@*
+'sweep_lin':        Sine sweep, where frequency increases linearly with time (param = [f1 f2], where f1 and f2 are the min. and max frequencies in Hz)@*
 'sweep_smooth','sweep_log_smooth': Same as 'sweep' and 'sweep_log', but with a smooth fade-in and fade-out (to reduce high-frequency clicks at beginning and end)@*
+'stepsweep','stepsweep_log': Stepped sine sweep; a series of time-shaped sine bursts, whereby the frequency is constant throughout each burst, and increases exponentially from one burst to the next. Bursts are shaped by a Blackman envelope for smooth transition from one burst to the next. The length of each burst is such that all burst contain the same number of sine cycles. param(1): frequency of first burst, param(2): frequency of last burst, param(3): number of bursts, param(4): fractional length of burst envelope with full amplitude [optional, default value: 0.7]. info.f: frequencies of bursts, info.i_end: indices to last sample in each burst, info.Nc: number of cycles in each burst@*
 'square':           Square (rectangle) wave (param = frequency in Hz)@*
 'rectangle','rect:  Same as 'square'@*
 'sawtooth','saw':   Sawtooth wave (param = frequency in Hz)@*
@@ -1551,6 +1629,7 @@ kind can be one of the following:@*
 OUTPUT:@*
 s: vector containing the signal samples (tha values in s can range from -1...+1)@*
 t: vector containing the sample times (in seconds)@*
+info: additional information about the signal (empty in for most signal types; see 'kind' input above).@*
 
 Examples:@*
 1. Create a 1-second pink-noise signal 96kHz sample rate:@*
@@ -1698,7 +1777,7 @@ check format of input data:@*
 
 file: ...mataa_tools/mataa_signal_window.m@*
 
-function s = mataa_signal_window (s0,window,par);@*
+function s = mataa_signal_window (s0,window,par,len);@*
 
 DESCRIPTION:@*
 Multiplies the signal s0 by the window function with the name 'window', and returns the result in s.@*
@@ -1707,6 +1786,7 @@ Some window functions rely on a parameter, which can be specified by par (par ca
 The following window functions are available (see e.g. http://en.wikipedia.org/wiki/Window_function for a description of these functions):@*
 'rectangular', 'rect', 'nowindow' : rectangular window (i.e. no window at all)@*
 'gauss': gauss window, whith shape parameter sigma = par (par <= 0.5)@*
+'sin', 'cos','sine','cosine': sine / cosine window@*
 'hamming', 'hamm': Hamming window@*
 'hann': Hann window (cosine window). Note: in anology to the 'Hamming' window, this is often wrongly referred to as 'Hanning'. However, the name relates to a guy called Julius von Hann.@*
 'bartlett','bart','triangular': Bartlett (triangular) window.@*
@@ -1722,6 +1802,7 @@ INPUT:@*
 s0: vector containing the samples values of the original signal (i.e. the signal that will be windowed).@*
 window: string contining the name of the window type to be used (see above).@*
 par: parameter(s) to further specify the window function. Depending on the window type, par may not be required (and will be ignored in these cases).@*
+len: fractional length of full-amplitude range inserted between rise / fall of window slopes (optional, default: len = 0)@*
 
 OUTPUT:@*
 s: vector containing the sample value of the windowed signal.@*
