@@ -146,6 +146,7 @@ end
 
 fclose (fid);
 
+% clean up struct format and remove 'type' field:
 switch toupper(cal.type)
 	case "ADC" % move to adc sub-struct:
 		dummy.ADC = rmfield(cal,'type');
@@ -160,6 +161,7 @@ switch toupper(cal.type)
 		cal = dummy;
 		cal.type = "SENSOR";
 	case {"CHAIN"} % check struct format:
+		cal = rmfield(cal,'type');
 		if isfield (cal,'transfer')
 			warning ("mataa_load_calibration: inclusing an overall transfer function with a 'full chain' calibration file is not recommended and may produce unpredictable results.")
 		end

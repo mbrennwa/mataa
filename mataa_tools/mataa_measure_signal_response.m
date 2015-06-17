@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal_DAC,cal_ADC,cal_SENSOR);
+function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
 
-% function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal_DAC,cal_ADC,cal_SENSOR);
+% function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -14,7 +14,7 @@ function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_respo
 % 
 % verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.
 %
-% cal_DAC, cal_ADC, and cal_SENSOR (optional): calibration data for use with mataa_signal_calibrate (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
+% cal (optional): calibration data for use with mataa_signal_calibrate (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
 % 
 % OUTPUT:
 % inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.
@@ -258,69 +258,35 @@ if verbose
     end
 end
 
+% DAC, ADC and SENSOR calibration:
 signal_unit = "UNKNOWN";
 if numChan > 1
 	signal_unit = cellstr (repmat(signal_unit,numChan,1));
 end
 
 % calibrate data
-if ~exist ('cal_DAC','var')
-	cal_DAC = '';
-end
-if ~exist ('cal_ADC','var')
-	cal_ADC = '';
-end
-if ~exist ('cal_SENSOR','var')
-	cal_SENSOR = '';
-end
-
-
-
-
-
-% DAC, ADC and SENSOR calibration:
-if ~iscell(cal_DAC)
-	cal_DAC = cellstr (cal_DAC);
-end
-if ~iscell(cal_ADC)
-	cal_ADC = cellstr (cal_ADC);
-end
-if ~iscell(cal_SENSOR)
-	cal_SENSOR = cellstr (cal_SENSOR);
-end
-
-if isempty(cal_DAC)
-	disp ("No information available for DAC calibration. Data will not be calibrated for DAC!")
-end
-if isempty(cal_ADC)
-	disp ("No information available for ADC calibration. Data will not be calibrated for ADC!")
-end
-if isempty(cal_SENSOR)
-	disp ("No information available for SENSOR calibration. Data will not be calibrated for SENSOR!")
-end
-
-for k = 1:numChan
-
-	% DAC calibration:
-	if ~isempty(cal_DAC)
-		if length(cal_DAC) < k
-			warning (sprintf("mataa_measure_signal_response: no DAC calibration data available for channel %i. Will use calibration data given for channel %i!",k,length(cal_DAC)));
-			cal = cal_DAC{end}
+if ~exist ('cal','var')
+	disp ('No calibration data available. Returning raw, uncalibrated data!')
+else
+	if ~iscell(cal)
+		cal = cellstr (cal); % so the loop below will work
+	end
+	
+	for k = 1:numChan % loop through all channels
+	
+		% check if cal data available for k-th channel:
+		if length(cal) < k
+			warning (sprintf("mataa_measure_signal_response: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,length(cal_DAC)));
+			kk = length(cal);
 		else
-			cal = cal_DAC{k};
+			kk = k;
 		end
- 		[responseSignal(:,k),t,signal_unit] = mataa_signal_calibrate (responseSignal(:,k),t,cal);
- 		end
- 	end
- 	
+				
+		% calibrate the signal:
+		[responseSignal(:,k),t,signal_unit] = mataa_signal_calibrate (responseSignal(:,k),t,cal{kk});
+	 
+	 end
+	 
 end
-
-
-
-
-warning ("mataa_measure_signal_response: calibration of ADC and SENSOR not yet implemented!");
-
-
-
 
 fflush (stdout);
