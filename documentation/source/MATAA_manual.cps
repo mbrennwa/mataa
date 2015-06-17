@@ -3,6 +3,7 @@
 \entry {Anti-aliasing filter}{6}
 \entry {Audio hardware setup}{5}
 \initial {C}
+\entry {Calibration file}{15}
 \entry {Calibration file (microphone)}{4}
 \entry {Channel allocation}{7}
 \entry {Column vector}{62}
@@ -31,6 +32,7 @@
 \entry {Interchannel delay}{10}
 \initial {L}
 \entry {Linux}{12}
+\entry {Loopback}{15}
 \initial {M}
 \entry {Manual, MATAA}{4}
 \entry {MATAA default paths}{4}

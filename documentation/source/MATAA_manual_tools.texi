@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 16-Jun-2015.
+This section contains a list of the MATAA tools and their usage information as of 17-Jun-2015.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -700,6 +700,28 @@ EXAMPLE:@*
 > [A,tau,f] = mataa_IR_to_TBES (h,t,f);@*
 
 
+@findex mataa_load_calibration
+@node mataa_load_calibration
+@section mataa_load_calibration
+
+file: ...mataa_tools/mataa_load_calibration.m@*
+
+function cal = mataa_load_calibration (calfile)@*
+
+DESCRIPTION:@*
+Load calibration data for test devices from calibration file.@*
+
+INPUT:@*
+calfile: name of calibration file (e.g., "Behringer_ECM8000.txt")@*
+
+OUTPUT:@*
+cal: struct with calibration data.@*
+
+EXAMPLE:@*
+To load the (generic) calibration data for the Behringer ECM8000 microphone:@*
+c = mataa_load_calibration ('Behringer_ECM8000.txt');@*
+
+
 @findex mataa_measure_HD
 @node mataa_measure_HD
 @section mataa_measure_HD
@@ -790,7 +812,7 @@ h_unit: unit of h data@*
 
 file: ...mataa_tools/mataa_measure_signal_response.m@*
 
-function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,hw_info);@*
+function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal_DAC,cal_ADC,cal_SENSOR);@*
 
 DESCRIPTION:@*
 This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).@*
@@ -804,18 +826,7 @@ latency: if the signal samples were specified rather than a file name/path, the 
 
 verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.@*
 
-hw_info (optional): struct containing information relating the measurement hardware (DAC, ADC, microphone, etc.). This information is used determine the correct signal level and unit and to compensate for non-ideal frequency response of the measurement equipment.@*
-If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.@*
-The struct format is as follows (omit fields if not applicable):@*
-   hw_info.ADC.name: name of the ADC device (string)@*
-   hw_info.ADC.sensitivity: sensitivity of the soundcard input (e.g., hw_info.ADC.sensitivity = 0.5 if input voltage of 2.0V results in sample value of 1.0 in digitized data)@*
-   hw_info.DAC.name: name of the DAC device (string)@*
-   hw_info.DAC.sensitivity: sensitivity of the soundcard output (e.g., hw_info.DAC.sensitivity = 2.5 if digital value of 1.0 results in 2.5V at analog output)@*
-   hw_info.sensor.name: name of the sensor (string)@*
-   hw_info.sensor.sensitivity.val and hw_info.sensor.sensitivity.unit: sensitivity of the sensor (value and unit), for example (microphone with sensitivity is 30mV/Pa):@*
-	hw_info.sensor.sensitivity.val = 10E-3;@*
-	hw_info.sensor.sensitivity.unit = "V/Pa";@*
-   hw_info.sensor.calfile: name of file with sensor calibration data for use with mataa_microphone_correct_IR (...)@*
+cal_DAC, cal_ADC, and cal_SENSOR (optional): calibration data for use with mataa_signal_calibrate (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.@*
 
 OUTPUT:@*
 inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.@*
@@ -939,6 +950,7 @@ whichPath can be one of the following:@*
 'mataa_scripts'    the path to the MATAA scripts@*
 'microphone'       the path to the microphone-data files@*
 'settings'	     the path where the MATAA settings are stored@*
+'calibration'      the path where calibration files are stored (microphones, audio interfaces / soundcards, etc.)@*
 
 If whichPath is not specified, it is set to 'main' by default.@*
 
@@ -1440,30 +1452,6 @@ t_end: end of selected signal range@*
 
 input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')@*
 
-@findex mataa_sensor_correct_signal
-@node mataa_sensor_correct_signal
-@section mataa_sensor_correct_signal
-
-file: ...mataa_tools/mataa_sensor_correct_signal.m@*
-
-function [h,t] = mataa_sensor_correct_signal (calfile,h,t)@*
-
-DESCRIPTION:@*
-This function corrects a signal h(t) from the transfer function of the specified sensor (e.g., a microphone).@*
-The phase response of the sensor ist calculated by assuming the sensor to be minimum phase.@*
-The sensor transfer function (relative gain) is taken from a file in the MATAA 'sensor_data' path (see example files in this path for data format).@*
-Gain at frequencies outside the range of the specified sensor response is set to zero (= -inf dB)@*
-
-INPUT:@*
-calfile: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt')@*
-h: signal samples@*
-t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
-
-OUTPUT:@*
-h_corr: corrected signal@*
-t: time coordinates of samples in h@*
-
-
 @findex mataa_settings
 @node mataa_settings
 @section mataa_settings
@@ -1537,6 +1525,30 @@ t: time values of the signal samples (vector, in seconds, with evenly spaced val
 OUTPUT:@*
 c: vector containing the autocorrelation of s.@*
 T: time lag (vector).@*
+
+
+@findex mataa_signal_calibrate
+@node mataa_signal_calibrate
+@section mataa_signal_calibrate
+
+file: ...mataa_tools/mataa_signal_calibrate.m@*
+
+function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)@*
+
+DESCRIPTION:@*
+This function calibrates a signal h(t) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. The phase information of the transfer function ist calculated by assuming the device to be minimum phase.@*
+If h has more than one channel, all channels will be calibrated using the same calibration data.@*
+See also mataa_load_calibration.@*
+
+INPUT:@*
+cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration).@*
+h: signal samples@*
+t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
+
+OUTPUT:@*
+h_corr: corrected signal@*
+t: time coordinates of samples in h@*
+unit: unit of h_corr (string)@*
 
 
 @findex mataa_signal_clipcheck

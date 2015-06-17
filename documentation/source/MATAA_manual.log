@@ -1,9 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdfetex 2014.11.11)  16 JUN 2015 11:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdfetex 2014.11.11)  17 JUN 2015 10:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**\input ./MATAA_manual.texi
+**\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
+MATAA_manual.texi
 (./MATAA_manual.texi
 (/usr/local/texlive/2014/texmf-dist/tex/texinfo/texinfo.tex
 Loading texinfo [version 2014-05-20.16]:
@@ -294,7 +295,7 @@ w.linkwitzlab.com/frontiers[]2.htm#M|
 .etc.
 
 [33]
-Overfull \hbox (9.87344pt too wide) in paragraph at lines 727--729
+Overfull \hbox (9.87344pt too wide) in paragraph at lines 749--751
 []@textrm NOTE 2: There ex-ist dif-fer-ent def-i-ni-tions of THD (see e.g. http
 ://en.wikipedia.org/wiki/THD|
 
@@ -307,7 +308,7 @@ Overfull \hbox (9.87344pt too wide) in paragraph at lines 727--729
 .etc.
 
 [34] [35] [36] [37]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 877--879
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 888--890
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -320,7 +321,7 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 877--879
+Underfull \hbox (badness 10000) in paragraph at lines 888--890
 
 
 @hbox(0.0+0.0)x433.62
@@ -329,7 +330,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 877--879
 
 [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52]
 [53] [54]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 1649--1653
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 1661--1665
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -342,15 +343,15 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1649--1653
+Underfull \hbox (badness 10000) in paragraph at lines 1661--1665
 
 
 @hbox(0.0+0.0)x433.62
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[55] [56] [57]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 1786--1796
+[55] [56] [57] [58]
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 1798--1808
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -362,7 +363,7 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 1786--1796
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-[58] [59] [60])
+[59] [60])
 texinfo.tex: doing @include of MATAA_manual_MatOctPrimer.texi
 
  (./MATAA_manual_MatOctPrimer.texi Chapter 6 [61]
@@ -391,7 +392,7 @@ texinfo.tex: doing @include of MATAA_manual_licenses.texi
  (./MATAA_manual_licenses.texi Appendix A [63] [64] [65] [66] [67]
 [68] [69] [70] [71] [72] [73] [74]) (Concept index) [75] (./MATAA_manual.cps)
 (MATAA tools index) [76]
-Overfull \vbox (33.91702pt too high) has occurred while \output is active
+Overfull \vbox (46.4195pt too high) has occurred while \output is active
 \vbox(643.2+0.0)x433.62, glue set - 1.0
 .\glue(\topskip) 24.00002
 .\vbox(11.99998+3.35999)x433.62
@@ -410,13 +411,13 @@ Overfull \vbox (33.91702pt too high) has occurred while \output is active
 
 [77] (./MATAA_manual.fns) [78] ) 
 Here is how much of TeX's memory you used:
- 2526 strings out of 494680
- 34874 string characters out of 6149418
- 114411 words of memory out of 5000000
- 3824 multiletter control sequences out of 15000+600000
+ 2541 strings out of 494680
+ 35121 string characters out of 6149418
+ 113395 words of memory out of 5000000
+ 3836 multiletter control sequences out of 15000+600000
  32127 words of font info for 112 fonts, out of 8000000 for 9000
  1457 hyphenation exceptions out of 8191
- 15i,6n,16p,1690b,806s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 15i,6n,16p,1758b,820s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Impedance\040measur
 ement} has been referenced but does not exist, replaced by a fixed one
 
@@ -437,10 +438,10 @@ l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/t
 exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/te
 xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (83 pages, 1120703 bytes).
+Output written on MATAA_manual.pdf (83 pages, 1121401 bytes).
 PDF statistics:
- 1309 PDF objects out of 1440 (max. 8388607)
- 1121 compressed objects within 12 object streams
- 185 named destinations out of 1000 (max. 500000)
- 817 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1327 PDF objects out of 1440 (max. 8388607)
+ 1139 compressed objects within 12 object streams
+ 188 named destinations out of 1000 (max. 500000)
+ 841 words of extra memory for PDF output out of 10000 (max. 10000000)
 

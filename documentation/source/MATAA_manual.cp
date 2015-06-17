@@ -62,6 +62,8 @@
 \entry{TestDevices}{12}{TestDevices}
 \entry{PortAudio}{12}{PortAudio}
 \entry{Linux}{12}{Linux}
+\entry{Calibration file}{15}{Calibration file}
+\entry{Loopback}{15}{Loopback}
 \entry{MATLAB}{61}{MATLAB}
 \entry{Octave}{61}{Octave}
 \entry{Matrix}{62}{Matrix}
