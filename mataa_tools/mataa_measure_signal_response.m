@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
+function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
 
-% function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
+% function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -23,7 +23,7 @@ function [responseSignal,inputSignal,t,signal_unit] = mataa_measure_signal_respo
 %
 % t is vector containing the times corresponding the samples in responseSignal and inputSignal (in seconds)
 %
-% signal_unit: unit of the recorded signal. If the signal has more than one channel, signal_unit is a cell string with each cell reflecting the units of each signal channel.
+% unit: unit of data in responseSignal. If the signal has more than one channel, signal_unit is a cell string with each cell reflecting the units of each signal channel.
 %
 % FURTHER INFORMATION:
 % The signal samples range from -1.0 to +1.0).
@@ -282,11 +282,15 @@ else
 			kk = k;
 		end
 				
-		% calibrate the signal:
-		[responseSignal(:,k),t,signal_unit] = mataa_signal_calibrate (responseSignal(:,k),t,cal{kk});
-	 
+		% calibrate the signal:		
+		[responseSignal(:,k),t,unit{k}] = mataa_signal_calibrate (responseSignal(:,k),t,cal{kk});
+	 	
 	 end
 	 
+end
+
+if length(unit) == 1 % replace cell string by non-cell string
+	unit = char(unit{1});
 end
 
 fflush (stdout);

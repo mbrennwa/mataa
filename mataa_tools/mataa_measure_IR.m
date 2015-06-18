@@ -1,6 +1,6 @@
-function [h,t,h_unit] = mataa_measure_IR (input_signal,fs,N,latency,hw_info);
+function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,cal);
 
-% function [h,t,h_unit] = mataa_measure_IR (input_signal,fs,N,latency,hw_info);
+% function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,cal);
 %
 % DESCRIPTION:
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal.
@@ -9,13 +9,13 @@ function [h,t,h_unit] = mataa_measure_IR (input_signal,fs,N,latency,hw_info);
 % input_signal: input signal, vector of signal samples or name to file with sample data. Files must be in ASCII format and contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).
 % N (optional): the impulse response is measured N times and the mean response is calculated from these measurements. N = 1 is used by default.
 % latency: see mataa_measure_signal_response
-% hw_info (optional): struct containing information relating the measurement hardware (DAC, ADC, microphone, etc.). This information is used determine the correct signal level and unit and to compensate for non-ideal frequency response of the measurement equipment. See also mataa_measure_signal_response. If hw_info is not given, the raw impulse response is measured, i.e. no compensation for the transfer functions of the test hardware is applied.
+% cal (optional): calibration data (struct or string, see mataa_load_calibration and mataa_signal_calibrate)
 % 
 % OUTPUT:
 %
 % h: impulse response
 % t: time
-% h_unit: unit of h data
+% unit: unit of data in h
 %
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -45,10 +45,10 @@ end
 for i = 1:N
 
 	% do the sound I/O	
-	if exist ('hw_info','var')
-		[out,in,t,h_unit] = mataa_measure_signal_response (input_signal,fs,1,latency,hw_info);
+	if exist ('cal','var')
+		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,1,latency,cal);
 	else
-		[out,in,t,h_unit] = mataa_measure_signal_response (input_signal,fs,1,latency);
+		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,1,latency);
 	end
 
 	% deconvolve in and out signals to yield h:

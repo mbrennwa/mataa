@@ -42,7 +42,7 @@ calfile = sprintf ("%s%s",calpath,calfile);
 
 [fid,msg] = fopen (calfile,"rt");
 if fid < 0
-    error (sprintf("mataa_load_calibration: could no open calilbration file (%s).",msg));
+    error (sprintf("mataa_load_calibration: could no open calilbration file '%s' (%s).",calfile,msg));
 end
 
 f = gain = [];
@@ -154,9 +154,9 @@ if isfield (cal,'sensitivity')
     			cal.sensitivity_unit = "V/Pa";
     			cal.sensitivity = cal.sensitivity / 1000;
     		end
-    		if ~strcmp(cal.sensitivity_unit,"V/Pa")
-    			error ("mataa_load_calibraton: sensitivity unit '%s' for SENSOR or MICROPHONE not supported (unit must be V/Pa).",cal.sensitivity_unit,cal.sensitivity_unit);
-    		end
+%    		if ~strcmp(cal.sensitivity_unit,"V/Pa")
+%    			error ("mataa_load_calibraton: sensitivity unit '%s' for SENSOR or MICROPHONE not supported (unit must be V/Pa).",cal.sensitivity_unit,cal.sensitivity_unit);
+%    		end
     	
     	case "DAC"
     		if ~strcmp(cal.sensitivity_unit,"V")

@@ -3,19 +3,26 @@ function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 % function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 %
 % DESCRIPTION:
-% This function calibrates a signal h(t) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. The phase information of the transfer function ist calculated by assuming the device to be minimum phase.
+% This function calibrates a signal h(t) (reflecting a DUT transfer function) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. The phase information of the transfer function ist calculated by assuming the device to be minimum phase.
 % If h has more than one channel, all channels will be calibrated using the same calibration data.
 % See also mataa_load_calibration.
+%
+%   EXAMPLE with loudspeaker (DUT) tested using a microphone:
+%
+%   MATAA / COMPUTER ----> DAC (+BUFFER) ---->    DUT     ---->   SENSOR  ---->  ADC (+PREAMP) ----> MATAA / COMPUTER
+%    (dimensionless)       (nodim -> V)        (V -> Pa)         (Pa -> V)       (V -> nodim)        (dimensionless)
+%
+%       ===> unit of DUT transfer function is Pa/V
 % 
 % INPUT:
-% cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration).
-% h: signal samples
+% h: signal samples (unit: dimensionless data as obtained by ADC / soundcard)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
+% cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration).
 % 
 % OUTPUT:
 % h_corr: corrected signal
 % t: time coordinates of samples in h
-% unit: unit of h_corr (string)
+% unit: unit of h_corr (string), i.e. the unit of the calibrated DUT transfer function
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -39,16 +46,16 @@ function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 % Further information: http://www.audioroot.net/MATAA
 
 % helper function for calibration of various units
-function [h,t,u] = __calib (h,t,u,subcal,type)
+function [h,t] = __calib (h,t,subcal,type)
 h = h(:);	
 disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
-    if ~isfield (cal,'sensitivity')
+    if ~isfield (subcal,'sensitivity')
     	switch toupper(type) % guess sensitivity value and unit
     		case 'DAC' % assume sensitivity = 1 V
     			sv = 1;
     			su = 'V';
-    		case {'SENSOR'} % assume 1 mV/Pa
-    			sv = 1E-3;
+    		case {'SENSOR'} % assume 10 mV/Pa
+    			sv = 10E-3;
     			su = 'V/Pa';
     		case 'ADC' % assume sensitivity = 1 per V
     			sv = 1;
@@ -58,14 +65,34 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	end
 		disp (sprintf("     sensitivity unknown! Assuming sensitivity = %g %s",sv,su))
     else
-    	sv = subcal.sensitivity.val;
-    	su = subcal.sensitivity.unit;
-    	disp (sprintf("     sensitivity = %g %s.",sv,su))    	
+    	sv = subcal.sensitivity;
+    	su = subcal.sensitivity_unit;
+    	disp (sprintf("     sensitivity = %g %s.",sv,su)) 	
     end
+    
+    % compensate for sensitivity:
    	h = h / sv;
-	
-	%%% take care of unit conversion here...
+		% check if units are as expected:	
+	switch toupper(type)
+   		case 'ADC' % ADC sensitivity should be 1/V
+   			if ~strcmp (subcal.sensitivity_unit,'1/V')
+   				error (sprintf("mataa_signal_calibrate: ADC sensitivity must be given in 1/V, not '%s'.",subcal.sensitivity_unit))
+    		end
 
+   		case 'SENSOR' % currently, only V/Pa is supported as unit for SENSOR sensitivity 
+   			if ~any(strcmp (subcal.sensitivity_unit,{'V/Pa' 'V/V'}))
+   				error (sprintf("mataa_signal_calibrate: SENSOR sensitivity must be given in V/Pa or V/V, not '%s'.",subcal.sensitivity_unit))
+    		end
+
+   		case 'DAC' % DAC sensitivity should be V
+   			if ~strcmp (subcal.sensitivity_unit,'V')
+   				error (sprintf("mataa_signal_calibrate: DAC sensitivity must be given in V, not '%s'.",subcal.sensitivity_unit))
+    		end
+
+    	otherwise
+    		error (sprintf("mataa_signal_calibrate: device type '%s' unknown.",type))
+    end
+    	
     % compensate for transfer function
     if ~isfield (subcal,'transfer')	
     	disp ("     transfer function unknown, assuming constant unity gain.")
@@ -168,30 +195,46 @@ if size(h,2) > 1 % h has more than one data channel
 	
 else
 
-	u = "SOME UNIT THAT NEEDS MORE ATTENTION";
-
 	if ~isfield (cal,'DAC')
 		disp ("No DAC calibation data available!")
+		unit_DAC_sensitivity = 'V';
 	else
-		[h,t,u] = __calib (h,t,u,cal.DAC,'DAC');
+		[h,t] = __calib (h,t,cal.DAC,'DAC');
+		unit_DAC_sensitivity = cal.DAC.sensitivity_unit;
 	end
 	
 	if ~isfield (cal,'SENSOR')
 		disp ("No SENSOR calibation data available!")
+		unit_SENSOR_sensitivity = '';
 	else
-		[h,t,u] = __calib (h,t,u,cal.SENSOR,'SENSOR');
+		[h,t] = __calib (h,t,cal.SENSOR,'SENSOR');
+		unit_SENSOR_sensitivity = cal.SENSOR.sensitivity_unit;
 	end
 	
 	if ~isfield (cal,'ADC')
 		disp ("No ADC calibation data available!")
+		unit_ADC_sensitivity = '1/V';
 	else
-		[h,t,u] = __calib (h,t,u,cal.ADC,'ADC');
+		[h,t] = __calib (h,t,cal.ADC,'ADC');
+		unit_ADC_sensitivity = cal.ADC.sensitivity_unit;
 	end
 
 end
 
+% determine unit of DUT transfer function:
+% - Assume that DAC-sensitivity value is reciprocal to ADC-sensitivity (e.g., DAC: V, ADC: 1/V)
+% - Then DUT-unit = 1 / SENSOR-unit
+u = strsplit (unit_SENSOR_sensitivity,"/");
+if length(u) == 1
+	unit = sprintf ("1/%s",unit_SENSOR_sensitivity);
+elseif length(u) == 2
+	unit = sprintf ("%s/%s",u{2},u{1});
+else
+	warning (sprintf("mataa_signal_calibrate: don't know how to invert SENSOR unit '%s'.",unit_SENSOR_sensitivity));
+	unit = "?";
+end
+
 h_corr = h;
-unit = u;
 
 warning ("mataa_measure_signal_response: implementation of data calibration is still experimental!");
 
