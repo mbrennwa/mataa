@@ -22,10 +22,15 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 %
 % EXAMPLES:
 %
-% measure impulse response using a sweep test signal (without any data calibration):
-% > s = mataa_signal_generator ('sweep',44100,0.2,[50 20000]);	% create test signal (sine sweep from 50 to 20000 Hz, 0.2 s long, with 44.1 kHz sampling frequency
+% A. Measure impulse response using a sweep test signal (without any data calibration):
+% > s = mataa_signal_generator ('sweep',44100,1,[50 20000]);	% create test signal (sine sweep from 50 to 20000 Hz, 1 s long, with 44.1 kHz sampling frequency
 % > [h,t] = mataa_measure_IR (s,44100,1,0.1);					% measure impulse response using test signal s, allowing for 0.1 s latency of sound in/out
 % > plot (t,h)													% plot result
+%
+% B. same, with calibration using a looback connection on second channel:
+% > s = mataa_signal_generator ('sweep',44100,1,[50 20000]);
+% > [h,t] = mataa_measure_IR (s,44100,1,0.1,1);					% with loopback deconvolution
+% > plot (t,h)
 %
 % MATAA is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -57,34 +62,32 @@ for i = 1:N
 
 	% do the sound I/O	
 	if exist ('cal','var')
-		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,1,latency,cal);
+		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1,cal);
 	else
-		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,1,latency);
+		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1);
 	end
 	
 	% deconvolve in and out signals to yield h:
 	if exist ('OCTAVE_VERSION','builtin')
 		more ('off');
 	end
-	
-	disp ('Deconvolving data (this may take a while)...');
+		
+	disp ('Deconvolving data...');
 	l = length (in);
-	nChan = length (out(mataa_settings('channel_DUT'),:));
-	in = [in; repmat(0,l,1)];
-	out = detrend(out);
-	out = [out; repmat(0,l,nChan)];
-	
-	OUT = fft(out);
-	IN = fft(in);
-	
-	for j=1:nChan
-	    H(:,j) = OUT(:,j) ./ IN;
-	end
 	
 	if ~loopback % no loopback calibration
-		H = H(:,mataa_settings('channel_DUT')); % discard REF data
-	else % deconvolve DUT from REF data
-		H = H(:,mataa_settings('channel_DUT')) ./ H(:,mataa_settings('channel_REF')); % normalize DUT response by REF transfer function
+		out = detrend ( out(:,mataa_settings('channel_DUT')) );
+		out = [out; repmat(0,l,1)];
+		in = [in; repmat(0,l,1)];
+		H = fft(out) ./ fft(in); % normalize by 'in' signal
+		
+	else % use loopback / REF data
+		dut = detrend ( out(:,mataa_settings('channel_DUT')) );
+		dut = [dut; repmat(0,l,1)];
+		ref = detrend ( out(:,mataa_settings('channel_REF')) );
+		ref = [ref; repmat(0,l,1)];
+
+		H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
 		
 		warning ("mataa_measure_IR: DUT/REF deconvolution needs proper testing! Be careful with results...")
 		
@@ -93,10 +96,6 @@ for i = 1:N
 	dummy = ifft (H);	
 	dummy = dummy(1:l); % the other half is redundant since the signal is real
 	dummy = abs (dummy) .* sign (real(dummy)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
-
-	if ~loopback
-		dummy = -dummy; % get polarity right
-	end
 	
 	disp ('...deconvolution done.');
 	
