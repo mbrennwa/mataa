@@ -34,7 +34,7 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,cal);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008, 2015 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
@@ -50,7 +50,7 @@ for i = 1:N
 	else
 		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,1,latency);
 	end
-
+	
 	% deconvolve in and out signals to yield h:
 	if exist ('OCTAVE_VERSION','builtin')
 		more ('off');
@@ -79,6 +79,7 @@ for i = 1:N
 	disp ('...deconvolution done.');
 	
 	dummy = dummy(:, mataa_settings ('channel_DUT')); % use DUT-data only
+	unit = char(unit{mataa_settings ('channel_DUT')});
 	
 	if i == 1
 		h = dummy / N;

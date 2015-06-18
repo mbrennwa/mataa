@@ -259,33 +259,35 @@ if verbose
 end
 
 % DAC, ADC and SENSOR calibration:
-signal_unit = "UNKNOWN";
+unit = "UNKNOWN"; % may be changed to something better if calibration data is available, see below
 if numChan > 1
-	signal_unit = cellstr (repmat(signal_unit,numChan,1));
+	unit = cellstr (repmat(unit,numChan,1));
 end
 
 % calibrate data
 if ~exist ('cal','var')
 	disp ('No calibration data available. Returning raw, uncalibrated data!')
 else
-	if ~iscell(cal)
-		cal = cellstr (cal); % so the loop below will work
-	end
-	
-	for k = 1:numChan % loop through all channels
-	
-		% check if cal data available for k-th channel:
-		if length(cal) < k
-			warning (sprintf("mataa_measure_signal_response: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,length(cal_DAC)));
-			kk = length(cal);
-		else
-			kk = k;
-		end
-				
-		% calibrate the signal:		
-		[responseSignal(:,k),t,unit{k}] = mataa_signal_calibrate (responseSignal(:,k),t,cal{kk});
-	 	
-	 end
+%	if ~iscell(cal)
+%		cal = cellstr (cal); % so the loop below will work
+%	end
+%	
+%	for k = 1:numChan % loop through all channels
+%	
+%		% check if cal data available for k-th channel:
+%		if length(cal) < k
+%			warning (sprintf("mataa_measure_signal_response: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,length(cal_DAC)));
+%			kk = length(cal);
+%		else
+%			kk = k;
+%		end
+%				
+%		% calibrate the signal:		
+%		[responseSignal(:,k),t,unit{k}] = mataa_signal_calibrate (responseSignal(:,k),t,cal{kk});
+%	 	
+%	 end
+	 	 
+	 [responseSignal,t,unit] = mataa_signal_calibrate (responseSignal,t,cal);
 	 
 end
 

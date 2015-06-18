@@ -4,7 +4,7 @@ function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 %
 % DESCRIPTION:
 % This function calibrates a signal h(t) (reflecting a DUT transfer function) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. The phase information of the transfer function ist calculated by assuming the device to be minimum phase.
-% If h has more than one channel, all channels will be calibrated using the same calibration data.
+% If h has more than one channel, different calibration information can be specified for the different channels.
 % See also mataa_load_calibration.
 %
 %   EXAMPLE with loudspeaker (DUT) tested using a microphone:
@@ -17,7 +17,7 @@ function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 % INPUT:
 % h: signal samples (unit: dimensionless data as obtained by ADC / soundcard)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
-% cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration).
+% cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration). For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.
 % 
 % OUTPUT:
 % h_corr: corrected signal
@@ -187,10 +187,24 @@ end
 
 if size(h,2) > 1 % h has more than one data channel
 	h_corr = [];
+	if ~iscell(cal)
+		cal = cell(cal);
+		keyboard
+	end
+	nCal = length(cal);
 	for k = 1:size(h,2)
 		disp (sprintf("Calibrating channel %i...",k))
-		[x,t] = mataa_signal_calibrate (cal,h(:,k),t);
+				
+		% check if cal data available for k-th channel:
+		if nCal < k
+			warning (sprintf("mataa_calibrate_signal: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,nCal));
+			kk = nCal;
+		else
+			kk = k;
+		end
+		[x,t,u] = mataa_signal_calibrate (h(:,k),t,cal{kk});
 		h_corr = [ h_corr x ];
+		unit{k} = u;
 	end
 	
 else
@@ -219,22 +233,22 @@ else
 		unit_ADC_sensitivity = cal.ADC.sensitivity_unit;
 	end
 
-end
+	% determine unit of DUT transfer function:
+	% - Assume that DAC-sensitivity value is reciprocal to ADC-sensitivity (e.g., DAC: V, ADC: 1/V)
+	% - Then DUT-unit = 1 / SENSOR-unit
+	u = strsplit (unit_SENSOR_sensitivity,"/");
+	if length(u) == 1
+		unit = sprintf ("1/%s",unit_SENSOR_sensitivity);
+	elseif length(u) == 2
+		unit = sprintf ("%s/%s",u{2},u{1});
+	else
+		warning (sprintf("mataa_signal_calibrate: don't know how to invert SENSOR unit '%s'.",unit_SENSOR_sensitivity));
+		unit = "?";
+	end
+	
+	h_corr = h;
 
-% determine unit of DUT transfer function:
-% - Assume that DAC-sensitivity value is reciprocal to ADC-sensitivity (e.g., DAC: V, ADC: 1/V)
-% - Then DUT-unit = 1 / SENSOR-unit
-u = strsplit (unit_SENSOR_sensitivity,"/");
-if length(u) == 1
-	unit = sprintf ("1/%s",unit_SENSOR_sensitivity);
-elseif length(u) == 2
-	unit = sprintf ("%s/%s",u{2},u{1});
-else
-	warning (sprintf("mataa_signal_calibrate: don't know how to invert SENSOR unit '%s'.",unit_SENSOR_sensitivity));
-	unit = "?";
 end
-
-h_corr = h;
 
 warning ("mataa_measure_signal_response: implementation of data calibration is still experimental!");
 
