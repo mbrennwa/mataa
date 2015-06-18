@@ -46,12 +46,16 @@ if fid < 0
 end
 
 f = gain = [];
+lineNo = 0;
 
 % read file and parse data:
 while (! feof (fid) )
     
     l = fgetl(fid);
-    		
+    lineNo = lineNo + 1;
+    
+	%%% disp (sprintf("Line %i: %s",lineNo,l));
+
     % check comments:
     k = findstr ("%",l);
     if any(k)
@@ -67,8 +71,7 @@ while (! feof (fid) )
     l = fliplr (deblank(fliplr(l)));
     
     % parse l
-    if ~isempty(l)
-
+    if ~isempty(l)		
     	if findstr ("=",l) % parse keyword / value
     		u = strsplit (l,"=");
     		key = deblank(fliplr(deblank(fliplr(u{1}))));
@@ -97,16 +100,13 @@ while (! feof (fid) )
     				end % switch val
 					
     			case "SENSITIVITY"
-    				X = strsplit (val," ");
+    				X = strsplit (val," ");    				
     				if length (X) < 2
     					error ("mataa_load_calibration: cannot determine value / unit of sensitivity");
     				end
-    				cal.sensititivy.val  = str2num (X{1});
-    				cal.sensititivy.unit = deblank(fliplr(deblank(fliplr(X{2}))));
-    				if strcmp (cal.sensititivy.unit,'mV/Pa') % convert to Pa/V
-    					cal.sensititivy.val = cal.sensititivy.val / 1000;
-    					cal.sensititivy.unit = 'V/Pa';
-    				end
+    				cal.sensitivity = str2num (X{1});
+    				cal.sensitivity_unit = deblank(fliplr(deblank(fliplr(X{2}))));
+    				% check unit / value consistency later
     			
     			case "FILE" % load data from another file
     				u = mataa_load_calibration (val);
@@ -124,12 +124,12 @@ while (! feof (fid) )
     				clear u
     			
     			otherwise
-    				warning (sprintf("mataa_load_calibration: ignoring unknown keyword '%s.'",key))
+    				error (sprintf("mataa_load_calibration: ignoring unknown keyword '%s.'",key))
     		
     		end % switch key
     		
-		else % transfer function / gain in dB relative to absolute sensititivy value 
-	    	u = strsplit (l," ");
+		else % transfer function / gain in dB relative to absolute sensitivity value 
+	    	u = strsplit (untabify(l)," ");
 	    	f    = [ f    ; str2num(u{1}) ];
 	    	gain = [ gain ; str2num(u{2}) ];
     	end
@@ -145,6 +145,35 @@ if ~isempty (f)
 end
 
 fclose (fid);
+
+% check sensitivity value / unit:
+if isfield (cal,'sensitivity')
+	switch toupper(cal.type)
+		case {"SENSOR","MICROPHONE"}
+    		if strcmp(cal.sensitivity_unit,"mV/Pa")
+    			cal.sensitivity_unit = "V/Pa";
+    			cal.sensitivity = cal.sensitivity / 1000;
+    		end
+    		if ~strcmp(cal.sensitivity_unit,"V/Pa")
+    			error ("mataa_load_calibraton: sensitivity unit '%s' for SENSOR or MICROPHONE not supported (unit must be V/Pa).",cal.sensitivity_unit,cal.sensitivity_unit);
+    		end
+    	
+    	case "DAC"
+    		if ~strcmp(cal.sensitivity_unit,"V")
+	    		error ("mataa_load_calibraton: DAC sensitivity unit '%s' not supported (unit must ve V).",cal.sensitivity_unit);
+	    	end
+    		
+    	case "ADC"
+    		if ~strcmp(cal.sensitivity_unit,"1/V")
+	    		error ("mataa_load_calibraton: ADC sensitivity unit '%s' not supported (unit must ve V).",cal.sensitivity_unit);
+	    	end
+		
+		otherwise
+			warning (sprintf("mataa_load_calibration: unknown device type '%s.'",cal.type))
+		
+	end % switch
+end % if isfield (cal,'sensitivity')
+
 
 % clean up struct format and remove 'type' field:
 switch toupper(cal.type)
