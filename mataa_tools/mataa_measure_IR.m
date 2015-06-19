@@ -3,7 +3,7 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 % function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 %
 % DESCRIPTION:
-% This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal.
+% This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal (if no loopback is used) or the REF channel (with loopback). The allocation of the DUT (and REF) channel is determined using mataa_settings ('channel_DUT') (and mataa_settings ('channel_REF')).
 %
 % INPUT:
 % input_signal: input signal, vector of signal samples or name to file with sample data. Files must be in ASCII format and contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).
@@ -58,13 +58,19 @@ if ~exist ('loopback','var')
 	loopback = 0;
 end
 
+if ~loopback
+	channels = mataa_settings ('channel_DUT'); % use DUT channel only
+else
+	channels = [ mataa_settings('channel_DUT') mataa_settings('channel_REF') ]; % use DUT and REF channel
+end
+
 for i = 1:N
 
 	% do the sound I/O	
 	if exist ('cal','var')
-		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1,cal);
+		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
 	else
-		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1);
+		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1,channels);
 	end
 	
 	% deconvolve in and out signals to yield h:
@@ -86,7 +92,6 @@ for i = 1:N
 		dut = [dut; repmat(0,l,1)];
 		ref = detrend ( out(:,mataa_settings('channel_REF')) );
 		ref = [ref; repmat(0,l,1)];
-
 		H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
 		
 		warning ("mataa_measure_IR: DUT/REF deconvolution needs proper testing! Be careful with results...")
@@ -99,7 +104,9 @@ for i = 1:N
 	
 	disp ('...deconvolution done.');
 	
-	unit = char(unit{mataa_settings ('channel_DUT')});
+	if iscell(unit)
+		unit = char(unit{mataa_settings('channel_DUT')});
+	end
 		
 	if i == 1
 		h = dummy / N;

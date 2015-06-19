@@ -107,7 +107,7 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	   t = t(1:end-1);
     	   signal_cropped = 1;
     	end
-    				
+
     	T = max(t)-min(t); % length of h
     	f = [1/T:1/T:length(t)/2*1/T]'; % frequency values corresponding to Fourier transform of h
     	clear T
@@ -122,11 +122,11 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	if any( f > subcal.transfer.f(end) )
     	    gain( f > subcal.transfer.f(end) ) = subcal.transfer.gain(end);
     	end
-    	
+
     	% calculate minimum phase of device:
     	i = sqrt(-1); % make sure we don't have something else assigned to 'i'
     	phase = -mataa_hilbert(gain/20); % phase in radians
-    	    	
+    	
     	% complex fourier spectrum of sensor transfer function:
     	pp = 10.^(gain/20).*exp(i*phase); 
     	
@@ -141,7 +141,7 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	
     	% remove components with f > subcal.transfer.f(end) of f < subcal.transfer.f(1) from h
     	H = mataa_realFT(h,t); % get the 'real' half of the fourier specturm of h
-    	    
+    	
     	H(find(f>subcal.transfer.f(end))) = 0; % remove components with f > subcal.transfer.f(end)
     	H(find(f<subcal.transfer.f(1)))   = 0; % remove components with f < subcal.transfer.f(1)
     	
@@ -149,14 +149,16 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	H = [ 0 H conj(fliplr(H(1:end-1))) ]; % make up full fourier spectrum of h
     	
     	% normalize H by P (deconvolve h from impulse response of sensor):
-    	H= H ./ P;
+    	H = H ./ P;
     	
     	H(1) = 0; % 'repair' the NaN DC-value, remember: P(1)=NaN )
-    	h = real(ifft(H));
+
+    	h = ifft(H);
+    	h = abs(h) .* sign(real(h)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
     	
-    	h = h(:);
+    	h = flipud (h(:));
     	t = t(:);
-    	
+
     	if signal_cropped
     	    h = [ h ; h(end) ];
     	    t = [ t ; t(end) + t(end)-t(end-1) ];
@@ -187,9 +189,10 @@ end
 
 if size(h,2) > 1 % h has more than one data channel
 	h_corr = [];
-	if ~iscell(cal)
-		cal = cell(cal);
-		keyboard
+	if ~iscell(cal) % convert to cell array for the loop below
+		u{1} = cal;
+		cal = u;
+		clear u;
 	end
 	nCal = length(cal);
 	for k = 1:size(h,2)

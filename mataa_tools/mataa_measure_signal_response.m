@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
+function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
 
-% function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,cal);
+% function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -13,6 +13,8 @@ function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (in
 % latency: if the signal samples were specified rather than a file name/path, the signal is padded with zeros at its beginning and end to avoid cutting off the test signals early due to the latency of the sound input/output device(s). 'latency' is the length of the zero signals padded to the beginning and the end of the test signal (in seconds). If a file name is specified instead of the signal samples, the value of 'latency' is ignored.
 % 
 % verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.
+%
+% channels (optional): index to data channels obtained from the ADC that should be processed and returned. If not specified, all data channels are returned.
 %
 % cal (optional): calibration data for use with mataa_signal_calibrate (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
 % 
@@ -243,6 +245,15 @@ if deleteInputFileAfterIO
     delete(in_path);
 end
 
+% check if all channels of the ADC data are going to be used:
+if ~exist ('channels','var')
+	channels = [1:numChan];
+end
+
+% keep only ADC channels as given in channels, discard the rest:
+responseSignal = responseSignal(:,channels);
+numChan = length (channels);
+
 if verbose
 % check for clipping:
     for chan=1:size(responseSignal,2)
@@ -286,9 +297,9 @@ else
 %		[responseSignal(:,k),t,unit{k}] = mataa_signal_calibrate (responseSignal(:,k),t,cal{kk});
 %	 	
 %	 end
-	 	 
-	 [responseSignal,t,unit] = mataa_signal_calibrate (responseSignal,t,cal);
-	 
+
+	[responseSignal,t,unit] = mataa_signal_calibrate (responseSignal,t,cal);
+
 end
 
 if length(unit) == 1 % replace cell string by non-cell string
