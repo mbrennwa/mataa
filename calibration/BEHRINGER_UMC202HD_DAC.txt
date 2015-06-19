@@ -1,6 +1,0 @@
-% Calibration file for BEHRINGER UMC202HD (DAC, line output)
-%
-% Line level output, without any extra amp or buffer
-% Software mixer volume set to 100% (Mac OS X 10.10’)
-% Measured using an oscilloscope connected to the line-level outputs
-% General information:name = BEHRINGER UMC202HD LINE-OUTtype = DACsensitivity = 0.18 V% Frequency response was flat down to 5 Hz, so no transfer function data is included here. Analysis was difficult for lower frequencies
