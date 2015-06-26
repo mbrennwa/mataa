@@ -125,8 +125,8 @@ deleteInputFileAfterIO = 0;
 if ~ischar(input_signal)
 % signal samples have been specified instead of file name:
     if ~exist('latency','var')
-	warning('mataa_measure_signal_response: latency not specified. Assuming latency = 0.1 seconds. Check for truncated data!');
-	latency = 0.1;
+		warning('mataa_measure_signal_response: latency not specified. Assuming latency = 0.1 seconds. Check for truncated data!');
+		latency = 0.1;
     end
 	if verbose
 		disp('Writing sound data to disk...');
@@ -256,15 +256,21 @@ numChan = length (channels);
 
 if verbose
 % check for clipping:
-    for chan=1:size(responseSignal,2)
+    for chan=1:numChan
     	m = max(abs(responseSignal(:,chan)));
     	if m >= 1
     		k = find(abs(responseSignal(:,chan)) == m);
     		beep
-    		disp(sprintf('Signal in channel %i may be clipped (%0.3g%% of all samples)!',chan,length(k)/length(responseSignal(:,1))*100));		
+    		disp(sprintf('Signal in channel %i may be clipped (%0.3g%% of all samples)!',channels(chan),length(k)/length(responseSignal(:,1))*100));		
     		input('If you want to continue, press ENTER. To abort, press CTRL-C.');
     	else
-    		disp(sprintf('Max amplitude in channel %i: %0.3g%%',chan,m*100));
+    		u = '';
+    		if channels(chan) == mataa_settings ('channel_DUT')
+    			u = ' (DUT)';
+    		elseif channels(chan) == mataa_settings ('channel_REF')
+    			u = ' (REF)';
+    		end
+    		disp(sprintf('Max amplitude in channel %i%s: %0.3g%%',channels(chan),u,m*100));
     	end
     end
 end

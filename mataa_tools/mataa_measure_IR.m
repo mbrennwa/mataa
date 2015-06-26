@@ -78,26 +78,26 @@ for i = 1:N
 		more ('off');
 	end
 		
-	disp ('Deconvolving data...');
 	l = length (in);
+	uu = flipud ([1:l]'/l);
 	
 	if ~loopback % no loopback calibration
-		out = detrend ( out(:,mataa_settings('channel_DUT')) );
-		out = [out; repmat(0,l,1)];
-		in = [in; repmat(0,l,1)];
-		H = fft(out) ./ fft(in); % normalize by 'in' signal
+		disp ('Deconvolving data using raw test signal as reference (no loopback data available)...')
+		dut = out(:,mataa_settings('channel_DUT'));
+		ref = in;
 		
 	else % use loopback / REF data
-		dut = detrend ( out(:,mataa_settings('channel_DUT')) );
-		dut = [dut; repmat(0,l,1)];
-		ref = detrend ( out(:,mataa_settings('channel_REF')) );
-		ref = [ref; repmat(0,l,1)];
-		H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
-		
+		disp ('Deconvolving data using loopback signal as reference...')
+		dut = out(:,mataa_settings('channel_DUT'));
+		ref = out(:,mataa_settings('channel_REF'));		
 		warning ("mataa_measure_IR: DUT/REF deconvolution needs proper testing! Be careful with results...")
 		
 	end
 	
+	dut = [ dut ; uu*dut(end) ];	
+	ref = [ ref ; uu*ref(end) ];		
+	H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
+
 	dummy = ifft (H);	
 	dummy = dummy(1:l); % the other half is redundant since the signal is real
 	dummy = abs (dummy) .* sign (real(dummy)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)

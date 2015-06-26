@@ -53,7 +53,8 @@ end
 
 h = h(:); % make sure h is column vector
 
-h = h - linspace(h(1),h(end),length(h))' + mean(h); % make sure s is periodic
+%%% Don't do this (just consider what happens if h(1) = 1 and h(2:end) = 0):
+%%% h = h - linspace(h(1),h(end),length(h))' + mean(h); % make sure s is periodic
 
 if exist('smooth_interval')
 	T = max(t)-min(t);

@@ -94,12 +94,12 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     end
     	
     % compensate for transfer function
-    if ~isfield (subcal,'transfer')	
+    if ~isfield (subcal,'transfer')
     	disp ("     transfer function unknown, assuming constant unity gain.")
     else
         
     	disp (sprintf("     compensating for transfer function (%i data points).",length(subcal.transfer.f)))
-    	
+        	
         % Make sure length of h is even:
         signal_cropped = 0;
     	if mod(length(h),2)
@@ -128,8 +128,8 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	phase = -mataa_hilbert(gain/20); % phase in radians
     	
     	% complex fourier spectrum of sensor transfer function:
-    	pp = 10.^(gain/20).*exp(i*phase); 
-    	
+    	pp = 10.^(gain/20) .* exp(i*phase); 
+    	    	
     	% make up second half of fourier spectrum:
     	% first entry: DC component ( set this to NaN )
     	% first half = pp
@@ -139,26 +139,31 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	pp = pp(:)';
     	P = [ NaN pp conj(fliplr(pp(1:end-1))) ];
     	
-    	% remove components with f > subcal.transfer.f(end) of f < subcal.transfer.f(1) from h
     	H = mataa_realFT(h,t); % get the 'real' half of the fourier specturm of h
+
+		%%% DON'T DO THIS, IT SCREWS UP THE DATA / SPECTRUM!
+    	%%% % remove data outside of sensor transfer function range:
+    	%%% H(find(f>subcal.transfer.f(end))) = 0; % remove components with f > subcal.transfer.f(end)
+    	%%% H(find(f<subcal.transfer.f(1)))   = 0; % remove components with f < subcal.transfer.f(1)
     	
-    	H(find(f>subcal.transfer.f(end))) = 0; % remove components with f > subcal.transfer.f(end)
-    	H(find(f<subcal.transfer.f(1)))   = 0; % remove components with f < subcal.transfer.f(1)
-    	
+    	% deconvolve H from P
     	H = H(:)';
     	H = [ 0 H conj(fliplr(H(1:end-1))) ]; % make up full fourier spectrum of h
     	
     	% normalize H by P (deconvolve h from impulse response of sensor):
+		H0 = H;
+
     	H = H ./ P;
     	
     	H(1) = 0; % 'repair' the NaN DC-value, remember: P(1)=NaN )
-
+		
+		h0 = h;
     	h = ifft(H);
     	h = abs(h) .* sign(real(h)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
     	
     	h = flipud (h(:));
     	t = t(:);
-
+		
     	if signal_cropped
     	    h = [ h ; h(end) ];
     	    t = [ t ; t(end) + t(end)-t(end-1) ];
