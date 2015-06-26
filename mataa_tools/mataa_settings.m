@@ -54,7 +54,7 @@ if (~reset_to_def && exist('field','var')) reset_to_def = strcmp(field,'reset');
 if reset_to_def
 	% create / reset to default settings:
 	mataa_settings.plotColor = 'b';
-	%% WILL BE DEPRECATED: mataa_settings.microphone = 'unknown_microphone';
+	%% DEPRECATED: mataa_settings.microphone = 'unknown_microphone';
 	mataa_settings.plotWindow_IR = 1;
 	mataa_settings.plotWindow_SR = 2;
 	mataa_settings.plotWindow_FR = 3;
