@@ -54,7 +54,7 @@ if (~reset_to_def && exist('field','var')) reset_to_def = strcmp(field,'reset');
 if reset_to_def
 	% create / reset to default settings:
 	mataa_settings.plotColor = 'b';
-	mataa_settings.microphone = 'unknown_microphone';
+	%% WILL BE DEPRECATED: mataa_settings.microphone = 'unknown_microphone';
 	mataa_settings.plotWindow_IR = 1;
 	mataa_settings.plotWindow_SR = 2;
 	mataa_settings.plotWindow_FR = 3;
@@ -87,7 +87,7 @@ if nargin==0 % return all settings
 else
 	if nargin == 1 % read and return the value of the specified field
 		if isfield(mataa_settings,field)
-			eval( ['val = mataa_settings.' field ';' ] );	
+			eval( ['val = mataa_settings.' field ';' ] );
 		else
 			warning(sprintf('mataa_settings: Unknown field value in mataa_settings: %s.',field));
 			val = [];
