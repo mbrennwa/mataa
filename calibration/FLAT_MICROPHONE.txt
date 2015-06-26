@@ -1,0 +1,4 @@
+% Generic calibration data for a virtual microphone with perflecly flat frequency response between 1 and 40’000 Hz
+% General information:name = VIRTUAL FLAT MICtype = Microphonesensitivity = 10.0 mV/Pa% Transfer function
+% free field, 1m distance to sound source, 0 deg. (axial) incidence% column-1: frequency (Hz)% column-2: gain (dB) relative to absolute sensitivity value given above1          0
+40000	   0
