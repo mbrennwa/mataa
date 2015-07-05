@@ -56,7 +56,7 @@ h = h(:); % make sure h is column vector
 %%% Don't do this (just consider what happens if h(1) = 1 and h(2:end) = 0):
 %%% h = h - linspace(h(1),h(end),length(h))' + mean(h); % make sure s is periodic
 
-if exist('smooth_interval')
+if exist('smooth_interval','var')
 	T = max(t)-min(t);
 	fMin = 1/T;
 	df = fMin*smooth_interval;
@@ -87,16 +87,33 @@ if exist("smooth_interval","var")
 	% remove the bogus data with f < fMin (introduced by zero-padding):
 	i = find(f0 >= fMin);
 	f0 = f0(i); mag0 = mag0(i); phase0 = phase0(i);
+		
+	% transform + interpolate data to log(frequency):
+	Nf = log2 (f0(end)/f0(end-1)); % fractional octave between last and second-last data point
+    No = log2 (f0(end)/f0(1)); % number of octaves covered by full data set
+    NL = round (No/Nf); % number of data points required to capture the full resolution of the original data with a logarithmic frequency distribution
 
-	% apply smoothing:
-	f = []; mag = []; phase = [];
-	F = fMin;
-	fMax = max(f0);
-	while F < fMax
-		i = find(abs(f0-F)/F < smooth_interval);
-		f = [ f ; mean(f0(i)) ];
-		mag = [ mag ; mean(mag0(i)) ];
-		phase = [ phase ; mean(phase0(i)) ];
-		F = F + smooth_interval*F;
+    % interpolate to log-distributed frequency values:
+    f     = logspace(log10(f0(1)),log10(f0(end)),NL);
+    mag   = interp1 (f0,mag0,f);
+    phase = interp1 (f0,phase0,f);
+
+	% smooth data with log(f) distribution:
+	NW = round (smooth_interval / Nf); % number of points for running-mean window
+	W  = repmat (1/NW,1,NW);
+	mag   = conv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W,'same')(NW+1:end-NW);
+	phase = conv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W,'same')(NW+1:end-NW);
+	
+% old code with calculating means of frequency bins:
+%		f = []; mag = []; phase = [];
+%		F = fMin;
+%		fMax = max(f0);
+%		while F < fMax
+%			i = find(abs(f0-F)/F < smooth_interval);
+%			f = [ f ; mean(f0(i)) ];
+%			mag = [ mag ; mean(mag0(i)) ];
+%			phase = [ phase ; mean(phase0(i)) ];
+%			F = F + smooth_interval*F;
 	end
+	
 end
