@@ -19,7 +19,7 @@ function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 % EXAMPLE:
 % > [h,t] = mataa_IR_demo; 
 % > [mag,phase,f] = mataa_IR_to_FR(h,t); % calculates magnitude(f) and phase(f)
-% > [mag,phase,f] = mataa_IR_to_FR(h,t,1/24); % same as above, but smoothed to 1/24 octave
+% > [mag,phase,f] = mataa_IR_to_FR(h,t,1/8); % same as above, but smoothed to 1/8 octave resolution
 % (use mataa_plot_FR(mag,phase,f) to plot the results)
 %
 % DISCLAIMER:
@@ -56,13 +56,13 @@ h = h(:); % make sure h is column vector
 %%% Don't do this (just consider what happens if h(1) = 1 and h(2:end) = 0):
 %%% h = h - linspace(h(1),h(end),length(h))' + mean(h); % make sure s is periodic
 
-if exist('smooth_interval','var')
-	T = max(t)-min(t);
-	fMin = 1/T;
-	df = fMin*smooth_interval;
-	T = 1/df;
-	[h,t] = mataa_signal_pad_Zeros(h,t,T); % pad the impulse response to length T, so we can calculate the freqeuncy response with (faked) frequency resolution of df
-end
+% if exist('smooth_interval','var')
+% 	T = max(t)-min(t);
+% 	fMin = 1/T;
+% 	df = fMin*smooth_interval;
+% 	T = 1/df;
+% 	[h,t] = mataa_signal_pad_Zeros(h,t,T); % pad the impulse response to length T, so we can calculate the freqeuncy response with (faked) frequency resolution of df
+% end
 
 [p,f] = mataa_realFT(h,t);
 
@@ -83,10 +83,6 @@ phase = unwrap(angle(p))/pi*180;
 if exist("smooth_interval","var")
 	
 	f0=f; mag0=mag; phase0=phase;
-	
-	% remove the bogus data with f < fMin (introduced by zero-padding):
-	i = find(f0 >= fMin);
-	f0 = f0(i); mag0 = mag0(i); phase0 = phase0(i);
 		
 	% transform + interpolate data to log(frequency):
 	Nf = log2 (f0(end)/f0(end-1)); % fractional octave between last and second-last data point
@@ -97,12 +93,20 @@ if exist("smooth_interval","var")
     f     = logspace(log10(f0(1)),log10(f0(end)),NL);
     mag   = interp1 (f0,mag0,f);
     phase = interp1 (f0,phase0,f);
-
-	% smooth data with log(f) distribution:
-	NW = round (smooth_interval / Nf); % number of points for running-mean window
-	W  = repmat (1/NW,1,NW);
-	mag   = conv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W,'same')(NW+1:end-NW);
-	phase = conv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W,'same')(NW+1:end-NW);
+        
+   	% smooth data with log(f) distribution:
+		
+	Ns = round (smooth_interval / Nf); % number of points corresponding to smooth_interval
+	if Ns > 0 % otherwise no smoothing is required
+		% construct sliding window W with effective width Ns:
+		W  = linspace (1/Ns,1,round(0.2*Ns));
+		W  = [ W repmat(1,1,round(0.8*Ns)) fliplr(W) ];
+		W = W / sum(W); % normalize
+		NW = length(W);
+		% convolve mag and phase with W:
+		mag   = conv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W,'same')(NW+1:end-NW);
+		phase = conv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W,'same')(NW+1:end-NW);
+	end
 	
 % old code with calculating means of frequency bins:
 %		f = []; mag = []; phase = [];
