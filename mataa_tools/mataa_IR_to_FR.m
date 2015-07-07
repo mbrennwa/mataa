@@ -97,9 +97,6 @@ if exist("smooth_interval","var")
    	% smooth data with log(f) distribution:
 		
 	Ns = round (smooth_interval / Nf); % number of points corresponding to smooth_interval
-	
-	Ns
-	
 	if Ns > 1 % otherwise no smoothing is required
 		% construct sliding window W with effective width Ns:
 		W  = linspace (1/Ns,1,round(0.2*Ns));
