@@ -125,8 +125,11 @@ deleteInputFileAfterIO = 0;
 if ~ischar(input_signal)
 % signal samples have been specified instead of file name:
     if ~exist('latency','var')
-		warning('mataa_measure_signal_response: latency not specified. Assuming latency = 0.1 seconds. Check for truncated data!');
-		latency = 0.1;
+		latency = [];
+	end
+	if isempty (latency)
+    	latency = fs/44100 * 0.1;
+		warning(sprintf('mataa_measure_signal_response: latency not specified. Assuming latency = %g seconds. Check for truncated data!',latency));
     end
 	if verbose
 		disp('Writing sound data to disk...');
