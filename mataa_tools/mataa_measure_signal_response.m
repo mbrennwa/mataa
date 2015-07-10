@@ -124,12 +124,15 @@ deleteInputFileAfterIO = 0;
 
 if ~ischar(input_signal)
 % signal samples have been specified instead of file name:
+	default_latency = 0.1 * max([1 fs/44100]); % just from experience with Behringer UMC202HD and M-AUDIO FW-410
     if ~exist('latency','var')
 		latency = [];
 	end
 	if isempty (latency)
-    	latency = fs/44100 * 0.1;
+    	latency = default_latency;
 		warning(sprintf('mataa_measure_signal_response: latency not specified. Assuming latency = %g seconds. Check for truncated data!',latency));
+    elseif latency < default_latency
+    	warning(sprintf('mataa_measure_signal_response: latency (%gs) is less than generic default (%gs). Make sure this is really what you want and check for truncated data!',latency,default_latency));
     end
 	if verbose
 		disp('Writing sound data to disk...');

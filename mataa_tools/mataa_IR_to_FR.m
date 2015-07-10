@@ -82,6 +82,8 @@ phase = unwrap(angle(p))/pi*180;
 
 if exist("smooth_interval","var")
 	
+	disp ('mataa_IR_to_FR: smoothing data...')
+	
 	f0=f; mag0=mag; phase0=phase;
 		
 	% transform + interpolate data to log(frequency):
@@ -104,9 +106,20 @@ if exist("smooth_interval","var")
 		W = W / sum(W); % normalize
 		NW = length(W);
 		% convolve mag and phase with W:
-		mag   = conv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W,'same')(NW+1:end-NW);
-		phase = conv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W,'same')(NW+1:end-NW);
+		% mag   = conv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W,'same')(NW+1:end-NW);
+		% phase = conv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W,'same')(NW+1:end-NW);
+		M0 = mag;
+		P0 = phase;
+		mag   = fftconv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W);
+		phase = fftconv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W);
+		a = round(1.5*NW);
+		b = 3*NW-a;
+		mag = mag(a:end-b);
+		phase = phase(a:end-b);
 	end
+
+	disp ('mataa_IR_to_FR: ...done.')
+
 	
 % old code with calculating means of frequency bins:
 %		f = []; mag = []; phase = [];
@@ -118,6 +131,7 @@ if exist("smooth_interval","var")
 %			mag = [ mag ; mean(mag0(i)) ];
 %			phase = [ phase ; mean(phase0(i)) ];
 %			F = F + smooth_interval*F;
-	end
+
+end
 	
 end
