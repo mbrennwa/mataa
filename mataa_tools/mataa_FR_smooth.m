@@ -77,4 +77,14 @@ if Ns > 1 % otherwise no smoothing is required
     b = 3*NW-a;
     mag = mag(a:end-b);
     phase = phase(a:end-b);
+    
+    % reduce data resolution to avoid excessive usage of memory and computation resources later on:
+    % (limit to 10 data points per smooth_interval)
+    nn = ceil (10*No/smooth_interval);
+    if NL > nn
+    	ff    = logspace (log10(f(1)),log10(f(end)),nn);
+    	mag   = interp1 (f,mag,ff);
+    	phase = interp1 (f,phase,ff);
+    	f     = ff;
+    end    
 end
