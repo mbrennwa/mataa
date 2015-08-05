@@ -81,57 +81,9 @@ end
 phase = unwrap(angle(p))/pi*180;
 
 if exist("smooth_interval","var")
-	
 	disp ('mataa_IR_to_FR: smoothing data...')
-	
-	f0=f; mag0=mag; phase0=phase;
-		
-	% transform + interpolate data to log(frequency):
-	Nf = log2 (f0(end)/f0(end-1)); % fractional octave between last and second-last data point
-    No = log2 (f0(end)/f0(1)); % number of octaves covered by full data set
-    NL = round (No/Nf); % number of data points required to capture the full resolution of the original data with a logarithmic frequency distribution
-
-    % interpolate to log-distributed frequency values:
-    f     = logspace(log10(f0(1)),log10(f0(end)),NL);
-    mag   = interp1 (f0,mag0,f);
-    phase = interp1 (f0,phase0,f);
-        
-   	% smooth data with log(f) distribution:
-		
-	Ns = round (smooth_interval / Nf); % number of points corresponding to smooth_interval
-	if Ns > 1 % otherwise no smoothing is required
-		% construct sliding window W with effective width Ns:
-		W  = linspace (1/Ns,1,round(0.2*Ns));
-		W  = [ W repmat(1,1,round(0.8*Ns)) fliplr(W) ];
-		W = W / sum(W); % normalize
-		NW = length(W);
-		% convolve mag and phase with W:
-		% mag   = conv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W,'same')(NW+1:end-NW);
-		% phase = conv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W,'same')(NW+1:end-NW);
-		M0 = mag;
-		P0 = phase;
-		mag   = fftconv ([ repmat(mag(1),1,NW) mag repmat(mag(end),1,NW) ],W);
-		phase = fftconv ([ repmat(phase(1),1,NW) phase repmat(phase(end),1,NW) ],W);
-		a = round(1.5*NW);
-		b = 3*NW-a;
-		mag = mag(a:end-b);
-		phase = phase(a:end-b);
-	end
-
+	[mag,phase,f] = mataa_FR_smooth(mag,phase,f,smooth_interval);
 	disp ('mataa_IR_to_FR: ...done.')
-
-	
-% old code with calculating means of frequency bins:
-%		f = []; mag = []; phase = [];
-%		F = fMin;
-%		fMax = max(f0);
-%		while F < fMax
-%			i = find(abs(f0-F)/F < smooth_interval);
-%			f = [ f ; mean(f0(i)) ];
-%			mag = [ mag ; mean(mag0(i)) ];
-%			phase = [ phase ; mean(phase0(i)) ];
-%			F = F + smooth_interval*F;
-
 end
 	
 end

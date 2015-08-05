@@ -1,6 +1,6 @@
-function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);
+function [t_start,t_rise] = mataa_guess_IR_start (h,t,fc,verbose);
 
-% function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);
+% function [t_start,t_rise] = mataa_guess_IR_start (h,t,fc,verbose);
 %
 % DESCRIPTION:
 % Try to determine the start and and rise time of an impulse response signal.
@@ -10,6 +10,7 @@ function [t_start,t_rise] = mataa_guess_IR_start (h,t,verbose);
 % INPUT:
 % h: impulse response
 % t: time-values vector of impulse response samples (vector, in seconds), or, alternatively, the sampling frequency of h(t) (scalar, in Hz, the first sample in h is assumed to correspond to time t(1)=0).
+% fc (optional): cut-off frequency of high pass filter applied to h(t) before finding the impulse. This is useful if h(t) is masked by low-frequency noise. If fc is not empty, a 4th order Butterworth high-pass filter will be applied to h(t) to remove low-frequency noise.
 % verbose (optional): if verbose=0, no user feedback is given. If not specified, verbose ~= 0 is assumed.
 %
 % OUTPUT:
@@ -48,8 +49,21 @@ if ~exist('verbose','var')
     verbose=1;
 end
 
+if ~exist('fc','var')
+    fc=[];
+end
+
 if isscalar(t) % t is the sampling frequency
+	fs = t;
     t = [0 : 1/t : (length(h)-1)/t];
+else
+	fs = 1 / mean (diff(t));
+end
+
+if ~isempty (fc) % apply high-pass filter to remove low-frequency noise
+	fn = fs/2; % Nyquist frequency	
+	[b,a]=butter (4,fc/fn,'high'); % 4th order high-pass Butterworth filter
+	h = filter(b,a,h);
 end
 
 badShape = 'mataa_guess_IR_start: the signal does not look like a well-shaped impulse response.';

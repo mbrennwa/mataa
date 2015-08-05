@@ -3,7 +3,7 @@ function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 % function [h_corr,t,unit] = mataa_signal_calibrate (h,t,cal)
 %
 % DESCRIPTION:
-% This function calibrates a signal h(t) (reflecting a DUT transfer function) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. The phase information of the transfer function ist calculated by assuming the device to be minimum phase.
+% This function calibrates a signal h(t) (reflecting a DUT transfer function) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. If only magnitude of the transfer function is given without phase information, phase is calculated by assuming the device to be minimum phase.
 % If h has more than one channel, different calibration information can be specified for the different channels.
 % See also mataa_load_calibration.
 %
@@ -114,18 +114,30 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	    
     	% Interpolate device frequency response to frequency values f:
         gain = interp1 (subcal.transfer.f,subcal.transfer.gain,f);
+        if isfield (subcal.transfer,'phase') % phase given explicitly
+	        phase = interp1 (subcal.transfer.f,subcal.transfer.phase,f);
+    	end
     	
-    	% make sure gain does not contain any NA or NaN values (data out of frequency range of calibration file will be dealt with later):
+    	% make sure gain (and phase) does not contain any NA or NaN values (data out of frequency range of calibration file will be dealt with later):
     	if any( f < subcal.transfer.f(1) )
     	    gain( f < subcal.transfer.f(1) ) = subcal.transfer.gain(1);
+    	    if exist ('phase','var')
+    	    	phase( f < subcal.transfer.f(1) ) = subcal.transfer.phase(1);
+    	    end
     	end
     	if any( f > subcal.transfer.f(end) )
     	    gain( f > subcal.transfer.f(end) ) = subcal.transfer.gain(end);
+    	    if exist ('phase','var')
+    	    	phase( f > subcal.transfer.f(end) ) = subcal.transfer.phase(end);
+    	    end
     	end
-
-    	% calculate minimum phase of device:
-    	i = sqrt(-1); % make sure we don't have something else assigned to 'i'
-    	phase = -mataa_hilbert(gain/20); % phase in radians
+		
+    	% calculate minimum phase of device if necessary:
+    	is ~exist ('phase','var')
+	    	i = sqrt(-1); % make sure we don't have something else assigned to 'i'
+    		%%% phase = -mataa_hilbert(gain/20); % phase in radians THIS SEEMS WRONG DUE TO MIXUP BETWEEN LOG-10 (from dB scale) vs. LOG-NAT (as needed for Hilbert transform)
+    		phase = mataa_minimum_phase (gain)/180*pi; % phase in radians
+    	end
     	
     	% complex fourier spectrum of sensor transfer function:
     	pp = 10.^(gain/20) .* exp(i*phase); 

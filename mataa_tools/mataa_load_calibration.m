@@ -12,8 +12,8 @@ function cal = mataa_load_calibration (calfile)
 % cal: struct with calibration data.
 % 
 % EXAMPLE:
-% To load the (generic) calibration data for the Behringer ECM8000 microphone:
-% c = mataa_load_calibration ('Behringer_ECM8000.txt');
+% To load the (generic) calibration data for a Behringer ECM8000 microphone:
+% c = mataa_load_calibration ('BEHRINGER_ECM8000_D1303397118_MICROPHONE.txt');
 %
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -45,7 +45,7 @@ if fid < 0
     error (sprintf("mataa_load_calibration: could no open calilbration file '%s' (%s).",calfile,msg));
 end
 
-f = gain = [];
+f = gain = phase = [];
 lineNo = 0;
 
 % read file and parse data:
@@ -130,8 +130,11 @@ while (! feof (fid) )
     		
 		else % transfer function / gain in dB relative to absolute sensitivity value 
 	    	u = strsplit (untabify(l)," ");
-	    	f    = [ f    ; str2num(u{1}) ];
-	    	gain = [ gain ; str2num(u{2}) ];
+	    	f     = [ f    ; str2num(u{1}) ];
+	    	gain  = [ gain ; str2num(u{2}) ];
+	    	if length(u) > 2
+		    	phase = [ phase ; str2num(u{3}) ];
+		    end
     	end
     end % isempty(l)
      
@@ -140,8 +143,14 @@ end % while feof(fid)
 if ~isempty (f)
 	cal.transfer.f    = f;
 	cal.transfer.gain = gain;
+	if ~isempty (phase)
+		cal.transfer.phase = phase;
+	end
 	[cal.transfer.f,k] = sort (cal.transfer.f);
 	cal.transfer.gain = cal.transfer.gain(k);
+	if isfield (cal.transfer,'phase')
+		cal.transfer.phase = cal.transfer.phase(k);
+	end	
 end
 
 fclose (fid);
