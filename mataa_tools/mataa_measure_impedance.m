@@ -1,6 +1,6 @@
 function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 
-% function [Z,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
+% function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 %
 % DESCRIPTION:
 % Measures the complex, frequency-dependent impedance Z(f) in the frequency range [fLow,fHigh].
@@ -14,7 +14,8 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 % resolution (optional): frequency resolution in octaves (example: resolution = 1/24 will give 1/24 octave smoothing). Default is resolution = 1/48. If you want no smoothing at all, use resolution = 0.
 % 
 % OUTPUT:
-% Z: vector of complex impedance values (Ohm)
+% Zabs: impedance magnitude (Ohm)
+% Zphase: impedance phase (degrees)
 % f: vector of frequency values
 % 
 % DISCLAIMER:
@@ -87,10 +88,11 @@ index = find( f<= fHigh & f >= fLow );
 f = f(index);
 Z = Z(index);
 
-% smooth data:
-if resolution > 0
-    [Z,f] = mataa_smooth_log(Z,f,resolution);
-end
-
 Zmag = abs(Z);
 Zphase = angle(Z)/pi*180;
+
+if resolution > 0 % smooth data:
+    % [Z,f] = mataa_smooth_log(Z,f,resolution);
+	[Zmag,Zphase,f] = mataa_FR_smooth (Zmag,Zphase,f,resolution);
+end
+

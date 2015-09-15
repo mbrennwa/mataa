@@ -43,8 +43,9 @@ function min_phase = mataa_minimum_phase (mag,f);
 mag = mag/20;
 mag = 10.^mag;
 
-mag = log(mag);
+u = log(mag);
 % normalize mag to avoid dependency of min_phase on the scaling of mag
-mag = mag-mean(mag);
+u = u-mean(u);
 
-min_phase = -mataa_hilbert(mag)/pi*180;
+
+min_phase = -mataa_hilbert(u)/pi*180;

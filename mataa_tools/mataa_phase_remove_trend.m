@@ -55,8 +55,6 @@ if isempty(i)
 end
 
 % determine delay corresponding to phase trend (excess phase, see D'Appolito, J.  (1998) Testing Loudspeakers, page 111)
-
-
 p = polyfit(f(i),phase(i),1);
 delay = -p(1)/(2*pi);
 
