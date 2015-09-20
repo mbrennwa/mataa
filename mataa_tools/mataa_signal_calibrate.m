@@ -132,8 +132,8 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	    end
     	end
 		
-    	% calculate minimum phase of device if necessary:
-    	is ~exist ('phase','var')
+    	% calculate minimum phase of device if necessary:    	
+    	if ~exist ('phase','var')
 	    	i = sqrt(-1); % make sure we don't have something else assigned to 'i'
     		%%% phase = -mataa_hilbert(gain/20); % phase in radians THIS SEEMS WRONG DUE TO MIXUP BETWEEN LOG-10 (from dB scale) vs. LOG-NAT (as needed for Hilbert transform)
     		phase = mataa_minimum_phase (gain)/180*pi; % phase in radians
