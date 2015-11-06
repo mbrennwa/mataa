@@ -20,7 +20,7 @@ function [t_start,t_rise] = mataa_guess_IR_start (h,t,fc,verbose);
 % EXAMPLE:
 % > [h,t] = mataa_IR_demo; % load demo data of an loudspeaker impulse response.
 % > mataa_plot_IR(h,t); % plot the fake signal
-% > [t_start,t_rise] = mataa_guess_IR_start(h,t)
+% > [t_start,t_rise] = mataa_guess_IR_start(h,t,200)
 %
 % This gives t_start = 0.288 ms and t_rise = 0.0694 ms. In this example might therefore safely discard all data with t < t_start. In real-world use (with noise and Murphy's law against us), however, it might be worthwile to add some safety margin, e.g. using t_rise: discard all data with t < t_start - t_rise.
 % 
@@ -63,7 +63,7 @@ end
 if ~isempty (fc) % apply high-pass filter to remove low-frequency noise
 	fn = fs/2; % Nyquist frequency	
 	[b,a]=butter (4,fc/fn,'high'); % 4th order high-pass Butterworth filter
-	h = filter(b,a,h);
+	h = filter(b,a,h);	
 end
 
 badShape = 'mataa_guess_IR_start: the signal does not look like a well-shaped impulse response.';
