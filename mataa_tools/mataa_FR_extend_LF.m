@@ -67,7 +67,7 @@ ml = ml - delta_m;
 % match phase, remove excess phase by looking at frequency range f1...f2:
 % exPhase = -2*pi*f*delay;
 
-ff = unique ([fh(ih);fl(il)]);
+ff = unique ([fh(ih)(:);fl(il)(:)]);
 pph = interp1 (fh(ih),ph(ih),ff);
 ppl = interp1 (fl(il),pl(il),ff);
 rp  = ppl./pph; rp = mean (rp(~isna(rp)));
