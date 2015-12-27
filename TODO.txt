@@ -1,7 +1,0 @@
-* Add gain calibration. Idea: put values of microphone sensitivity, buffer gain, and (mic-)preamplifier gain into prefs. Then add a function mataa_fix_gain(signal,gains) that adjusts for these gains (where gains is a list of the gain types to be considered: buffer, preamp, mic sensitivity).
-
-* Add calibration channel to loudspeaker analysis (or other acoustic tests).
-
-* In the manual, explain how to test for the presence and the effectiveness of an anti-aliasing filter in the soundcard.
-
-* Port TestTone and TestDevices to Linux. compile PA with ALSA only (no OSS, please!), include this library. Does this work the same way with Mac OS X, too?
