@@ -1,6 +1,6 @@
-function [THD,kn,f1] = mataa_measure_HD (f1,T,fs,N);
+function [THD,kn,l0DUT,l0REF] = mataa_measure_HD (f1,T,fs,N);
 
-% function [THD,kn] = mataa_measure_HD (f1,T,fs,N);
+% function [THD,kn,l0DUT,l0REF] = mataa_measure_HD (f1,T,fs,N);
 %
 % DESCRIPTION:
 % This function measures harmonic distortion using a sine wave with a given frequency.
@@ -15,6 +15,7 @@ function [THD,kn,f1] = mataa_measure_HD (f1,T,fs,N);
 % THD = total harmonic distortion, see below.
 % kn: harmonic distortion spectrum, in voltage units (not power). kn is a vector containing the harmonic components (k1, k2, k3, ... kN), where k1 corresponds to f1. The spectrum is normalised such that k1 is equal to one.
 % f1: true value of f1 used for analyses (value may be adjusted slightly to fit in the resolution of the fourier spectrum).
+% l0DUT, l0REF: RMS level of the DUT and REF signals at the soundcard input (useful for repeated tests at different levels)
 %
 % NOTE 1: THD is computed WITHOUT the noise in the spectrum ranges between the harmoics.
 %
@@ -74,7 +75,7 @@ x = sin(2*pi*f1*t);
 
 %x = [ z ; x ; z ];
 
-[out,in] = mataa_measure_signal_response(x,fs,0.1);
+[out,in] = mataa_measure_signal_response(x,fs);
 
 yDUT=out(:,mataa_settings('channel_DUT'));
 yREF=out(:,mataa_settings('channel_REF'));
@@ -94,6 +95,10 @@ yREF = yREF(i1:i2);
 w = sin(pi*t/max(t)).^2;
 yDUT = yDUT.*w;
 yREF = yREF.*w;
+
+% pre-normalize signals by their RMS value
+l0DUT = sqrt (sum(yDUT.^2)) / length (yDUT); yDUT = yDUT / l0DUT;
+l0REF = sqrt (sum(yREF.^2)) / length (yREF); yREF = yREF / l0REF;
 
 % calculate signal spectra (voltages!)
 [YDUT,f] = mataa_realFT(yDUT,t);
@@ -120,7 +125,7 @@ kn(1) = 1; % that's zero otherwise, because YREF was subtracted from YDUT
 
 i = find(kn < 0);
 if any(i)
-    warning('mataa_measure_HD: some signal harmonics are negative. Is the REF signal clipped or otherwise corrupted?');
+    warning('mataa_measure_HD: some signal harmonics are negative. Is the REF signal clipped or otherwise corrupted? Too much noise?');
 end
 
 THD = sqrt( sum( kn(2:end).^2 ) ) / kn(1);
