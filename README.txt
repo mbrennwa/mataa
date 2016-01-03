@@ -4,9 +4,9 @@ MATAA is an extremely flexible and versatile audio analysis system. Similarly to
 
 MATAA runs on all sorts of computer platforms because it uses Matlab or GNU Octave as a base (these are powerful number crunching programs which provide a huge toolbox of routines for data analysis and processing). For the same reason, MATAA is extremely flexible and easily extendible with custom test signals, data analyses, plotting procedures, and scrips to automate routine measurements.
 
-Further instructions on how to install and use MATAA are available in the manual provided with MATAA. See also http://www.audioroot.net/MATAA.html .
+Further instructions on how to install and use MATAA are available in the manual provided with MATAA. See also http://www.audioroot.net/MATAA .
 
 MATAA is distributed as free software under the GNU General Public License (see LICENSE.txt).
 
-Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
+Copyright (C) 2006-2016 Matthias S. Brennwald.
 Contact: info@audioroot.net
