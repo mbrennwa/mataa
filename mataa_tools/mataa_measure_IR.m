@@ -17,9 +17,6 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 % t: time
 % unit: unit of data in h
 %
-% DISCLAIMER:
-% This file is part of MATAA.
-%
 % EXAMPLES:
 %
 % A. Measure impulse response using a sweep test signal (without any data calibration):
@@ -31,7 +28,10 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 % > s = mataa_signal_generator ('sweep',44100,1,[50 20000]);
 % > [h,t] = mataa_measure_IR (s,44100,1,0.1,1);					% with loopback deconvolution
 % > plot (t,h)
-%
+% 
+% DISCLAIMER:
+% This file is part of MATAA.
+% 
 % MATAA is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 2 of the License, or
@@ -46,7 +46,7 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006, 2007, 2008, 2015 Matthias S. Brennwald.
+% Copyright (C) 2006, 2007, 2008,2015 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 

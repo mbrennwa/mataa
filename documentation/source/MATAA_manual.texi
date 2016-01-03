@@ -7,8 +7,8 @@
 
 @setfilename MATAA_manual.texi
 @settitle MATAA 
-@set MATAA-URL http://mataa.sourceforge.net
-@set CONTACT-EMAIL mbrennwa@@users.sourceforge.net
+@set MATAA-URL https://github.com/mbrennwa/mataa
+@set CONTACT-EMAIL matthias@@audioroot.net
 
 @copying
 

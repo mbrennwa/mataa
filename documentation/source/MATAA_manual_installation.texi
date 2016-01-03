@@ -39,7 +39,9 @@ First of all, download MATAA. There are two possiblities:
 
 @item Download a recent package file from  @uref{@value{MATAA-URL}} and expand it if your internet browser or computer didn't do so already. If you later need to update to a more current version, download the most current package file, expand it and replace your previous version with the new one.
 @item Download the most current version using subversion with the following command:@*
-@command{svn checkout https://mataa.svn.sourceforge.net/svnroot/mataa}@*
+@command{svn checkout https://github.com/mbrennwa/mataa/trunk}@*
+Then rename @command{trunk} to @command{mataa}. On Linux or Mac OS X:@*
+@command{mv trunk mataa}@*
 If you later need to update to the current version, use the following command:@*
 @command{svn update}
 @end itemize
