@@ -67,7 +67,8 @@ for i = 1:length(fi)
 end
 s = s / max(abs(s));
 
-y = mataa_measure_signal_response(s,fs);
+% do sound I/O:
+y = mataa_measure_signal_response(s,fs,[],0,mataa_settings('channel_DUT'));
 
 % remove the zero padding and make the remaining signal length equal to length(t):
 i = find(abs(y) > 0.5*max(abs(y)));
@@ -88,8 +89,13 @@ t = [0:length(y)-1]/fs;
 w = sin(pi*t/max(t)).^2;
 y = y(:) .* w(:) ;
 
+if length(y) < n % pad zeros to maintain frequency resolution
+	y = [ y ; repmat(0,n-length(y),1) ];
+end
+
 % pre-normalize signal by its RMS value
-L0 = sqrt (sum(y.^2)) / length (y); y = y / L0;
+L0 = sqrt (sum(y.^2)) / length (y);
+y = y / L0;
 
 % calculate signal spectrum (voltages!)
 [L,f] = mataa_realFT (y,t);
@@ -98,8 +104,5 @@ L0 = sqrt (sum(y.^2)) / length (y); y = y / L0;
 L = abs (L);
 
 % normalize the spectrum to fundamental(s)
-k = [];
-for i = 1:length(fi)
-	k = [ k find(f == fi(i)) ];
-end
-L = L / mean (L(k));
+L0 = interp1 (f,L,fi,'nearest');
+L = L / mean (L0);
