@@ -1,0 +1,1 @@
+% Calibration data for generic soundcard (DAC and ADC) with flat response (useful for measurements which don't require absolute calibration or frequnency dependent gain calibration).type = chainFILE = GENERIC_DAC.txt			% DAC calibration dataFILE = LOOPBACK_SENSOR.txt		% 'SENSOR' calibration dataFILE = GENERIC_ADC.txt			% ADC calibration data

@@ -270,6 +270,6 @@ else
 
 end
 
-warning ("mataa_measure_signal_response: implementation of data calibration is still experimental!");
+%%% warning ("mataa_measure_signal_response: implementation of data calibration is still experimental!");
 
 end % main function
