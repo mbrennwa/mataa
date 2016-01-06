@@ -11,16 +11,16 @@ function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs);
 % fs: sampling frequency in Hz
 % 
 % OUTPUT:
-% L: spectrum, level of DUT output signal at frequency values f. L is normalized to 1 at fi.
+% L: spectrum, level of DUT output signal at frequency values f. L is normalized to 1 at fi (if fi conains more than one frequency value, L is normalized to the mean level at these frequnencies).
 % f: frequency values of spectrum.
 % fi: frequency value(s) of fundamental(s) (they may have been adjusted to align with the frequency resolution of the spectrum to avoid frequency leakage)
 %
 % EXAMPLE-1 (distortion spectrum from 1000 Hz fundamental):
-% > [L,f] = mataa_measure_sine_distortion (1000,10,44100);
+% > [L,f,fi] = mataa_measure_sine_distortion (1000,1,44100);
 % > semilogx (f,20*log10(L)); xlabel ('Frequency (Hz)'); ylabel ('Level (dB, rel.)'); % plot result
 %
-% EXAMPLE-2 (IM distortion spectrum from 1000 // 1100 Hz fundamentals):
-% > [L,f] = mataa_measure_sine_distortion ([1000 1100],10,44100);
+% EXAMPLE-2 (IM distortion spectrum from 19000 // 20000 Hz fundamentals):
+% > [L,f,fi] = mataa_measure_sine_distortion ([19000 20000],3,192000);
 % > semilogx (f,20*log10(L)); xlabel ('Frequency (Hz)'); ylabel ('Level (dB, rel.)'); % plot result
 % 
 % DISCLAIMER:
