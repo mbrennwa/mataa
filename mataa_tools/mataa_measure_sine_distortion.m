@@ -68,7 +68,7 @@ end
 s = s / max(abs(s));
 
 % do sound I/O:
-y = mataa_measure_signal_response(s,fs,[],0,mataa_settings('channel_DUT'),'FLAT_SOUNDCARD.txt');
+y = mataa_measure_signal_response(s,fs,[],1,mataa_settings('channel_DUT'),'FLAT_SOUNDCARD.txt');
 
 % remove the zero padding and make the remaining signal length equal to length(t):
 i = find(abs(y) > 0.5*max(abs(y)));
