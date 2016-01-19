@@ -60,9 +60,21 @@ if (exist('OCTAVE_VERSION','builtin')) % we're running Octave
 		end
 	elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
 		platform='PCWIN';
-	else
-		platform='UNKNOWN';
+	elseif ~isempty(findstr(platform,'-w64-')) % e.g. platform = 'i686-w64-mingw32'
+		platform='PCWIN';
+	else % try again (it seems the above may fail, especially in some Windows / Octave combinations)
+		if ismac
+			platform = 'MAC';
+		elseif isunix
+			platform = 'LINUX'; % just a blind assumption that UNIX = LINUX (which is wrong)
+		elseif ispc
+			platform = 'PCWIN';
+		else
+			platform='UNKNOWN';
+		end
+
 	end
+	
 else % we're running matlab
     if strcmp(platform,'MACI') % Intel MAC
         platform = 'MAC'
