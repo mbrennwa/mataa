@@ -14,7 +14,7 @@ function path = mataa_path (whichPath);
 % 'TestTone'         the path to the TestTone program
 % 'TestDevices'      the path to the TestDevices program
 % 'mataa_scripts'    the path to the MATAA scripts
-% 'microphone'       the path to the microphone-data files
+% 'microphone'       the path to the microphone-data files - THIS IS DEPRECATED! The 'microphone' identifier is now mapped to the 'calibration' identifier.
 % 'settings'	     the path where the MATAA settings are stored
 % 'calibration'      the path where calibration files are stored (microphones, audio interfaces / soundcards, etc.)
 %
@@ -73,7 +73,9 @@ switch whichPath
     	path = [main 'TestTone' filesep plat filesep];
     case 'mataa_scripts',     path = [main 'mataa_scripts' filesep];
 %    case 'user_scripts',    path = [main 'user_scripts' filesep];
-%    case 'microphone',      path = [main 'microphone_data' filesep];
+    case 'microphone'
+    	warning ('mataa_path: the ''microphone'' identifier is deprecated. Returning the ''calibration'' path instead.')
+    	path = mataa_path ('calibration');
     case 'calibration',      path = [main 'calibration' filesep];
 %    case 'data',            path = [main 'mataa_data' filesep];
     case 'settings',        

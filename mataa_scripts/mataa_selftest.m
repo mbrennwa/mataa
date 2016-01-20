@@ -100,11 +100,11 @@ catch
 end
 
 try
-    p = mataa_path('microphone');
+    p = mataa_path('calibration');
     if exist(p,'dir');
-        disp(sprintf('MATAA path to microphone data is %s.',p))
+        disp(sprintf('MATAA path to calibration data is %s.',p))
     else
-        disp(sprintf('** ERROR: path to microphone data does not exist (%s). This may be no problem if you do not use microphones.',p))
+        disp(sprintf('** ERROR: path to calibration data does not exist (%s). This may be no problem if you do not use calibration data for microphones, sensors, audio devices, etc.',p))
     end
 catch
     disp(sprintf('** ERROR: %s',lasterr));
