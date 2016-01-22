@@ -1,6 +1,6 @@
-function path = mataa_path (whichPath);
+function pth = mataa_path (whichPath);
 
-% function path = mataa_path (whichPath);
+% function pth = mataa_path (whichPath);
 %
 % DESCRIPTION:
 % This function returns the Matlab / MATAA paths as specified by 'whichPath'
@@ -21,7 +21,7 @@ function path = mataa_path (whichPath);
 % If whichPath is not specified, it is set to 'main' by default.
 % 
 % OUTPUT:
-% path: the MATAA path as indicated by whichPath (string)
+% pth: the MATAA path as indicated by whichPath (string)
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -64,35 +64,40 @@ i = unique([i1 i2]);
 main = main(1:i(end-1));
 
 switch whichPath
-    case 'main',            path = main;
-    case 'signals',         path = [main 'test_signals' filesep];
-    case 'tools',           path = [main 'mataa_tools' filesep];
-	case 'TestDevices',		path = mataa_path('TestTone');
+    case 'main',            pth = main;
+    case 'signals',         pth = [main 'test_signals' filesep];
+    case 'tools',           pth = [main 'mataa_tools' filesep];
+	case 'TestDevices',		pth = mataa_path('TestTone');
     case 'TestTone',
     	plat = mataa_computer;
-    	path = [main 'TestTone' filesep plat filesep];
-    case 'mataa_scripts',     path = [main 'mataa_scripts' filesep];
-%    case 'user_scripts',    path = [main 'user_scripts' filesep];
+    	pth  = [main 'TestTone' filesep plat filesep];
+    case 'mataa_scripts',     pth = [main 'mataa_scripts' filesep];
+%    case 'user_scripts',    pth = [main 'user_scripts' filesep];
     case 'microphone'
     	warning ('mataa_path: the ''microphone'' identifier is deprecated. Returning the ''calibration'' path instead.')
-    	path = mataa_path ('calibration');
-    case 'calibration',      path = [main 'calibration' filesep];
-%    case 'data',            path = [main 'mataa_data' filesep];
+    	pth = mataa_path ('calibration');
+    case 'calibration',      pth = [main 'calibration' filesep];
+%    case 'data',            pth = [main 'mataa_data' filesep];
     case 'settings',        
         if strcmp (mataa_computer,'PCWIN')
-            path = userpath;
-            if isempty(path) % userpath may be return an empty string on Windows (argh!)
-                path = pwd;
+        	if exist ('userpath'); % userpath seems to be Matlab only
+	            pth = userpath;
+	        else % get first entry on the searchpath, as documented on the Matlab website
+	        	pth = strsplit (path,pathsep);
+	        	pth = pth{1};
+	        end
+            if isempty(pth) % userpath may be return an empty string on Windows (argh!)
+                pth = pwd;
                 warning('mataa_path: Windows userpath empty, using current working directory (pwd) as settings path.');
             end
-            if strcmp(path(end),';')
-                path = path(1:end-1);
+            if strcmp(pth(end),';')
+                pth = pth(1:end-1);
             end
-            if ~strcmp(path(end),filesep)
-                path = [ path filesep ];
+            if ~strcmp(pth(end),filesep)
+                pth = [ pth filesep ];
             end
         else
-            path = ['~' filesep]; % this may cause issues if the tilde is not supported, e.g. on fancy Windows systems
+            pth = ['~' filesep]; % this may cause issues if the tilde is not supported, e.g. on fancy Windows systems
         end
     otherwise               error(sprintf('mataa_path: Unkown path specifier (''%s'').',whichPath))
 end
