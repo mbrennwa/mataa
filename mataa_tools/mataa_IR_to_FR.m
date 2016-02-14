@@ -81,9 +81,9 @@ end
 phase = unwrap(angle(p))/pi*180;
 
 if exist("smooth_interval","var")
-	disp ('mataa_IR_to_FR: smoothing data...')
-	[mag,phase,f] = mataa_FR_smooth(mag,phase,f,smooth_interval);
-	disp ('mataa_IR_to_FR: ...done.')
-end
-	
+	if ~isempty (smooth_interval)
+		disp ('mataa_IR_to_FR: smoothing data...')
+		[mag,phase,f] = mataa_FR_smooth(mag,phase,f,smooth_interval);
+		disp ('mataa_IR_to_FR: ...done.')
+	end
 end
