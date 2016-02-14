@@ -6,7 +6,7 @@ function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 % Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)
 %
 % INPUT:
-% h: impulse response (in volts)
+% h: impulse response (in volts, Pa, etc.)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
 % smooth_interval (optional): if specified, the frequency response is smoothed over the octave interval smooth_interval.
 % unit (optional): unit of h.
