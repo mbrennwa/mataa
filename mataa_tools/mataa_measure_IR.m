@@ -83,13 +83,13 @@ for i = 1:N
 	
 	if ~loopback % no loopback calibration
 		disp ('Deconvolving data using raw test signal as reference (no loopback data available)...')
-		dut = out(:,mataa_settings('channel_DUT'));
+		dut = out(:,1);
 		ref = in;
 		
 	else % use loopback / REF data
 		disp ('Deconvolving data using loopback signal as reference...')
-		dut = out(:,mataa_settings('channel_DUT'));
-		ref = out(:,mataa_settings('channel_REF'));		
+		dut = out(:,1);
+		ref = out(:,2);		
 		warning ("mataa_measure_IR: DUT/REF deconvolution needs proper testing! Be careful with results...")
 		
 	end
@@ -105,7 +105,7 @@ for i = 1:N
 	disp ('...deconvolution done.');
 	
 	if iscell(unit)
-		unit = char(unit{mataa_settings('channel_DUT')});
+		unit = char(unit{1});
 	end
 		
 	if i == 1
