@@ -69,7 +69,7 @@ h = h(:); % make sure h is column vector
 % mag:
 if strcmp (unit,'Pa')
 	p_ref = 20E-6; % reference sound pressure
-	mag = 20*log(abs(p)/p_ref);
+	mag = 20*log10(abs(p)/p_ref);
 	unit = 'dB SPL';
 else
 	mag = 20*log10(abs(p));
