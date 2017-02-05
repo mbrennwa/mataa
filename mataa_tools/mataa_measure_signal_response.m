@@ -63,7 +63,7 @@ end
 
 % check computer platform:
 plat = mataa_computer;
-if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN') && ~strcmp(plat,'LINUX_X86-32') && ~strcmp(plat,'LINUX_X86-64') && ~strcmp(plat,'LINUX_PPC') )
+if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN') && ~strcmp(plat,'LINUX_X86-32') && ~strcmp(plat,'LINUX_X86-64') && ~strcmp(plat,'LINUX_PPC')  && ~strcmp(plat,'LINUX_ARM_GNUEABIHF') )
 	error('mataa_measure_signal_response: Sorry, this computer platform is not (yet) supported by the TestTone program.');
 end
 
@@ -80,6 +80,8 @@ case 'LINUX_X86-32'
 case 'LINUX_X86-64'
     desired_API = 'ALSA';
 case 'LINUX_PPC'
+    desired_API = 'ALSA';
+case 'LINUX_ARM_GNUEABIHF'
     desired_API = 'ALSA';
 end
 if ~strcmp (audioInfo.input.API,desired_API)
