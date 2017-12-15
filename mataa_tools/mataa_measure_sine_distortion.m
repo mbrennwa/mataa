@@ -1,6 +1,6 @@
-function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs);
+function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs,latency);
 
-% function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs);
+% function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs,latency);
 %
 % DESCRIPTION:
 % Play sine signals with frequencies fi and return the spectrum of the resutling signal in the DUT channel (e.g., measure harmonic distortion spectrum, or intermodulation distortion spectrum).
@@ -9,6 +9,7 @@ function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs);
 % fi: base frequency in Hz (if fi is a scalar), or frequency values of simultaneous sine signals (if fi is a vector).
 % T: length of sine signal in seconds.
 % fs: sampling frequency in Hz
+% latency: see mataa_measure_signal_response
 % 
 % OUTPUT:
 % L: spectrum, level of DUT output signal at frequency values f. L is normalized to 1 at fi (if fi conains more than one frequency value, L is normalized to the mean level at these frequnencies).
@@ -16,8 +17,8 @@ function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs);
 % fi: frequency value(s) of fundamental(s) (they may have been adjusted to align with the frequency resolution of the spectrum to avoid frequency leakage)
 %
 % EXAMPLE-1 (distortion spectrum from 1000 Hz fundamental):
-% > [L,f,fi] = mataa_measure_sine_distortion (1000,1,44100);
-% > semilogx (f,20*log10(L)); xlabel ('Frequency (Hz)'); ylabel ('Level (dB, rel.)'); % plot result
+% > [L,f,fi] = mataa_measure_sine_distortion (1000,1,44100,0.1);
+% > loglog (f,L); xlabel ('Frequency (Hz)'); ylabel ('Amplitude (rel. to fundamental)'); % plot result
 %
 % EXAMPLE-2 (IM distortion spectrum from 19000 // 20000 Hz fundamentals):
 % > [L,f,fi] = mataa_measure_sine_distortion ([19000 20000],3,192000);
@@ -68,7 +69,12 @@ end
 s = s / max(abs(s));
 
 % do sound I/O:
-y = mataa_measure_signal_response(s,fs,[],1,mataa_settings('channel_DUT'),'FLAT_SOUNDCARD.txt');
+if ~exist('latency','var')
+	latency = []; % use default value (best guess)
+end
+[y,in,t] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),'FLAT_SOUNDCARD.txt');
+
+% plot (t,y)
 
 % remove the zero padding and make the remaining signal length equal to length(t):
 i = find(abs(y) > 0.5*max(abs(y)));
@@ -92,6 +98,8 @@ y = y(:) .* w(:) ;
 if length(y) < n % pad zeros to maintain frequency resolution
 	y = [ y ; repmat(0,n-length(y),1) ];
 end
+
+% plot (t,y)
 
 % pre-normalize signal by its RMS value
 L0 = sqrt (sum(y.^2)) / length (y);
