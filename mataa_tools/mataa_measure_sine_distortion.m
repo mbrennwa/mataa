@@ -1,18 +1,19 @@
-function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs,latency);
+function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs,latency,attenuation);
 
-% function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs,latency);
+% function [L,f,fi] = mataa_measure_sine_distortion (fi,T,fs,latency,attenuation);
 %
 % DESCRIPTION:
-% Play sine signals with frequencies fi and return the spectrum of the resutling signal in the DUT channel (e.g., measure harmonic distortion spectrum, or intermodulation distortion spectrum).
+% Play sine signals with frequencies fi and return the (normalised) spectrum of the resutling signal in the DUT channel (e.g., measure harmonic distortion spectrum, or intermodulation distortion spectrum).
 % 
 % INPUT:
 % fi: base frequency in Hz (if fi is a scalar), or frequency values of simultaneous sine signals (if fi is a vector).
 % T: length of sine signal in seconds.
 % fs: sampling frequency in Hz
-% latency: see mataa_measure_signal_response
+% latency: see mataa_measure_signal_response (optional, default: latency = [])
+% attenuation: attenuation factor (0...1) for output signal (optional, default: attenuation = 1);
 % 
 % OUTPUT:
-% L: spectrum, level of DUT output signal at frequency values f. L is normalized to 1 at fi (if fi conains more than one frequency value, L is normalized to the mean level at these frequnencies).
+% L: spectrum, level of DUT output signal at frequency values f. L is normalized to 1 at fi (if fi conains more than one frequency value, L is normalized to the mean level at these frequencies).
 % f: frequency values of spectrum.
 % fi: frequency value(s) of fundamental(s) (they may have been adjusted to align with the frequency resolution of the spectrum to avoid frequency leakage)
 %
@@ -53,11 +54,24 @@ t = [0:n-1]*dt; t = t(:);
 
 f = mataa_t_to_f(t); df = f(1);
 
+if ~exist('latency','var')
+	latency = []; % use default value (best guess)
+end
+if ~exist('attenuation','var')
+	attenuation = 1; % use default value (no attenuation)
+end
+if attenuation > 1
+	warning('mataa_measure_HD: attenuation factor cannot be larger than 1. Adjusted attenuation to 1.')
+elseif attenuation < 0
+	warning('mataa_measure_HD: attenuation factor cannot be less than 0. Adjusted attenuation to 0 (silence).')
+end
+
 for i = 1:length(fi)
 	[v,k] = min(abs(f-fi(i)));
 	if f(k)~=fi(i)
-	    warning(sprintf('mataa_measure_HD: adjusted fi(%i) = %g Hz to nearest value resolved (fi(%i) = %g Hz).',i,fi(i),i,f(k)));
-	    fi(i) = f(k);
+	    % warning(sprintf('mataa_measure_HD: adjusted fi(%i) = %g Hz to nearest value resolved (fi(%i) = %g Hz).',i,fi(i),i,f(k)));
+	    % fi(i) = f(k);
+		disp(sprintf('mataa_measure_HD: note that fi(%i) = %g Hz is between FFT frequenicies (nearest FFT frequency would be fi(%i) = %g Hz).',i,fi(i),i,f(k)));
 	end	
 	x = mataa_signal_generator ('sine',fs,T,fi(i));
 	if i == 1
@@ -68,10 +82,12 @@ for i = 1:length(fi)
 end
 s = s / max(abs(s));
 
-% do sound I/O:
-if ~exist('latency','var')
-	latency = []; % use default value (best guess)
+% apply attenuation factor
+if attenuation ~= 1
+	s = s * attenuation;
 end
+
+% do sound I/O:
 [y,in,t] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),'FLAT_SOUNDCARD.txt');
 
 % plot (t,y)

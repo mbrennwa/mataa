@@ -55,12 +55,13 @@ switch plat
     	input_sampleRates_halfDuplex = [];
     	input_sampleRates_fullDuplex = [];
     	output_sampleRates_halfDuplex = [];
-    	output_sampleRates_fullDuplex = [];        
+    	output_sampleRates_fullDuplex = [];     
         system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
         fid=fopen(infoFile,'rt');
         l = 0;
         while l ~=-1
             l = fgetl(fid);
+		disp (l)
             if findstr (l,'Default input device')
             	l = l(findstr(l,'=')+2:end);
             	if length(l) > 0
