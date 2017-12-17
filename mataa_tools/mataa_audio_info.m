@@ -55,13 +55,15 @@ switch plat
     	input_sampleRates_halfDuplex = [];
     	input_sampleRates_fullDuplex = [];
     	output_sampleRates_halfDuplex = [];
-    	output_sampleRates_fullDuplex = [];     
+    	output_sampleRates_fullDuplex = [];
+    	    	
         system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
+                
         fid=fopen(infoFile,'rt');
         l = 0;
         while l ~=-1
             l = fgetl(fid);
-		disp (l)
+			% disp (l)
             if findstr (l,'Default input device')
             	l = l(findstr(l,'=')+2:end);
             	if length(l) > 0
@@ -79,6 +81,7 @@ switch plat
    	 	        	audioInfo.output.name = l;
             	end
             end;
+            
             if findstr (l,'Max output channels'), audioInfo.output.channels = str2num(l(findstr(l,'=')+1:end)); end;
             if findstr (l,'Supported standard sample rates (output, full-duplex'), output_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
             if findstr (l,'Supported standard sample rates (output, half-duplex'), output_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
