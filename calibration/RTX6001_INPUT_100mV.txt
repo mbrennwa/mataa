@@ -1,0 +1,6 @@
+% Calibration file for RTX6001 audio analyser (ADC, input at “100mV” setting)
+%
+% NOTE: the voltage labels on the RTX6001 front panel refer RMS values of a sine signal. Multiply the front panel labels by sqrt(2) to obtain the peak voltage.
+% General information:name = RTX6001 100-mV INPUT
+type = ADCsensitivity = 7.0711 1/V % 0.1414 Volt at input gives 100% full scale at ADC output
+% Frequency response is very flat, so no transfer function data is included here.
