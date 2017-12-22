@@ -1,1 +1,1 @@
-type = chain % complete chain of DAC, SENSOR, and ADCFILE = RTX6001_OUTPUT_1V_BNCFILE = FLAT_MICROPHONE.txtFILE = RTX6001_INPUT_100mV
+type = chain % complete chain of DAC, SENSOR, and ADCFILE = RTX6001_OUTPUT_1V_BNC.txtFILE = FLAT_MICROPHONE.txtFILE = RTX6001_INPUT_100mV.txt

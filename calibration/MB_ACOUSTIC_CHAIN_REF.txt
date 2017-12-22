@@ -1,1 +1,1 @@
-type = chain % complete chain of DAC, SENSOR, and ADCFILE = RTX6001_OUTPUT_1V_BNCFILE = RTX6001_INPUT_1V
+type = chain % complete chain of DAC, SENSOR, and ADCFILE = RTX6001_OUTPUT_1V_BNC.txtFILE = RTX6001_INPUT_1V.txt
