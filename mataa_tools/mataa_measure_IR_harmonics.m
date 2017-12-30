@@ -31,7 +31,7 @@ function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, attenuation
 % unit: unit of data in h
 %
 % EXAMPLE:
-% > P = 8; T=10; fs= 44100; att = 0.5; % measurement paramters
+% > P = 8; T=10; fs = 44100; N = 3; att = 0.5; % measurement paramters
 % > [h,t,tN] = mataa_measure_IR_harmonics (P,T,fs,N,att); % perform measurement
 % > k = round(length(h)*0.45); t0 = mataa_guess_IR_start(h(k:end),t(k:end)); t = t-t0; % set linear response to t = 0
 % > figure(1);semilogy (t,abs(h)); grid on; % plot the IR data
