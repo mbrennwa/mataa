@@ -1,15 +1,14 @@
-function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, attenuation, latency, cal)
+function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, att, latency, cal)
 
-% function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, attenuation, latency, cal)
+% function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, att, latency, cal)
 %
 % DESCRIPTION:
-% Generates an exponential sine sweep containing an integer number of octaves down from the Nyquist frequency and lasting approximately T seconds, then measures the response signal and applies the inverse filter to it, thus obtaining the impulse response h.
-% All impulse responses of a non-linear system are phase-synchronized, and the magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero.
-% A Hanning fade-in is applied for the first octave, so the flat spectrum is (P - 1) octaves long. Similarly, a Hanning fade-out is applied to the last 1/24 octave to reduce the ripple even more.
-% The REF input is not used.
+% Measures the impulse response and the harmonic distortion products using the "Farina" method. This uses an exponential sine sweep as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. All impulse responses of a the harmonic distortion products are phase-synchronized. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied for the first octave, so the flat spectrum is (P - 1) octaves long. Similarly, a Hanning fade-out is applied to the last 1/24 octave to reduce the ripple even more.
+% The REF input channel is not used.
+%
 % REFERENCES:
-% A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093.
-% 
+% A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093. 
+% Ian H. Chan: "Swept Sine Chirps for Measuring Impulse Response", Technical Note, Stanford Research Systems, Inc, 2010. Available at http://www.thinksrs.com/downloads/PDFs/ApplicationNotes/SR1_SweptSine.pdf
 % K. Vetter, S. di Rosario: "ExpoChirpToolbox: a Pure Data implementation of ESS impulse response measurement", Rotterdam/London, July 2011. Available at http://www.uni-weimar.de/medien/wiki/PDCON:Conference/Pure_Data_implementation_of_an_ESS-based_impulse_response_acoustic_measurement_tool. ExpoChirpToolbox page: http://www.katjaas.nl/expochirp/expochirp.html.
 %
 % NOTE:
@@ -20,7 +19,7 @@ function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, attenuation
 % T: desired sweep duration
 % fs: sampling frequency
 % N: see tN (OUTPUT) below
-% attenuation: attenuation factor (0...1) for output signal, such that max(abs(signal)) = attenuation. (optional, default: attenuation = 1);
+% att (optional): attenuation factor (0...1) for output signal, such that max(abs(signal)) = att. (default: att = 1);
 % latency (optional): see mataa_measure_signal_response
 % cal (optional): see mataa_measure_signal_response
 % 
@@ -31,7 +30,7 @@ function [h, t, tN, unit] = mataa_measure_IR_harmonics (P, T, fs, N, attenuation
 % unit: unit of data in h
 %
 % EXAMPLE:
-% > P = 8; T=10; fs = 44100; N = 3; att = 0.5; % measurement paramters
+% > P = 8; T=10; fs = 44100; N = 3; att = 0.5; % measurement parameters
 % > [h,t,tN] = mataa_measure_IR_harmonics (P,T,fs,N,att); % perform measurement
 % > k = round(length(h)*0.45); t0 = mataa_guess_IR_start(h(k:end),t(k:end)); t = t-t0; % set linear response to t = 0
 % > figure(1);semilogy (t,abs(h)); grid on; % plot the IR data
@@ -69,18 +68,17 @@ warning ('mataa_measure_IR_harmonics: this function is under development and nee
 if (P - fix(P)) ~= 0
   error('mataa_measure_IR_harmonics: P must be an integer');
 end
-if P <= 0
-  error('mataa_measure_IR_harmonics: P must be larger than 0');
+if P <= 1
+  error('mataa_measure_IR_harmonics: P must be greater than 1 (first octave is used for fade in of test signal)');
 end
 
-
-if ~exist('attenuation','var')
-	attenuation = 1; % use default value (no attenuation)
+if ~exist('att','var')
+	att = 1; % use default value (no att)
 end
-if attenuation > 1
-	warning('mataa_measure_IR_harmonics: attenuation factor cannot be larger than 1. Adjusted attenuation to 1.')
-elseif attenuation < 0
-	warning('mataa_measure_IR_harmonics: attenuation factor cannot be less than 0. Adjusted attenuation to 0 (silence).')
+if att > 1
+	warning('mataa_measure_IR_harmonics: att factor cannot be larger than 1. Adjusted att to 1.')
+elseif att < 0
+	warning('mataa_measure_IR_harmonics: att factor cannot be less than 0. Adjusted att to 0 (silence).')
 end
 
 
@@ -98,41 +96,59 @@ if N > 1
 	end
 end
 
-% ESS generation
+% sweep generation:
 x = sin(2 .* pi .* M .* exp(n .* log(2 ^ P) ./ Ns));
+
 % 1 octave fade-in
 fadeinlen = floor(Ns / P);
+warning ('REPLACE THE HANN CALL TO MATAA-HANN WINDOW')
 window = hanning(2 * fadeinlen);
 window = window(1:fadeinlen);
 window = postpad(window, length(x), 1);
 x = x .* window;
+
 % 1/24 octave fade-out
 fadeoutlen = floor(Ns / (24 * P));
+warning ('REPLACE THE HANN CALL TO MATAA-HANN WINDOW')
 window = hanning(2 * fadeoutlen);
 window = window((fadeoutlen + 1):end);
 window = prepad(window, length(x), 1);
 x = x .* window;
+
 % Inverse filter
 invfilter = flipud(x) .* ((2 ^ (P / Ns)) .^ (-n)) .* (P * log(2)) ./ (1 - (2 ^ (-P)));
 
-if attenuation < 1
-	x = x * attenuation;
+if att < 1
+	x = x * att;
 end
 
-% Impulse response
+% Measure sweep response:
 if ~exist ('latency','var')
   latency = [];
 end
 if ~exist ('cal','var')
   cal = [];
 end
-[responseSignal, inputSignal, t, unit] = mataa_measure_signal_response(x,...
-      fs, latency, 1, mataa_settings ('channel_DUT'), cal);
-h = fftconv(responseSignal, invfilter);
-h = (2 / length(responseSignal)) .* h;
-h = shift(h, -floor(length(responseSignal) / 2) + 1);
-h = resize(h, length(responseSignal), 1);
+[responseSignal, inputSignal, t, unit] = mataa_measure_signal_response(x, fs, latency, 1, mataa_settings('channel_DUT'), cal);
 
+% Convolve the response with the inverse filter to get the IR and the harmonics:
+resplen = length(responseSignal);
+filtlen = length(invfilter);
+convlen = resplen + filtlen - 1;
+responseSignalext = [responseSignal; zeros(convlen - resplen, 1)]; % extend with zeros to the length of the convolution
+invfilterext = [invfilter; zeros(convlen - filtlen, 1)]; % extend with zeros to the length of the convolution
+h = ifft(fft(responseSignalext) .* fft(invfilterext)); % convolve using the FFT
+h = real(h); % discard imaginary part
+h = (2 / resplen) * h; % scale the amplitude
+t = [0:(convlen - 1)]' ./ fs;
+
+% warning ('REPLACE THE FFTCONV CALL TO MATAA-CONV)
+% h = fftconv(responseSignal, invfilter);
+% h = (2 / length(responseSignal)) * h;
+% h = shift(h, -floor(length(responseSignal) / 2) + 1);
+% h = resize(h, length(responseSignal), 1);
+
+% Time shifts of harmonics:
 tN = 0;
 if N > 1
 	tN = [ tN , round(fs * T) .* log([2:N]) ./ (fs * log(2 ^ P)) ];
