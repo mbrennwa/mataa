@@ -1,6 +1,6 @@
-function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
+function [responseSignal,inputSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
 
-% function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
+% function [responseSignal,inputSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
@@ -20,12 +20,10 @@ function [responseSignal,inputSignal,t,unit] = mataa_measure_signal_response (in
 % 
 % OUTPUT:
 % inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.
-%
 % responseSignal: matrix containing the signal(s) from the audio input device. This will contain the data from all channels used for signal recording, where each matrix colum corresponds to one channel.
-%
 % t is vector containing the times corresponding the samples in responseSignal and inputSignal (in seconds)
-%
 % unit: unit of data in responseSignal. If the signal has more than one channel, signal_unit is a cell string with each cell reflecting the units of each signal channel.
+% dut_input_amplitude,dut_input_unit: amplitude and unit of signal at DAC-output / DUT-input (see also mataa_signal_calibrate)
 %
 % FURTHER INFORMATION:
 % The signal samples range from -1.0 to +1.0).
@@ -106,11 +104,20 @@ end
 
 numOutputChannels = audioInfo.output.channels;
 
+
+
 if ~ischar (input_signal)
     input_channels = size (input_signal,2);
     if numOutputChannels < input_channels
 	error(sprintf('mataa_measure_signal_response: input data has more channels (%i) than supported by the audio output device (%i).',input_channels,numOutputChannels));
     end
+end
+
+% test signal amplitude (for later calibration):
+if ~ischar (input_signal)
+	X0 = max(abs(input_signal));
+else
+	X0 = NA;
 end
 
 if ~any(fs == audioInfo.input.sampleRates)
@@ -284,19 +291,24 @@ if verbose
 end
 
 % DAC, ADC and SENSOR calibration:
-unit = "UNKNOWN"; % may be changed to something better if calibration data is available, see below
-if numChan > 1
-	unit = cellstr (repmat(unit,numChan,1));
-end
+% unit = "UNKNOWN"; % may be changed to something better if calibration data is available, see below
+% if numChan > 1
+%	unit = cellstr (repmat(unit,numChan,1));
+% end
 
 % calibrate data
 if ~exist ('cal','var')
 	disp ('No calibration data available. Returning raw, uncalibrated data!')
+	dut_input_amplitude = NA;
+	unit = dut_input_unit = '???';
 else
-	[responseSignal,t,unit] = mataa_signal_calibrate (responseSignal,t,cal);
+	if isna(X0)
+		warning ('mataa_measure_signal_response: amplitude of test signal in ASCII file is unknown. Cannot determine amplitude of DUT input signal!')
+	end
+	[responseSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_signal_calibrate (responseSignal,t,cal,X0); 
 end
 
-if length(unit) == 1 % replace cell string by non-cell string
+if iscellstr(unit) % replace cell string by non-cell string
 	unit = char(unit{1});
 end
 

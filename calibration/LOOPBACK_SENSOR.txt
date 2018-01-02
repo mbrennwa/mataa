@@ -1,1 +1,1 @@
-% "Sensor" configuration for a loopback connection (DAC-output directly connected to ADC-input)% General information:name = LOOPBACK CABLEtype = SENSORsensitivity = 1 V/V 	% one-to-one transfer from DAC-output to ADC-input
+% "Sensor" configuration for a loopback connection (DAC-output directly connected to ADC-input)% General information:name = DIRECT WIREtype = SENSORsensitivity = 1 V/V 	% one-to-one transfer from DUT (or DAC-output) to ADC-input: 1 V at input gives 1 V at output

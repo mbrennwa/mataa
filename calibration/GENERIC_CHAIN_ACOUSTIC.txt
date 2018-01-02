@@ -1,0 +1,1 @@
+% Generic example for calibration data file (complete chain of DAC, SENSOR/MICROPHONE, ADC)type = chain % complete chain of DAC, SENSOR, and ADCFILE = GENERIC_DAC.txt				% DAC calibration dataFILE = BEHRINGER_ECM8000_D1303397118_MICROPHONE.txt	% MICROPHONE/SENSOR calibration dataFILE = GENERIC_ADC.txt				% ADC calibration data

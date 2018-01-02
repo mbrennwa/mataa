@@ -1,0 +1,1 @@
+% Generic calibration data for direct electronic connection of DUT ot ADC input% (this is also useful for REF channel with loopback cable from DAC-output to ADC-input)type = chainFILE = GENERIC_DAC.txt			% DAC calibration dataFILE = LOOPBACK_SENSOR.txt		% 'SENSOR' calibration dataFILE = GENERIC_ADC.txt			% ADC calibration data
