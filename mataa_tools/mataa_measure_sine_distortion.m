@@ -130,6 +130,9 @@ end
 % discard phase information
 L = abs (L);
 
+% normalize L to length of spectrum:
+L = L / length(L)*2;
+
 % find signal level of fundamental(s)
 L0 = interp1 (f,L,fi,'nearest');
 L0 = mean (L0);
