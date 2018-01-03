@@ -23,7 +23,7 @@ function [h_cal,t,h_unit,DUT_in,DUT_in_unit] = mataa_signal_calibrate (h,t,cal,o
 % h: signal samples (unit: dimensionless data as obtained by ADC / soundcard)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in samples per second)
 % cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration). For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.
-% out_amplitude: amplitude of test signal sent to DUT (value ranging from 0...1, where 1 corresponds to max. amplitude of DAC output signal). This is converted to the DUT input signal amplitude using the DAC(+buffer) sensitivity / calibration data.
+% out_amplitude: amplitude of test signal sent to DUT (value ranging from 0...1, where 1 corresponds to max. amplitude of DAC output signal). This is converted to the DUT input signal amplitude using the DAC(+buffer) sensitivity / calibration data. If h has more than one channel, out_amplitude is a vector containing the amplitudes for each channel.
 % 
 % OUTPUT:
 % h_cal: calibrated signal
@@ -227,8 +227,8 @@ if ischar(cal) % name of calibration file instead of cal struct
 end
 
 if size(h,2) > 1 % h has more than one data channel
-	h_cal,DUT_in = [];
-	h_unit = DUT_in_unit{};
+	h_cal = DUT_in = [];
+	h_unit = DUT_in_unit = {};
 	if ~iscell(cal) % convert to cell array for the loop below
 		u{1} = cal;
 		cal = u;
@@ -245,7 +245,7 @@ if size(h,2) > 1 % h has more than one data channel
 		else
 			kk = k;
 		end
-		[x,t,u,d_in,d_in_unit] = mataa_signal_calibrate (h(:,k),t,cal{kk});
+		[x,t,u,d_in,d_in_unit] = mataa_signal_calibrate (h(:,k),t,cal{kk},out_amplitude(k));
 		h_cal = [ h_cal x ];
 		h_unit{k} = u;
 		d_in = [ DUT_in d_in ];

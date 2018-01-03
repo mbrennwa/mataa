@@ -119,6 +119,7 @@ if ~ischar (input_signal)
 else
 	X0 = NA;
 end
+X0 = repmat (X0,1,length(channels));
 
 if ~any(fs == audioInfo.input.sampleRates)
 	warning(sprintf('The requested sample rate (%d Hz) is not listed for your audio input device. This is not always a problem, e.g. if the requested rate is available from sample-rate conversion by the operating system of if it is a non-standard rate that is not checked for by TestDevices but is supported by the audio hardware.',fs));
@@ -302,7 +303,7 @@ if ~exist ('cal','var')
 	dut_input_amplitude = NA;
 	unit = dut_input_unit = '???';
 else
-	if isna(X0)
+	if any(isna(X0))
 		warning ('mataa_measure_signal_response: amplitude of test signal in ASCII file is unknown. Cannot determine amplitude of DUT input signal!')
 	end
 	[responseSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_signal_calibrate (responseSignal,t,cal,X0); 
