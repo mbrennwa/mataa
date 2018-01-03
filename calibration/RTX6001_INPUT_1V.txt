@@ -4,6 +4,6 @@
 % General information:
 name = RTX6001 1-V INPUT
 type = ADC
-sensitivity = 0.5 1/V % 2.0 Volt at input corresponds to 100% full scale at ADC output (voltage measured between POS and NEG pins). NOTE: clipping may occur before reaching 100% ADC output depending on signal symmetry between POS and NEG pins.
+sensitivity = 0.70711 1/V % 70.711%-FS digital output corresponds to 1 Volt at ADC input (voltage measured between POS and NEG pins). NOTE: clipping may occur before reaching 100% ADC output depending on signal symmetry between POS and NEG pins.
 
 % Frequency response is very flat, so no transfer function data is included here.
