@@ -4,6 +4,7 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 %
 % DESCRIPTION:
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal (if no loopback is used) or the REF channel (with loopback). The allocation of the DUT (and REF) channel is determined using mataa_settings ('channel_DUT') (and mataa_settings ('channel_REF')).
+% Note that the deconvolution result is normalised to the level of signal at the DUT input / DAC(+BUFFER) output. In order to remove this normalisation of the impulse response (h), the function multiplies the deconvolution result by the RMS signal level of the signal at the DUT input (if the DUT input signal level is available from the calibraton process).
 %
 % INPUT:
 % input_signal: input signal, vector of signal samples or name to file with sample data. Files must be in ASCII format and contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).
@@ -17,17 +18,13 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 % t: time
 % unit: unit of data in h
 %
-% EXAMPLES:
+% EXAMPLE:
 %
-% A. Measure impulse response using a sweep test signal (without any data calibration):
-% > s = mataa_signal_generator ('sweep',44100,1,[50 20000]);	% create test signal (sine sweep from 50 to 20000 Hz, 1 s long, with 44.1 kHz sampling frequency
-% > [h,t] = mataa_measure_IR (s,44100,1,0.1);					% measure impulse response using test signal s, allowing for 0.1 s latency of sound in/out
-% > plot (t,h)													% plot result
-%
-% B. same, with calibration using a looback connection on second channel:
-% > s = mataa_signal_generator ('sweep',44100,1,[50 20000]);
-% > [h,t] = mataa_measure_IR (s,44100,1,0.1,1);					% with loopback deconvolution
-% > plot (t,h)
+% Measure impulse response of a loudspeaker using a sweep test signal (without any data calibration):
+% > % measure impulse response using chirp test signal, allowing for 0.1 s latency of sound in/out
+% > fs = 44100; s = mataa_signal_generator ('sweep',fs,1,[50 20000]); % test signal
+% > [h,t,unit] = mataa_measure_IR (s,fs,1,0.1,0,'GENERIC_CHAIN_ACOUSTIC.txt');
+% > plot (t,h); xlabel ('Time (s)'); ylabel (sprintf('Amplitude (%s)',unit)); % plot result
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -68,9 +65,9 @@ for i = 1:N
 
 	% do the sound I/O	
 	if exist ('cal','var')
-		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
+		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
 	else
-		[out,in,t,unit] = mataa_measure_signal_response (input_signal,fs,latency,1,channels);
+		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels);
 	end
 	
 	% deconvolve in and out signals to yield h:
@@ -83,17 +80,17 @@ for i = 1:N
 	
 	if ~loopback % no loopback calibration
 		disp ('Deconvolving data using raw test signal as reference (no loopback data available)...')
-		dut = out(:,1);
-		ref = in;
+		dut = out(:,1); dut_unit = out_unit;
+		ref = in; 	ref_unit = in_unit;
 		
 	else % use loopback / REF data
 		disp ('Deconvolving data using loopback signal as reference...')
-		dut = out(:,1);
-		ref = out(:,2);		
+		dut = out(:,1); dut_unit = out_unit{1};
+		ref = out(:,2);	ref_unit = out_unit{2};
 		warning ("mataa_measure_IR: DUT/REF deconvolution needs proper testing! Be careful with results...")
 		
 	end
-	
+
 	dut = [ dut ; uu*dut(end) ];	
 	ref = [ ref ; uu*ref(end) ];		
 	H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
@@ -104,13 +101,26 @@ for i = 1:N
 	
 	disp ('...deconvolution done.');
 	
-	if iscell(unit)
-		unit = char(unit{1});
-	end
-		
 	if i == 1
 		h = dummy / N;
 	else
 		h = h + dummy / N;
+	end
+end
+
+if isna(X0_RMS)
+	warning ('mataa_measure_IR: DUT input voltage level is unknown, IR result is relative to DUT input signal level!')
+	if exist ('cal','var')
+		unit = sprintf ('%s/%s',dut_unit,ref_unit);
+	else
+		unit = '???';
+	end
+else
+	% remove normalisation to amplitude of DUT input signal due to deconvolution:
+	h = h * X0_RMS;
+	if exist ('cal','var')
+		unit = sprintf ('%s',dut_unit);
+	else
+		unit = '???';
 	end
 end

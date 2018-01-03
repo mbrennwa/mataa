@@ -1,38 +1,45 @@
-function [responseSignal,inputSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
+function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_signal_response (X0,fs,latency,verbose,channels,cal);
 
-% function [responseSignal,inputSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_measure_signal_response (input_signal,fs,latency,verbose,channels,cal);
+% function [dut_out,dut_in,t,dut_out_unit,dut_in_unit] = mataa_measure_signal_response (X0,fs,latency,verbose,channels,cal);
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
 % 
 % INPUT:
-% input_signal: this is either a matrix containing the samples of the test signal, or a string containing the name of a TestTone file containing the test signal. See mataa_signal_to_TestToneFile for the format of the matrix containing the test signal samples. If a data file is given as the input, and if the file name is given without the full path of the file, the file is assumed to reside in the MATAA signals-path (you can retrieve the signals path with the command mataa_path('signals') ).
-% 
+% X0: test signal with values ranging from -1...+1. For a single signal (same signal for all DAC output channels), X0 is a vector. For different signals, X0 is a matrix, with each column corresponding to one channel
 % fs: the sampling rate to be used for the audio input / output (in Hz). Only sample rates supported by the hardware (or its driver software) are supported.
-%
 % latency: if the signal samples were specified rather than a file name/path, the signal is padded with zeros at its beginning and end to avoid cutting off the test signals early due to the latency of the sound input/output device(s). 'latency' is the length of the zero signals padded to the beginning and the end of the test signal (in seconds). If a file name is specified instead of the signal samples, the value of 'latency' is ignored.
-% 
 % verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.
-%
 % channels (optional): index to data channels obtained from the ADC that should be processed and returned. If not specified, all data channels are returned.
-%
-% cal (optional): calibration data for use with mataa_signal_calibrate (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
+% cal (optional): calibration data for the full analysis chain DAC / SENSOR / ADC (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
 % 
 % OUTPUT:
-% inputSignal: matrix containing the input signal(s). This may be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.
-% responseSignal: matrix containing the signal(s) from the audio input device. This will contain the data from all channels used for signal recording, where each matrix colum corresponds to one channel.
-% t is vector containing the times corresponding the samples in responseSignal and inputSignal (in seconds)
-% unit: unit of data in responseSignal. If the signal has more than one channel, signal_unit is a cell string with each cell reflecting the units of each signal channel.
-% dut_input_amplitude,dut_input_unit: amplitude and unit of signal at DAC-output / DUT-input (see also mataa_signal_calibrate)
+% dut_out: matrix containing the signal(s) at the DUT output(s) / SENSOR input(s) (all channels used for signal recording, each colum corresponds to one channel). If SENSOR and ADC cal data are available, these data are calibrated for the input sensitivity of the SENSOR and ADC.
+% dut_in: matrix containing the signal(s) at the DAC(+BUFFER) output(s) / DUT input. If DAC cal data are available, these data are calibrated for the output sensitivity of the DAC(+BUFFER). This may also be handy if the original test-signal data are stored in a file, which would otherwise have to be loaded into into workspace to be used.
+% t: vector containing the times corresponding the samples in dut_out and dut_in (in seconds)
+% dut_out_unit: unit of data in dut_out. If the signal has more than one channel, signal_unit is a cell string with each cell reflecting the units of each signal channel.
+% dut_in_unit: unit of data in dut_in (analogous to dut_out_unit)
+% X0_RMS: RMS amplitude of signal at DUT input / DAC(+BUFFER) output (same unit as dut_in data). This may be different from the RMS amplitude of dut_in due to the zero-padding of dut_in in order to accomodate for the latency of the analysis system; the X0_RMS value is determined from the test signal before zero padding.
 %
 % FURTHER INFORMATION:
 % The signal samples range from -1.0 to +1.0).
-% The TestTone program feeds the input_signal to both stereo channels of the output device, and records from both stereo channels of the input device (assuming we have a stereo device). Therefore, the response signal has two channels. As an example, channel 1 is used for for the DUT's response signal and channel 2 can be used to automatically calibrate for the frequency response / impulse response of the audio hardware (by directly connecting the audio output to the audio input). Channel allocation can be set using mataa_settings.
+% The TestTone program feeds the X0 to both stereo channels of the output device, and records from both stereo channels of the input device (assuming we have a stereo device). Therefore, the response signal has two channels. As an example, channel 1 is used for for the DUT's response signal and channel 2 can be used to automatically calibrate for the frequency response / impulse response of the audio hardware (by directly connecting the audio output to the audio input). Channel allocation can be set using mataa_settings.
 %
 % EXAMPLE:
-% Feed a 20Hz square-wave signal to the DUT and compare the input and response signals:
-% > [out,in,t] = mataa_measure_signal_response('squareburst_96k_1s_20Hz.in',96000);
-% > plot(t,in,t,out)
+% (1) Feed a 1 kHz sine-wave signal to the DUT and plot the DUT output (no data calibration):
+% > fs = 44100;
+% > [s,t] = mataa_signal_generator ('sine',fs,0.2,1000);
+% > [out,in,t,out_unit,in_unit] = mataa_measure_signal_response(s,fs,0.1,1,1);
+% > plot (t,out);
+% > xlabel ('Time (s)')
+%
+% (2) Feed a 1 kHz sine-wave signal to the DUT, use calibration as in GENERIC_CHAIN_DIRECT.txt file, and compare the input and response signals:
+% > fs = 44100;
+% > [s,t] = mataa_signal_generator ('sine',fs,0.2,1000);
+% > [out,in,t,out_unit,in_unit] = mataa_measure_signal_response(s,fs,0.1,1,1,'GENERIC_CHAIN_DIRECT.txt');
+% > subplot (2,1,1); plot (t,in); ylabel (sprintf('Signal at DUT input (%s)',in_unit));
+% > subplot (2,1,2); plot (t,in); ylabel (sprintf('Signal at DUT output (%s)',out_unit));
+% > xlabel ('Time (s)')
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -104,22 +111,14 @@ end
 
 numOutputChannels = audioInfo.output.channels;
 
+if ischar (X0)
+	error ('mataa_measure_signal_response: use of this function with loading test signals from data files is not supported anymore. Pleas load the data first, then use this function with a vecor or matrix containing the test signal data.')
+end
 
-
-if ~ischar (input_signal)
-    input_channels = size (input_signal,2);
-    if numOutputChannels < input_channels
+input_channels = size (X0,2);
+if numOutputChannels < input_channels
 	error(sprintf('mataa_measure_signal_response: input data has more channels (%i) than supported by the audio output device (%i).',input_channels,numOutputChannels));
-    end
 end
-
-% test signal amplitude (for later calibration):
-if ~ischar (input_signal)
-	X0 = max(abs(input_signal));
-else
-	X0 = NA;
-end
-X0 = repmat (X0,1,length(channels));
 
 if ~any(fs == audioInfo.input.sampleRates)
 	warning(sprintf('The requested sample rate (%d Hz) is not listed for your audio input device. This is not always a problem, e.g. if the requested rate is available from sample-rate conversion by the operating system of if it is a non-standard rate that is not checked for by TestDevices but is supported by the audio hardware.',fs));
@@ -132,45 +131,27 @@ end
 % do the sound I/O:
 deleteInputFileAfterIO = 0;
 
-if ~ischar(input_signal)
-% signal samples have been specified instead of file name:
-	default_latency = 0.1 * max([1 fs/44100]); % just from experience with Behringer UMC202HD and M-AUDIO FW-410
-    if ~exist('latency','var')
-		latency = [];
-	end
-	if isempty (latency)
-    	latency = default_latency;
-		warning(sprintf('mataa_measure_signal_response: latency not specified. Assuming latency = %g seconds. Check for truncated data!',latency));
-    elseif latency < default_latency
-    	warning(sprintf('mataa_measure_signal_response: latency (%gs) is less than generic default (%gs). Make sure this is really what you want and check for truncated data!',latency,default_latency));
-    end
-	if verbose
-		disp('Writing sound data to disk...');
-    	end
-    input_signal = mataa_signal_to_TestToneFile(input_signal,'',latency,fs);
-    if verbose
+default_latency = 0.1 * max([1 fs/44100]); % just from experience with Behringer UMC202HD and M-AUDIO FW-410
+if ~exist('latency','var')
+	latency = [];
+end
+if isempty (latency)
+	latency = default_latency;
+	warning(sprintf('mataa_measure_signal_response: latency not specified. Assuming latency = %g seconds. Check for truncated data!',latency));
+elseif latency < default_latency
+	warning(sprintf('mataa_measure_signal_response: latency (%gs) is less than generic default (%gs). Make sure this is really what you want and check for truncated data!',latency,default_latency));
+end
+if verbose
+	disp('Writing sound data to disk...');
+end
+in_path = mataa_signal_to_TestToneFile(X0,'',latency,fs);
+if verbose
 	disp('...done');
-    end
-    deleteInputFileAfterIO = 1;
 end
-
-if length(input_signal)==0
-    error('mataa_measure_signal_response: no input file specified.')
-end
-
-if ~any(findstr(input_signal,filesep))
-    % only the file name without the path was specified
-    % the file should therefore reside in the MATAA signals path
-    in_path = [mataa_path('signals') input_signal];
-else
-    % the full path to the file was given
-    in_path = input_signal;
-end
-
 if ~exist(in_path,'file')
     error(sprintf('mataa_measure_signal_response: could not find input file (''%s'').',in_path));
 end
-
+deleteInputFileAfterIO = 1;
 out_path = mataa_tempfile;
 
 if exist('OCTAVE_VERSION','builtin')
@@ -180,9 +161,8 @@ if verbose
     disp('Sound input / output started...');
     disp(sprintf('Sound output device: %s',audioInfo.output.name));
     disp(sprintf('Sound input device: %s',audioInfo.input.name));
-    disp(sprintf('Sampling rate: %.3f kHz',fs/1000));
+    disp(sprintf('Sampling rate: %.3f samples per second',fs/1000));
 end
-
 
 R = num2str(fs);
 
@@ -251,9 +231,9 @@ if verbose
     disp('...data reading done.');
 end
 
-t=out(:,1);responseSignal=out(:,2:end);
+t=out(:,1);dut_out=out(:,2:end);
 
-inputSignal=load(in_path); % octave can easily read 1-row ASCII files
+dut_in=load(in_path); % octave can easily read 1-row ASCII files
 
 % clean up:
 delete(out_path);
@@ -267,17 +247,18 @@ if ~exist ('channels','var')
 end
 
 % keep only ADC channels as given in channels, discard the rest:
-responseSignal = responseSignal(:,channels);
+dut_out = dut_out(:,channels);
 numChan = length (channels);
 
 if verbose
 % check for clipping:
     for chan=1:numChan
-    	m = max(abs(responseSignal(:,chan)));
-    	if m >= 1
-    		k = find(abs(responseSignal(:,chan)) == m);
+    	m = max(abs(dut_out(:,chan)));
+	m0 = 0.95;
+    	if m >= m0
+    		k = find(abs(dut_out(:,chan)) >= m0);
     		beep
-    		disp(sprintf('Signal in channel %i may be clipped (%0.3g%% of all samples)!',channels(chan),length(k)/length(responseSignal(:,1))*100));		
+    		disp(sprintf('Signal in channel %i may be clipped (%0.3g%% of all samples)!',channels(chan),length(k)/length(dut_out(:,1))*100));		
     		input('If you want to continue, press ENTER. To abort, press CTRL-C.');
     	else
     		u = '';
@@ -291,26 +272,40 @@ if verbose
     end
 end
 
-% DAC, ADC and SENSOR calibration:
-% unit = "UNKNOWN"; % may be changed to something better if calibration data is available, see below
-% if numChan > 1
-%	unit = cellstr (repmat(unit,numChan,1));
-% end
-
 % calibrate data
+X0_RMS = NA;
 if ~exist ('cal','var')
 	disp ('No calibration data available. Returning raw, uncalibrated data!')
-	dut_input_amplitude = NA;
-	unit = dut_input_unit = '???';
+	dut_out_unit = dut_in_unit = '???';
 else
-	if any(isna(X0))
-		warning ('mataa_measure_signal_response: amplitude of test signal in ASCII file is unknown. Cannot determine amplitude of DUT input signal!')
+	if ischar(cal) % name of calibration file instead of cal struct
+		cal = mataa_load_calibration (cal);
 	end
-	[responseSignal,t,unit,dut_input_amplitude,dut_input_unit] = mataa_signal_calibrate (responseSignal,t,cal,X0); 
-end
 
-if iscellstr(unit) % replace cell string by non-cell string
-	unit = char(unit{1});
+	if isfield(cal,'DAC')
+		% calibrate signal at DUT input for DAC(+BUFFER):
+		RMS_raw = sqrt (sum(dut_in.^2 / length(dut_in)));
+		[dut_in,t_in,dut_in_unit] = mataa_signal_calibrate_DUTin (dut_in,t,cal);
+		RMS_cal = sqrt (sum(dut_in.^2 / length(dut_in)));
+
+		% determine RMS amplitude of signal at DUT input (without zero padding):
+		X0_RMS = RMS_cal/RMS_raw * sqrt (sum(X0.^2 / length(X0)));
+
+	else
+		warning ('mataa_measure_signal_response: cal data has no ADC data! Skipping calibration of signal at DUT input!')
+	end
+
+
+	if isfield(cal,'ADC')
+		if isfield(cal,'SENSOR')
+			[dut_out,t_out,dut_out_unit] = mataa_signal_calibrate_DUTout (dut_out,t,cal); % calibrate signal at DUT output for SENSOR and ADC
+		else
+			warning ('mataa_measure_signal_response: cal data has no SENSOR data! Skipping calibration of signal at DUT output!')
+		end
+	else
+		warning ('mataa_measure_signal_response: cal data has no ADC data! Skipping calibration of signal at DUT input!')
+	end
+
 end
 
 fflush (stdout);

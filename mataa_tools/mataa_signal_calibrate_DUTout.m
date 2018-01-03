@@ -1,17 +1,15 @@
-function [h_cal,t,h_unit,DUT_in,DUT_in_unit] = mataa_signal_calibrate (h,t,cal,out_amplitude)
+function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
 
-% function [h_cal,t,h_unit,DUT_in,DUT_in_unit] = mataa_signal_calibrate (h,t,cal,out_amplitude)
-%
-% THIS FUNCTION IS BEING DEPRECATED!!! AVOID USING IT!!! TAKE A LOOK AT mataa_signal_calibrate_DUTout and mataa_signal_calibrate_DUTin.
+% function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
 %
 % DESCRIPTION:
-% This function calibrates a signal h(t) (reflecting a DUT response signal) using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. In other words, this function "converts" the raw data recorded by the sound inteface (ADC) to the physical signal seen by the sensor (e.g., by a measurement microphone). See illustration below.
+% This function calibrates the signal s(t) at the output of a DUT using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. In other words, this function "converts" the raw data recorded by the sound inteface (ADC) to the physical signal seen by the sensor (e.g., by a measurement microphone). See illustration below.
 %
 % If the transfer function of the analytical chain (sensor, microphone, etc.) given in the cal data is specified using magnitude only (i.e, without phase information), the phase of the transfer function is calculated by assuming a minimum phase system (for example, if the transfer function of a measurement microphone is given by magnitude, it's phase is determined by assuming minimum phase). The DUT response signal is then compensated for the full transfer function taking into account both magnitude and phase.
 %
-% If h has more than one channel, different calibration information can be specified for the different channels.
+% If s has more than one channel, different calibration information can be specified for the different channels.
 %
-% See also mataa_load_calibration.
+% See also mataa_load_calibration and mataa_signal_calibrate_DUTin.
 %
 %   ILLUSTRATION (example with loudspeaker/DUT tested using a microphone):
 %
@@ -19,30 +17,27 @@ function [h_cal,t,h_unit,DUT_in,DUT_in_unit] = mataa_signal_calibrate (h,t,cal,o
 %    (dimensionless)      (dim.less -> V)      (V -> Pa)         (Pa -> V)      (V -> dim.less)      (dimensionless)
 %
 %       ===> unit of DUT output / sensor input signal (h_cal) is Pa
-%       ===> unit of DUT input / DAC(+BUFFER) output signal (DUT_in) is V
 % 
 % INPUT:
-% h: signal samples (unit: dimensionless data as obtained by ADC / soundcard)
+% s: signal samples (unit: dimensionless data as obtained by ADC / soundcard)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in samples per second)
-% cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration). For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.
-% out_amplitude: amplitude of test signal sent to DUT (value ranging from 0...1, where 1 corresponds to max. amplitude of DAC output signal). This is converted to the DUT input signal amplitude using the DAC(+buffer) sensitivity / calibration data. If h has more than one channel, out_amplitude is a vector containing the amplitudes for each channel.
+% cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration). cal data must contain ADC and SENSOR fields. For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.
+% NOTE: for use with multiple calibration channels, the size of the cell arrays SENSOR_cal and ADC_cal must be the same
 % 
 % OUTPUT:
-% h_cal: calibrated signal
+% s_cal: calibrated signal
 % t: time coordinates of samples in h
-% h_unit: unit of h_cal (string), i.e. the unit of the calibrated DUT signal
-% DUT_in: amplitude of signal at DUT input
-% DUT_in_unit: unit of DUT_in
+% s_cal_unit: unit of h_cal (string), i.e. the unit of the calibrated DUT signal
 % 
-% EXAMPLE (% Testing a DUT with the DUT-input directly connected to the DAC output and the DUT-output directly to the ADC input, such as an amplifier working into a test load):
-% > fs =44100;
-% > x = mataa_signal_generator ('sine',fs,1.0,1000); % test signal (values ranging from 1...-1)
-% > [y,x] = mataa_measure_signal_response (x,fs,0.1,0,1); % send x to DUT and record raw DUT response signal in y (use only first channel)
-% > [y_cal,t,unit,x0,x0_unit] = mataa_signal_calibrate (y,fs,'GENERIC_CHAIN_DIRECT.txt',max(abs(x))); 
-% > subplot (2,1,1); plot (t,x0*x); ylabel (sprintf('DUT input (%s)',x0_unit)) % plot signal at DUT input / DAC output
-% > subplot (2,1,2); plot (t,y_cal); ylabel (sprintf('DUT output (%s)',unit)) % plot signal at DUT output / SENSOR input
+% Feed a 1 kHz sine-wave signal to the DUT and measure the raw response signal without calibration; then calibrate raw data according to GENERIC_CHAIN_DIRECT.txt cal file:
+% > fs = 44100;
+% > [s,t] = mataa_signal_generator ('sine',fs,0.2,1000);
+% > [out,in,t,out_unit,in_unit] = mataa_measure_signal_response(s,fs,0.1,1,1);
+% > [X,t_X,unit_X] = mataa_signal_calibrate_DUTin (in,t,'GENERIC_CHAIN_DIRECT.txt'); % calibrate signal at DUT input / DAC(+BUFFER) output
+% > [Y,t_Y,unit_Y] = mataa_signal_calibrate_DUTout (out,t,'GENERIC_CHAIN_DIRECT.txt'); % calibrate signal at DUT out / ADC input
+% > subplot (2,1,1); plot (t_X,X); ylabel (sprintf('Signal at DUT input (%s)',unit_X));
+% > subplot (2,1,2); plot (t_Y,Y); ylabel (sprintf('Signal at DUT output (%s)',unit_Y));
 % > xlabel ('Time (s)')
-% NOTE: the call to mataa_measure_signal_response (...) can also take an additional argument with the calibration data, and mataa_measure_signal_response will return the calibrated data
 %
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -65,20 +60,12 @@ function [h_cal,t,h_unit,DUT_in,DUT_in_unit] = mataa_signal_calibrate (h,t,cal,o
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-warning ('mataa_signal_calibrate: THIS FUNCTION IS BEING DEPRECATED! AVOID USING IT!')
-
 % helper function for calibration of various units
 function [h,t] = __calib (h,t,subcal,type)
 h = h(:);	
 disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     if ~isfield (subcal,'sensitivity') % don't know the sensitivity...
     	switch toupper(type) % guess sensitivity value and unit
-%    		case 'DAC' % assume sensitivity = 1 V
-%    			sv = 1;
-%    			su = 'V';
-%    		case {'SENSOR'} % assume microphone with sensitivity = 10 mV/Pa
-%    			sv = 10E-3;
-%    			su = 'V/Pa';
     		case {'SENSOR'} % assume "loopback" / wire with sensitivity = 1 V / V (sensor output is the same as input)
     			sv = 1;
     			su = 'V/V';
@@ -86,7 +73,7 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     			sv = 1;
     			su = '1/V';
     		otherwise
-    			error (sprintf("mataa_signal_calibrate: device type '%s' unknown.",type))
+    			error (sprintf("mataa_signal_calibrate_DUTout: device type '%s' unknown.",type))
     	end
 		disp (sprintf("     sensitivity unknown! Assuming sensitivity = %g %s",sv,su))
     else
@@ -95,29 +82,24 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	disp (sprintf("     sensitivity = %g %s.",sv,su)) 	
     end
     
-	% compensate for sensitivity:
-	h = h / sv;
+    % compensate for sensitivity:
+    h = h / sv;
 
-	% check if units are as expected:	
-	switch toupper(type)
-   		case 'ADC' % ADC sensitivity should be 1/V
-   			if ~strcmp (subcal.sensitivity_unit,'1/V')
-   				error (sprintf("mataa_signal_calibrate: ADC sensitivity must be given in 1/V, not '%s'.",subcal.sensitivity_unit))
-    		end
-
-   		case 'SENSOR' % currently, only V/Pa is supported as unit for SENSOR sensitivity 
-   			if ~any(strcmp (subcal.sensitivity_unit,{'V/Pa' 'V/V'}))
-   				error (sprintf("mataa_signal_calibrate: SENSOR sensitivity must be given in V/Pa or V/V, not '%s'.",subcal.sensitivity_unit))
-    		end
-
-%   		case 'DAC' % DAC sensitivity should be V
-%   			if ~strcmp (subcal.sensitivity_unit,'V')
-%   				error (sprintf("mataa_signal_calibrate: DAC sensitivity must be given in V, not '%s'.",subcal.sensitivity_unit))
-%    		end
-
-    	otherwise
-    		error (sprintf("mataa_signal_calibrate: device type '%s' unknown.",type))
+    % check if units are as expected:	
+    if strcmp(toupper(type),'ADC') % ADC sensitivity should be 1/V
+        if ~strcmp (subcal.sensitivity_unit,'1/V')
+   	    error (sprintf("mataa_signal_calibrate_DUTout: ADC sensitivity must be given in 1/V, not '%s'.",subcal.sensitivity_unit))
+    	end
     end
+
+%   		case 'SENSOR' % currently, only V/Pa and V/V are supported as unit for SENSOR sensitivity 
+%   			if ~any(strcmp (subcal.sensitivity_unit,{'V/Pa' 'V/V'}))
+%   				error (sprintf("mataa_signal_calibrate_DUTout: SENSOR sensitivity must be given in V/Pa or V/V, not '%s'.",subcal.sensitivity_unit))
+%    		end
+%
+%   	otherwise
+%    		error (sprintf("mataa_signal_calibrate_DUTout: device type '%s' unknown.",type))
+%    end
     	
     % compensate for transfer function (frequency response of SENSOR or ADC/aliasing filter):
     if ~isfield (subcal,'transfer')
@@ -230,9 +212,9 @@ if ischar(cal) % name of calibration file instead of cal struct
 	cal = mataa_load_calibration (cal);
 end
 
-if size(h,2) > 1 % h has more than one data channel
-	h_cal = DUT_in = [];
-	h_unit = DUT_in_unit = {};
+if size(s,2) > 1 % s has more than one data channel
+	s_cal = [];
+	s_cal_unit = {};
 	if ~iscell(cal) % convert to cell array for the loop below
 		u{1} = cal;
 		cal = u;
@@ -244,48 +226,23 @@ if size(h,2) > 1 % h has more than one data channel
 				
 		% check if cal data available for k-th channel:
 		if nCal < k
-			warning (sprintf("mataa_calibrate_signal: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,nCal));
+			warning (sprintf("mataa_calibrate_DUTout: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,nCal));
 			kk = nCal;
 		else
 			kk = k;
 		end
-		[x,t,u,d_in,d_in_unit] = mataa_signal_calibrate (h(:,k),t,cal{kk},out_amplitude(k));
-		h_cal = [ h_cal x ];
-		h_unit{k} = u;
-		d_in = [ DUT_in d_in ];
-		d_in_unit = [ DUT_in_unit d_in_unit ];
+		[x,t,u] = mataa_signal_calibrate_DUTout (h(:,k),t,cal{kk},out_amplitude(k));
+		s_cal = [ h_cal x ];
+		s_cal_unit{k} = u;
 	end
 	
 else
 
-	% determine DUT input voltage
-	if ~isfield (cal,'DAC')
-		disp ("No DAC calibation data available! Cannot determine DUT input voltage...")
-		DUT_in = NA;
-		DUT_in_unit = '???';
-	else
-		disp (sprintf("Determining DUT input signal from DAC '%s'...",cal.DAC.name))
-    		disp (sprintf("     sensitivity = %g %s.",cal.DAC.sensitivity,cal.DAC.sensitivity_unit));	
-    		disp (sprintf("     digital amplitude = %g%%.",out_amplitude*100));	
-		DUT_in = cal.DAC.sensitivity * out_amplitude;
-		DUT_in_unit = cal.DAC.sensitivity_unit;
-	end
-
-% DON'T COMPENSATE FOR FOR DAC SENSITIVITY
-%	if ~isfield (cal,'DAC')
-%		disp ("No DAC calibation data available!")
-%		unit_DAC_sensitivity = 'V';
-%		val_DAC_sensitivity = 1;
-%	else
-%		[h,t] = __calib (h,t,cal.DAC,'DAC');
-%		unit_DAC_sensitivity = cal.DAC.sensitivity_unit;
-%	end
-	
 	if ~isfield (cal,'SENSOR')
 		disp ("No SENSOR calibation data available!")
-		unit_SENSOR_sensitivity = '';
+		unit_SENSOR_sensitivity = '???';
 	else
-		[h,t] = __calib (h,t,cal.SENSOR,'SENSOR');
+		[s_cal,t] = __calib (s,t,cal.SENSOR,'SENSOR');
 		unit_SENSOR_sensitivity = cal.SENSOR.sensitivity_unit;
 	end
 	
@@ -293,32 +250,22 @@ else
 		disp ("No ADC calibation data available!")
 		unit_ADC_sensitivity = '1/V';
 	else
-		[h,t] = __calib (h,t,cal.ADC,'ADC');
+		[s_cal,t] = __calib (s,t,cal.ADC,'ADC');
 		unit_ADC_sensitivity = cal.ADC.sensitivity_unit;
 	end
-
-	h_cal = h;
 
 	% determine unit of DUT output signal:
 	% DUT-unit = 1 / SENSOR-unit / ADC-unit
 	u_SENS = strsplit (unit_SENSOR_sensitivity,"/");
 	u_ADC = strsplit (unit_ADC_sensitivity,"/");
 	if ~strcmp(u_SENS{1},u_ADC{2})
-		warning ('mataa_signal_calibrate: units of SENSOR and ADC do not match! Cannot determine unit of DUT output...');
-		h_unit = '???';
+		warning ('mataa_signal_calibrate_DUTout: units of SENSOR and ADC do not match! Cannot determine unit of DUT output...');
+		s_cal_unit = '???';
 	else
-		h_unit = u_SENS{2};
+		s_cal_unit = u_SENS{2};
 	end
-
-%	u = strsplit (unit_SENSOR_sensitivity,"/");
-%	if length(u) == 1
-%		unit = sprintf ("1/%s",unit_SENSOR_sensitivity);
-%	elseif length(u) == 2
-%		unit = sprintf ("%s/%s",u{2},u{1});
-%	else
-%		warning (sprintf("mataa_signal_calibrate: don't know how to invert SENSOR unit '%s'.",unit_SENSOR_sensitivity));
-%		unit = "?";
-%	end
 
 	
 end
+
+end % main function

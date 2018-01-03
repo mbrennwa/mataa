@@ -79,8 +79,8 @@ while (! feof (fid) )
     		
     		switch toupper(key)
     		
-				case "NAME"
-					cal.name = val;
+			case "NAME"
+				cal.name = val;
 
     			case "TYPE"
     				switch toupper(val)
@@ -177,8 +177,8 @@ if isfield (cal,'sensitivity')
 	    		error ("mataa_load_calibraton: ADC sensitivity unit '%s' not supported (unit must ve V).",cal.sensitivity_unit);
 	    	end
 		
-		otherwise
-			warning (sprintf("mataa_load_calibration: unknown device type '%s.'",cal.type))
+	otherwise
+		warning (sprintf("mataa_load_calibration: unknown device type '%s.'",cal.type))
 		
 	end % switch
 end % if isfield (cal,'sensitivity')

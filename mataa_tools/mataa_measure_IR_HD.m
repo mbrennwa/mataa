@@ -32,18 +32,18 @@ function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, att, latency, cal)
 % EXAMPLE:
 % > % Measure DUT response using chirp test signal:
 % > P = 8; T=10; fs = 44100; N = 3; att = 0.5; % measurement parameters
-% > [h,t,tN] = mataa_measure_IR_HD (P,T,fs,N,att); % perform measurement
+% > [h,t,tN,unit] = mataa_measure_IR_HD (P,T,fs,N,att,[],'GENERIC_CHAIN_ACOUSTIC.txt'); % perform measurement
 % > % Determine start of main (fundamental) impulse response and plot the impulse response data:
 % > k = round(length(h)*0.45); t0 = mataa_guess_IR_start(h(k:end),t(k:end)); t = t-t0; % set linear response to t = 0
-% > figure(1);semilogy (t,abs(h)); axis([t(1) t(end) 1E-7 2]); grid on; % plot the IR data
+% > figure(1);semilogy (t,abs(h)); axis([t(1) t(end) 1E-7 2]); grid on; xlabel ('Time (s)'); ylabel (sprintf('abs(Amplitude) (%s)',unit)); % plot the IR data
 % > % separate the fundamental and harmonics, convert to frequency domain, and plot result:
 % > [h1,t1] = mataa_signal_crop(h,t,0,t(end)); % extract the linear response
 % > [h2,t2] = mataa_signal_crop(h,t,-tN(2),-tN(1)-0.2*(tN(2)-tN(1))); % extract the second order response
 % > [h3,t3] = mataa_signal_crop(h,t,-tN(3),-tN(2)-0.2*(tN(3)-tN(2))); % extract the third order response
-% > [m1, p1, f1] = mataa_IR_to_FR (h1, fs, 1/8); % get the linear frequency response
-% > [m2, p2, f2] = mataa_IR_to_FR (h2, fs, 1/8); % get the second order frequency response
-% > [m3, p3, f3] = mataa_IR_to_FR (h3, fs, 1/8); % get the third order frequency response
-% > figure(2); semilogx (f1, m1, ';Fundamental;' , f2, m2, ';2nd harmonic;' , f3, m3, ';3rd harmonic;'); axis([100 fs/2])% plot the linear and second order response
+% > [m1, p1, f1] = mataa_IR_to_FR (h1, fs, 1/8, unit); % get the linear frequency response
+% > [m2, p2, f2] = mataa_IR_to_FR (h2, fs, 1/8, unit); % get the second order frequency response
+% > [m3, p3, f3] = mataa_IR_to_FR (h3, fs, 1/8, unit); % get the third order frequency response
+% > figure(2); semilogx (f1, m1, ';Fundamental;' , f2, m2, ';2nd harmonic;' , f3, m3, ';3rd harmonic;'); axis([100 fs/2]); ylabel ('dB-SPL'); xlabel ('Frequency (Hz)'); % plot the linear and second order response
 % 
 % DISCLAIMER:
 % This file is part of MATAA.

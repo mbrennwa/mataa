@@ -1,6 +1,6 @@
-function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
+function [mag,phase,f,unit] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 
-% function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
+% function [mag,phase,f,unit] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 %
 % DESCRIPTION:
 % Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)
@@ -12,9 +12,12 @@ function [mag,phase,f] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 % unit (optional): unit of h.
 %
 % OUTPUT:
-% mag: magnitude of frequency response (in dB). If unit of h is 'Pa' (Pascal), then mag is referenced to 20 microPa (standard reference sound pressure level).
+% mag: magnitude of frequency response (in dB). Depending on the unit of h, mag is references to different levels:
+%	- Unit of h is 'Pa' (Pascal) --> mag is referenced to 20 microPa (standard RMS reference sound pressure level).
+%	- Unit of h is 'V' (Volt) --> mag is referenced to 1.0 V(RMS).
 % phase: phase of frequency response (in degrees). This is the TOTAL phase including the 'excess phase' due to (possible) time delay of h(h). phase is unwrapped (i.e. it is not limited to +/-180 degrees, and there are no discontinuities at +/- 180 deg.)
 % f: frequency coordinates of mag and phase
+% unit: unit of mag
 %
 % EXAMPLE:
 % > [h,t] = mataa_IR_demo; 
@@ -67,14 +70,23 @@ h = h(:); % make sure h is column vector
 [p,f] = mataa_realFT(h,t);
 
 % mag:
-if strcmp (unit,'Pa')
-	p_ref = 20E-6; % reference sound pressure
-	mag = 20*log10(abs(p)/p_ref);
-	unit = 'dB SPL';
-else
-	mag = 20*log10(abs(p));
-	mag = mag + 112;
-	unit = 'dB';
+switch unit
+	case 'Pa'
+		p_ref = 20E-6; % reference sound pressure (RMS)
+		p_rms = sqrt(0.5) * abs(p); % RMS-SPL (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
+		mag = 20*log10(p_rms/p_ref);
+		unit = 'dB-SPL(rms)';
+
+	case 'V'
+		p_ref = 1.0; % reference voltage (RMS)
+		p_rms = sqrt(0.5) * abs(p); % RMS-voltage (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
+		mag = 20*log10(p_rms/p_ref); % convert to dB-Vrms
+		unit = 'dB-V(rms)';
+		
+	otherwise
+		mag = 20*log10(abs(p));
+		mag = mag + 112;
+		unit = 'dB';
 end
 
 % unwrap the phase, and convert from radians to degrees
