@@ -10,7 +10,7 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,atten
 % T: length of sine signal in seconds.
 % fs: sampling frequency in Hz
 % latency: see mataa_measure_signal_response (optional, default: latency = [])
-% attenuation: attenuation factor (0...1) for output signal, such that max(abs(signal)) = attenuation. (optional, default: attenuation = 1);
+% attenuation (optional): attenuation factor (0...1) for output signal, such that max(abs(signal)) = attenuation. (default: attenuation = 1);
 % cal (optional): calibration data for data calibration (see mataa_signal_calibrate for details).
 %
 % OUTPUT:
@@ -18,15 +18,15 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,atten
 % f: frequency values of spectrum (Hz).
 % fi: frequency value(s) of fundamental(s)they may have been adjusted to align with the frequency resolution of the spectrum to avoid frequency leakage)
 % L0: signal level of fundamental(s) (useful for normalising plots)
-% unit: unit of data in L (and L0).
+% unit: unit of data in L and L0.
 %
 % EXAMPLE-1 (distortion spectrum from 1000 Hz fundamental):
-% > [L,f,fi,L0] = mataa_measure_sine_distortion (1000,1,44100,0.1,1);
-% > loglog (f,100*L/L0); xlabel ('Frequency (Hz)'); ylabel ('Amplitude rel. to fundamental (%)'); % plot result
+% > [L,f,fi,L0,unit] = mataa_measure_sine_distortion (1000,1,44100,0.2,1,'GENERIC_CHAIN_DIRECT.txt'); % perform measurement
+% > loglog (f,L); xlabel ('Frequency (Hz)'); ylabel(sprintf('Amplitude (%s)',unit)); % plot result
 %
 % EXAMPLE-2 (IM distortion spectrum from 10000 // 11000 Hz fundamentals):
-% > [L,f,fi,L0] = mataa_measure_sine_distortion ([10000 11000],10,44100,1);
-% > loglog (f,100*L/L0); xlabel ('Frequency (Hz)');ylabel ('Amplitude rel. to fundamentals (%)'); % plot result
+% > [L,f,fi,L0] = mataa_measure_sine_distortion ([10000 11000],10,44100,0.2,1); % perform measurement
+% > loglog (f,L/L0*100); xlabel('Frequency (Hz)'); ylabel('Amplitude rel. fundamentals (%)'); % plot result
 % 
 % DISCLAIMER:
 % This file is part of MATAA.

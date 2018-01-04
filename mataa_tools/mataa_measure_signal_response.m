@@ -11,7 +11,7 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 % latency: if the signal samples were specified rather than a file name/path, the signal is padded with zeros at its beginning and end to avoid cutting off the test signals early due to the latency of the sound input/output device(s). 'latency' is the length of the zero signals padded to the beginning and the end of the test signal (in seconds). If a file name is specified instead of the signal samples, the value of 'latency' is ignored.
 % verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.
 % channels (optional): index to data channels obtained from the ADC that should be processed and returned. If not specified, all data channels are returned.
-% cal (optional): calibration data for the full analysis chain DAC / SENSOR / ADC (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array.
+% cal (optional): calibration data for the full analysis chain DAC / SENSOR / ADC (see mataa_signal_calibrate for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array. If no cal is given or cal = [], the data will not be calibrated.
 % 
 % OUTPUT:
 % dut_out: matrix containing the signal(s) at the DUT output(s) / SENSOR input(s) (all channels used for signal recording, each colum corresponds to one channel). If SENSOR and ADC cal data are available, these data are calibrated for the input sensitivity of the SENSOR and ADC.
@@ -161,7 +161,7 @@ if verbose
     disp('Sound input / output started...');
     disp(sprintf('Sound output device: %s',audioInfo.output.name));
     disp(sprintf('Sound input device: %s',audioInfo.input.name));
-    disp(sprintf('Sampling rate: %.3f samples per second',fs/1000));
+    disp(sprintf('Sampling rate: %.3f samples per second',fs));
 end
 
 R = num2str(fs);
@@ -275,7 +275,10 @@ end
 % calibrate data
 X0_RMS = NA;
 if ~exist ('cal','var')
-	disp ('No calibration data available. Returning raw, uncalibrated data!')
+	cal = [];
+end
+if isempty (cal)
+	disp ('mataa_measure_signal_response: no calibration data available. Returning raw, uncalibrated data!')
 	dut_out_unit = dut_in_unit = '???';
 else
 	if ischar(cal) % name of calibration file instead of cal struct
