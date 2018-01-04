@@ -6,10 +6,14 @@ function [mag,phase,f,unit] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 % Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t)
 %
 % INPUT:
-% h: impulse response (in volts, Pa, etc.)
+% h: impulse response (in volts, Pa, FS, etc.)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
 % smooth_interval (optional): if specified, the frequency response is smoothed over the octave interval smooth_interval.
-% unit (optional): unit of h.
+% unit (optional): unit of h. If no unit is given, unit = 'FS' is assumed.
+%	Known units:
+%	unit = 'V' (Volt)
+%	unit = 'Pa' (Pascal)
+%	unit = 'FS' (digital Full Scale, values ranging from -1 to +1).
 %
 % OUTPUT:
 % mag: magnitude of frequency response (in dB). Depending on the unit of h, mag is references to different levels:
@@ -17,13 +21,16 @@ function [mag,phase,f,unit] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 %	- Unit of h is 'V' (Volt) --> mag is referenced to 1.0 V(RMS).
 % phase: phase of frequency response (in degrees). This is the TOTAL phase including the 'excess phase' due to (possible) time delay of h(h). phase is unwrapped (i.e. it is not limited to +/-180 degrees, and there are no discontinuities at +/- 180 deg.)
 % f: frequency coordinates of mag and phase
-% unit: unit of mag
+% unit: unit of mag (depends on unit given at input):
+%	input unit = 'V'  ---> output unit = 'dB-V(rms)'   // a sine wave with a RMS level of 1V(rms) corresponds to 0 dB-V(rms)
+%	input unit = 'Pa' ---> output unit = 'dB-SPL(rms)' // a sine wave with a RMS SPL of 2E-5Pa(rms) corresponds to 0 dB-SPL(rms)
+%	input unit = 'FS' ---> output unit = 'dB-FS(rms)'  // a sine wave with a RMS level of 0.707FS (1.0FS peak amplitude) corresponds to 0 dB-FS(rms)
 %
 % EXAMPLE:
-% > [h,t] = mataa_IR_demo; 
-% > [mag,phase,f] = mataa_IR_to_FR(h,t); % calculates magnitude(f) and phase(f)
-% > [mag,phase,f] = mataa_IR_to_FR(h,t,1/8); % same as above, but smoothed to 1/8 octave resolution
-% (use mataa_plot_FR(mag,phase,f) to plot the results)
+% > [h,t,unit_h] = mataa_IR_demo ('FE108'); % load demo IR (Fostex FE-108 speaker)
+% > [mag,phase,f,unit_mag] = mataa_IR_to_FR(h,t,1/12,unit_h); % calculate magnitude(f) and phase(f), smoothed to 1/12 octave resolution
+% > subplot (2,1,1); semilogx (f,mag); ylabel (sprintf('SPL (%s)',unit_mag)); % plot magnitude response
+% > subplot (2,1,2); semilogx (f,phase); ylabel ('Phase (deg.)'); xlabel ('Frequency (Hz)'); % plot phase response
 %
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -42,12 +49,13 @@ function [mag,phase,f,unit] = mataa_IR_to_FR (h,t,smooth_interval,unit);
 % along with MATAA; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
-% Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
+% Copyright (C) Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
 if ~exist ('unit','var')
-	unit = 'unknown';
+	warning ("mataa_IR_to_FR: unit of input data not given. Assuming unit = 'FS' (digital full scale ranging from -1 to +1).")
+	unit = 'FS';
 end
 
 if isscalar(t)
@@ -72,21 +80,32 @@ h = h(:); % make sure h is column vector
 % mag:
 switch unit
 	case 'Pa'
-		p_ref = 20E-6; % reference sound pressure (RMS)
+		% convert to dB-SPL(rms):
+		p_ref = 20E-6; % reference sound pressure level (RMS)
 		p_rms = sqrt(0.5) * abs(p); % RMS-SPL (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
 		mag = 20*log10(p_rms/p_ref);
 		unit = 'dB-SPL(rms)';
 
 	case 'V'
+		% convert to dB-V(rms):
 		p_ref = 1.0; % reference voltage (RMS)
 		p_rms = sqrt(0.5) * abs(p); % RMS-voltage (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
-		mag = 20*log10(p_rms/p_ref); % convert to dB-Vrms
-		unit = 'dB-V(rms)';
+		mag   = 20*log10(p_rms/p_ref); % convert to dB-Vrms
+		unit  = 'dB-V(rms)';
+
+	case 'FS' % digital Full Scale (values ranging from -1 to +1)
+		% convert to dB-FS(rms):
+		p_ref = sqrt(0.5); % reference = sine wave with full amplitude in FS range, RMS level = sqrt(1/2) x FULL-AMPLITUDE
+		p_rms = sqrt(0.5) * abs(p); % convert amplitude to RMS value (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
+		mag   = 20*log10(p_rms/p_ref); % convert to dB-FSrms
+		unit  = 'dB-FS(rms)';
 		
 	otherwise
+		warning (sprintf("mataa_IR_to_FR: unknown unit '%s', mag reference level is undefined!",unit))
 		mag = 20*log10(abs(p));
-		mag = mag + 112;
-		unit = 'dB';
+		% mag = mag + 112;
+		unit = 'dB-NOREF';
+
 end
 
 % unwrap the phase, and convert from radians to degrees

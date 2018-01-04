@@ -1,6 +1,6 @@
-function [h,t] = mataa_IR_demo (IRtype)
+function [h,t,unit] = mataa_IR_demo (IRtype)
 
-% function [h,t] = mataa_IR_demo (IRtype)
+% function [h,t,unit] = mataa_IR_demo (IRtype)
 % 
 % DESCRIPTION:
 % This function returns the an impulse response h(t), specified by 'IRtype'.
@@ -21,6 +21,7 @@ function [h,t] = mataa_IR_demo (IRtype)
 % OUTPUT:
 % h: impulse response samples
 % t: time coordinates of samples
+% unit: unit of data in h
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -58,9 +59,11 @@ switch IRtype
         t = [0:44100-1]/44100;
         h = repmat(0,1,44100);
         h(1)=1;
+	unit = 'FS'; % digital Full Scale
     case 'EXP'
         t = [0:44100-1]/44100;
         h = exp(-t/1E-2);
+	unit = 'FS'; % digital Full Scale
     case 'FE108'
         h = [
          0
@@ -382,10 +385,12 @@ switch IRtype
          0.000589658042395701
         ];
         
-        h = h/max(abs(h));
+        % h = h/max(abs(h));
         
         t = [0:1/96000:(length(h)-1)/96000]';
         
+	unit = 'FS'; % digital Full Scale
+
     otherwise
         error(sprintf('mataa_IR_demo: unknown type %s.',IRtype))
 
