@@ -1,10 +1,10 @@
-% Calibration file for RTX6001 audio analyser (DAC, XLR output at “1V” setting)
+% Calibration file for RTX6001 audio analyser (DAC, XLR/balanced output at “1V” setting)
 %
 % NOTE: the voltage labels on the RTX6001 front panel refer to RMS values of a sine signal. Multiply the front panel labels by sqrt(2) to obtain the peak voltage.
 %
 
 % General information:
-name = RTX6001 1-V XLR OUTPUT
+name = RTX6001 1-V BALANCED OUTPUT
 type = DAC
 sensitivity = 1.4142 V % 100% full scale input to DAC gives 1.4142 V at XLR output (measured from POS to NEG pins)
 
