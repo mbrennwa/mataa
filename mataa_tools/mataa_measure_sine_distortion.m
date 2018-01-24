@@ -1,6 +1,6 @@
-function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,attenuation,cal);
+function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit);
 
-% function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,attenuation,cal);
+% function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit);
 %
 % DESCRIPTION:
 % Play sine signals with frequencies fi and return the spectrum of the resulting signal in the DUT channel (e.g., measure harmonic distortion spectrum, or intermodulation distortion spectrum).
@@ -10,8 +10,8 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,atten
 % T: length of sine signal in seconds.
 % fs: sampling frequency in Hz
 % latency: see mataa_measure_signal_response (optional, default: latency = [])
-% attenuation (optional): attenuation factor (0...1) for output signal, such that max(abs(signal)) = attenuation. (default: attenuation = 1);
 % cal (optional): calibration data for data calibration (see mataa_signal_calibrate for details).
+% amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
 %
 % OUTPUT:
 % L: spectrum, level of DUT output signal at frequency values f.
@@ -20,12 +20,12 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,atten
 % L0: signal level of fundamental(s) (useful for normalising plots)
 % unit: unit of data in L and L0.
 %
-% EXAMPLE-1 (distortion spectrum from 1000 Hz fundamental):
-% > [L,f,fi,L0,unit] = mataa_measure_sine_distortion (1000,1,44100,0.2,1,'GENERIC_CHAIN_DIRECT.txt'); % perform measurement
+% EXAMPLE-1 (distortion spectrum from 1000 Hz fundamental, with 1.0 V-pk amplitude test signal):
+% > [L,f,fi,L0,unit] = mataa_measure_sine_distortion (1000,1,44100,0.2,'GENERIC_CHAIN_DIRECT.txt',1.0,'V'); % perform measurement with 1V-pk test signal
 % > loglog (f,L); xlabel ('Frequency (Hz)'); ylabel(sprintf('Amplitude (%s)',unit)); % plot result
 %
 % EXAMPLE-2 (IM distortion spectrum from 10000 // 11000 Hz fundamentals):
-% > [L,f,fi,L0] = mataa_measure_sine_distortion ([10000 11000],10,44100,0.2,1); % perform measurement
+% > [L,f,fi,L0] = mataa_measure_sine_distortion ([10000 11000],10,44100,0.2); % perform measurement
 % > loglog (f,L/L0*100); xlabel('Frequency (Hz)'); ylabel('Amplitude rel. fundamentals (%)'); % plot result
 % 
 % DISCLAIMER:
@@ -62,20 +62,15 @@ f = mataa_t_to_f(t); df = f(1);
 if ~exist('latency','var')
 	latency = []; % use default value (best guess)
 end
-
-if ~exist('attenuation','var')
-	attenuation = 1; % use default value (no attenuation)
-end
-if attenuation > 1
-	warning('mataa_measure_sine_distortion: attenuation factor cannot be larger than 1. Adjusted attenuation to 1.')
-elseif attenuation < 0
-	warning('mataa_measure_sine_distortion: attenuation factor cannot be less than 0. Adjusted attenuation to 0 (silence).')
-end
-
 if ~exist('cal','var')
     cal=[];
 end
-
+if ~exist('amplitude','var')
+	amplitude = 1; % use default value
+end
+if ~exist('unit','var')
+	unit = 'digital';
+end
 
 for i = 1:length(fi)
 	[v,k] = min(abs(f-fi(i)));
@@ -93,13 +88,10 @@ for i = 1:length(fi)
 end
 s = s / max(abs(s));
 
-% apply attenuation factor
-if attenuation ~= 1
-	s = s * attenuation;
-end
+s = s * amplitude;
 
 % do sound I/O:
-[y,in,t,unit] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),cal);
+[y,in,t,unit] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),cal,unit);
 
 % remove the zero padding and make the remaining signal length equal to length(t):
 i = find(abs(y) > 0.5*max(abs(y)));

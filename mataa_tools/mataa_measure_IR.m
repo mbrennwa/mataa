@@ -1,6 +1,6 @@
-function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
+function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal,unit);
 
-% function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
+% function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal,unit);
 %
 % DESCRIPTION:
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal (if no loopback is used) or the REF channel (with loopback). The allocation of the DUT (and REF) channel is determined using mataa_settings ('channel_DUT') (and mataa_settings ('channel_REF')).
@@ -12,7 +12,8 @@ function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal);
 % latency: see mataa_measure_signal_response
 % loopback (optional): flag to control the behaviour of deconvolution of the DUT and REF channels. If loopback = 0, the DUT signal is not deconvolved from the REF signal (no loopback calibration). Otherwise, the DUT signal is deconvolved from the REF channel. The allocation of the DUT and REF channels is taken from mataa_settings('channel_DUT') and mataa_settings('channel_REF'). Default value (if not specified) is loopback = 0.
 % cal (optional): calibration data (struct or (cell-)string, see mataa_load_calibration and mataa_signal_calibrate)
-% 
+% unit (optional): unit of input_signal (see mataa_measure_signal_response). Note that this controls the amplitude of the analog signal at the DUT input.
+%
 % OUTPUT:
 % h: impulse response
 % t: time
@@ -65,7 +66,11 @@ for i = 1:N
 
 	% do the sound I/O	
 	if exist ('cal','var')
-		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
+		if exist ('unit','var')
+			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal,unit);
+		else
+			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
+		end
 	else
 		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels);
 	end

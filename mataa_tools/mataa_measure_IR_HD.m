@@ -1,6 +1,6 @@
-function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, att, latency, cal)
+function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, latency, cal, amplitude, unit)
 
-% function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, att, latency, cal)
+% function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, latency, cal, amplitude, unit)
 %
 % DESCRIPTION:
 % Measures the impulse response and the harmonic distortion products using the "Farina method". This uses an exponential sine sweep (chirp) as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. The impulse responses of the fundamental and harmonic distorion products are determined by convolving the DUT response with the inverse filter corresponding to the chirp signal. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied for the first octave, so the flat spectrum is (P - 1) octaves long. Similarly, a Hanning fade-out is applied to the last 1/24 octave to reduce the ripple even more.
@@ -19,9 +19,9 @@ function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, att, latency, cal)
 % T: desired sweep duration
 % fs: sampling frequency
 % N: see tN (OUTPUT) below
-% att (optional): attenuation factor (0...1) for output signal, such that max(abs(signal)) = att. (default: att = 1);
 % latency (optional): see mataa_measure_signal_response
 % cal (optional): see mataa_measure_signal_response
+% amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
 % 
 % OUTPUT:
 % h: impulse response
@@ -31,8 +31,8 @@ function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, att, latency, cal)
 %
 % EXAMPLE:
 % > % Measure DUT response using chirp test signal:
-% > P = 8; T=10; fs = 44100; N = 3; att = 0.5; % measurement parameters
-% > [h,t,tN,unit] = mataa_measure_IR_HD (P,T,fs,N,att,[],'GENERIC_CHAIN_ACOUSTIC.txt'); % perform measurement
+% > P = 8; T=10; fs = 44100; N = 3; amplitude = 0.5; % measurement parameters
+% > [h,t,tN,unit] = mataa_measure_IR_HD (P,T,fs,N,[],'GENERIC_CHAIN_ACOUSTIC.txt',amplitude,'Volt'); % perform measurement
 % > % Determine start of main (fundamental) impulse response and plot the impulse response data:
 % > k = round(length(h)*0.45); t0 = mataa_guess_IR_start(h(k:end),t(k:end)); t = t-t0; % set linear response to t = 0
 % > figure(1);semilogy (t,abs(h)); axis([t(1) t(end) 1E-7 2]); grid on; xlabel ('Time (s)'); ylabel (sprintf('abs(Amplitude) (%s)',unit)); % plot the IR data
@@ -75,13 +75,11 @@ if P <= 1
   error('mataa_measure_IR_HD: P must be greater than 1 (first octave is used for fade in of test signal)');
 end
 
-if ~exist('att','var')
-	att = 1; % use default value (no att)
+if ~exist('amplitude','var')
+	amplitude = 1; % use default value
 end
-if att > 1
-	warning('mataa_measure_IR_HD: att factor cannot be larger than 1. Adjusted att to 1.')
-elseif att < 0
-	warning('mataa_measure_IR_HD: att factor cannot be less than 0. Adjusted att to 0 (silence).')
+if ~exist('unit','var')
+	unit = 'digital';
 end
 
 
@@ -121,9 +119,7 @@ x = x .* window;
 % Inverse filter
 invfilter = flipud(x) .* ((2 ^ (P / Ns)) .^ (-n)) .* (P * log(2)) ./ (1 - (2 ^ (-P)));
 
-if att < 1
-	x = x * att;
-end
+x = x * amplitude;
 
 % Measure sweep response:
 if ~exist ('latency','var')
@@ -132,7 +128,7 @@ end
 if ~exist ('cal','var')
   cal = [];
 end
-[responseSignal, inputSignal, t, unit] = mataa_measure_signal_response(x, fs, latency, 1, mataa_settings('channel_DUT'), cal);
+[responseSignal, inputSignal, t, unit] = mataa_measure_signal_response(x, fs, latency, 1, mataa_settings('channel_DUT'), cal, unit);
 
 % Convolve the response with the inverse filter to get the IR and the harmonics:
 resplen = length(responseSignal);
