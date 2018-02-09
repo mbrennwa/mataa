@@ -1,6 +1,6 @@
-function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit);
+function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit,N_avg);
 
-% function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit);
+% function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit,N_avg);
 %
 % DESCRIPTION:
 % Play sine signals with frequencies fi and return the spectrum of the resulting signal in the DUT channel (e.g., measure harmonic distortion spectrum, or intermodulation distortion spectrum).
@@ -12,6 +12,7 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,a
 % latency: see mataa_measure_signal_response (optional, default: latency = [])
 % cal (optional): calibration data for data calibration (see mataa_signal_calibrate for details).
 % amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
+% N_avg (optional): number of averages (integer, default: N_avg = 1). If N_avg > 1, the measurement is repeated N_avg times, and the mean result is returned. This is useful to reduce the noise floor.
 %
 % OUTPUT:
 % L: spectrum, level of DUT output signal at frequency values f.
@@ -90,45 +91,56 @@ s = s / max(abs(s));
 
 s = s * amplitude;
 
-% do sound I/O:
-[y,in,t,unit] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),cal,unit);
-
-% remove the zero padding and make the remaining signal length equal to length(t):
-i = find(abs(y) > 0.5*max(abs(y)));
-i1=min(i); i2=max(i);
-i1=round((i1+i2)/2 - T*fs/2);
-if i1 < 1
-	i1 = 1;
-end
-i2=i1+T*fs-1;
-if i2 > length(y)
-	i2 = length (y);
-	i1 = i2 - (T*fs-1);
-end
-y = y(i1:i2);
-t = [0:length(y)-1]/fs;
-
-% window the signal to minimize frequency leakage
-w = sin(pi*t/max(t)).^2;
-y = y(:) .* w(:) ;
-
-if length(y) < n % pad zeros to maintain frequency resolution
-	y = [ y ; repmat(0,n-length(y),1) ];
+if ~exist ('N_avg','var')
+	N_avg = 1;
 end
 
-% calculate signal spectrum (voltages!)
-[L,f] = mataa_realFT (y,t);
+L = [];
 
-% discard phase information
-L = abs (L);
-
-% normalize L to length of spectrum:
-L = L / length(L)*2;
+for k = 1:N_avg
+	% do sound I/O:
+	[y,in,t,unit] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),cal,unit);
+	
+	% remove the zero padding and make the remaining signal length equal to length(t):
+	i = find(abs(y) > 0.5*max(abs(y)));
+	i1=min(i); i2=max(i);
+	i1=round((i1+i2)/2 - T*fs/2);
+	if i1 < 1
+		i1 = 1;
+	end
+	i2=i1+T*fs-1;
+	if i2 > length(y)
+		i2 = length (y);
+		i1 = i2 - (T*fs-1);
+	end
+	y = y(i1:i2);
+	t = [0:length(y)-1]/fs;
+	
+	% window the signal to minimize frequency leakage
+	w = sin(pi*t/max(t)).^2;
+	y = y(:) .* w(:) ;
+	
+	if length(y) < n % pad zeros to maintain frequency resolution
+		y = [ y ; repmat(0,n-length(y),1) ];
+	end
+	
+	% calculate signal spectrum (voltages!)
+	[LL,f] = mataa_realFT (y,t);
+	
+	% discard phase information
+	LL = abs (LL);
+	
+	% normalize L to length of spectrum:
+	LL = LL / length(LL)*2;
+		
+	if k == 1
+		L  = LL/N_avg;
+	else
+		L  = L + LL/N_avg;
+	end
+	
+end
 
 % find signal level of fundamental(s)
 L0 = interp1 (f,L,fi,'nearest');
 L0 = mean (L0);
-
-% normalize the spectrum to fundamental(s)
-% L0 = interp1 (f,L,fi,'nearest');
-% L = L / mean (L0);
