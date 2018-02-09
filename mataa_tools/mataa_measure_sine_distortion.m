@@ -1,6 +1,6 @@
-function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit,N_avg);
+function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit,window,N_avg);
 
-% function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit,N_avg);
+% function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,amplitude,unit,window,N_avg);
 %
 % DESCRIPTION:
 % Play sine signals with frequencies fi and return the spectrum of the resulting signal in the DUT channel (e.g., measure harmonic distortion spectrum, or intermodulation distortion spectrum).
@@ -12,6 +12,10 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,a
 % latency: see mataa_measure_signal_response (optional, default: latency = [])
 % cal (optional): calibration data for data calibration (see mataa_signal_calibrate for details).
 % amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
+% window (optional): window function to be applied to the DUT response before calculating the spectrum (default: window = 'none'). See also mataa_signal_window(...). If the window function requires additional parameter, then window can be given as a struct with three fields corresponding to the mataa_signal_window(...) arguments as follows:
+%	window.name = 'window' input argument of mataa_signal_window(...)
+%	window.par  = 'par' input argument of mataa_signal_window(...)
+% 	window.len  = 'len' input argument of mataa_signal_window(...) 
 % N_avg (optional): number of averages (integer, default: N_avg = 1). If N_avg > 1, the measurement is repeated N_avg times, and the mean result is returned. This is useful to reduce the noise floor.
 %
 % OUTPUT:
@@ -22,7 +26,7 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,a
 % unit: unit of data in L and L0.
 %
 % EXAMPLE-1 (distortion spectrum from 1000 Hz fundamental, with 1.0 V-pk amplitude test signal):
-% > [L,f,fi,L0,unit] = mataa_measure_sine_distortion (1000,1,44100,0.2,'GENERIC_CHAIN_DIRECT.txt',1.0,'V'); % perform measurement with 1V-pk test signal
+% > [L,f,fi,L0,unit] = mataa_measure_sine_distortion (1000,1,44100,0.2,'GENERIC_CHAIN_DIRECT.txt',1.0,'V','flattop'); % perform measurement with 1V-pk test signal
 % > loglog (f,L); xlabel ('Frequency (Hz)'); ylabel(sprintf('Amplitude (%s)',unit)); % plot result
 %
 % EXAMPLE-2 (IM distortion spectrum from 10000 // 11000 Hz fundamentals):
@@ -72,6 +76,9 @@ end
 if ~exist('unit','var')
 	unit = 'digital';
 end
+if ~exist('window','var')
+	window = 'none';
+end
 
 for i = 1:length(fi)
 	[v,k] = min(abs(f-fi(i)));
@@ -117,6 +124,20 @@ for k = 1:N_avg
 	t = [0:length(y)-1]/fs;
 	
 	% window the signal to minimize frequency leakage
+	if isstruct (window)
+		y = mataa_signal_window (y,window.name,window.par,window.len);
+	else
+		y = mataa_signal_window (y,window);
+	end
+
+
+
+
+
+
+
+
+
 	w = sin(pi*t/max(t)).^2;
 	y = y(:) .* w(:) ;
 	

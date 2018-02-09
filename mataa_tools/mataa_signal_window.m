@@ -7,13 +7,14 @@ function s = mataa_signal_window (s0,window,par,len);
 % Some window functions rely on a parameter, which can be specified by par (par can be omitted for those functions that don't rely on an extra parameter)
 %
 % The following window functions are available (see e.g. http://en.wikipedia.org/wiki/Window_function for a description of these functions):
-% 'rectangular', 'rect', 'nowindow' : rectangular window (i.e. no window at all)
+% 'rectangular', 'rect', 'nowindow', 'none' : rectangular window (i.e., signal is not changed at all)
 % 'gauss': gauss window, whith shape parameter sigma = par (par <= 0.5)
 % 'sin', 'cos','sine','cosine': sine / cosine window
 % 'hamming', 'hamm': Hamming window
 % 'hann': Hann window (cosine window). Note: in anology to the 'Hamming' window, this is often wrongly referred to as 'Hanning'. However, the name relates to a guy called Julius von Hann.
 % 'bartlett','bart','triangular': Bartlett (triangular) window.
 % 'blackman', 'black': Blackman window
+% 'flattop': Flat-top window, using the "SRS shape coefficients" (see https://en.wikipedia.org/wiki/Window_function#Flat_top_window ). This window has broad bandwidth, which makes is useful to maintain sinusoidal amplitudes in spectrum analysers, with the drawback of poor frequency resolution.
 % 'kaiser': Kaiser window with parameter alpha = par
 % 'bingham': Bingham window with parameter par (par = 0 --> rectangular window, par = 1 --> Hann window).
 %
@@ -23,7 +24,7 @@ function s = mataa_signal_window (s0,window,par,len);
 %
 % INPUT:
 % s0: vector containing the samples values of the original signal (i.e. the signal that will be windowed).
-% window: string contining the name of the window type to be used (see above).
+% window: name of the window type to be used (string, see above).
 % par: parameter(s) to further specify the window function. Depending on the window type, par may not be required (and will be ignored in these cases).
 % len: fractional length of full-amplitude range inserted between rise / fall of window slopes (optional, default: len = 0)
 % 
@@ -32,11 +33,12 @@ function s = mataa_signal_window (s0,window,par,len);
 % 
 % EXAMPLES:
 %
-% > s = mataa_signal_window(s,'hamming'); replaces s by a hamming-windowed version of itself
+% > s = mataa_signal_window(s,'hamming'); % replaces s by a hamming-windowed version of itself
 %
-% > s = mataa_signal_window(s,'hamming_half'); replaces s by a version of s windowed by the second half of a hamming window
+% > s = mataa_signal_window(s,'hamming_half'); % replaces s by a version of s windowed by the second half of a hamming window
 %
-% > s = mataa_signal_window(repmat(1,1,1000),'gauss',0.4); returns just the gauss % 
+% > s = mataa_signal_window(repmat(1,1,1000),'gauss',0.4); % returns just the gauss window itself
+%
 % DISCLAIMER:
 % This file is part of MATAA.
 % 
@@ -100,7 +102,7 @@ else % full window
 	w = [];
 	
 	switch window
-		case {'rect', 'rectangular', 'nowindow'}
+		case {'rect', 'rectangular', 'nowindow', 'none'}
 			% leave the cropped signal as it is
 			s = s0;
 		case {'gauss'}        
@@ -115,6 +117,14 @@ else % full window
 			w = 1 - 2*abs(n/(N-1)-0.5);
 		case {'black', 'blackman'}
 			w = 0.42 - 0.5*cos(2*pi*n/(N-1)) + 0.08*cos(4*pi*n/(N-1));
+		case {'flattop'}
+			% "SRS shape" coefficients, see https://en.wikipedia.org/wiki/Window_function#Flat_top_window
+			a0 = 1;
+			a1 = 1.93;
+			a2 = 1.29;
+			a3 = 0.388;
+			a4 = 0.028;
+			w = a0 - a1*cos(2*pi*n/(N-1)) + a2*cos(4*pi*n/(N-1)) - a3*cos(6*pi*n/(N-1)) + a4*cos(8*pi*n/(N-1));
 		case {'kaiser'}
 			w = pi*par*sqrt(1-(2*n/(N-1)-1).^2);
 			w = besseli(0,w)./besseli(0,pi*par);
