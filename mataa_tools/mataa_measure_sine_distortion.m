@@ -9,7 +9,7 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,a
 % fi: base frequency in Hz (if fi is a scalar), or frequency values of simultaneous sine signals (if fi is a vector).
 % T: length of sine signal in seconds.
 % fs: sampling frequency in Hz
-% latency: see mataa_measure_signal_response (optional, default: latency = [])
+% latency (optional): see mataa_measure_signal_response (default: latency = [])
 % cal (optional): calibration data for data calibration (see mataa_signal_calibrate for details).
 % amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
 % window (optional): window function to be applied to the DUT response before calculating the spectrum (default: window = 'none'). See also mataa_signal_window(...). If the window function requires additional parameter, then window can be given as a struct with three fields corresponding to the mataa_signal_window(...) arguments as follows:
@@ -54,8 +54,6 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,a
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-warning ('mataa_measure_sine_distortion: this function is under development and needs more testing. Please use with care!')
-
 fi = unique (fi);
 
 dt = 1/fs;
@@ -79,11 +77,14 @@ end
 if ~exist('window','var')
 	window = 'none';
 end
+if ~exist ('N_avg','var')
+	N_avg = 1;
+end
 
 for i = 1:length(fi)
 	[v,k] = min(abs(f-fi(i)));
-	if f(k)~=fi(i)
-	    disp(sprintf('mataa_measure_sine_distortion: note that fi(%i) = %g Hz is between FFT frequenicies (nearest FFT frequency would be fi(%i) = %g Hz).',i,fi(i),i,f(k)));
+	if v > 1E-10
+	    disp(sprintf('mataa_measure_sine_distortion: note that fi(%i) = %.3f Hz is between FFT frequenicies (nearest FFT frequency would be fi(%i) = %.3f Hz).',i,fi(i),i,f(k)));
 	    % warning(sprintf('mataa_measure_sine_distortion: adjusted fi(%i) = %g Hz to nearest value resolved (fi(%i) = %g Hz).',i,fi(i),i,f(k)));
 	    % fi(i) = f(k);
 	end	
@@ -97,10 +98,6 @@ end
 s = s / max(abs(s));
 
 s = s * amplitude;
-
-if ~exist ('N_avg','var')
-	N_avg = 1;
-end
 
 L = [];
 
@@ -129,17 +126,6 @@ for k = 1:N_avg
 	else
 		y = mataa_signal_window (y,window);
 	end
-
-
-
-
-
-
-
-
-
-	w = sin(pi*t/max(t)).^2;
-	y = y(:) .* w(:) ;
 	
 	if length(y) < n % pad zeros to maintain frequency resolution
 		y = [ y ; repmat(0,n-length(y),1) ];
