@@ -163,7 +163,7 @@ elseif df > f0/2
 	df = f0/2;
 end
 kn = find (f<f0-df | f>f0+df ); % index to "harmonics+noise" data (everything that is not close to the fundametal frequency)
-THDN = sqrt ( sum(L(kn).^2) ) / L0;
+THDN = sqrt ( sum(L(kn).^2) ) / HD(1);
 % RMS of L without the contributon from the fundamental, normalised to the fundamental
 % SEE: "Understand SINAD, ENOB, SNR, THD, THD + N, and SFDR so You Don't Get Lost in the Noise Floor" by Walt Kester)
 % NOTE: Audio Precision uses different convention (nomralise by total RMS of full spectrum, not the fundamental)
