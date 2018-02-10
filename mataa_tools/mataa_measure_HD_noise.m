@@ -139,10 +139,9 @@ end
 % determine levels of harmonics:
 i = 1;
 while i <= N_h
-	ff = i*f0;
-	if ff <= max(f)
-		fHD(i) = ff;
-		j = find (fHD(i) == f);
+	if i*f0 <= max(f)
+		fHD(i) = i*f0;
+		[u,j] = min(abs(f-fHD(i)));
 		HD(i) = L(j);	
 		i = i+1;	
 	else
