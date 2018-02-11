@@ -43,8 +43,8 @@ function [HD,fHD,THD,THDN,L,f,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,laten
 % ylabel ('Amplitude (uncal.)')
 % xlabel ('Frequency (Hz)');
 % 
-% EXAMPLE-2 (like EXAMPLE-1, but with calibrated 3 mV test signal amplitude, Hann window, bandwith-limit 100 to 10500 Hz, 5 averages)
-% [HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( 1000,1,44100,10,0.2,'MB_ELECTRONIC-DIRECT_CHAIN.txt',0.003,'V','hann',100,10500,5 );
+% EXAMPLE-2 (like EXAMPLE-1, but with calibrated 0.3 V test signal amplitude, Hann window, bandwith-limit 100 to 10500 Hz, 5 averages)
+% [HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( 1000,1,44100,10,0.2,'MB_ELECTRONIC-DIRECT_CHAIN.txt',0.3,'V','hann',100,10500,5 );
 % semilogy ( fL,L/sqrt(2),'k-' , fHD,HD/sqrt(2),'ro' )
 % ylabel (sprintf('Amplitude (%s-RMS)',unit))
 % xlabel ('Frequency (Hz)');
