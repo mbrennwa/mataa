@@ -1,0 +1,1 @@
+type = chain % complete chain of DAC, SENSOR, and ADC% 1 V-RMS-sine output, single ended:FILE = RTX6001_OUTPUT_1V_SE.txt% no sensor (direct connection):FILE = LOOPBACK_SENSOR.txt% 1 V-RMS-sine input:FILE = RTX6001_INPUT_1V.txt
