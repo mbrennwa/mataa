@@ -3,8 +3,21 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 % function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 %
 % DESCRIPTION:
-% Measures the complex, frequency-dependent impedance Z(f) in the frequency range [fLow,fHigh].
-% The measurement relies on the setup described in the MATAA manual.
+% This function measures the complex, frequency-dependent impedance Z(f) of a DUT using a swept sine signal ranging from fLow to fHigh. Note the fade-in and fade-out of the test signal results in a loss of precision at the frequency extremes, which may be compensated by using a slightly larger frequency range.
+%
+% The measurement relies on the following set up:
+%
+%	DAC-out -------+---------> ADC-in (REF)
+%		       |
+%		       R
+%		       |
+%		       +---------> ADC-in (DUT)
+%		       |
+%		      DUT
+%		       |
+%	DAC-GND -------+---------> ADC-GND
+%
+% Note that the current flowing through the reference resistor R is identical to the current flowing through the DUT at all times. This allows calculating the impedance of the DUT using Ohm's Law with the voltages observed at the ADC inputs of the REF and DUT channels. 
 %
 % INPUT:
 % fLow: lower limit of the frequency range (Hz)
@@ -17,6 +30,10 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 % Zabs: impedance magnitude (Ohm)
 % Zphase: impedance phase (degrees)
 % f: vector of frequency values
+%
+% EXAMPLE:
+% [Zmag,Zphase,f] = mataa_measure_impedance (10,20000,8.2,44100);
+% semilogx (f,Zmag); xlabel ('Frequency (Hz)'); ylabel ('Impedance (Ohm)')
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -78,9 +95,12 @@ U_B = response(:,mataa_settings('channel_REF'));    % extract U_B from the measu
 
 % remove interchannel delay:
 delay = mataa_settings('interchannel_delay');
-phi = delay*2*pi*f;
-U_A = exp (-i*phi) .* U_A; % remove the excess phase in U_A due to interchannel delay
+if delay ~= 0
+	phi = delay*2*pi*f;
+	U_A = exp (-i*phi) .* U_A; % remove the excess phase in U_A due to interchannel delay
+end
 
+% calculate impedance for REF and DUT voltages using Ohm's Law:
 Z = R * U_A ./ (U_B - U_A);
 
 % remove data outside frequency range of test signal:
