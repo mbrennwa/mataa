@@ -87,7 +87,7 @@ for i = 1:N
 		disp ('Deconvolving data using raw test signal as reference (no loopback data available)...')
 		dut = out(:,1); dut_unit = out_unit;
 		ref = in; 	ref_unit = in_unit;
-		
+
 	else % use loopback / REF data
 		disp ('Deconvolving data using loopback signal as reference...')
 		dut = out(:,1); dut_unit = out_unit{1};
@@ -100,6 +100,8 @@ for i = 1:N
 	ref = [ ref ; uu*ref(end) ];		
 	H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
 
+	H(1) = 0; % remove DC
+	
 	dummy = ifft (H);	
 	dummy = dummy(1:l); % the other half is redundant since the signal is real
 	dummy = abs (dummy) .* sign (real(dummy)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
