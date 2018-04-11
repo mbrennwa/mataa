@@ -50,10 +50,7 @@ out=repmat(0,size(t));
 k=round(length(out)/2);
 out(k)=1;
 
-testfile = mataa_signal_to_TestToneFile(out);
-in = mataa_measure_signal_response(testfile,fs,0);
-
-delete(testfile);
+in = mataa_measure_signal_response(out,fs,0);
 
 in = in(:,mataa_settings ('channel_DUT')); % only used data in DUT channel
 
