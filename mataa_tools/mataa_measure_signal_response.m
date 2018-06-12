@@ -4,6 +4,7 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 %
 % DESCRIPTION:
 % This function feeds one or more test signal(s) to the DUT(s) and records the response signal(s).
+% See also note on channel numbers and allocation of DAC, ADC and cal channel numbers below!
 % 
 % INPUT:
 % X0: test signal with values ranging from -1...+1. For a single signal (same signal for all DAC output channels), X0 is a vector. For different signals, X0 is a matrix, with each column corresponding to one channel
@@ -24,9 +25,12 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 % dut_in_unit: unit of data in dut_in (analogous to dut_out_unit)
 % X0_RMS: RMS amplitude of signal at DUT input / DAC(+BUFFER) output (same unit as dut_in data). This may be different from the RMS amplitude of dut_in due to the zero-padding of dut_in in order to accomodate for the latency of the analysis system; the X0_RMS value is determined from the test signal before zero padding.
 %
-% FURTHER INFORMATION:
-% The signal samples range from -1.0 to +1.0).
-% The TestTone program feeds the X0 to both stereo channels of the output device, and records from both stereo channels of the input device (assuming we have a stereo device). Therefore, the response signal has two channels. As an example, channel 1 is used for for the DUT's response signal and channel 2 can be used to automatically calibrate for the frequency response / impulse response of the audio hardware (by directly connecting the audio output to the audio input). Channel allocation can be set using mataa_settings.
+% NOTES:
+% (1) As a general rule, the number of DAC channels (X0) and the number of ADC channels ('channels' index) must be the same:
+% * In many situations the optional 'channels' index for the ADC channels can be omitted or left empty (channels=[]). The index will then be set automatically to channels = [1:size(X0,2)] (i.e., the ADC channel numbers correspond to the DAC channel numbers). However, some audio interfaces have more ADC channels than DAC channels, so it is necessary to explicitly specify which ADC channels are used. Example for an audio interface with 2 DACs and 4 ADCs: using X0 with two channels (size(X0,2)=2) requires two ADC channels. If channels = [], ADC channels 1 and 2 will be used automatically. To use ADC channels 3 and 4 instead, set channels=[3,4].
+% * Each channel needs its own cal data, so length(cal) = size(X0,2). If cal is not specified, the cal data for each channel will be set to cal{k}=[]. 
+%
+% (2) If the DAC output is specified as "digital" (no physical unit for X0 data), the signal samples may range from -1.0 to +1.0.
 %
 % EXAMPLE:
 % (1) Feed a 1 kHz sine-wave signal to the DUT and plot the DUT output (no data calibration):
@@ -64,6 +68,23 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
+
+% check input
+if ~exist ('channels','var')
+	channels = [];
+end
+if isempty(channels)
+	channels = [1:size(X0,2)];
+end
+if length (channels) ~= size(X0,2)
+	error (sprintf('mataa_measure_signal_response: the number of ADC data channels (%i) must not be different from the number of DAC channels in X0 (%i)!',length(channels),size(X0,2)))
+end
+
+if ~exist ('cal','var')
+	for k = 1:size(X0,2)
+		cal{k} = [];
+	end
+end
 
 if ~exist('verbose','var')
     verbose=1;
@@ -132,9 +153,6 @@ if ~any(fs == audioInfo.output.sampleRates)
 end
 
 % get/load cal data if necessary:
-if ~exist ('cal','var')
-	cal = [];
-end
 if ischar(cal) % name of calibration file instead of cal struct
 	if strcmp (cal,'')
 		cal = [];
@@ -142,7 +160,18 @@ if ischar(cal) % name of calibration file instead of cal struct
 		cal = mataa_load_calibration (cal);
 	end
 end
-% now cal = [] or cal = CAL-STRUCT-DATA
+
+% deal with autoscaling (evaluate autoscaling function):
+cal = mataa_cal_autoscale (cal);
+
+if ~iscell(cal)
+	u{1} = cal; cal = u;
+end
+
+if length(cal) ~= size(X0,2)
+	% need exactly one cal struct per signal channel to calibrate the data in each channel!
+	error (sprintf('mataa_measure_signal_response: number of channels in test signal X0 (%i) must not be different from number of channels in cal structs (%i).',size(X0,2),length(cal)))
+end
 
 % deal with data unit of X0 / test signal data:
 if ~exist ('X0_unit','var')
@@ -156,22 +185,24 @@ if strcmp (toupper(X0_unit),'DIGITAL') % no amplitude conversion
 		error ('mataa_measure_signal_response: min. value of X0 is lower than -1.0 in digital domain.')
 	end
 
-else % convert X0 values to "digital" using the sensitivity of the DAC cal before sending signal to DAC
-	if ~isfield(cal,'DAC')
-		error ('mataa_measure_signal_response: cal data has no DAC field, cannot convert X0 voltages to digital domain.')
-	else
-		if ~strcmp(toupper(X0_unit),toupper(cal.DAC.sensitivity_unit))
-			error (sprintf("mataa_measure_signal_response: X0 data given in %s, but analog output of DAC '%s' is in units %s.",X0_unit,cal.DAC.name,cal.DAC.sensitivity_unit))
+else % convert data in each channel of X0 to "digital" using the sensitivity of the DAC cal before sending signal to DAC
+	for k = 1:size(X0,2)
+		if ~isfield(cal{k},'DAC')
+			error ('mataa_measure_signal_response: cal data has no DAC field, cannot convert X0 voltages to digital domain (-1...+1).')
 		else
-			if max(X0) > cal.DAC.sensitivity
-				error (sprintf("mataa_measure_signal_response: max. value of X0 (%g Volts) is higher than analog output limit of DAC '%s' (%g %s)",max(X0),cal.DAC.name,cal.DAC.sensitivity,cal.DAC.sensitivity_unit))
-			elseif min(X0) < -cal.DAC.sensitivity
-				error (sprintf("mataa_measure_signal_response: min. value of X0 (%g Volts) is lower than analog output limit of DAC '%s' (%g %s)",min(X0),cal.DAC.name,cal.DAC.sensitivity,cal.DAC.sensitivity_unit))
-			end
-			X0 = X0 / cal.DAC.sensitivity; % scale to digital domain	
-		end
-	end
-end
+			if ~strcmp(toupper(X0_unit),toupper(cal{k}.DAC.sensitivity_unit))
+				error (sprintf("mataa_measure_signal_response: X0 data given in %s, but analog output of DAC '%s' is in units %s.",X0_unit,cal{k}.DAC.name,cal{k}.DAC.sensitivity_unit))
+			else
+				if max(X0(:,k)) > cal{k}.DAC.sensitivity
+					error (sprintf("mataa_measure_signal_response: max. value of X0 (%g Volts) is higher than analog output limit of DAC '%s' (%g %s)",max(X0(:,k)),cal{k}.DAC.name,cal{k}.DAC.sensitivity,cal{k}.DAC.sensitivity_unit))
+				elseif min(X0(:,k)) < -cal{k}.DAC.sensitivity
+					error (sprintf("mataa_measure_signal_response: min. value of X0 (%g Volts) is lower than analog output limit of DAC '%s' (%g %s)",min(X0(:,k)),cal{k}.DAC.name,cal{k}.DAC.sensitivity,cal{k}.DAC.sensitivity_unit))
+				end
+				X0(:,k) = X0(:,k) / cal{k}.DAC.sensitivity; % scale to digital domain	
+			end % if else
+		end % if else
+	end % for
+end % if else
 
 % do the sound I/O:
 deleteInputFileAfterIO = 0;
@@ -218,11 +249,7 @@ else
 end    	
 
 TestTone = sprintf('%s%s%s',mataa_path('TestTone'),'TestTonePA19',extension);
-
 command = sprintf('"%s" %s %s > %s',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
-
-
-status = -42; % in case the system command fails miserably, such that it does not even set the status flag
 [output,status] = system(command);
 
 if status ~= 0
@@ -244,8 +271,7 @@ else
 	doRead = 1;
 	while doRead % read the header
 	    l = fgetl(fid);
-	    % if findstr('Number of channels =',l) % for the old TestTone program
-	    if findstr('Number of sound input channels =',l) % for the new TestTone program
+	    if findstr('Number of sound input channels =',l)
 	    	numChan = str2num(l(findstr('=',l)+1:end));
 	    elseif findstr('time (s)',l) % this was the last line of the header
 	    	doRead = 0;
@@ -286,10 +312,6 @@ if deleteInputFileAfterIO
     delete(in_path);
 end
 
-% check if all channels of the ADC data are going to be used:
-if ~exist ('channels','var')
-	channels = [1:numChan];
-end
 
 % keep only ADC channels as given in channels, discard the rest:
 dut_out = dut_out(:,channels);
@@ -318,35 +340,41 @@ if verbose
 end
 
 % calibrate data
-X0_RMS = NA;
-if isempty (cal)
-	disp ('mataa_measure_signal_response: no calibration data available. Returning raw, uncalibrated data!')
-	dut_out_unit = dut_in_unit = '???';
-else
-	if isfield(cal,'DAC')
-		% calibrate signal at DUT input for DAC(+BUFFER):
-		RMS_raw = sqrt (sum(dut_in.^2 / length(dut_in)));
-		[dut_in,t_in,dut_in_unit] = mataa_signal_calibrate_DUTin (dut_in,t,cal);
-		RMS_cal = sqrt (sum(dut_in.^2 / length(dut_in)));
+X0_RMS = repmat(NA,1,size(X0,2));
 
-		% determine RMS amplitude of signal at DUT input (without zero padding):
-		X0_RMS = RMS_cal/RMS_raw * sqrt (sum(X0.^2 / length(X0)));
+for k = 1:length(cal)
+	% calibrate k-th channel
 
+	if isempty(cal{k})
+		disp (sprintf('mataa_measure_signal_response: no calibration data available for channel %i. Returning raw, uncalibrated data!',k))
+		dut_out_unit{k} = dut_in_unit{k} = '???';
 	else
-		warning ('mataa_measure_signal_response: cal data has no ADC data! Skipping calibration of signal at DUT input!')
-	end
 
+		if isfield(cal{k},'DAC')
 
-	if isfield(cal,'ADC')
-		if isfield(cal,'SENSOR')
-			[dut_out,t_out,dut_out_unit] = mataa_signal_calibrate_DUTout (dut_out,t,cal); % calibrate signal at DUT output for SENSOR and ADC
+			% calibrate signal at DUT input for DAC(+BUFFER):
+			RMS_raw = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
+			[dut_in(:,k),t_in,dut_in_unit{k}] = mataa_signal_calibrate_DUTin (dut_in(:,k),t,cal{k});
+			RMS_cal = sqrt (sum(dut_in.^2 / length(dut_in)));
+
+			% determine RMS amplitude of signal at DUT input (without zero padding):
+			X0_RMS(k) = RMS_cal/RMS_raw * sqrt (sum(X0(:,k).^2 / length(X0(:,k))));
+
 		else
-			warning ('mataa_measure_signal_response: cal data has no SENSOR data! Skipping calibration of signal at DUT output!')
+			warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no ADC data! Skipping calibration of signal at DUT input!',k))
 		end
-	else
-		warning ('mataa_measure_signal_response: cal data has no ADC data! Skipping calibration of signal at DUT input!')
-	end
 
+
+		if isfield(cal{k},'ADC')
+			if isfield(cal{k},'SENSOR')
+				[dut_out(:,k),t_out,dut_out_unit{k}] = mataa_signal_calibrate_DUTout (dut_out(:,k),t,cal{k}); % calibrate signal at DUT output for SENSOR and ADC
+			else
+				warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no SENSOR data! Skipping calibration of signal at DUT output!',k))
+			end
+		else
+			warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no ADC data! Skipping calibration of signal at DUT input!',k))
+		end
+	end
 end
 
 fflush (stdout);

@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+import hid
+
+# find and open the RTX6001 HID device:
+hidraw = hid.device(0x0D9A, 0x00DF)
+hidraw.open(0x0D9A, 0x00DF)
+
+# send status query:
+hidraw.write([0x01 , 0x00 , 0x80 , 0x80 , 0x80 , 0x80]) # status querey
+
+# read response bytes:
+# NOTE: automatic detection of overflow or overvoltage may introduce additional data bytes that were not requested from staus query!
+# Make sure the response has the right size and re-read if necessary.
+u1 = u2 = []
+while not( len(u1) == 6 ):
+	u1 = hidraw.read(6)
+	# print ('** Length of answer-1 = ' + str(len(u1)))
+while not( len(u2) == 2 ):
+	u2 = hidraw.read(6)
+	# print ('** Length of answer-2 = ' + str(len(u2)))
+
+# close the HID device:
+hidraw.close()
+
+# determine overflow and overvoltage conditions:
+OVERFLOW_left = OVERFLOW_right = OVERVOLTAGE_left = OVERVOLTAGE_right = 'no'
+if u2[1] & 0b0001:
+	OVERFLOW_left = 'yes'
+if u2[1] & 0b0010:
+	OVERFLOW_right = 'yes'
+if u2[1] & 0b0100:
+	OVERVOLTAGE_left = 'yes'
+if u2[1] & 0b1000:
+	OVERVOLTAGE_right = 'yes'
+
+# determine AC/DC coupling:
+ACDC_left = ACDC_right = 'AC'
+if u1[1] & 0b0010:
+	ACDC_left = 'DC'
+if u1[1] & 0b1000:
+	ACDC_right = 'DC'
+
+# determine attenuator levels and print switch settings:
+levels = { 236: '-20 dBV' , 246: '-10 dBV' , 0: '0 dBV' , 10: '+10 dBV' , 20: '+20 dBV' , 30: '+30 dBV' , 40: '+40 dBV'}
+print ( 'Output_left=' + levels[u1[2]] + '\tOutput_right=' + levels[u1[3]] + '\tInput_left=' + levels[u1[4]] + '(' + ACDC_left + ')' + '\tInput_right=' + levels[u1[5]] + '(' + ACDC_right + ')')
+
+# print overflow and overvoltage information:
+print ( 'Overflow_left=' + OVERFLOW_left + '\tOverflow_right=' + OVERFLOW_right + '\tOvervoltage_left=' + OVERVOLTAGE_left + '\tOvervoltage_right=' + OVERVOLTAGE_right )

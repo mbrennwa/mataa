@@ -108,6 +108,9 @@ while (! feof (fid) )
     				cal.sensitivity_unit = deblank(fliplr(deblank(fliplr(X{2}))));
     				% check unit / value consistency later
     			
+    			case "SENSITIVITY_AUTOSCALEFUNCTION"
+				cal.sensitivity_autoscalefunction =  strtrim (val);
+
     			case "FILE" % load data from another file
     				u = mataa_load_calibration (val);
     				switch toupper(u.type)
@@ -124,7 +127,7 @@ while (! feof (fid) )
     				clear u
     			
     			otherwise
-    				error (sprintf("mataa_load_calibration: ignoring unknown keyword '%s.'",key))
+    				error (sprintf("mataa_load_calibration: cannot parse unknown keyword '%s.'",key))
     		
     		end % switch key
     		

@@ -1,0 +1,12 @@
+% Calibration file for RTX6001 audio analyser (DAC, XLR/balanced output range detected automatically via USB)
+%
+% NOTE: the voltage labels on the RTX6001 front panel refer to RMS values of a sine signal. Multiply the front panel labels by sqrt(2) to obtain the peak voltage.
+
+% Frequency response is very flat, so no transfer function data is included here.
+
+% General information:
+name = RTX6001 AUTOSCALING BALANCED OUTPUT (RIGHT CHANNEL)
+type = DAC
+sensitivity_autoscalefunction = RTX6001_AUTOSCALINGFUNCTION_DAC_BALANCED('RIGHT')
+
+% Frequency response is very flat, so no transfer function data is included here.
