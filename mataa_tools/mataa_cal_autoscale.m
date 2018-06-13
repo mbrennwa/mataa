@@ -26,14 +26,18 @@ function cal = mataa_cal_autoscale (c);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-if length(c) > 1
+if ischar(c) % name of calibration file instead of cal struct
+	c = mataa_load_calibration (c);
+end
+
+if length(c) > 1 % array of multiple cal structs
 	for i = 1:length(c)
 		cal{i} = mataa_cal_autoscale (c{i});
 	end
 else
 
 	cal_adc = cal_dac = [];
-
+	
 	if isfield (c,'ADC')
 		if isfield (c.ADC,'sensitivity_autoscalefunction')
 			eval ( sprintf( "u = %s;",c.ADC.sensitivity_autoscalefunction ) );
