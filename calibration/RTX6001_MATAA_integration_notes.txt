@@ -9,7 +9,7 @@ content: ATTRS{idVendor}=="0d9a" , ATTRS{idProduct}=="00df" , MODE="0666"
 2. Make sure you have Python 3.x available on your computer, and the python-hidapi packages is installed.
 
 - Ubuntu and similar Linux distros:
-	sudo apt install python3-hidapi
+	sudo apt install python3-hid
 	
 - Mac OS X with MacPorts:
 	sudo port install python36 py36-pip
