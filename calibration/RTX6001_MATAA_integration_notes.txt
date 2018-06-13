@@ -6,14 +6,23 @@ Steps to make RTX6001 autoscaling work with MATAA:
 file: /etc/udev/rules.d/90-RTX6001-hidraw-permissions.rules
 content: ATTRS{idVendor}=="0d9a" , ATTRS{idProduct}=="00df" , MODE="0666"
 
-2. Make sure you have Python 3.x available on your computer, and the python-hid module is installed.
-(Ubuntu and similar Linux distros: sudo apt install python3-hid)
+2. Make sure you have Python 3.x available on your computer, and the python-hidapi packages is installed.
+
+- Ubuntu and similar Linux distros:
+	sudo apt install python3-hidapi
+	
+- Mac OS X with MacPorts:
+	sudo port install python36 py36-pip
+	sudo port select --set python3 python36
+	sudo port select --set pip pip36
+	sudo -H pip install hidapi
 
 3. Make sure the RTX6001_USB_STATUS file in the .../mataa/calibration folder is marked as executable.
-Run the RTX6001_USB_STATUS program to see if it works.
 
-4. Make sure the .../mataa/calibration folder in in your Octave / Matlab search path
+4. Switch on the the RTX6001 and connect it to the computer. Run the RTX6001_USB_STATUS program to see if it works.
 
-5. Configure your calibration file to suit your setup. You can use the MB_RTX_AUTOSCALING_LEFT.txt cal file as a template.
+5. Make sure the .../mataa/calibration folder in in your Octave / Matlab search path
 
-6. Use the mataa_cal_autoscaling function with your cal file (or just use the MB_RTX_AUTOSCALING_LEFT.txt file to test things).
+6. Configure your calibration file to suit your setup. You may use the MB_RTX_AUTOSCALING_LEFT.txt cal file as a template.
+
+7. Use the mataa_cal_autoscale function with your cal file (or just use the MB_RTX_AUTOSCALING_LEFT.txt file to test things).
