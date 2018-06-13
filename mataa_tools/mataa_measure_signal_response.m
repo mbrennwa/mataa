@@ -25,14 +25,19 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 % dut_in_unit: unit of data in dut_in (analogous to dut_out_unit)
 % X0_RMS: RMS amplitude of signal at DUT input / DAC(+BUFFER) output (same unit as dut_in data). This may be different from the RMS amplitude of dut_in due to the zero-padding of dut_in in order to accomodate for the latency of the analysis system; the X0_RMS value is determined from the test signal before zero padding.
 %
+%
 % NOTES:
+%
 % (1) As a general rule, the number of DAC channels (X0) and the number of ADC channels ('channels' index) must be the same:
-% * In many situations the optional 'channels' index for the ADC channels can be omitted or left empty (channels=[]). The index will then be set automatically to channels = [1:size(X0,2)] (i.e., the ADC channel numbers correspond to the DAC channel numbers). However, some audio interfaces have more ADC channels than DAC channels, so it is necessary to explicitly specify which ADC channels are used. Example for an audio interface with 2 DACs and 4 ADCs: using X0 with two channels (size(X0,2)=2) requires two ADC channels. If channels = [], ADC channels 1 and 2 will be used automatically. To use ADC channels 3 and 4 instead, set channels=[3,4].
-% * Each channel needs its own cal data, so length(cal) = size(X0,2). If cal is not specified, the cal data for each channel will be set to cal{k}=[]. 
+% * In many situations the optional 'channels' index for the ADC channels can be omitted or left empty (channels=[]). The index will then be set automatically to channels = [1:size(X0,2)] (i.e., the ADC channel numbers correspond to the DAC channel numbers). 
+% * Some audio interfaces have more ADC channels than DAC channels, so it is necessary to explicitly specify which ADC channels are used. Example for an audio interface with 2 DACs and 4 ADCs: using X0 with two channels (size(X0,2)=2) requires two ADC channels. If channels = [], ADC channels 1 and 2 will be used automatically. To use ADC channels 3 and 4 instead, set channels=[3,4].
+% * If cal data is specified, each channel needs its own cal data, so length(cal) = size(X0,2). If cal is not specified, the cal data for each channel will be set to cal{k}=[], and the data will remain uncalibrated.
 %
 % (2) If the DAC output is specified as "digital" (no physical unit for X0 data), the signal samples may range from -1.0 to +1.0.
 %
-% EXAMPLE:
+%
+% EXAMPLES:
+%
 % (1) Feed a 1 kHz sine-wave signal to the DUT and plot the DUT output (no data calibration):
 % > fs = 44100;
 % > [s,t] = mataa_signal_generator ('sine',fs,0.2,1000);
