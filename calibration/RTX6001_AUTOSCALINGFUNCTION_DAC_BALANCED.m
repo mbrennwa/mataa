@@ -64,13 +64,13 @@ u = strsplit (x{k},'='){2}(1:end);
 switch u
 	case '-20 dBV'
 		c.DAC.name = 'RTX6001 100-mV BALANCED OUTPUT';
-		c.DAC.sensitivity = 0.14142;
+		c.DAC.sensitivity = 0.1*sqrt(2);
 	case '0 dBV'
 		c.DAC.name = 'RTX6001 1-V BALANCED OUTPUT';
-		c.DAC.sensitivity = 1.4142;
+		c.DAC.sensitivity = sqrt(2);
 	case '+20 dBV'
 		c.DAC.name = 'RTX6001 10-V BALANCED OUTPUT';
-		c.DAC.sensitivity = 14.142;
+		c.DAC.sensitivity = 10*sqrt(2);
 	otherwise
 		error (sprintf('RTX6001_AUTOSCALINGFUNCTION_DAC_BALANCED: cannot parse DAC sensitivity string (%s).',u))
 end

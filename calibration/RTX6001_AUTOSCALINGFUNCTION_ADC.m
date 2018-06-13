@@ -59,31 +59,31 @@ switch ch
 end
 
 c.ADC.sensitivity_unit = '1/V';
+
 u = strsplit (x{k+2},'='){2}(1:end-4);
 switch u
 	case '-20 dBV'
 		c.ADC.name = 'RTX6001 100-mV INPUT';
-		c.ADC.sensitivity = 7.0711;
+		c.ADC.sensitivity = 10*sqrt(0.5);
 	case '-10 dBV'
 		c.ADC.name = 'RTX6001 316-mV INPUT';
-		c.ADC.sensitivity = 2.2377;
+		c.ADC.sensitivity = sqrt(0.5)*sqrt(10);
 	case '0 dBV'
 		c.ADC.name = 'RTX6001 1-V INPUT';
-		c.ADC.sensitivity = 0.70711;
+		c.ADC.sensitivity = sqrt(0.5);
 	case '+10 dBV'
 		c.ADC.name = 'RTX6001 3.16-V INPUT';
-		c.ADC.sensitivity = 0.22377;
+		c.ADC.sensitivity = 0.1*sqrt(0.5)*sqrt(10);
 	case '+20 dBV'
 		c.ADC.name = 'RTX6001 10-V INPUT';
-		c.ADC.sensitivity = 0.070711;
+		c.ADC.sensitivity = 0.1*sqrt(0.5);
 	case '+30 dBV'
-		c{k}.ADC.name = 'RTX6001 31.6-V INPUT';
-		c{k}.ADC.sensitivity = 0.022377;
+		c.ADC.name = 'RTX6001 31.6-V INPUT';
+		c.ADC.sensitivity = 0.01*sqrt(0.5)*sqrt(10);
 	case '+40 dBV'
 		c.ADC.name = 'RTX6001 100-V INPUT';
-		c.ADC.sensitivity = 0.0070711;
+		c.ADC.sensitivity = 0.01*sqrt(0.5);
 	otherwise
 		error (sprintf('RTX6001_AUTOSCALING_ADC: cannot parse ADC sensitivity string (%s).',u))
 end
 c.ADC.name = [ c.ADC.name ' (' ch ')' ];
-
