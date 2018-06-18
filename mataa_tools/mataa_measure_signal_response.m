@@ -360,7 +360,7 @@ for k = 1:length(cal)
 			% calibrate signal at DUT input for DAC(+BUFFER):
 			RMS_raw = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
 			[dut_in(:,k),t_in,dut_in_unit{k}] = mataa_signal_calibrate_DUTin (dut_in(:,k),t,cal{k});
-			RMS_cal = sqrt (sum(dut_in.^2 / length(dut_in)));
+			RMS_cal = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
 
 			% determine RMS amplitude of signal at DUT input (without zero padding):
 			X0_RMS(k) = RMS_cal/RMS_raw * sqrt (sum(X0(:,k).^2 / length(X0(:,k))));

@@ -62,11 +62,17 @@ else
 	channels = [ mataa_settings('channel_DUT') mataa_settings('channel_REF') ]; % use DUT and REF channel
 end
 
+if length (channels) == 2
+	% dual channel output to DAC:
+	input_signal = [ input_signal(:) input_signal(:) ];
+end
+
+
 for i = 1:N
 
 	% do the sound I/O	
 	if exist ('cal','var')
-		if exist ('unit','var')
+		if exist ('unit','var')		
 			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal,unit);
 		else
 			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
@@ -124,7 +130,7 @@ if isna(X0_RMS)
 	end
 else
 	% remove normalisation to amplitude of DUT input signal due to deconvolution:
-	h = h * X0_RMS;
+	h = h * mean(X0_RMS);
 	if exist ('cal','var')
 		unit = sprintf ('%s',dut_unit);
 	else
