@@ -85,9 +85,10 @@ T = max(1/fLow,log2(fHigh/fLow)/2); % set length of test signal (seconds)
 s = mataa_signal_generator('sweep_smooth',fs,T,[fLow fHigh]);
 
 % play the test signal and record the response signals:
-[response,original] = mataa_measure_signal_response(s,fs,0.1); % play the test signal and record the response signals
-U_A = response(:,mataa_settings('channel_DUT'));    % extract U_A from the measured data
-U_B = response(:,mataa_settings('channel_REF'));    % extract U_B from the measured data
+channels = [ mataa_settings('channel_DUT') mataa_settings('channel_REF') ];
+[response,original] = mataa_measure_signal_response([s s],fs,0.1,1,channels); % play the test signal and record the response signals
+U_A = response(:,1);    % extract U_A from the measured data
+U_B = response(:,2);    % extract U_B from the measured data
 
 % apply fourier transforms
 [U_A,f] = mataa_realFT(U_A,fs);
