@@ -1,18 +1,18 @@
-function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal,unit);
+function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);
 
-% function [h,t,unit] = mataa_measure_IR (input_signal,fs,N,latency,loopback,cal,unit);
+% function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);
 %
 % DESCRIPTION:
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal (if no loopback is used) or the REF channel (with loopback). The allocation of the DUT (and REF) channel is determined using mataa_settings ('channel_DUT') (and mataa_settings ('channel_REF')).
 % Note that the deconvolution result is normalised to the level of signal at the DUT input / DAC(+BUFFER) output. In order to remove this normalisation of the impulse response (h), the function multiplies the deconvolution result by the RMS signal level of the signal at the DUT input (if the DUT input signal level is available from the calibraton process).
 %
 % INPUT:
-% input_signal: input signal, vector of signal samples or name to file with sample data. Files must be in ASCII format and contain a one-column vector of the signal samples, where +1.0 is the maximum and -1.0 is the minimum value. The file should be in the 'test_signals' path. NOTE: it can't hurt to have some zeros padded to the beginning and the end of the input_signal. This helps to avoid that the DUT's response is cut off due to the latency of the audio hardware (and possibly the 'flight time'  of the sound from a loudspeaker to a microphone).
+% test_signal: test signal, vector of signal samples (can be a chirp, MLS, pink noise, Dirac, etc.).
 % N (optional): the impulse response is measured N times and the mean response is calculated from these measurements. N = 1 is used by default.
 % latency: see mataa_measure_signal_response
 % loopback (optional): flag to control the behaviour of deconvolution of the DUT and REF channels. If loopback = 0, the DUT signal is not deconvolved from the REF signal (no loopback calibration). Otherwise, the DUT signal is deconvolved from the REF channel. The allocation of the DUT and REF channels is taken from mataa_settings('channel_DUT') and mataa_settings('channel_REF'). Default value (if not specified) is loopback = 0.
 % cal (optional): calibration data (struct or (cell-)string, see mataa_load_calibration and mataa_signal_calibrate)
-% unit (optional): unit of input_signal (see mataa_measure_signal_response). Note that this controls the amplitude of the analog signal at the DUT input.
+% unit (optional): unit of test_signal (see mataa_measure_signal_response). Note that this controls the amplitude of the analog signal at the DUT input.
 %
 % OUTPUT:
 % h: impulse response
@@ -64,7 +64,7 @@ end
 
 if length (channels) == 2
 	% dual channel output to DAC:
-	input_signal = [ input_signal(:) input_signal(:) ];
+	test_signal = [ test_signal(:) test_signal(:) ];
 end
 
 
@@ -73,12 +73,12 @@ for i = 1:N
 	% do the sound I/O	
 	if exist ('cal','var')
 		if exist ('unit','var')		
-			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal,unit);
+			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (test_signal,fs,latency,1,channels,cal,unit);
 		else
-			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels,cal);
+			[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (test_signal,fs,latency,1,channels,cal);
 		end
 	else
-		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (input_signal,fs,latency,1,channels);
+		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (test_signal,fs,latency,1,channels);
 	end
 	
 	% deconvolve in and out signals to yield h:
@@ -91,8 +91,8 @@ for i = 1:N
 	
 	if ~loopback % no loopback calibration
 		disp ('Deconvolving data using raw test signal as reference (no loopback data available)...')
-		dut = out(:,1); dut_unit = out_unit;
-		ref = in; 	ref_unit = in_unit;
+		dut = out(:,1); dut_unit = out_unit{1};
+		ref = in; 	ref_unit = in_unit{1};
 
 	else % use loopback / REF data
 		disp ('Deconvolving data using loopback signal as reference...')
