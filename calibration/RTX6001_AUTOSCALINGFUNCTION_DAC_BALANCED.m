@@ -3,7 +3,7 @@ function c = RTX6001_AUTOSCALINGFUNCTION_DAC_BALANCED(channel);
 % function c = RTX6001_AUTOSCALINGFUNCTION_DAC_BALANCED(channel);
 %
 % DESCRIPTION:
-% Determine current sensitivity settings for DAC and return as cal struct.
+% Determine current sensitivity settings for DAC (BALANCED XLR output) and return as cal struct.
 %
 % INPUT:
 % channel: channel string ('left' or 'right')
