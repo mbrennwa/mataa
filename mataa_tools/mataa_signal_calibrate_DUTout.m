@@ -203,9 +203,8 @@ end % __calib function
 % Main function
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-
 if isscalar(t)
-    t = [0:1/t:(length(h)-1)/t];
+    t = [0:1/t:(length(s)-1)/t];
 end
 
 if ischar(cal) % name of calibration file instead of cal struct
@@ -221,7 +220,7 @@ if size(s,2) > 1 % s has more than one data channel
 		clear u;
 	end
 	nCal = length(cal);
-	for k = 1:size(h,2)
+	for k = 1:size(s,2)
 		disp (sprintf("Calibrating channel %i...",k))
 				
 		% check if cal data available for k-th channel:
@@ -231,8 +230,8 @@ if size(s,2) > 1 % s has more than one data channel
 		else
 			kk = k;
 		end
-		[x,t,u] = mataa_signal_calibrate_DUTout (h(:,k),t,cal{kk},out_amplitude(k));
-		s_cal = [ h_cal x ];
+		[x,t,u] = mataa_signal_calibrate_DUTout (s(:,k),t,cal{kk},out_amplitude(k));
+		s_cal = [ s_cal x ];
 		s_cal_unit{k} = u;
 	end
 	
