@@ -6,7 +6,7 @@ function [s,t] = mataa_IR_to_SR (h,t);
 % calculates the step response of a system with impulse response h(t)
 %
 % INPUT:
-% h: impulse response (in volts)
+% h: impulse response
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
 %
 % OUTPUT:
