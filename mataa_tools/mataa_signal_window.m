@@ -64,13 +64,12 @@ N = length(s0);
 n = [0:N-1];
 
 window = lower(window);
+ishalf = false;
 if length(window) > 5
     if strcmp(window(end-4:end),'_half')
     	window = window(1:end-5);
     	n = n/2 + (N-1)/2;
     	ishalf = true;
-    else
-    	ishalf = false;
     end
 end
 
