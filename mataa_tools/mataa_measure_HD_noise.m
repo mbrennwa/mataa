@@ -23,7 +23,7 @@ function [HD,fHD,THD,THDN,L,f,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,laten
 % N_avg (optional): number of averages (integer, default: N_avg = 1). If N_avg > 1, the measurement is repeated N_avg times, and the mean result is returned. This is useful to reduce the noise floor.
 %
 % OUTPUT:
-% HD: amplitudes of the fundamental and harmonics (RMS value, length(HD) = N_h).
+% HD: amplitudes (zero-to-peak) and phase angles (radians) of the fundamental and harmonics (size(HD) = [2,N_h]).
 % fHD: frequency values of the fundamental and harmonics (Hz)
 % THD: total harmonic distortion ratio (THD = sqrt(sum(HD(2:end).^2))/HD(1), following the AD convention for normalisation
 % THDN: THD + noise (THD+N) ratio. THD+N ratio = RMS level of the measured distortion plus noise (with the fundamental removed) divided by the level of the fundamental (following the AD convention).
@@ -39,13 +39,19 @@ function [HD,fHD,THD,THDN,L,f,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,laten
 %
 % EXAMPLE-1 (harmonic distorion + noise analysis with 1 kHz fundamental, 1 second test signal, 44.1 kHz sampling rate, includ 10 peaks in analysis (fundamental + 9 harmonics):
 % [HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( 1000,1,44100,10,0.2 );
-% semilogy (fL,L/sqrt(2),'k-' , fHD,HD/sqrt(2),'ro' );
-% ylabel ('Amplitude (uncal.)')
+% subplot (2,1,1)
+% semilogy (fL,L(:,1)/sqrt(2),'k-' , fHD,HD(1,:)/sqrt(2),'ro' );
+% xlim([0,fHD(end)])
+% ylabel ('Amplitude (RMS uncal.)')
+% subplot (2,1,2)
+% plot ( fHD,HD(2,:)/pi*180,'ro' );
+% xlim([0,fHD(end)])
+% ylabel ('Phase (deg.)')
 % xlabel ('Frequency (Hz)');
 % 
 % EXAMPLE-2 (like EXAMPLE-1, but with calibrated 0.3 V test signal amplitude, Hann window, bandwith-limit 100 to 10500 Hz, 5 averages)
-% [HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( 1000,1,44100,10,0.2,'MB_ELECTRONIC-DIRECT_CHAIN.txt',0.3,'V','hann',100,10500,5 );
-% semilogy ( fL,L/sqrt(2),'k-' , fHD,HD/sqrt(2),'ro' )
+% [HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( 1000,1,44100,10,0.2,'MB_ELECTRONIC_CHAIN.txt',0.3,'V','hann',100,10500,5 );
+% semilogy ( fL,L(:,1)/sqrt(2),'k-' , fHD,HD(1,:)/sqrt(2),'ro' )
 % ylabel (sprintf('Amplitude (%s-RMS)',unit))
 % xlabel ('Frequency (Hz)');
 % 
@@ -112,7 +118,8 @@ if ~exist ('N_avg','var')
 end
 
 % init HD:
-HD = fHD = repmat (NA,1,N_h);
+fHD = repmat (NA,1,N_h);
+HD = repmat (NA,2,N_h);
 
 % check if f0 matches with FFT bins, and adjust if necessary:
 t = [0:round(T*fs)-1]/fs;
@@ -128,21 +135,21 @@ end
 if ~isempty(fLow)
 	k = find (f >= fLow);
 	f = f(k);
-	L = L(k);
+	L = L(k,:);
 end
 if ~isempty(fHigh)
 	k = find (f <= fHigh);
 	f = f(k);
-	L = L(k);
+	L = L(k,:);
 end
 
-% determine levels of harmonics:
+% determine amplitudes and phase angles of harmonics:
 i = 1;
 while i <= N_h
 	if i*f0 <= max(f)
 		fHD(i) = i*f0;
 		[u,j] = min(abs(f-fHD(i)));
-		HD(i) = L(j);	
+		HD(:,i) = L(j,:);	
 		i = i+1;	
 	else
 		i = N_h + 1;
@@ -150,8 +157,8 @@ while i <= N_h
 end
 
 % determine THD (without noise):
-kTHD = find (~isna(HD)); kTHD(1) = []; % index to the harmonics
-THD = sqrt(sum(HD(kTHD).^2))/HD(1);
+kTHD = find (~isna(HD(1,:))); kTHD(1) = []; % index to the harmonics
+THD = sqrt(sum(HD(1,kTHD).^2))/HD(1,1);
 
 % determine THD+N (spectrum without fundamental):
 
@@ -162,11 +169,10 @@ elseif df > f0/2
 	df = f0/2;
 end
 kn = find (f<f0-df | f>f0+df ); % index to "harmonics+noise" data (everything that is not close to the fundametal frequency)
-THDN = sqrt ( sum(L(kn).^2) ) / HD(1);
-% RMS of L without the contributon from the fundamental, normalised to the fundamental
+THDN = sqrt ( sum(L(kn,1).^2) ) / HD(1,1);
+% RMS of L(:,1) without the contributon from the fundamental, normalised to the fundamental
 % SEE: "Understand SINAD, ENOB, SNR, THD, THD + N, and SFDR so You Don't Get Lost in the Noise Floor" by Walt Kester)
 % NOTE: Audio Precision uses different convention (nomralise by total RMS of full spectrum, not the fundamental)
 
-% for debugging:
-% semilogy (f,L+eps,'k-' , f(kn),Ln+eps,'g-' , fHD,HD,'ro')
-
+% normalise phase angles such that fundamental phase = 0:
+HD(2,:) = rem ( HD(2,:) - HD(2,1) , pi ) ;

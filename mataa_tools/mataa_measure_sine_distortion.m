@@ -19,7 +19,7 @@ function [L,f,fi,L0,unit] = mataa_measure_sine_distortion (fi,T,fs,latency,cal,a
 % N_avg (optional): number of averages (integer, default: N_avg = 1). If N_avg > 1, the measurement is repeated N_avg times, and the mean result is returned. This is useful to reduce the noise floor.
 %
 % OUTPUT:
-% L: spectrum, level of DUT output signal at frequency values f.
+% L: spectrum of DUT output signal at frequency values f. L(:,1) = amplitudes (zero-to-peak), L(:,2) = phase angles (radian)
 % f: frequency values of spectrum (Hz).
 % fi: frequency value(s) of fundamental(s)they may have been adjusted to align with the frequency resolution of the spectrum to avoid frequency leakage)
 % L0: signal level of fundamental(s) (useful for normalising plots)
@@ -134,20 +134,25 @@ for k = 1:N_avg
 	% calculate signal spectrum (voltages!)
 	[LL,f] = mataa_realFT (y,t);
 	
-	% discard phase information
+	% determine amplitude and phase angle:
+	PP = arg (LL);
 	LL = abs (LL);
 	
 	% normalize L to length of spectrum:
 	LL = LL / length(LL)*2;
 		
 	if k == 1
-		L  = LL/N_avg;
+		L  = [ LL(:) , PP(:) ] / N_avg ;
 	else
-		L  = L + LL/N_avg;
+		L  = L + [ LL(:) , PP(:) ] / N_avg;
 	end
 	
 end
 
 % find signal level of fundamental(s)
-L0 = interp1 (f,L,fi,'nearest');
+L0 = interp1 (f,L(:,1),fi,'nearest');
 L0 = mean (L0);
+
+if iscellstr(unit)
+	unit = unit{1};
+end
