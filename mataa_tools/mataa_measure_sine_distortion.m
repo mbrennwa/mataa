@@ -100,10 +100,11 @@ s = s / max(abs(s));
 s = s * amplitude;
 
 L = [];
+unit0 = unit;
 
 for k = 1:N_avg
 	% do sound I/O:
-	[y,in,t,unit] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),cal,unit);
+	[y,in,t,unit] = mataa_measure_signal_response(s,fs,latency,1,mataa_settings('channel_DUT'),cal,unit0);
 	
 	% remove the zero padding and make the remaining signal length equal to length(t):
 	i = find(abs(y) > 0.5*max(abs(y)));

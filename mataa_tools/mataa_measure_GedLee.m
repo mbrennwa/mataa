@@ -1,13 +1,14 @@
-function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit,N_avg );
+function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit,N_avg,do_plot);
 
-% function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit,N_avg );
+% function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit,N_avg,do_plot);
 %
 % DESCRIPTION:
-% Measure the GedLee distortion metric. This is achieved by measuring the distortion harmonics from a sine signal to construct the transfer function of the system. The transfer function is determined from the transfer function.
-% 
+% Measure the GedLee distortion metric. This is achieved by measuring the distortion harmonics from a sine signal to construct the transfer function of the system, which is analysed according to the GedLee metric to obtain "Gm".
+%
 % INPUT:
 % (see mataa_measure_HD_noise)
 % 'amplitude' may be specified as a vector of different amplitude values.
+% do_plot (optional): flag to set plotting of the DUT output spectrum used to determine the transfer function for GedLee analysiss. This is useful to check if the right number of harmonics (N_h) is used, or if the hardmonics are lost in the noise floor (default: do_plot = true), 
 %
 % OUTPUT:
 % Gm: GedLee metric
@@ -22,8 +23,8 @@ function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit
 % xlabel ('Input (normalised)'); ylabel ('Output (normalised)'); title ('Transfer function')
 %
 % EXAMPLE-2:
-% ampl = logspace(-3,0,5);
-% [Gm,tf] = mataa_measure_GedLee (1000,1,44100,20,0.2,'GENERIC_CHAIN_DIRECT.txt',ampl,'V');
+% ampl = logspace(-3,0,10)*5;
+% [Gm,tf] = mataa_measure_GedLee (1000,3,88200,10,0.2,'MB_ACOUSTIC_CHAIN_DUT.txt',ampl,'V',3);
 % semilogx (ampl/sqrt(2),Gm)
 % xlabel ('Signal (V-RMS)'); ylabel ('Gm value')
 %
@@ -66,29 +67,29 @@ end
 if ~exist ('N_avg','var')
 	N_avg = 1;
 end
+if ~exist ('do_plot','var')
+	do_plot = true;
+end
 
-if length (amplitude) > 1
-
-	% init Gm and tf
-	Gm = tf = [];
-
-	% measure Gm and tf for each amplitude value:
-	for i = 1:length(amplitude)
-		[u,v] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude(i),unit,N_avg );
-		if i == 1
-			Gm = u;
-			tf = v;
-		else
-			Gm = [ Gm ; u ];
-			tf = [ tf ; v ];
-		end
+if do_plot > 0
+	figs = findobj('type','figure');
+	if length(figs) == 0
+		old_fig = -1;
+	else
+		old_fig = gcf();
 	end
+	figure(); % open new figure 
+end
 
-else
+% init Gm and tfe
+Gm = tf = [];
+unit0 = unit;
+
+% meausure tf and Gm:
+for i = 1:length(amplitude)
 
 	% measure Gm and tf:
-
-	[HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,latency,cal,amplitude,unit,'none',[],[],N_avg );
+	[HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,latency,cal,amplitude(i),unit0,'hann',[],[],N_avg );
 
 	% amplitudes and phase angles (normalised to fundamental):
 	ampli = HD(1,:) / HD(1,1);
@@ -96,24 +97,42 @@ else
 	k = find (~isna(ampli));
 	if length(k) < N_h
 		N_h = length(k);
-		warning (sprintf("mataa_measure_GedLee: harmonics extend beyond Nyquist frequency! Using N_h = %i...",N_h))
+		warning (sprintf("mataa_measure_GedLee: specified harmonics extend beyond Nyquist frequency! Using N_h = %i...",N_h))
 		ampli = ampli(k);
 		phase = phase(k);
+	end
+
+	% plot spectrum to check harmonics:
+	if do_plot
+		semilogy(fL,L(:,1))
+		title (sprintf('DUT output spectrum used for GedLee at %g %s-RMS',amplitude(i)/sqrt(2),unit0))
+		xlabel ('Frequency (Hz)')
+		ylabel (sprintf('Amplitude (%s-RMS)',unit))
+		pause(0.1)
 	end
 
 	% determine transfer function:
 	Nt = 5000;
 	tt = [-round(Nt/4):round(Nt/4)]/Nt / f0;
-	tf = repmat (0,size(tt)); % init transfer function
+	u_tf = repmat (0,size(tt)); % init transfer function
 	for i = 1:N_h
-		tf = tf + ampli(i) * sin(2*pi*fHD(i)*tt + phase(i) );
+		u_tf = u_tf + ampli(i) * sin(2*pi*fHD(i)*tt + phase(i) );
 	end
 	xs = sin (2*pi*fHD(1)*tt + phase(1)); % x values (pure sine curve)
 	xl = linspace (-1,1,length(tt)); % x values (linear)
-	tf = interp1(xs,tf,xl,'linear','extrap'); % convert tf from tf(xs) to tf(xl)
+	u_tf = interp1(xs,u_tf,xl,'linear','extrap'); % convert tf from tf(xs) to tf(xl)
 
 	% calculate GedLee metric (Gm):
 	dx = (xl(end)-xl(1)) / (length(xl)-1);
-	Gm = sqrt( sum ( cos(xl(2:end-1)*pi/2).^2 .* (diff(diff(tf))/dx^2).^2 * dx ) );
+	u_Gm = sqrt( sum ( cos(xl(2:end-1)*pi/2).^2 .* (diff(diff(u_tf))/dx^2).^2 * dx ) );
 
+	Gm = [ Gm ; u_Gm ];
+	tf = [ tf ; u_tf ];
+
+end
+
+if do_plot
+	if old_fig > 0
+		figure (old_fig)
+	end
 end
