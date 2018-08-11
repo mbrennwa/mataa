@@ -8,7 +8,7 @@ function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit
 % INPUT:
 % (see mataa_measure_HD_noise)
 % 'amplitude' may be specified as a vector of different amplitude values.
-% do_plot (optional): flag to set plotting of the DUT output spectrum used to determine the transfer function for GedLee analysiss. This is useful to check if the right number of harmonics (N_h) is used, or if the hardmonics are lost in the noise floor (default: do_plot = true), 
+% do_plot (optional): flag (boolean) or figure number (positive integer). Use this to set plotting of the DUT output spectrum used to determine the transfer function for GedLee analysiss. This is useful to check if the right number of harmonics (N_h) is used, or if the hardmonics are lost in the noise floor (default: do_plot = 15).
 %
 % OUTPUT:
 % Gm: GedLee metric
@@ -18,13 +18,13 @@ function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit
 % [1] "Weighting Up", Keith Howard
 %
 % EXAMPLE-1:
-% [Gm,tf] = mataa_measure_GedLee (1000,1,44100,10,0.2);
+% [Gm,tf] = mataa_measure_GedLee (1000,0.3,44100,10,0.2);
 % plot (linspace(-1,1,length(tf)),tf);
 % xlabel ('Input (normalised)'); ylabel ('Output (normalised)'); title ('Transfer function')
 %
 % EXAMPLE-2:
 % ampl = logspace(-3,0,10)*5;
-% [Gm,tf] = mataa_measure_GedLee (1000,3,88200,10,0.2,'MB_ACOUSTIC_CHAIN_DUT.txt',ampl,'V',3);
+% [Gm,tf] = mataa_measure_GedLee (1000,0.3,88200,10,0.2,'MB_ACOUSTIC_CHAIN_DUT.txt',ampl,'V',3);
 % semilogx (ampl/sqrt(2),Gm)
 % xlabel ('Signal (V-RMS)'); ylabel ('Gm value')
 %
@@ -70,6 +70,9 @@ end
 if ~exist ('do_plot','var')
 	do_plot = true;
 end
+if isbool(do_plot)
+	do_plot = 15
+end
 
 if do_plot > 0
 	figs = findobj('type','figure');
@@ -78,7 +81,7 @@ if do_plot > 0
 	else
 		old_fig = gcf();
 	end
-	figure(); % open new figure 
+	figure(do_plot); % open new figure 
 end
 
 % init Gm and tfe
