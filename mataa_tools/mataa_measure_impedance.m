@@ -1,6 +1,6 @@
-function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
+function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,cal,amplitude,unit);
 
-% function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
+% function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,cal,amplitude,unit);
 %
 % DESCRIPTION:
 % This function measures the complex, frequency-dependent impedance Z(f) of a DUT using a swept sine signal ranging from fLow to fHigh. Note the fade-in and fade-out of the test signal results in a loss of precision at the frequency extremes, which may be compensated by using a slightly larger frequency range.
@@ -25,15 +25,22 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 % R: resistance of the reference resistor (Ohm)
 % fs (optional): sampling frequency to be used for sound I/O. If not value is given, the lowest possible sampling frequency will be used.
 % resolution (optional): frequency resolution in octaves (example: resolution = 1/24 will give 1/24 octave smoothing). Default is resolution = 1/48. If you want no smoothing at all, use resolution = 0.
+% cal (optional): calibration data (see mataa_signal_calibrate for details). This is required only if the signal amplitude used for the measurement needs to be set to a specific level.
+% amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). These parameters are used only if 'cal' is specified. Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'.
 % 
 % OUTPUT:
 % Zabs: impedance magnitude (Ohm)
 % Zphase: impedance phase (degrees)
 % f: vector of frequency values
 %
-% EXAMPLE:
-% [Zmag,Zphase,f] = mataa_measure_impedance (10,20000,8.2,44100);
+% EXAMPLE 1 (simple measurement from 10 Hz to 20 kHz, using a reference resistor R=8.0 Ohm, with unspecified signal level):
+% [Zmag,Zphase,f] = mataa_measure_impedance (10,20000,8.0,44100);
 % semilogx (f,Zmag); xlabel ('Frequency (Hz)'); ylabel ('Impedance (Ohm)')
+% 
+% EXAMPLE 2 (similar to above, but without smoothing and using a sweep amplitude of +/- 3.0 V-pk):
+% [Zmag,Zphase,f] = mataa_measure_impedance (10,20000,8.0,44100,0,'MB_ELECTRONIC_CHAIN.txt',3.0,'V');
+% subplot (2,1,1); semilogx (f,Zphase); ylabel ('Phase (deg.)')
+% subplot (2,1,2); semilogx (f,Zmag); xlabel ('Frequency (Hz)'); ylabel ('Impedance (Ohm)')
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -56,14 +63,10 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
+% check arguments:
 if ~exist('fs','var')
     fs = [];
 end
-
-if ~exist('resolution','var')
-    resolution = [];
-end
-
 if isempty(fs)
     info = mataa_audio_info;
     if exist('intersect')==3
@@ -76,17 +79,44 @@ if isempty(fs)
     fs = min(rates(find(rates > 2*fHigh)));
 end
 
+if ~exist('resolution','var')
+    resolution = [];
+end
 if isempty(resolution)
     resolution = 1/48;
+end
+
+if ~exist('latency','var')
+	latency = []; % use default value (best guess)
+end
+
+if ~exist('cal','var')
+    cal=[];
+end
+
+if ~exist('amplitude','var')
+	amplitude = 1; % use default value
+end
+
+if ~exist('unit','var')
+	unit = 'digital';
 end
 
 % setup test signal:
 T = max(1/fLow,log2(fHigh/fLow)/2); % set length of test signal (seconds)
 s = mataa_signal_generator('sweep_smooth',fs,T,[fLow fHigh]);
+s = amplitude*[s s];
 
 % play the test signal and record the response signals:
 channels = [ mataa_settings('channel_DUT') mataa_settings('channel_REF') ];
-[response,original] = mataa_measure_signal_response([s s],fs,0.1,1,channels); % play the test signal and record the response signals
+if isempty(cal)
+	% run measurement without setting signal level:
+	[response,original] = mataa_measure_signal_response(s,fs,latency,1,channels); % play the test signal and record the response signals
+else
+	% run measurement at specific signal level:
+	[response,original] = mataa_measure_signal_response(s,fs,latency,1,channels,{cal cal},unit); % play the test signal and record the response signals
+end
+
 U_A = response(:,1);    % extract U_A from the measured data
 U_B = response(:,2);    % extract U_B from the measured data
 
