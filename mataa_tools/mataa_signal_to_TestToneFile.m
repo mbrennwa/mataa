@@ -62,7 +62,11 @@ if exist('zeroTime','var')
         error('mataa_signal_to_TestToneFile: need fs to determine number of zeros to be padded the the signal')
     end
     n = zeroTime*fs;
-    z = repmat(0,n,nChannels);
+
+    % z = repmat(0,n,nChannels); THIS FAILS FOR LARGE n. Is this a bug in Octave?
+
+    z = repmat(0,round(n),1);
+    z = repmat(z,1,nChannels);
     s = [ z ; s ; z ];
 end
 
