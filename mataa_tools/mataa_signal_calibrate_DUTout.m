@@ -62,7 +62,8 @@ function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
 
 % helper function for calibration of various units
 function [h,t] = __calib (h,t,subcal,type)
-h = h(:);	
+h = h(:);
+
 disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     if ~isfield (subcal,'sensitivity') % don't know the sensitivity...
     	switch toupper(type) % guess sensitivity value and unit
@@ -81,7 +82,7 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	su = subcal.sensitivity_unit;
     	disp (sprintf("     sensitivity = %g %s.",sv,su)) 	
     end
-    
+
     % compensate for sensitivity:
     h = h / sv;
 
@@ -236,12 +237,13 @@ if size(s,2) > 1 % s has more than one data channel
 	end
 	
 else
+	s_cal = s;
 
 	if ~isfield (cal,'SENSOR')
 		disp ("No SENSOR calibation data available!")
 		unit_SENSOR_sensitivity = '???';
 	else
-		[s_cal,t] = __calib (s,t,cal.SENSOR,'SENSOR');
+		[s_cal,t] = __calib (s_cal,t,cal.SENSOR,'SENSOR');
 		unit_SENSOR_sensitivity = cal.SENSOR.sensitivity_unit;
 	end
 	
@@ -249,7 +251,7 @@ else
 		disp ("No ADC calibation data available!")
 		unit_ADC_sensitivity = '1/V';
 	else
-		[s_cal,t] = __calib (s,t,cal.ADC,'ADC');
+		[s_cal,t] = __calib (s_cal,t,cal.ADC,'ADC');
 		unit_ADC_sensitivity = cal.ADC.sensitivity_unit;
 	end
 
