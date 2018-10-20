@@ -183,7 +183,7 @@ if ~exist ('X0_unit','var')
 	X0_unit = 'digital';
 end
 
-if strcmp (toupper(X0_unit),'DIGITAL') % no amplitude conversion
+if strcmp (upper(X0_unit),'DIGITAL') % no amplitude conversion
 	if max(X0) > 1.0
 		error ('mataa_measure_signal_response: max. value of X0 is higher than 1.0 in digital domain.')
 	elseif min(X0) < -1.0
@@ -195,7 +195,7 @@ else % convert data in each channel of X0 to "digital" using the sensitivity of 
 		if ~isfield(cal{k},'DAC')
 			error ('mataa_measure_signal_response: cal data has no DAC field, cannot convert X0 voltages to digital domain (-1...+1).')
 		else
-			if ~strcmp(toupper(X0_unit),toupper(cal{k}.DAC.sensitivity_unit))
+			if ~strcmp(upper(X0_unit),upper(cal{k}.DAC.sensitivity_unit))
 				error (sprintf("mataa_measure_signal_response: X0 data given in %s, but analog output of DAC '%s' is in units %s.",X0_unit,cal{k}.DAC.name,cal{k}.DAC.sensitivity_unit))
 			else
 				if max(X0(:,k)) > cal{k}.DAC.sensitivity
@@ -352,7 +352,8 @@ for k = 1:length(cal)
 
 	if isempty(cal{k})
 		disp (sprintf('mataa_measure_signal_response: no calibration data available for channel %i. Returning raw, uncalibrated data!',k))
-		dut_out_unit{k} = dut_in_unit{k} = '???';
+		dut_out_unit{k} = '???'; 
+		dut_in_unit{k}  = '???';
 	else
 
 		if isfield(cal{k},'DAC')
@@ -382,4 +383,6 @@ for k = 1:length(cal)
 	end
 end
 
-fflush (stdout);
+if exist('stdout')
+	fflush (stdout);
+end

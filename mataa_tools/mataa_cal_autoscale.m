@@ -36,7 +36,8 @@ if length(c) > 1 % array of multiple cal structs
 	end
 else
 
-	cal_adc = cal_dac = [];
+	cal_adc = [];
+	cal_dac = [];
 	
 	if isfield (c,'ADC')
 		if isfield (c.ADC,'sensitivity_autoscalefunction')

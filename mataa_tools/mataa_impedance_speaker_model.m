@@ -21,8 +21,8 @@ function [mag,phase] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1,L2,R2)
 % phase: phase of impedance (degrees)
 %
 % NOTES:
-%    - The ratio Qm/Qe reflects the height of the impedance peak. If Zmax is the impedance maximum (at resonance) then Zmax/Rdc = Qm/Qe-1.
-%    - Qe reflects the width of the impedance peak (at least I think so; large Qe corresponds to a narrow peak)
+%    - The ratio Qm/Qe reflects the height of the impedance peak. If Zmax is the impedance maximum (at resonance) then Zmax/Rdc = Qm/Qe+1.
+%    - Qe reflects the width of the impedance peak (large Qe corresponds to a narrow peak)
 %
 % EXAMPLE:
 % The following gives a good approximation of the data shown in Fig. 7.18 in J. d'Appolito, "Testing oudspeaker" on page 122:
