@@ -1,24 +1,34 @@
 #!/usr/bin/env python3
 
 import hid
+from time import sleep
 
 # find and open the RTX6001 HID device:
 hidraw = hid.device(0x0D9A, 0x00DF)
 hidraw.open(0x0D9A, 0x00DF)
 
-# send status query:
-hidraw.write([0x01 , 0x00 , 0x80 , 0x80 , 0x80 , 0x80]) # status querey
+# Read status -- NOTE: RTX changed firmware after releasing the Software Interface Documentation. The code below repeats the query a few times, which seems to be necessary to get the correct status readings from the changed firmware.
 
-# read response bytes:
-# NOTE: automatic detection of overflow or overvoltage may introduce additional data bytes that were not requested from staus query!
-# Make sure the response has the right size and re-read if necessary.
-u1 = u2 = []
-while not( len(u1) == 6 ):
-	u1 = hidraw.read(6)
-	# print ('** Length of answer-1 = ' + str(len(u1)))
-while not( len(u2) == 2 ):
-	u2 = hidraw.read(6)
-	# print ('** Length of answer-2 = ' + str(len(u2)))
+k = 0;
+while k < 2:
+	# send status query:
+	hidraw.write([0x01 , 0x00 , 0x80 , 0x80 , 0x80 , 0x80]) # status querey
+
+	# read response bytes:
+	# NOTE: automatic detection of overflow or overvoltage may introduce additional data bytes that were not requested from staus query!
+	# Make sure the response has the right size and re-read if necessary.
+	u1 = u2 = []
+	while not( len(u1) == 6 ):
+		u1 = hidraw.read(6)
+		# print ('** Length of answer-1 = ' + str(len(u1)))
+	while not( len(u2) == 2 ):
+		u2 = hidraw.read(6)
+		# print ('** Length of answer-2 = ' + str(len(u2)))
+
+	if k < 2:
+		sleep(0.1)
+	
+	k = k+1
 
 # close the HID device:
 hidraw.close()
