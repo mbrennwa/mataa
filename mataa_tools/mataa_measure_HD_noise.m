@@ -6,7 +6,7 @@ function [HD,fHD,THD,THDN,L,f,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,laten
 % Measure harmonic distortion and total harmonic distortion plus noise (THD+N). If necessary, the fundamental frequency (f0) is adjusted to match the center of the closest FFT bin to avoid smearing of the spectrum.
 % 
 % INPUT:
-% fi: fundamental frequency (Hz).
+% f0: fundamental frequency (Hz).
 % T: length of sine signal in seconds.
 % fs: sampling frequency in Hz
 % N_h: number of harmonics to consider (including the fundamental)
