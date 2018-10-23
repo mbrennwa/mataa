@@ -69,6 +69,8 @@ if reset_to_def
 	mataa_settings.channel_REF = 2;
 	
     mataa_settings.interchannel_delay = 0;
+    
+    mataa_settings.audioinfo_skipcheck = 0; % don't run the TestDevices check and return generic audio info instead (suitable for a typical audio interface, stereo, full duplex). This is useful to skip the query to audio interfaces which do nasty things when TestDevices asks them for their properties (such as the RTX-6001 which goes crazy with relays clicking)
 	
 	cc = [ 'save -mat ' path ' mataa_settings ; ' ];
 	disp(sprintf('Creating / resetting to MATAA default settings (command: %s)...',cc));
