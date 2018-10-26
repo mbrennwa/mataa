@@ -1,9 +1,9 @@
-function [mag,phase] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1,L2,R2)
+function [mag,phase] = mataa_impedance_speaker_model_LR2 (f,Rdc,f0,Qe,Qm,L1,L2,R2)
 
-% function [mag,phase] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1,L2,R2)
+% function [mag,phase] = mataa_impedance_speaker_model_LR2 (f,Rdc,f0,Qe,Qm,L1,L2,R2)
 %
 % DESCRIPTION:
-% Calculate speaker impedance (magnitude and phase) as a function of frequency f according to the MLSSA model (see Figure 7.16 in J. d'Appolito, "Testing Loudspeakers", Audio Amateur Press). This model essentially consists of a combination of three impedance elements connected in series (where w = 2*pi*f, w0 = 2*pi*f0):
+% Calculate speaker impedance (magnitude and phase) as a function of frequency f according to the "LR-2 model" (see also Figure 7.16 in J. d'Appolito, "Testing Loudspeakers", Audio Amateur Press). This model essentially consists of a combination of three impedance elements connected in series (where w = 2*pi*f, w0 = 2*pi*f0):
 % (a) The DC resistance of the voice coil (Rdc)
 % (b) A parallel LCR circuit, reflecting the the low-frequency part of the impedance curve (resonance peak).
 % (c) L1 in series with a parallel combination of R2 and L2. L1, L2, and R2 reflect the high-frequency part of the impedance curve. For L2 = 0 and R2 = Inf, this model reduces to the simpler concept where the voice-coil inductance Le is constant with frequency (and L1 = Le).
