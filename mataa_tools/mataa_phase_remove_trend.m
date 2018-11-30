@@ -14,6 +14,13 @@ function [phase,delay] = mataa_phase_remove_trend (phase,f,f1,f2);
 % phase: phase with excess phase corresponding to delay removed (unwrapped, in degrees)
 % delay: time delay corresponding the the removed phase trend (in seconds)
 %
+% EXAMPLE (remove excess phase and determine "flight time" of impulse response):
+% [h,t,unit] = mataa_IR_demo ('FE108'); % load impulse response
+% [mag,phase,f] = mataa_IR_to_FR(h,t,[],unit); % convert to frequency domain
+% min_phase = mataa_minimum_phase (mag,f); % determine minimum phase (in degrees)
+% ex_phase = phase - min_phase; % determine excess phase (phase = minimum-phase + excess-phase)
+% [u,delay] = mataa_phase_remove_trend (ex_phase,f,1400,5000); % determine exess phase trend (ex_phase = -2pi x delay), and determine delay = "flight time"
+%
 % DISCLAIMER:
 % This file is part of MATAA.
 % 
@@ -56,7 +63,8 @@ end
 
 % determine delay corresponding to phase trend (excess phase, see D'Appolito, J.  (1998) Testing Loudspeakers, page 111)
 p = polyfit(f(i),phase(i),1);
-delay = -p(1)/(2*pi);
+%%% delay = -p(1)/(2*pi);
+delay = -p(1)/360;
 
 % remove exess phase due to delay:
 phase = mataa_phase_remove_delay(phase,f,delay);
