@@ -76,6 +76,7 @@ h = h(:); % make sure h is column vector
 % end
 
 [p,f] = mataa_realFT(h,t);
+p = 2 * p; % p is only the half of the full (symmetric) Fourier spectrum, so we need to multiply by 2 to get the correct RMS level of the full (symmetric) spectrum!
 
 % mag:
 switch unit

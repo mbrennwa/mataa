@@ -3,7 +3,9 @@ function [S,f] = mataa_realFT0 (s,t);
 % function [S,f] = mataa_realFT0 (s,t);
 %
 % DESCRIPTION:
-% Calculates the complex fourier-spectrum S of a real signal s for frequencies f >= 0. Only the half spectrum corresponding to positive frequencies is returned, because for a real signal S(-f)=S*(f). S is normalized to length of s. The fourier spectrum S therefore does not depend on the sample rate used to digitize a given signal (i.e. S does not depend on the length of the signal). s can be of any length (no padding to length of 2n or even length necessary). In order to avoid frequency leakage, mataa_realFT does NOT pad s to even length. Each column of s represents one audio channel.
+% Calculates the complex fourier-spectrum S of a real signal s for frequencies f >= 0. Only the half spectrum corresponding to positive frequencies is returned, because for a real signal S(-f)=S*(f). This implies that the RMS level of S is only half the RMS level of the full (symmetric) Fourier spectrum.
+% S is normalized to length of s. The fourier spectrum S therefore does not depend on the sample rate used to digitize a given signal (i.e. S does not depend on the length of the signal).
+% s can be of any length (no padding to length of 2n or even length necessary). In order to avoid frequency leakage, mataa_realFT does NOT pad s to even length. Each column of s represents one audio channel.
 %
 % INPUT:
 % s: signal samples (vector containing the real-valued samples)
