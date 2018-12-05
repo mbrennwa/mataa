@@ -50,15 +50,15 @@ N = length(f); % number of positive frequency values, including f=0
 f0 = min (f (find(f~=0)));
 
 % construct full complex spectrum with negative frequencies
-S(1) = 2 * S(1); % S(1) is the DC component, which is the sum of both sides of the spectrum
+
 if imag (S(end)) == 0   % S can be expressed by a signal with an even number of samples
-    S(end) = 2 * S(end); % S(end) belongs to both sides of the spectrum
     S = [ S ; flipud(conj(S(2:end-1))) ];
     L = 2 * (N-1);
     
 else % an additional sample is needed, giving a signal with an odd number of samples
     S = [ S ; flipud(conj(S(2:end))) ];
     L = 2 * (N-1) + 1;
+
 end
 
 s = ifft (S); s = real(s);
