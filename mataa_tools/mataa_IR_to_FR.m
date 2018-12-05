@@ -76,38 +76,37 @@ h = h(:); % make sure h is column vector
 % end
 
 [p,f] = mataa_realFT(h,t);
-p = 2 * p; % p is only the half of the full (symmetric) Fourier spectrum, so we need to multiply by 2 to get the correct RMS level of the full (symmetric) spectrum!
 
-% mag:
+% Determine RMS levels:
+% - p is only half of the full (symmetric) spectrum, therefore needs to be multiplied by 2 to get the full RMS level
+% - Each frequency bin corresponds a sine/cosine AMPLITUDE, so RMS = 0.707 x AMPLITUDE
+p_rms = 2 * sqrt(0.5) * abs(p);
+
 switch unit
 	case 'Pa'
 		% convert to dB-SPL(rms):
 		p_ref = 20E-6; % reference sound pressure level (RMS)
-		p_rms = sqrt(0.5) * abs(p); % RMS-SPL (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
-		mag = 20*log10(p_rms/p_ref);
 		unit = 'dB-SPL(rms)';
 
 	case 'V'
 		% convert to dB-V(rms):
 		p_ref = 1.0; % reference voltage (RMS)
-		p_rms = sqrt(0.5) * abs(p); % RMS-voltage (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
-		mag   = 20*log10(p_rms/p_ref); % convert to dB-Vrms
 		unit  = 'dB-V(rms)';
 
 	case 'FS' % digital Full Scale (values ranging from -1 to +1)
 		% convert to dB-FS(rms):
 		p_ref = sqrt(0.5); % reference = sine wave with full amplitude in FS range, RMS level = sqrt(1/2) x FULL-AMPLITUDE
-		p_rms = sqrt(0.5) * abs(p); % convert amplitude to RMS value (each frequency bin corresponds a sine/cosine, so RMS = 0.707 x AMPLITUDE)
-		mag   = 20*log10(p_rms/p_ref); % convert to dB-FSrms
 		unit  = 'dB-FS(rms)';
 		
 	otherwise
 		warning (sprintf("mataa_IR_to_FR: unknown unit '%s', mag reference level is undefined!",unit))
-		mag = 20*log10(abs(p));
-		% mag = mag + 112;
+		p_ref = 1.0; % do not change RMS level
 		unit = 'dB-NOREF';
 
 end
+
+mag = 20*log10(p_rms/p_ref); % determine magnitude levels in dB
+
 
 % unwrap the phase, and convert from radians to degrees
 phase = unwrap(angle(p))/pi*180;
