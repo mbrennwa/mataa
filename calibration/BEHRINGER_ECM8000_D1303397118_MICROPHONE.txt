@@ -4,7 +4,12 @@
 % Microphone used as reference: Beyerdynamic MM1 (SN 14308)
 
 name = Behringer ECM8000 (SN D1303397118)
-type = Microphonesensitivity = 12.5 mV/Pa
+type = Microphone
+% original value:
+% sensitivity = 12.5 mV/Pa
+
+% from PeakTech level calibrator 4.12.18:
+sensitivity = 11.84 mV/Pa
 
 % Gain relative to sensitivity at 1 kHz:
 % (column-1: frequency (Hz), column-2: gain (dB)

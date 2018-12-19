@@ -1,0 +1,11 @@
+% Microphone calibration data for Earthworks M23 (SN 2298J)
+% Earthworks calibration data, Dec-2018
+
+name = Earthworks M23 (SN 2298J)
+type = Microphone
+sensitivity = 31.9 mV/Pa
+
+% Gain relative to sensitivity at 1 kHz:
+% (column-1: frequency (Hz), column-2: gain (dB)
+% 5.0	0.0
+% 10000	0.0

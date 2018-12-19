@@ -4,7 +4,11 @@
 % General information:
 name = Beyerdynamic MM1 (SN 14308)
 type = Microphone
-sensitivity = 16 mV/Pa
+% original sensitivity:
+% sensitivity = 16 mV/Pa
+
+% sensitivity from PeakTech calibrator (4.12.2018):
+sensitivity = 6.76 mV/Pa
 
 % Transfer function
 % free field, 1m distance to sound source, 0 deg. (axial) incidence

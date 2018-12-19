@@ -4,7 +4,12 @@
 % General information:
 name = Isemcon EMX7150 (SN 2391606-270916)
 type = Microphone
-sensitivity = 7.43 mV/Pa
+% original sensitivity value:
+% sensitivity = 7.43 mV/Pa
+
+% sensitivity from PeakTech calibrator (4.12.2018):
+sensitivity = 6.52 mV/Pa
+
 
 % Transfer function
 % free field, 1m distance to sound source, 0 deg. (axial) incidence
