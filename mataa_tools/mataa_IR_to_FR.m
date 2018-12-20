@@ -82,6 +82,11 @@ h = h(:); % make sure h is column vector
 % - Each frequency bin corresponds a sine/cosine AMPLITUDE, so RMS = 0.707 x AMPLITUDE
 p_rms = 2 * sqrt(0.5) * abs(p);
 
+% NOTE: above normalisation was checked to be accurate using the following test:
+% - measure RMS signal of a loudspeaker playing a slow sweep from 900 Hz to 1000 Hz, determine RMS level of DUT output (RMS1 = 70.8 dB-SPL)
+% - Used mataa_IR_to_FR to determine SPL response of the same loudspeaker with strong smoothing (1/2 octave) and long time-gate (1s) to include room echoes, determined mean SPL from 900 Hz to 1000 Hz (RMS2 = 70.6 dB-SPL)
+% - RMS1 and RMS2 are essentially identical, so the above normalisation seems to be correct
+
 switch unit
 	case 'Pa'
 		% convert to dB-SPL(rms):
