@@ -80,12 +80,14 @@ h = h(:); % make sure h is column vector
 % Determine RMS levels:
 % - p is only half of the full (symmetric) spectrum, therefore needs to be multiplied by 2 to get the full RMS level
 % - Each frequency bin corresponds a sine/cosine AMPLITUDE, so RMS = 0.707 x AMPLITUDE
-p_rms = 2 * sqrt(0.5) * abs(p);
+%%% p_rms = 2 * sqrt(0.5) * abs(p); THIS GIVES 3 dB too high results!!
+
+p_rms = abs(p); % this gives correct levels
 
 % NOTE: above normalisation was checked to be accurate using the following test:
-% - measure RMS signal of a loudspeaker playing a slow sweep from 900 Hz to 1000 Hz, determine RMS level of DUT output (RMS1 = 70.8 dB-SPL)
-% - Used mataa_IR_to_FR to determine SPL response of the same loudspeaker with strong smoothing (1/2 octave) and long time-gate (1s) to include room echoes, determined mean SPL from 900 Hz to 1000 Hz (RMS2 = 70.6 dB-SPL)
-% - RMS1 and RMS2 are essentially identical, so the above normalisation seems to be correct
+% - measure RMS signal of a bass loudspeaker (nearfield) playing a slow sweep from 110 Hz to 140 Hz (flat respons), determine RMS level of DUT output (RMS1 = 96.3 dB-SPL)
+% - Use mataa_IR_to_FR to determine SPL nearfield response of the same loudspeaker with no smoothing and long time-gate (1s), determined mean SPL from 110 Hz to 140 Hz (RMS2 = 96.3 dB-SPL)
+% - RMS1 and RMS2 are identical, so the above normalisation seems to be correct
 
 switch unit
 	case 'Pa'

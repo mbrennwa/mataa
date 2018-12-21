@@ -80,7 +80,7 @@ for i = 1:N
 	else
 		[out,in,t,out_unit,in_unit,X0_RMS] = mataa_measure_signal_response (test_signal,fs,latency,1,channels);
 	end
-	
+
 	% deconvolve in and out signals to yield h:
 	if exist ('OCTAVE_VERSION','builtin')
 		more ('off');

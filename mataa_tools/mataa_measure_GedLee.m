@@ -67,11 +67,14 @@ end
 if ~exist ('N_avg','var')
 	N_avg = 1;
 end
+
 if ~exist ('do_plot','var')
 	do_plot = true;
 end
 if isbool(do_plot)
-	do_plot = 15
+	if do_plot
+		do_plot = 15
+	end
 end
 
 if do_plot > 0
