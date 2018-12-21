@@ -84,8 +84,13 @@ h = h(:); % make sure h is column vector
 
 p_rms = abs(p); % this gives correct levels
 
-% NOTE: above normalisation was checked to be accurate using the following test:
-% - test normalisation: p_rms = abs(p);
+% NOTE: above normalisation was checked to be correct using the following tests to confirm that "p_rms = abs(p);" gives the correct normalisation / dB-levels:
+% Test1:
+% - measure slow sweep response from loopback connection at RTX-6001 analyser (gain = 1.0 = 0.0 dB). Determine RMS level at ADC input (RMS1)
+% - measure impulse response and used mataa_IR_to_FR to determine frequency response (flat line).
+% - Compare the level of the flat line (RMS2) with RMS1. RMS1 and RMS2 should be equal.
+%
+% Test2:
 % - measure RMS signal of a bass loudspeaker (nearfield) playing a slow sweep from 110 Hz to 140 Hz (flat respons), determine RMS level of DUT output (RMS1 = 96.29 dB-SPL)
 % - Use mataa_IR_to_FR to determine SPL nearfield response from the nearfield impulse response of the same loudspeaker with no smoothing and long time-gate, determined mean SPL from 110 Hz to 140 Hz (RMS2 = 96.28 dB-SPL)
 % - RMS1 and RMS2 are identical, so the above normalisation seems to be correct
