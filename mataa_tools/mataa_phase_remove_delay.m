@@ -1,6 +1,6 @@
 function phase = mataa_phase_remove_delay (phase,f,delay);
 
-% function [phase,f] = mataa_phase_remove_delay (phase,delay);
+% function [phase,f] = mataa_phase_remove_delay (phase,f,delay);
 %
 % DESCRIPTION:
 % This function removes excess phase due to time delay.
