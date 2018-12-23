@@ -26,30 +26,30 @@
 if ~exist('fs','var')
 	fs = input ('Enter sampling rate (Hz): ')
 end
-disp (sprintf('Sampling rate = %g Hz',fs))
+disp (sprintf('Sampling rate fs = %g Hz',fs))
 
 % sine sweep:
 if ~exist('T','var')
 	T = input ('Sine sweep duration (s): ')
 end
-disp (sprintf('Sine sweep duration (s) = %g s',T))
+disp (sprintf('Sine sweep duration T = %g s',T))
 
 if ~exist('fL','var')
 	fL = input ('Sine sweep start frequency (Hz): ')
 end
 fL = max([1/T,fL]);
-disp (sprintf('Sine sweep start frequency = %g Hz',fL))
+disp (sprintf('Sine sweep start frequency fL = %g Hz',fL))
 
 if ~exist('fH','var')
 	fH = input ('Sine sweep end frequency (Hz): ')
 end
 fH = min([fs/2,fH]);
-disp (sprintf('Sine sweep end frequency = %g Hz',fH))
+disp (sprintf('Sine sweep end frequency fH = %g Hz',fH))
 
-if ~exist('U0','var')
-	U0 = input ('Sine sweep amplitude (V-RMS): ')
+if ~exist('U0rms','var')
+	U0rms = input ('Sine sweep amplitude (V-RMS): ')
 end
-disp (sprintf('Sine sweep amplitude = %g V-RMS',U0))
+disp (sprintf('Sine sweep amplitude U0rms = %g V-RMS',U0rms))
 
 if ~exist('loopback','var')
 	x = input ('Do you want to use loopback compensation (Y/n)?','s');
@@ -79,22 +79,23 @@ else
 	disp (sprintf('Calibration file = %s',calfile))
 end		
 
-	
-
 % cut-off / time gate:
 if ~exist('fc','var')
 	fc = input ('Enter lower cut-off frequency (--> gate time) (Hz): ')
 end
-disp (sprintf('Time-domain gating / cut-off frequency = %g Hz',fc))
+disp (sprintf('Time-domain gating / cut-off frequency fc = %g Hz',fc))
 
 % SPL smoothing / resolution:
 if ~exist('res','var')
-	res = input ('SPL response smoothing (octave-fraction): ')
+	res = input ('SPL response smoothing (octave-fraction, leave empty for no smoothing): ')
+end
+if res <= 0
+	res = [];
 end
 if isempty(res)
 	disp ('No SPL response smoothing')
 else
-	disp (sprintf('SPL response smoothing = 1/%i octave',res))
+	disp (sprintf('SPL response smoothing 1/res = 1/%i octave',res))
 end
 
 % Plot color:
@@ -104,7 +105,7 @@ end
 if isempty ('col')
 	col = 'r';
 end
-disp (sprintf('Plot color = %s',col))
+disp (sprintf('Plot color col = %s',col))
 style = sprintf('%s-',col);
 
 
@@ -112,8 +113,8 @@ style = sprintf('%s-',col);
 input ('Ready to start? Press ENTER...')
  
 % test signal:
-s0 = mataa_signal_generator ('sweep',fs,T,[fL fH]);
-s0 = s0 * U0/sqrt(sum(s0.^2)/length(s0));
+s0 = mataa_signal_generator ('sweep',fs,T,[fL fH]); % log-sweep from fL to fH
+s0 = s0 * U0rms/sqrt(sum(s0.^2)/length(s0)); % normalise to desired RMS level
 
 % measure impulse response:
 [h,t,unit] = mataa_measure_IR (s0,fs,1,0.2,loopback,calfile,'V');
@@ -147,10 +148,10 @@ title ('SPL response')
 hold on
 
 % always save to "LastMeasurement.mat":
-save ('-V7','LastMeasurementIR.mat','h','t','unit','fL','fH','fs','T','calfile','loopback','U0');
+save ('-V7','LastMeasurementIMUPLSERESPONSE.mat','h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms');
 
 % Ask to save file:
-x = input ('Do you want to save raw data to a file (y/N)?','s');
+x = input ('Do you want to save raw data (impulse response) to a file (y/N)?','s');
 if isempty(x)
 	x = 'N';
 end
@@ -158,8 +159,8 @@ if upper(x) == 'Y'
 	fn = uiputfile('*.mat','Choose file to save raw data...');
 	if ischar(fn)
 		info = input ('Enter data description: ','s')
-		save ('-V7',fn,'h','t','unit','fL','fH','fs','T','calfile','loopback','U0','info');
-		disp (sprintf('Saved data to file %s.',fn));
+		save ('-V7',fn,'h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','info');
+		disp (sprintf('Saved impulse response data to file %s.',fn));
 	else
 		disp ('File not saved.')
 	end
