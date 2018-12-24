@@ -207,7 +207,7 @@ title ('SPL response')
 hold on
 
 % always save to "LastMeasurement.mat":
-save ('-V7','LastMeasurementIMUPLSERESPONSE.mat','h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','sig');
+save ('-V7','LastMeasurementIMUPLSERESPONSE.mat','h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','sig','Nrepeat');
 
 % Ask to save file:
 x = input ('Do you want to save raw data (impulse response) to a file (y/N)?','s');
@@ -218,7 +218,7 @@ if upper(x) == 'Y'
 	fn = uiputfile('*.mat','Choose file to save raw data...');
 	if ischar(fn)
 		info = input ('Enter data description: ','s')
-		save ('-V7',fn,'h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','sig','info');
+		save ('-V7',fn,'h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','sig','Nrepeat','info');
 		disp (sprintf('Saved impulse response data to file %s.',fn));
 	else
 		disp ('File not saved.')
