@@ -104,19 +104,19 @@ end
 
 
 subplot (3,1,1)
-plot (t*1000,h,style);
+plot ((t-t(1))*1000,h,style);
 title ('Impulse response')
 xlabel ('Time (ms)')
 ylabel ('Amplitude (Pa)')
-axis (1000*[t(1),t(1)+T]);
+axis (1000*[0,T]);
 hold on
 
 subplot (3,1,2)
-plot (ts*1000,s,style);
+plot ((ts-ts(1))*1000,s,style);
 title ('Step response')
 xlabel ('Time (ms)')
 ylabel ('Amplitude (Pa)')
-axis (1000*[t(1),t(1)+T]);
+axis (1000*[0,T]);
 hold on
 
 subplot (3,1,3)
