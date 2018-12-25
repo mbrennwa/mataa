@@ -180,3 +180,6 @@ if upper(x) == 'Y'
 		disp ('File not saved.')
 	end
 end
+
+% code template to save figure file;
+% set(gcf,'PaperUnits','inches'); set(gcf,'PaperOrientation','portrait'); set(gcf,'PaperSize',[8,15]); set(gcf,'PaperPosition',[0,0,8,15]); print ('acoustic.png')
