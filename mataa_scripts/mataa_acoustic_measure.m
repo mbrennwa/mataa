@@ -50,11 +50,11 @@ switch (sig)
 	% sine sweep:
 	case 'sweep'
 		if ~exist('T','var')
-			T = input ('Sine sweep duration (s): ')
+			T = input ('Sine sweep duration (s): ');
 		end
 
 		if ~exist('fL','var')
-			fL = input ('Sine sweep start frequency (Hz): ')
+			fL = input ('Sine sweep start frequency (Hz): ');
 		end
 		fL = max([1/T,fL]);
 		disp (sprintf('Sine sweep start frequency fL = %g Hz',fL))
@@ -180,7 +180,11 @@ input ('Ready to start? Press ENTER...');
 
 % time gating:
 [t_start,t_rise] = mataa_guess_IR_start (h,fs);
-[hh,th] = mataa_signal_crop (h,fs,t_start-t_rise,t_start + 1/fc);
+if isempty(fc)
+	[hh,th] = mataa_signal_crop (h,fs,t_start-t_rise,t(end));
+else
+	[hh,th] = mataa_signal_crop (h,fs,t_start-t_rise,t_start + 1/fc);
+end
 hh = detrend (hh);
 
 % step response:
