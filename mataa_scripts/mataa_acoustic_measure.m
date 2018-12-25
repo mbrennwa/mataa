@@ -219,11 +219,11 @@ if isempty(x)
 	x = 'N';
 end
 if upper(x) == 'Y'
-	fn = uiputfile('*.mat','Choose file to save raw data...');
+	[fn,fp] = uiputfile('*.mat','Choose file to save raw data...');
 	if ischar(fn)
 		info = input ('Enter data description: ','s')
-		save ('-V7',fn,'h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','sig','Nrepeat','info');
-		disp (sprintf('Saved impulse response data to file %s.',fn));
+		save ('-V7',[fp fn],'h','t','unit','fL','fH','fs','T','calfile','loopback','U0rms','sig','Nrepeat','info');
+		disp (sprintf('Saved impulse response data to file %s.',[fp fn]));
 	else
 		disp ('File not saved.')
 	end
