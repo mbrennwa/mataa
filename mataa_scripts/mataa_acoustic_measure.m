@@ -24,66 +24,80 @@
 
 % sample rate:
 if ~exist('fs','var')
-	fs = input ('Enter sampling rate (Hz): ')
+	fs = input ('Enter sampling rate (Hz, default = 44100): ');
+end
+if isempty(fs)
+	fs = 44100;
 end
 disp (sprintf('Sampling rate fs = %g Hz',fs))
 
 % test signal
 if ~exist('sig','var')
-	sig = -1;
-	while isempty(find(sig==[1:3]))
-		sig = menu ('Choose test signal', {'Sine sweep','MLS','Pink noise'});
-	end
+	sig = input ('Test signal: sine (S)weep, (M)aximum length sequence, (P)ink noise, (W)hite noise (S/m/p/r/w): ','s');
+	sig = toupper(sig);
 	switch sig
-		case 1
-			sig = 'sweep';
-		case 2
+		case 'M'
 			sig = 'MLS';
-		case 3
+		case 'P'
 			sig = 'pinknoise';
+		case 'W'
+			sig = 'whitenoise';
+		otherwise
+			sig = 'sweep';
 	end
 end
 disp (sprintf('Test signal sig = %s',sig))
 
 switch (sig)
 
-	% sine sweep:
-	case 'sweep'
-		if ~exist('T','var')
-			T = input ('Sine sweep duration (s): ');
-		end
-
-		if ~exist('fL','var')
-			fL = input ('Sine sweep start frequency (Hz): ');
-		end
-		fL = max([1/T,fL]);
-		disp (sprintf('Sine sweep start frequency fL = %g Hz',fL))
-
-		if ~exist('fH','var')
-			fH = input ('Sine sweep end frequency (Hz): ')
-		end
-		fH = min([fs/2,fH]);
-		disp (sprintf('Sine sweep end frequency fH = %g Hz',fH))
-
-		s0 = mataa_signal_generator ('sweep',fs,T,[fL fH]); % log-sweep from fL to fH
-
-
 	% MLS
 	case 'MLS'
 		if ~exist('nMLS','var')
-			nMLS = input ('Number of MLS taps n (MLS length = 2^(n-1)): ');
+			nMLS = input ('Number of MLS taps n (MLS length = 2^(n-1) samples): ');
 		end
+		disp (sprintf('Number of MLS taps n = %i',nMLS))
 		s0 = mataa_signal_generator ('MLS',fs,0,nMLS); % MLS of length 2^(n-1)
 		fH = fL = [];
 		T = 2^(nMLS-1) / fs; % length of signal
 
-	% Pink noise:
-	case 'pinknoise'
+	% sine sweep:
+	otherwise
 		if ~exist('T','var')
-			T = input ('Sine sweep duration (s): ')
+			T = input ('Test signal length (s): ');
 		end
-		s0 = mataa_signal_generator ('pink',fs,T); % pink noise sequence of length T
-		fH = fL = [];
+		
+		switch sig
+
+			case 'sweep'
+				if ~exist('fL','var')
+					fL = input ('Sine sweep start frequency (Hz): ');
+				end
+				fL = max([1/T,fL]);
+				disp (sprintf('Sine sweep start frequency fL = %g Hz',fL))
+
+				if ~exist('fH','var')
+					fH = input ('Sine sweep end frequency (Hz): ')
+				end
+				fH = min([fs/2,fH]);
+				disp (sprintf('Sine sweep end frequency fH = %g Hz',fH))
+
+				s0 = mataa_signal_generator ('sweep',fs,T,[fL fH]); % log-sweep from fL to fH
+
+
+
+			% Pink noise:
+			case 'pinknoise'
+				s0 = mataa_signal_generator ('pink',fs,T); % pink noise sequence of length T
+
+			% White noise:
+			case 'whitenoise'
+				s0 = mataa_signal_generator ('white',fs,T); % white noise sequence of length T
+		
+		end		
+end
+
+if ~strcmp(sig,'sweep')
+	fL = []; fH = [];
 end
 
 disp (sprintf('Test signal length T = %g s',T))
