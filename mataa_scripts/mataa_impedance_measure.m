@@ -71,11 +71,12 @@ end
 
 % Plot color:
 if ~exist('col','var')
-	col = input ('Plot color (char: k, r, g, b, c, m, y): ','s');
+	col = input ('Plot color (char: k, R, g, b, c, m, y): ','s');
 end
 if isempty ('col')
 	col = 'r';
 end
+col = tolower(col);
 disp (sprintf('Plot color col = %s',col))
 style = sprintf('%s-',col);
 

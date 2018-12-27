@@ -179,9 +179,10 @@ end
 if ~exist('col','var')
 	col = input ('Plot color (char: k, r, g, b, c, m, y): ','s');
 end
-if isempty(cell2mat(strfind(col,{'k', 'r', 'g', 'b', 'c', 'm', 'y'})))
+if isempty(cell2mat(strfind(col,{'k', 'R', 'g', 'b', 'c', 'm', 'y'})))
 	col = 'r';
 end
+col = tolower(col);
 disp (sprintf('Plot color col = %s',col))
 style = sprintf('%s-',col);
 
