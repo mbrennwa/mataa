@@ -25,6 +25,7 @@
 % load data:
 [fname,fpath] = uigetfile ('*.mat', 'Select MAT file with raw impulse response data');
 X = load ([fpath fname]);
+disp (sprintf('Loaded file %s%s.',fpath,fname))
 if isfield(X,'U0');
 	X.U0rms = X.U0; % convert field name from older version
 end
@@ -81,12 +82,12 @@ input ('Ready? Press ENTER...');
 
 % time gating, detrend:
 if isempty(fc)
-	[t_start,t_rise] = mataa_guess_IR_start (X.h,X.fs);
-	[h,t] = mataa_signal_crop (X.h,X.fs,t_start-t_rise,t(end));
+	[t_start,t_rise] = mataa_guess_IR_start (X.h,X.t);
+	[h,t] = mataa_signal_crop (X.h,X.fs,t_start-t_rise,X.t(end));
 	t = t + t_start;
 	T = t(end)-t(1);
 else
-	[t_start,t_rise] = mataa_guess_IR_start (X.h,X.fs);
+	[t_start,t_rise] = mataa_guess_IR_start (X.h,X.t);
 	[h,t] = mataa_signal_crop (X.h,X.fs,t_start-t_rise,t_start + 1/fc);
 	t = t + t_start;
 	T = 1/fc;

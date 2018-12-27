@@ -25,6 +25,7 @@
 % load data:
 [fname,fpath] = uigetfile ('*.mat', 'Select MAT file with raw impedancee data');
 X = load ([fpath fname]);
+disp (sprintf('Loaded file %s%s.',fpath,fname))
 if ~isfield(X,'info');
 	X.info = ''; % add if missing (e.g., with "last measurement files")
 end
@@ -88,7 +89,7 @@ subplot (2,1,1)
 semilogx (f,mag,style);
 title ('Impedance magnitude')
 xlabel ('Frequency (Hz)')
-ylabel ('Impedance (Ohm)')
+ylabel ('Magnitude (Ohm)')
 % axis (1000*[0,T]);
 xlim([min(f) max(f)]);
 grid on
