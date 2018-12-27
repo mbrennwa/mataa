@@ -33,7 +33,7 @@ disp (sprintf('Sampling rate fs = %g Hz',fs))
 
 % test signal
 if ~exist('sig','var')
-	sig = input ('Test signal: sine (S)weep, (M)aximum length sequence, (P)ink noise, (W)hite noise (S/m/p/r/w): ','s');
+	sig = input ('Test signal: sine (S)weep, (M)aximum length sequence, (P)ink noise, (W)hite noise (S/m/p/w): ','s');
 	sig = toupper(sig);
 	switch sig
 		case 'M'

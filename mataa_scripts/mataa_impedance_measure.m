@@ -25,7 +25,10 @@
 
 % sample rate:
 if ~exist('fs','var')
-	fs = input ('Enter sampling rate (Hz): ')
+	fs = input ('Enter sampling rate (Hz, default = 44100): ');
+end
+if isempty(fs)
+	fs = 44100;
 end
 disp (sprintf('Sampling rate fs = %g Hz',fs))
 
