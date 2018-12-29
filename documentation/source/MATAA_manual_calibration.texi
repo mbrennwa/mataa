@@ -1,10 +1,38 @@
 @node Data Calibration
 @chapter Data Calibration
 
-THIS CHAPTER IS UNDER CONSTRUCTION
+MATAA allows calibrating the test data in terms of real physical units. To achieve this, many MATAA tools which send or record test signals to/from a DUT allow specifying (i) the physical units of the test data and (ii) a file that describes the measurement chain in terms of the sensitivities and transfer functions of the various hardware blocks in the measurement chain. 
+
+@noindent
+The measurement chain is reflected by the DAC, the SENSOR, and the ADC:
+
+@itemize @bullet
+@item
+The digital-to-analog converter (DAC) outputs a test signal to the device under test (DUT). If an amplifier or buffer is used in between the DAC and the DUT, MATAA considers this amplifier/buffer as part of the DAC for the purposes for calibration.
+
+@item
+The SENSOR is used to probe the DUT output signal. This could be a microphone, vibration sensor, or simply a plain wire ``sensing'' an electronic signal.
+
+@item
+The analog-to-digital converter (ADC) records the output signal from the SENSOR. If an amplifier or buffer is used in between the SENSOR and the ADC (e.g., a microphone amplifier), MATAA considers this amplifier/buffer as part of the ADC for the purposes for calibration.
+
+@end itemize
+
+@noindent
+MATAA calibrates the test data by evaluating the test signals at the input and the output of the DUT:
+
+@findex mataa_signal_calibrate_DUTin
+@itemize @bullet
+@item
+Calibration of the test signal applied to the DUT input works by considering the gain and transfer function of the DAC. This is implemented in the the function mataa_signal_calibrate_DUTin.
+
+@item
+Calibration of the test signal output by the DUT works by considering the gains and transfer functions of the sensor and the ADC. This is implemented in the function mataa_signal_calibrate_DUTout.
+@end itemize
+
 
 @node Calibration files
 @section Calibration files
+This section is under constuction. For the time being, it is recommended to study the examples in the mataa/calibration/ directory to learn how the calibration files work. Note that there are two types of calibration files. On the one hand, there are files that describe the individual hardware blocks (DAC, SENSOR, or ADC types). On the other hand, there are ``CHAIN'' type files, which describe a complete measurement chain. These CHAIN files contain the links to the correspondings DAC, SENSOR and ADC files.
 
-@node Loopback
-@section Loopback
+
