@@ -98,7 +98,6 @@ for i = 1:N
 		disp ('Deconvolving data using loopback signal as reference...')
 		dut = out(:,1); dut_unit = out_unit{1};
 		ref = out(:,2);	ref_unit = out_unit{2};
-		warning ("mataa_measure_IR: DUT/REF deconvolution needs proper testing! Be careful with results...")
 		
 	end
 
