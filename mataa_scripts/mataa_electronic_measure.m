@@ -181,7 +181,7 @@ style = sprintf('%s-',col);
 input ('Ready to start? Press ENTER...');
 
 % measure impulse response:
-[h,th,unit] = mataa_measure_IR (s0,fs,Nrepeat,0.2,loopback,calfile,'V');
+[h,t,unit] = mataa_measure_IR (s0,fs,Nrepeat,0.2,loopback,calfile,'V');
 
 % SPL response:
 if isempty(res)
@@ -192,7 +192,7 @@ end
 
 
 figure(1)
-plot (th,h,style);
+plot (t,h,style);
 title ('Impulse response')
 hold on
 xlabel ('Time (s)')
