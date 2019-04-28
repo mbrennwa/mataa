@@ -62,6 +62,7 @@ end
 % read the header
 try_header = 1;
 while try_header
+    pos = ftell (fid); % current file positions
     l0 = fgetl (fid);
     l = fliplr(deblank(fliplr(l0)));
     if strcmp (l(1),'*')
@@ -69,12 +70,13 @@ while try_header
         comments{nc} = fliplr(deblank(fliplr(l)))(2:end);
     else
         try_header = 0;
-        fseek (fid,-length(l0)-1,"cof"); % go back to beginning of the line
+	fseek (fid, pos, SEEK_SET); % go back to the beginning of the first data line
     end
 end
 
 x = fscanf(fid, '%f%f', Inf);
 fclose (fid);
+
 x = reshape (x,3,length(x)/3)';
 f = x(:,1);
 mag = x(:,2);
