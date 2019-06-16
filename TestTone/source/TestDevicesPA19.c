@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 			if( inputParameters.channelCount > 0 && outputParameters.channelCount > 0 )
 			{
 				printf("Supported standard sample rates (input, full-duplex, 16 bit, %d channels) = ",
-					   inputParameters.channelCount, outputParameters.channelCount );
+					   inputParameters.channelCount );
 				PrintSupportedStandardSampleRates( &inputParameters, &outputParameters );
 			}
 		}
@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
 			if( inputParameters.channelCount > 0 && outputParameters.channelCount > 0 )
 			{
 				printf("Supported standard sample rates (output, full-duplex, 16 bit, %d channels) = ",
-					   inputParameters.channelCount, outputParameters.channelCount );
+					   outputParameters.channelCount );
 				PrintSupportedStandardSampleRates( &inputParameters, &outputParameters );
 			}
 		}

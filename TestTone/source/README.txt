@@ -62,13 +62,14 @@ cp include/portaudio.h ~/matlab/mataa/TestTone/source/
 6. Compile TestTone and TestDevices using the following commands:
 
 cd ~/matlab/mataa/TestTone/source/
-gcc -lrt -lasound -lpthread -o TestTonePA19 TestTonePA19.c libportaudio.a
-gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a
+gcc -o TestTonePA19 TestTonePA19.c libportaudio.a -lpthread -lasound -lm -lrt
+gcc -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a -lasound -lpthread -lm -lrt
 
-7. Move the binaries you just compiled to the path where MATAA expects them (e.g. ~/matlab/mataa/TestTone/LINUX_X86 or ~/matlab/mataa/TestTone/LINUX_PPC):
 
-mv TestTonePA19 ../LINUX_PPC/
-mv TestDevicesPA19 ../LINUX_PPC/
+7. Move the binaries you just compiled to the path where MATAA expects to find them. For example (X86-64):
+
+mv TestTonePA19 ../LINUX_X86-64/
+mv TestDevicesPA19 ../LINUX_X86-64/
 
 
 * License and Copyright information:

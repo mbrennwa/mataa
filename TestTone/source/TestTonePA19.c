@@ -276,14 +276,14 @@ int main(int argc, char *argv[])
         for (iFrame = 0; iFrame < data.numFrames; iFrame++) {
 			iChannel = 0;
 			if (fgets(s,1000,inFile) == NULL) {
-				printf("ERROR: could not read input file on line %d.\n",iFrame);
+				printf("ERROR: could not read input file on line %lu.\n",iFrame);
 				goto error;
 			}
 			u = strtok(s,delim);
 			// printf(u);
 			while (iChannel < numChanTestSignal) {
 				if (!u) {
-					printf("ERROR: could not read input file on line %d.\n",iFrame);
+					printf("ERROR: could not read input file on line %lu.\n",iFrame);
 					goto error;
 				}
 				// printf("%s",u);
@@ -370,7 +370,7 @@ int main(int argc, char *argv[])
     Pa_Terminate();
 
 	// print header:
-    printf("%% Number of frames = %d\n", data.numFrames);
+    printf("%% Number of frames = %lu\n", data.numFrames);
     printf("%% Number of sound output channels = %d\n", data.numOutputDeviceChannels);
     printf("%% Number of sound input channels = %d\n", data.numInputDeviceChannels);
     printf("%% Sampling rate = %f Hz\n", data.samplingRate);
@@ -380,7 +380,7 @@ int main(int argc, char *argv[])
     for( iChannel=0; iChannel < data.numInputDeviceChannels;)
     {
         iChannel++;
-        printf("channel-%d ",iChannel);
+        printf("channel-%lu ",iChannel);
     }
     printf("\n");
     
