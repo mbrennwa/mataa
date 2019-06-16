@@ -41,28 +41,30 @@ Apart from these notes, Shu Sang gave the following instructions:
 
 - Linux
 
-0. Make sure ALSA is available on your system. You might have to install the ALSA development files so that the compiler will be able to use ALSA. On Debian (and derived systems like Ubuntu):
+1. Make sure ALSA is available on your system. You might have to install the ALSA development files so that the compiler will be able to use ALSA. On Debian (and derived systems like Ubuntu):
 
-	apt get install libasound2-dev
+apt install libasound2-dev
 
-1. Download a recent release of the portaudio source code from www.portaudio.org. The files are packed in *.tgz file. Extract the files from the *.tgz file. In the following example, I stored the portaudio files on my Desktop (~/Desktop/portaudio/).
 
-2. Open a terminal window and cd to the portaudio directory:
+2. Download a recent release of the portaudio source code from www.portaudio.org. The files are packed in *.tgz file. Extract the files from the *.tgz file. In the following example, I stored the portaudio files on my Desktop (~/Desktop/portaudio/).
+
+
+3. Open a terminal window and cd to the portaudio directory:
 
 cd ~/Desktop/portaudio
 
-3. Compile portaudio with support for the ALSA backend using the following two commands:
+
+4. Compile portaudio with support for the ALSA backend using the following two commands:
 
 ./configure --with-alsa=yes --with-jack=no --with-oss=no
 make
 
-4. Copy the portaudio library you just compiled to the path where the TestTone source code lives, e.g.:
+
+5. Copy the portaudio library you just compiled and its headers to the path where the TestTone source code lives, e.g.:
 
 cp lib/.libs/libportaudio.a ~/matlab/mataa/TestTone/source/
-
-5. Copy the portaudio library you just compiled to the path where the TestTone source code lives, e.g.:
-
 cp include/portaudio.h ~/matlab/mataa/TestTone/source/
+
 
 6. Compile TestTone and TestDevices using the following commands:
 
