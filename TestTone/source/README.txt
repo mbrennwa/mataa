@@ -40,6 +40,11 @@ Apart from these notes, Shu Sang gave the following instructions:
 
 
 - Linux
+
+0. Make sure ALSA is available on your system. You might have to install the ALSA development files so that the compiler will be able to use ALSA. On Debian (and derived systems like Ubuntu):
+
+	apt get install libasound2-dev
+
 1. Download a recent release of the portaudio source code from www.portaudio.org. The files are packed in *.tgz file. Extract the files from the *.tgz file. In the following example, I stored the portaudio files on my Desktop (~/Desktop/portaudio/).
 
 2. Open a terminal window and cd to the portaudio directory:
