@@ -19,6 +19,9 @@ function [Vas,Cms,Mms,Sd] = mataa_speaker_TSP_addmass (fs,fsM,M,D);
 %
 % EXAMPLE (measured driver resonance at fs = 46.1 Hz, fsM = 21.9 Hz with added mass M = 166 g, cone diameter with 1/2 surround on both sides D = 25.0 cm):
 % > [Vas,Cms,Mms,Sd] = mataa_speaker_TSP_addmass (46.1,21.9,166,25.0);
+%  
+% DISCLAIMER:
+% This file is part of MATAA.
 % 
 % MATAA is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
