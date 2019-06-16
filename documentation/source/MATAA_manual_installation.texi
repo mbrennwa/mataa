@@ -305,30 +305,7 @@ Without this file, the default device on this system is set to something that th
 @cindex PortAudio
 @cindex Linux
 @section Compiling TestTone and TestDevices on Linux
-The following instructions may be useful if you need to compile TestTone and TestDevices on Linux. The commands given may need to be adapted to a specific Linux environment, however. @itemize
-
-@item Download a recent release of the portaudio source code from @uref{http://portaudio.com} (pick the one marked as `recommended'). The files are packaged in @file{*.tgz} file. Extract the files from the @file{*.tgz} file. In the following example, I stored the portaudio files on my Desktop (@file{~/Desktop/portaudio/}).
-
-@item Compile portaudio with support for the ALSA backend only. I did this using the following commands (other backends, such as OSS, are not recommended for use with MATAA):@*
-@command{cd ~/Desktop/portaudio}@*
-@command{./configure --with-alsa=yes --with-jack=no --with-oss=no}@*
-@command{make}@*
-
-@item Copy the portaudio library you just compiled and @file{portaudio.h} to the path where the TestTone source code lives, e.g.:@*
-@command{cp lib/.libs/libportaudio.a ~/matlab/mataa/TestTone/source/}@*
-@command{cp include/portaudio.h ~/matlab/mataa/TestTone/source/}
-
-@item Compile TestTone and TestDevices using the following commands:@*
-@command{cd ~/matlab/mataa/TestTone/source/}@*
-@command{gcc -lrt -lasound -lpthread -o TestTonePA19 TestTonePA19.c libportaudio.a}@*
-@command{gcc -lrt -lasound -lpthread -o TestDevicesPA19 TestDevicesPA19.c libportaudio.a}
-
-@item Finally, move the binaries you just compiled to the path where MATAA expects to find them (i.e. @file{~/matlab/mataa/TestTone/LINUX_X86-32}, @file{~/matlab/mataa/TestTone/LINUX_X86-64} or @file{~/matlab/mataa/TestTone/LINUX_PPC}):@*
-@command{mv TestTonePA19 ../LINUX_X86-64/}@*
-@command{mv TestDevicesPA19 ../LINUX_X86-64/}
-
-@end itemize
-
+Note that the precompiled binaries will run on most computers and Linux distributions. However, if you need to compile TestTone and TestDevices on Linux, please follow the instructions in the README that comes with the source code of TestTone and TestDevices. 
 
 @node Testing the Installation
 @section Testing the Installation

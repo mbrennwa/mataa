@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 29-Dec-2018.
+This section contains a list of the MATAA tools and their usage information as of 16-Jun-2019.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -2275,24 +2275,7 @@ Sd: Projected area of the driver diaphragm (cm²)@*
 
 EXAMPLE (measured driver resonance at fs = 46.1 Hz, fsM = 21.9 Hz with added mass M = 166 g, cone diameter with 1/2 surround on both sides D = 25.0 cm):@*
 > [Vas,Cms,Mms,Sd] = mataa_speaker_TSP_addmass (46.1,21.9,166,25.0);@*
-
-MATAA is free software; you can redistribute it and/or modify@*
-it under the terms of the GNU General Public License as published by@*
-the Free Software Foundation; either version 2 of the License, or@*
-(at your option) any later version.@*
-
-MATAA is distributed in the hope that it will be useful,@*
-but WITHOUT ANY WARRANTY; without even the implied warranty of@*
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the@*
-GNU General Public License for more details.@*
-
-You should have received a copy of the GNU General Public License@*
-along with MATAA; if not, write to the Free Software@*
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA@*
-
-Copyright (C) Matthias S. Brennwald.@*
-Contact: info@audioroot.net@*
-Further information: http://www.audioroot.net/MATAA@*
+ @*
 
 @findex mataa_tempfile
 @node mataa_tempfile
