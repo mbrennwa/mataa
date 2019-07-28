@@ -77,27 +77,27 @@ if exist('OCTAVE_VERSION') % use Octave plotting
 	if strcmp (tolower(graphics_toolkit),'fltk') % Use Octave with FLTK graphics toolkit
 		% we're running Octave with FLTK graphics backend, which allows plotting waterfalls similarly to Matlab (see below)
 		T = unique (t);
-    	for n = 1:length(T) % loop to plot each slice
-    		i = find(t==T(n));
-    		xi = f(i);
-    		yi = repmat(T(n)/10^scale,length(xi),1);
-    		zi = spl(i);
-    		
-    		% append values make closed patch / path
-    		xi = [ xi(1) ; xi(:) ; xi(end) ];
-    		yi = [ yi(1) ; yi(:) ; yi(end) ];
-    		zi = [ -spl_range ; zi(:) ; -spl_range ];
-    		
-    		% construct vertices matrix (list of vertices; x/y/z coordinates):
-    		V = [ xi(:) yi(:) zi(:) ];
-    
-    		% construct faces matrix (list of vertices defining triangles that make up the patch, values in list correspond to line in V matrix):
-			F = [ 1:length(xi) ];
-			
-		    % plot slice
-    		p = patch ('Vertices',V, 'Faces',F, 'Edgecolor','k', 'Facecolor',[1 1 1] , 'Linestyle','-' ); hold on; % fill slice
-    		
-    	end % plotting slices
+	    	for n = 1:length(T) % loop to plot each slice
+	    		i = find(t==T(n));
+	    		xi = f(i);
+	    		yi = repmat(T(n)/10^scale,length(xi),1);
+	    		zi = spl(i);
+	    		
+	    		% append values make closed patch / path
+	    		xi = [ xi(1) ; xi(:) ; xi(end) ];
+	    		yi = [ yi(1) ; yi(:) ; yi(end) ];
+	    		zi = [ -spl_range ; zi(:) ; -spl_range ];
+	    		
+	    		% construct vertices matrix (list of vertices; x/y/z coordinates):
+	    		V = [ xi(:) yi(:) zi(:) ];
+	    
+	    		% construct faces matrix (list of vertices defining triangles that make up the patch, values in list correspond to line in V matrix):
+				F = [ 1:length(xi) ];
+				
+			    % plot slice
+	    		p = patch ('Vertices',V, 'Faces',F, 'Edgecolor','k', 'Facecolor',[1 1 1] , 'Linestyle','-' ); hold on; % fill slice
+	    		
+	    	end % plotting slices
 
 		hold off
 		set(gca,'XScale','log');

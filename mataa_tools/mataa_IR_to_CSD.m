@@ -1,6 +1,6 @@
 function [spl,f,d] = mataa_IR_to_CSD (h,t,T,smooth_interval);
 
-% function [spl,f,t] = mataa_IR_to_CSD (h,t,T,smooth_interval);
+% function [spl,f,d] = mataa_IR_to_CSD (h,t,T,smooth_interval);
 %
 % DESCRIPTION:
 % This function calculates cumulative spectral decay (CSD) data (SPL-responses spl at frequencies f and delay times d).
@@ -70,18 +70,18 @@ for n=1:length(T)
 
 	if T(n) <= max(t)
 		if exist('smooth_interval','var')
-			[splI,phase,fI] = mataa_IR_to_FR(h,t,smooth_interval);
+			[splI,phase,fI] = mataa_IR_to_FR(h,t,smooth_interval,'FS');
 		else
-			[splI,phase,fI] = mataa_IR_to_FR(h,t);
+			[splI,phase,fI] = mataa_IR_to_FR(h,t,[],'FS');
 		end
 		
 		clear phase;
-	   
-		% throw away data with f < fMin
-		fMin = 1/(max(t)-(T(n)));
-		i = find( fI >= fMin );
-		fI = fI(i); splI = splI(i);
-	
+
+		% throw away data with f < fMin THIS IS TOO RESTRICTIVE!!!
+		% fMin = 1/(max(t)-(T(n)))
+		% i = find( fI >= fMin );
+		% fI = fI(i); splI = splI(i);
+
 		% make sure we've got column vectors:
 		splI = splI(:);
 		fI = fI(:);
