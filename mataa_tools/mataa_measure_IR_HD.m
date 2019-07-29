@@ -68,6 +68,8 @@ function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, latency, cal, ampl
 
 warning ('mataa_measure_IR_HD: this function is under development and needs more testing. Please use with care!')
 
+warning ('*************************************** mataa_measure_IR_HD: the signal levels of the output depend on the length of the test signal (input parameter T). This is wrong and needs fixing. Check the mataa_measure_IR function to see how this should be done! ***************************************3')
+
 if (P - fix(P)) ~= 0
   error('mataa_measure_IR_HD: P must be an integer');
 end
