@@ -130,6 +130,10 @@ if ~exist ('cal','var')
 end
 [responseSignal, inputSignal, t, unit] = mataa_measure_signal_response(x, fs, latency, 1, mataa_settings('channel_DUT'), cal, unit);
 
+if iscell (unit)
+	unit = unit{1};
+end
+
 % Convolve the response with the inverse filter to get the IR and the harmonics:
 resplen = length(responseSignal);
 filtlen = length(invfilter);
