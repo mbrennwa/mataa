@@ -21,7 +21,7 @@ function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, latency, cal, ampl
 % N: see tN (OUTPUT) below
 % latency (optional): see mataa_measure_signal_response
 % cal (optional): see mataa_measure_signal_response
-% amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
+% amplitude and unit (optional): amplitude (peak-to-zero) and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
 % 
 % OUTPUT:
 % h: impulse response
@@ -88,7 +88,6 @@ Ns = round(fs * T);
 n = [0:Ns]';
 M = round(Ns / (log(2 ^ P) * (2 ^ (P + 1))));
 
-% disp('Note that if later mataa_IR_to_FR is called, it adds 112 dB to the magnitude');
 disp (['Start frequency (excl. window): ' , num2str(2 * fs * M * log(2 ^ P) / Ns) , ' Hz']);
 disp (['End frequency (excl. window): ' , num2str(fs * (2 ^ (P - 1/24)) * M * log(2 ^ P) / Ns) , ' Hz']);
 if N > 1
@@ -102,16 +101,12 @@ x = sin(2 .* pi .* M .* exp(n .* log(2 ^ P) ./ Ns));
 
 % 1 octave fade-in
 fadeinlen = floor(Ns / P);
-% window = hanning(2 * fadeinlen);
-% window = window(1:fadeinlen);
 window = flipud (mataa_signal_window (repmat(1,fadeinlen,1),'hann_half'));
 window = postpad(window, length(x), 1);
 x = x .* window;
 
 % 1/24 octave fade-out
 fadeoutlen = floor(Ns / (24 * P));
-% window = hanning(2 * fadeoutlen);
-% window = window((fadeoutlen + 1):end);
 window = mataa_signal_window (repmat(1,fadeoutlen,1),'hann_half');
 window = prepad(window, length(x), 1);
 x = x .* window;
