@@ -1,9 +1,9 @@
-function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);
+function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker_LR2 (f,mag,phase);
 
-% function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);
+% function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker_LR2 (f,mag,phase);
 %
 % DESCRIPTION:
-% Fits the impedance model of mataa_impedance_speaker_model to the impedance data mag(f) and phase(f). This can be useful in determining Thielle/Small parameters from impedance measurements.
+% Fits the impedance model of mataa_impedance_speaker_model_LR2 to the impedance data mag(f) and phase(f). This can be useful in determining Thielle/Small parameters from impedance measurements.
 %
 % INPUT:
 % f: frequency values of the impedance data
@@ -11,7 +11,7 @@ function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);
 % phase: phase of impedance data (degrees)
 %
 % OUTPUT:
-% Rdc, f0, Qe, Qm, L1, L2, R2: see mataa_impedance_speaker_model (input parameters)
+% Rdc, f0, Qe, Qm, L1, L2, R2: see mataa_impedance_speaker_model_LR2 (input parameters)
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -135,7 +135,7 @@ elseif f0 == 0
 elseif R2 == 0
     chiSquare = 1E7;
 else
-    [m,p] = mataa_impedance_speaker_model (f,Rdc,f0,Qe,Qm,L1/1000,L2/1000,R2);
+    [m,p] = mataa_impedance_speaker_model_LR2 (f,Rdc,f0,Qe,Qm,L1/1000,L2/1000,R2);
     chiSquare = sum ((m-MAG).^2) + sum ( ( (p-mean (p)) - (PHAS-mean(PHAS)) ).^2);
 end
 
