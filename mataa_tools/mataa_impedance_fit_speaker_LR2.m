@@ -47,7 +47,10 @@ end
 % unwrap phase:
 phase = unwrap (phase/180*pi)/pi*180;
 
-% guess starting values for f0 and Qe:
+% guess starting value for Rdc:
+Rdc = min (mag);
+
+% guess starting values for f0:
 u = diff (mag);
 F = ( f(1:end-1) + f(2:end))/2;
 [u1,k1] = max (u); [u2,k2] = min (u);
@@ -56,31 +59,29 @@ if ~exist ('f0','var')
 end
 clear F
 
-u = mag - min (mag);
-u0 = interp1 (f,u,f0);
-u = u / u0;
-k = find (u >= 0.5);
-l = find (diff (k) -1);
-if any (l)
-    k = k(1:l-1);
-end
-u_peak = u(k);
-f_peak = f(k);
-f1 = min (f_peak); f2 = max (f_peak);
-if ~exist ('Qe','var')
-    Qe = f0 / (f2-f1);
-end
+% estimate impedance at f0:
+[u,k] = min(abs(f-f0));
+Rmax = mag(k);
+clear u
+clear k
 
-% guess starting value for Qm:
-if ~exist ('Qm','var')
-    Qm = 0;
-end
+% estimate f1 and f2:
+k = find(f<f0);
+[u,k] = min(abs(mag(k)-sqrt(Rmax*Rdc)));
+f1 = f(k);
+clear u
+clear k
+f2 = f0^2/f1;
+
+% guess starting values for Qe and Qm:
+Qm = f0/(f2-f1)*sqrt(Rmax/Rdc);
+Qe = Qm / (Rmax/Rdc-1);
+
+clear f1
+clear f2
 
 i_low = find (f < 3*f0);
 i_high = find (f >= 3*f0);
-
-% guess starting value for Rdc:
-Rdc = min (mag);
 
 % find best-fit values of Rdc, f0, Q, L1, L2, and R2:
 global ff = f;
