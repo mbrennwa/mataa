@@ -1,6 +1,6 @@
-function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;
+function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);
 
-% function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;
+% function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);
 %
 % DESCRIPTION:
 % Extend frequency response (e.g. from an anechoic analysis of a loudspeaker impulse response measured in the far field) with low-frequency data (e.g. from a near-field measurement). The frequency ranges of the two frequency responses need to overlap, and the common data in the frequency range [f1,f2] is used to determine the offsets in the magnitude and phase of the two frequency-response data sets. The low-frequency magnitude and phase (ml, pl) is adjusted to fit the high-frequency data (mh, ph). The phase data (ph, pl) may either be wrapped (e.g. to a range of -180..+180 deg) or unwrapped. After adjusting the relative offsets, the resulting response in the overlap band is computed as the weighted mean of the low and high frequency data, where the weight of the high-frequency data increases linearly from 0 at f1 to 1 at f2 (and vice versa for the low-frequency data).
