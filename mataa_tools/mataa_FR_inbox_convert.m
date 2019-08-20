@@ -46,6 +46,7 @@ if nargin < 3
 	f_norm = 100;
 else
 	f_norm = [];
+	Vb = Vb/1000; % convert to m3
 end
 
 % constants:
@@ -53,21 +54,16 @@ rho0  = 1.18;  % density of air at typical room temperature, at sea level (kg/m3
 c     = 343;   % speed of sound (m/s)
 p_ref = 20E-6; % reference SPL level at 0 dB-SPL
 
+% angular frequency:
+omega = 2*pi*f;
+
 % convert in-box SPL from dB-SPL do Pa:
 pB = 10.^(mag/20) * p_ref; % SPL in Pa
 
-
-
-
-
-
 % Evaluate R.H. Small eqns (1), (2), and (3)
-warning ('************** mataa_FR_inbox_convert: this function is not yet fully implemented. DO NOT USE IT! **************')
-
-
-
-
-
+C_AB = Vb/rho0/c^2; % Compliance of air in box, Small eqn (1)
+U0   = pB.*omega*C_AB; % Ouput volume velocity, Small eqn (2)
+pr   = rho0/2/pi/r * omega .* U0; % Free-field SPL at distance r, Small eqn (3)
 
 % Convert pr to dB-SPL:
 mag = 20*log10(pr/p_ref); % free-field SPL in dB-SPL
