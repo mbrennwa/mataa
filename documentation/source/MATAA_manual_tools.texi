@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 16-Jun-2019.
+This section contains a list of the MATAA tools and their usage information as of 07-Sep-2019.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -244,7 +244,7 @@ name: file name@*
 
 file: ...mataa_tools/mataa_FR_extend_LF.m@*
 
-function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);;@*
+function [mag,phase,f] = mataa_FR_extend_LF (fh,mh,ph,fl,ml,pl,f1,f2);@*
 
 DESCRIPTION:@*
 Extend frequency response (e.g. from an anechoic analysis of a loudspeaker impulse response measured in the far field) with low-frequency data (e.g. from a near-field measurement). The frequency ranges of the two frequency responses need to overlap, and the common data in the frequency range [f1,f2] is used to determine the offsets in the magnitude and phase of the two frequency-response data sets. The low-frequency magnitude and phase (ml, pl) is adjusted to fit the high-frequency data (mh, ph). The phase data (ph, pl) may either be wrapped (e.g. to a range of -180..+180 deg) or unwrapped. After adjusting the relative offsets, the resulting response in the overlap band is computed as the weighted mean of the low and high frequency data, where the weight of the high-frequency data increases linearly from 0 at f1 to 1 at f2 (and vice versa for the low-frequency data).@*
@@ -257,6 +257,32 @@ f1, f2: [f1,f2] is the frequency range used to determine the offsets of the low-
 OUTPUT:@*
 mag, phase, f: magnitude (dB), phase (deg, unwrapped) and frequency (Hz) of the combined frequency response. The data with f > f2 are identical to (mh,ph,fh), those with f < f1 correspond to (ml,pl,fl) with the magnitude and phase offsets removed. The data in the range [f1,f2] corresponds to the combination of the data of both data sets.@*
  @*
+
+@findex mataa_FR_inbox_convert
+@node mataa_FR_inbox_convert
+@section mataa_FR_inbox_convert
+
+file: ...mataa_tools/mataa_FR_inbox_convert.m@*
+
+function mag = mataa_FR_inbox_convert (mag,f,Vb,r);@*
+
+DESCRIPTION:@*
+Convert SPL frequency response measured inside a loudspeaker box to free-field SPL frequency response (2pi). The method follows the description by R.H. Small (see reference below), but does not implement the compensation of acoustic losses (expressed as QL in the Small paper). The microphone-in-box (MIB) technique is useful to determine the acoustic performance of a loudspaker at low frequencies in the 2pi free field. The MIB technique works well for closed and vented boxes, no matter how many radiators there are. It is not suitable for transmission lines. If Vb and r are specified (optional), the code calculates the absolute free-field SPL response. Otherwise the SPL curve is normalized to 0 dB-SPL at 100 Hz. Note that the method yields the 2pi free field SPL response, so it does not account for baffle edge diffraction of similar effects. Also note that the results are strictly only accurate for frequencies with wavelength that are considerably larger than the longest dimension of the loudspeaker box. However, it is often possible to stretch this limit a bit by experimenting with the microphone position within the box (positioning the microphone close to the geometric center of the box often allows a somewhat higher upper frequency limit).@*
+
+See also:@*
+- R.H. Small, “Simplified Loudspeaker Measurements at low Frequencies”, J. Audio Engineering Society, Vol. 20, pp. 28-33, 1972@*
+- https://www.audioxpress.com/article/measuring-loudspeaker-low-frequency-response@*
+
+INPUT:@*
+mag: SPL magnitude inside the box (in dB-SPL)@*
+f: frequency values corresponding to the mag data@*
+Vb (optional): box volume (in L)@*
+r (optional): distance used to calculate/normalize the free-field SPL level (in m)@*
+
+OUTPUT:@*
+mag: free-field frequency response (magnitude in dB-SPL)@*
+
+check input arguments:@*
 
 @findex mataa_FR_smooth
 @node mataa_FR_smooth
@@ -372,16 +398,16 @@ OUTPUT:@*
 y: hilbert transform of x@*
 
 
-@findex mataa_impedance_fit_speaker
-@node mataa_impedance_fit_speaker
-@section mataa_impedance_fit_speaker
+@findex mataa_impedance_fit_speaker_LR2
+@node mataa_impedance_fit_speaker_LR2
+@section mataa_impedance_fit_speaker_LR2
 
-file: ...mataa_tools/mataa_impedance_fit_speaker.m@*
+file: ...mataa_tools/mataa_impedance_fit_speaker_LR2.m@*
 
-function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker (f,mag,phase);@*
+function [Rdc,f0,Qe,Qm,L1,L2,R2] = mataa_impedance_fit_speaker_LR2 (f,mag,phase);@*
 
 DESCRIPTION:@*
-Fits the impedance model of mataa_impedance_speaker_model to the impedance data mag(f) and phase(f). This can be useful in determining Thielle/Small parameters from impedance measurements.@*
+Fits the impedance model of mataa_impedance_speaker_model_LR2 to the impedance data mag(f) and phase(f). This can be useful in determining Thielle/Small parameters from impedance measurements.@*
 
 INPUT:@*
 f: frequency values of the impedance data@*
@@ -389,7 +415,7 @@ mag: magnitude of impedance data (Ohm)@*
 phase: phase of impedance data (degrees)@*
 
 OUTPUT:@*
-Rdc, f0, Qe, Qm, L1, L2, R2: see mataa_impedance_speaker_model (input parameters)@*
+Rdc, f0, Qe, Qm, L1, L2, R2: see mataa_impedance_speaker_model_LR2 (input parameters)@*
 
 
 @findex mataa_impedance_speaker_model_LR2
@@ -659,7 +685,7 @@ t: time values of samples in h@*
 
 file: ...mataa_tools/mataa_IR_to_CSD.m@*
 
-function [spl,f,t] = mataa_IR_to_CSD (h,t,T,smooth_interval);@*
+function [spl,f,d] = mataa_IR_to_CSD (h,t,T,smooth_interval);@*
 
 DESCRIPTION:@*
 This function calculates cumulative spectral decay (CSD) data (SPL-responses spl at frequencies f and delay times d).@*
@@ -713,31 +739,25 @@ EXAMPLE:@*
 
 file: ...mataa_tools/mataa_IR_to_FR_LFextend.m@*
 
-function [mag,phase,f,f0] = mataa_IR_to_FR_LFextend (h,t,t0,smooth_interval_H,smooth_interval_L,unit);@*
+function [mag,phase,f,unit] = mataa_IR_to_FR_LFextend (h,t,t1,t2,t3,N,smooth_interval,unit);@*
 
 DESCRIPTION:@*
-Calculate frequency response (magnitude in dB and phase in degrees) of a system with impulse response h(t). Calculate anechoic response for 'high' frequencies (f >= f0) by gating out reflections occurring at times t > t0 (by discarding data beyond t > t0). Expand this with full response at lower frequencies (f < f0)@*
+Calculate frequency response (magnitude in dB and phase in degrees) of a loudspeaker with impulse response h(t) in two steps: first, the anechoic part (t < T0) is windowed and fourier transformed. Then, low-frequency bins in the range f0...1/T0 are added by using the part of the impulse response after T0 (the low-frequency response is therefore not anechoic).@*
 
 INPUT:@*
 h: impulse response (in volts)@*
 t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)@*
-t0: delay of (first) echo relative to start of impulse response data@*
-smooth_interval_H and smooth_interval_L (optional): if specified, the frequency response is smoothed over the octave interval smooth_interval (separate values for high / H and low / L frequency part).@*
+t1, t2, t3: time ranges of the anechoic and the following echoic parts, relative to the first value in t. [t1,t2] is the time range used to calculate the anechoic frequency response, [t1,t3] the time range used to extend the frequency response towards lower frequencies (echoic part).@*
+N: number of frequency-response values to calculate in echoic frequency range@*
+smooth_interval (optional): if specified, the frequency response is smoothed over the octave interval smooth_interval.@*
+unit: see mataa_IR_to_FR@*
 
 OUTPUT:@*
-mag: magnitude of frequency response (in dB). If unit of h is 'Pa' (Pascal), then mag is referenced to 20 microPa (standard reference sound pressure level).@*
+mag: magnitude of frequency response (in dB)@*
 phase: phase of frequency response (in degrees). This is the TOTAL phase including the 'excess phase' due to (possible) time delay of h(h). phase is unwrapped (i.e. it is not limited to +/-180 degrees, and there are no discontinuities at +/- 180 deg.)@*
 f: frequency coordinates of mag and phase@*
-f0: cut-off frequency of anechoic part@*
+unit: see mataa_IR_to_FR@*
 
-EXAMPLE:@*
-[h,t] = mataa_IR_demo ('FE108');@*
-t0 = t(end);@*
-h = [ h ; 0.1*h ; repmat(0,length(h)*3,1) ];% construct impulse response with 'fake' echo at t > t0@*
-t = linspace (0,5*t0, length(h))';@*
-[mag,phase,f,f0] = mataa_IR_to_FR_LFextend (h,t,t0,[],1/4);@*
-subplot (2,1,1); plot (t,h);@*
-subplot (2,1,2); semilogx (f,mag)@*
 
 @findex mataa_IR_to_FR
 @node mataa_IR_to_FR
@@ -1022,7 +1042,7 @@ fs: sampling frequency@*
 N: see tN (OUTPUT) below@*
 latency (optional): see mataa_measure_signal_response@*
 cal (optional): see mataa_measure_signal_response@*
-amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'@*
+amplitude and unit (optional): amplitude (peak-to-zero) and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'@*
 
 OUTPUT:@*
 h: impulse response@*

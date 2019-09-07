@@ -46,7 +46,7 @@ If you later need to update to the current version, use the following command:@*
 @command{svn update}
 @end itemize
 
-You should now have a directory @file{mataa} containing several sub-directories. Make sure @file{mataa} (and its subdirectories) is located in your default MATLAB/Octave path, which is assumed to be @file{~/MATLAB/} from now on (see @ref{Installing MATLAB/Octave}). Your MATAA setup should now look like this (in alphabetical order):
+You should now have a directory @file{mataa} containing several sub-directories. Make sure @file{mataa} (and its subdirectories) is located in the MATLAB/Octave search path. For the purpose of this documentation, it is assumed that @file{mataa} is installed in @file{~/MATLAB/} (see @ref{Installing MATLAB/Octave}). Your MATAA setup should now look like this (in alphabetical order):
 @itemize
 
 @cindex Default path (MATAA)
