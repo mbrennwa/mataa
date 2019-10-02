@@ -11,8 +11,8 @@ function mataa_plot_HD (kn,annote);
 % annote (optional): optional annotation to be added to the plot title
 %
 % EXAMPLE:
-% > [thd,k] = mataa_measure_thd(1000,1,96000); % measure THD and harmonic distortion spectrum
-% > mataa_plot_HD(k,'f0: 1kHz'); % plot the distortion spectrum
+% > HD = mataa_measure_HD_noise ( 1000,1,44100,10,0.2 ); % measure harmonic distortion spectrum
+% > mataa_plot_HD(HD(1,:),'f0: 1kHz'); % plot the distortion spectrum
 % 
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -46,24 +46,33 @@ end
 figure(mataa_settings('plotWindow_HD'));
 mataa_plot_defaults;
 
+set (0,'defaultaxesposition', [0.05, 0.1, 0.9, 0.85]) 
+
 holdstate=ishold;
 
-style=mataa_settings('plotStyle');
-style1 = [ style(find(isletter(style))) '-' ];
-if exist('OCTAVE_VERSION','builtin')
-    style2 = [ style(find(isletter(style))) '*' ];
-else
-    style2 = [ style(find(isletter(style))) '.' ];
-end
+yp_min = 1E-10;
 
 for i=2:length(kn)
-    y = kn(i)*100; % convert to percent
-    plot([i i],[0 y],style1,i,y,style2); hold on
+	yp  = kn(i)*100; % convert to percent
+	ydB = 20*log10(kn(i)); % convert to dB
+	[ax, h1, h2] = plotyy ([i i],[yp_min yp], i,ydB ); hold on
+	% plot([i i],[0 y],style1,i,y,style2); hold on
+
+	set (h1,'linestyle','-','color','k','linewidth',3)		
+	set (h2,'linestyle','none','marker','.','markersize',30,'color','k')		
+
 end
 
-r=[ 1.5 length(kn)+0.5 0 max(kn(2:end))*120 ]; axis(r);
+set(ax,'position',[0.13 0.11 0.73 0.77])
+set (ax,{'ycolor'},{'k';'k'});
+set (ax(1),'yscale','log' );
+set (ax(2),'xtick',[]);
+
+r1 = [ 1.5 length(kn)+0.5 0.0001 100 ]; axis(ax(1),r1);
+r2 = r1; r2(3:4) = 20*log10(r1(3:4)/100); axis(ax(2),r2);
 title(['MATAA: harmonic distortion spectrum' annote]);
-ylabel('k_n (%)');
+ylabel(ax(1),'k_n (%)');
+ylabel(ax(2),'k_n (dB)');
 xlabel('n');
 
 if ~holdstate
