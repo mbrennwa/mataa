@@ -66,7 +66,7 @@ if u
     
 	audioInfo.input.name = '***GENERIC-UNTESTED***';
 	audioInfo.input.channels = 2;
-	audioInfo.input.sampleRates = [ 44100 48000 88200 9600 176400 192000 ];
+	audioInfo.input.sampleRates = [ 44100 48000 88200 96000 176400 192000 ];
 	audioInfo.input.API = API;
 	audioInfo.output = audioInfo.input;
 	
