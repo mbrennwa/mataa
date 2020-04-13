@@ -47,7 +47,7 @@ end
 if u
 	% Skip the TestDevices run, return generic info for a typical audio interface instead
 	
-	warning ('mataa_audio_interface: checking audio interface properties is turned off in the MATAA settings. Returning audio info for a typical / generic audio interface!')
+	%%% warning ('mataa_audio_interface: checking audio interface properties is turned off in the MATAA settings. Returning audio info for a typical / generic audio interface!')
 	
 	switch plat
 		case 'MAC'

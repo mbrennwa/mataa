@@ -76,7 +76,6 @@ function [HD,fHD,THD,THDN,L,f,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,laten
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-warning ('mataa_measure_HD_noise: this function is under development and needs more testing. Please use with care!')
 
 % check arguments:
 if N_h < 2
