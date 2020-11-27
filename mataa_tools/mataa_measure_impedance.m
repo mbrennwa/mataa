@@ -1,6 +1,6 @@
-function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,cal,amplitude,unit);
+function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,latency,resolution,cal,amplitude,unit);
 
-% function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,cal,amplitude,unit);
+% function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,latency,resolution,cal,amplitude,unit);
 %
 % DESCRIPTION:
 % This function measures the complex, frequency-dependent impedance Z(f) of a DUT using a swept sine signal ranging from fLow to fHigh. Note the fade-in and fade-out of the test signal results in a loss of precision at the frequency extremes, which may be compensated by using a slightly larger frequency range.
@@ -24,6 +24,7 @@ function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,c
 % fHigh: upper limit of the frequency range (Hz)
 % R: resistance of the reference resistor (Ohm)
 % fs (optional): sampling frequency to be used for sound I/O. If not value is given, the lowest possible sampling frequency will be used.
+% latency (optional): see mataa_measure_signal_response (default: latency = [])
 % resolution (optional): frequency resolution in octaves (example: resolution = 1/24 will give 1/24 octave smoothing). Default is resolution = 1/48. If you want no smoothing at all, use resolution = 0.
 % cal (optional): calibration data (see mataa_signal_calibrate for details). This is required only if the signal amplitude used for the measurement needs to be set to a specific level.
 % amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). These parameters are used only if 'cal' is specified. Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'.
