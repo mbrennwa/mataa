@@ -63,7 +63,7 @@ if reset_to_def
 	mataa_settings.plotWindow_HD = 6;
 	mataa_settings.plotWindow_impedance = 7;
 	mataa_settings.plotWindow_TBES = 8;
-	mataa_settings.openPlotAfterSafe = 1;
+	%% DEPRECATED: mataa_settings.openPlotAfterSave = 1;
 	
 	mataa_settings.channel_DUT = 1;
 	mataa_settings.channel_REF = 2;
