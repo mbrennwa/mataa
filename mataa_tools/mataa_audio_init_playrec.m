@@ -1,6 +1,6 @@
 function success = mataa_audio_init_playrec (fs, output_ID, input_ID, num_output_chan, num_input_chan);
 
-% function success = mataa_audio_init_playrec;
+% function success = mataa_audio_init_playrec (fs, output_ID, input_ID, num_output_chan, num_input_chan);
 %
 % DESCRIPTION:
 % Check if PlayRec is initialised with the given sample rate and audio input / output devices, and reset/init PlayRec accordingly if needed.
