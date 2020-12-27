@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdfetex 2020.12.27)  27 DEC 2020 21:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdfetex 2020.12.27)  27 DEC 2020 22:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -195,9 +195,9 @@ l.93: Unicode char @u8:Êi not defined for Texinfo [4]
 @Figurefloatno=@count57
  </home/mbrennwa/m-files/mataa/documentation/source/figures/measurement_setup.p
 df> [5] [6]
-l.169: Undefined cross reference `Data calibration-snt'.
-l.169: Undefined cross reference `Data calibration-snt'.
-l.169: Undefined cross reference `Data calibration-pg'. [7] </home/mbrennwa/m-f
+l.170: Undefined cross reference `Data calibration-snt'.
+l.170: Undefined cross reference `Data calibration-snt'.
+l.170: Undefined cross reference `Data calibration-pg'. [7] </home/mbrennwa/m-f
 iles/mataa/documentation/source/figures/mac_os_x_audio_settings.pdf> [8]
 [9pdfTeX warning (ext4): destination with the same identifier (name{Compiling\0
 40TestTone\040and\040TestDevices\040on\040Linux}) has been already used, duplic
@@ -207,11 +207,11 @@ ate ignored
                                                   }@global @topmarksavedfals...
 <output> ...ark @onepageout {@pagecontents @PAGE }
                                                   }
-l.266 
-      ] l.279: Undefined cross reference `Impedance measurement-snt'.
-l.279: Undefined cross reference `Impedance measurement-snt'.
-l.279: Undefined cross reference `Impedance measurement-pg'.
-l.281: Unicode char @u8:Ês not defined for Texinfo </home/mbrennwa/m-files/mata
+l.267 
+      ] l.280: Undefined cross reference `Impedance measurement-snt'.
+l.280: Undefined cross reference `Impedance measurement-snt'.
+l.280: Undefined cross reference `Impedance measurement-pg'.
+l.282: Unicode char @u8:Ês not defined for Texinfo </home/mbrennwa/m-files/mata
 a/documentation/source/figures/ref_signal_paths.pdf> [10] [11] </home/mbrennwa/
 m-files/mataa/documentation/source/figures/Jack.pdf> [12])
 texinfo.tex: doing @include of MATAA_manual_working.texi
@@ -759,7 +759,7 @@ msy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (98 pages, 1174755 bytes).
+Output written on MATAA_manual.pdf (98 pages, 1174759 bytes).
 PDF statistics:
  1476 PDF objects out of 1728 (max. 8388607)
  1271 compressed objects within 13 object streams

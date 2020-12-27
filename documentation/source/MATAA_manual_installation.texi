@@ -102,6 +102,7 @@ For example, assume you have installed MATAA to @file{~/MATLAB/mataa/}. Add the 
 @example
 addpath ("~/MATLAB/mataa/mataa_tools");
 addpath ("~/MATLAB/mataa/mataa_scripts");
+addpath ("~/MATLAB/mataa/calibration");
 @end example
 
 If you created a directory @file{~/MATLAB/mataa_user_scripts/} to store your custom MATAA stuff, you may add the following line to let MATLAB/Octave know about this::
