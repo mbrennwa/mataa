@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 07-Sep-2019.
+This section contains a list of the MATAA tools and their usage information as of 27-Dec-2020.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -50,7 +50,30 @@ EXAMPLE:@*
 > info.input      % shows information about the input device@*
 > info.output     % shows information about the output device@*
 
-determine computer OS platform:@*
+prepare device info (with empty/unknown entries):@*
+
+@findex mataa_audio_init_playrec
+@node mataa_audio_init_playrec
+@section mataa_audio_init_playrec
+
+file: ...mataa_tools/mataa_audio_init_playrec.m@*
+
+function success = mataa_audio_init_playrec;@*
+
+DESCRIPTION:@*
+Check if PlayRec is initialised with the given sample rate and audio input / output devices, and reset/init PlayRec accordingly if needed.@*
+
+INPUT:@*
+fs: sample rate (samples per second)@*
+output_ID, input_ID: PlayRec IDs of the audio devices used for audio output and input@*
+num_output_chan, num_input_chan: number of input channels needed for audio output and input@*
+
+OUTPUT:@*
+success: flag indicating of PlayRec is initialised properly according to the INPUTs (bool)@*
+
+EXAMPLE:@*
+> mataa_audio_init_playrec (44100, 0, 0, 2, 2)@*
+
 
 @findex mataa_cal_autoscale
 @node mataa_cal_autoscale
@@ -586,6 +609,28 @@ Comment 4:	The MLSSA files contain a large number of auxilliary parameters that 
 
 The program is based on code written by Peter Svensson (svensson[at]iet.ntnu.no) available at http://www.iet.ntnu.no/~svensson/readmls.m. Peter Svensson explicitly agreed to provide his work for inclusion in MATAA.@*
 
+@findex mataa_import_PIR
+@node mataa_import_PIR
+@section mataa_import_PIR
+
+file: ...mataa_tools/mataa_import_PIR.m@*
+
+function [t,s,info] = mataa_import_PIR (file);@*
+
+DESCRIPTION:@*
+Import time-domain data from a PIR file (binary ARTA data file).@*
+
+INPUT:@*
+file: string containing the name of the file containing the data to be imported. The string may contain a complete path. If no path is given, the file is assumed to be located in the current working directory.@*
+
+OUTPUT:@*
+t: time values (s)@*
+s: signal amplitude values@*
+info: data information (as described in ARTA manual, see also m-file code in this file)@*
+
+HISTORY:@*
+26. October 2019  (Matthias Brennwald): first version@*
+
 @findex mataa_import_TMD
 @node mataa_import_TMD
 @section mataa_import_TMD
@@ -964,6 +1009,7 @@ semilogy ( fL,L(:,1)/sqrt(2),'k-' , fHD,HD(1,:)/sqrt(2),'ro' )@*
 ylabel (sprintf('Amplitude (%s-RMS)',unit))@*
 xlabel ('Frequency (Hz)');@*
 
+check arguments:@*
 
 @findex mataa_measure_impedance
 @node mataa_measure_impedance
@@ -971,7 +1017,7 @@ xlabel ('Frequency (Hz)');@*
 
 file: ...mataa_tools/mataa_measure_impedance.m@*
 
-function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,cal,amplitude,unit);@*
+function [Zmag,Zphase,f] = mataa_measure_impedance (fLow,fHigh,R,fs,resolution,cal,amplitude,unit,latency);@*
 
 DESCRIPTION:@*
 This function measures the complex, frequency-dependent impedance Z(f) of a DUT using a swept sine signal ranging from fLow to fHigh. Note the fade-in and fade-out of the test signal results in a loss of precision at the frequency extremes, which may be compensated by using a slightly larger frequency range.@*
@@ -998,6 +1044,7 @@ fs (optional): sampling frequency to be used for sound I/O. If not value is give
 resolution (optional): frequency resolution in octaves (example: resolution = 1/24 will give 1/24 octave smoothing). Default is resolution = 1/48. If you want no smoothing at all, use resolution = 0.@*
 cal (optional): calibration data (see mataa_signal_calibrate for details). This is required only if the signal amplitude used for the measurement needs to be set to a specific level.@*
 amplitude and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). These parameters are used only if 'cal' is specified. Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'.@*
+latency (optional): see mataa_measure_signal_response (default: latency = [])@*
 
 OUTPUT:@*
 Zabs: impedance magnitude (Ohm)@*
@@ -1021,7 +1068,7 @@ check arguments:@*
 
 file: ...mataa_tools/mataa_measure_IR_HD.m@*
 
-function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, latency, cal, amplitude, unit)@*
+function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)@*
 
 DESCRIPTION:@*
 Measures the impulse response and the harmonic distortion products using the "Farina method". This uses an exponential sine sweep (chirp) as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. The impulse responses of the fundamental and harmonic distorion products are determined by convolving the DUT response with the inverse filter corresponding to the chirp signal. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied for the first octave, so the flat spectrum is (P - 1) octaves long. Similarly, a Hanning fade-out is applied to the last 1/24 octave to reduce the ripple even more.@*
@@ -1032,39 +1079,40 @@ A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a
 Ian H. Chan: "Swept Sine Chirps for Measuring Impulse Response", Technical Note, Stanford Research Systems, Inc, 2010. Available at http://www.thinksrs.com/downloads/PDFs/ApplicationNotes/SR1_SweptSine.pdf@*
 K. Vetter, S. di Rosario: "ExpoChirpToolbox: a Pure Data implementation of ESS impulse response measurement", Rotterdam/London, July 2011. Available at http://www.uni-weimar.de/medien/wiki/PDCON:Conference/Pure_Data_implementation_of_an_ESS-based_impulse_response_acoustic_measurement_tool. ExpoChirpToolbox page: http://www.katjaas.nl/expochirp/expochirp.html.@*
 
-NOTE:@*
-This code was contributed by estearg (github) on 24.12.2017+30.12.2017 and modified to better suit the MATAA way of code.@*
+NOTEs:@*
+(1) The original code was contributed by estearg (github) on 24.12.2017+30.12.2017 and modified to better suit the MATAA way of code.@*
+(2) This code went through substantial changes and fixes (Aug 2019), because it was hard to use and gave wrong results. After substantial testing and comparison with discrete distortion testing, the distortion results now seem to be consistent with those obtained from conventional (discrete frequency) methods.@*
 
 INPUT:@*
 P: integer number of octaves, of which the first will be spent on a fade-in window@*
 T: desired sweep duration@*
 fs: sampling frequency@*
-N: see tN (OUTPUT) below@*
+N: number of harmonics included in the analysis@*
+tL: length of anechoic part of impulse response (seconds)@*
 latency (optional): see mataa_measure_signal_response@*
 cal (optional): see mataa_measure_signal_response@*
-amplitude and unit (optional): amplitude (peak-to-zero) and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'@*
+A and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'@*
 
 OUTPUT:@*
-h: impulse response@*
-t: time@*
-tN: time shift of the k-th impulse responses relative to the linear response (k = 1...N).@*
-unit: unit of data in h@*
+hi: vector of structs with measured data. hi(1) corresponds to the fundamental, h(k) to the k-th harmonic, with k = 2...N.@*
+hi(k).mag: magitude data@*
+hi(k).phase: phase data@*
+hi(k).mag_unit: unit of mag@*
+hi(k).percent: percentage of harmonic amplitude relative to fundamental@*
+hi(k).f: frequency values for mag, phase and percent@*
+hi(k).h: impulse response data@*
+hi(k).h_unit: unit of h@*
+hi(k).t: time values for impulse response data@*
 
 EXAMPLE:@*
-> % Measure DUT response using chirp test signal:@*
-> P = 8; T=10; fs = 44100; N = 3; amplitude = 0.5; % measurement parameters@*
-> [h,t,tN,unit] = mataa_measure_IR_HD (P,T,fs,N,[],'GENERIC_CHAIN_ACOUSTIC.txt',amplitude,'Volt'); % perform measurement@*
-> % Determine start of main (fundamental) impulse response and plot the impulse response data:@*
-> k = round(length(h)*0.45); t0 = mataa_guess_IR_start(h(k:end),t(k:end)); t = t-t0; % set linear response to t = 0@*
-> figure(1);semilogy (t,abs(h)); axis([t(1) t(end) 1E-7 2]); grid on; xlabel ('Time (s)'); ylabel (sprintf('abs(Amplitude) (%s)',unit)); % plot the IR data@*
-> % separate the fundamental and harmonics, convert to frequency domain, and plot result:@*
-> [h1,t1] = mataa_signal_crop(h,t,0,t(end)); % extract the linear response@*
-> [h2,t2] = mataa_signal_crop(h,t,-tN(2),-tN(1)-0.2*(tN(2)-tN(1))); % extract the second order response@*
-> [h3,t3] = mataa_signal_crop(h,t,-tN(3),-tN(2)-0.2*(tN(3)-tN(2))); % extract the third order response@*
-> [m1, p1, f1] = mataa_IR_to_FR (h1, fs, 1/8, unit); % get the linear frequency response@*
-> [m2, p2, f2] = mataa_IR_to_FR (h2, fs, 1/8, unit); % get the second order frequency response@*
-> [m3, p3, f3] = mataa_IR_to_FR (h3, fs, 1/8, unit); % get the third order frequency response@*
-> figure(2); semilogx (f1, m1, ';Fundamental;' , f2, m2, ';2nd harmonic;' , f3, m3, ';3rd harmonic;'); axis([100 fs/2]); ylabel ('dB-SPL'); xlabel ('Frequency (Hz)'); % plot the linear and second order response@*
+> % Measure anechoic loudspeaker response (above 300 Hz) and harmonic distortions (2nd and 3rd) using P=8 octaves, T=3 s, fs=96 kHz, default latency, and 1 V (peak-to-zero) drive voltage:@*
+> h = mataa_measure_IR_HD (8,3,96000,3,1/300,[],'MB_ACOUSTIC_CHAIN_DUT.txt',1,'V');@*
+> figure(1);@*
+> semilogx (h(1).f,h(1).mag,'k-;Fundamental;' , h(2).f,h(2).mag,'b-;2nd;' , h(3).f,h(3).mag,'r-;3rd;'); % plot absolute levels@*
+> xlim([300 20E3]); ylabel ('dB-SPL'); xlabel ('Frequency (Hz)');@*
+> figure(2);@*
+> loglog(h(2).f,h(2).percent,'-b;2nd;' , h(3).f,h(3).percent,'r-;3rd;') % plot levels relative to fundamental@*
+> xlim([300 20E3]); ylabel ('HD (%)'); xlabel ('Frequency (Hz)');@*
 
 
 @findex mataa_measure_IR
@@ -1116,7 +1164,7 @@ See also note on channel numbers and allocation of DAC, ADC and cal channel numb
 INPUT:@*
 X0: test signal with values ranging from -1...+1. For a single signal (same signal for all DAC output channels), X0 is a vector. For different signals, X0 is a matrix, with each column corresponding to one channel@*
 fs: the sampling rate to be used for the audio input / output (in Hz). Only sample rates supported by the hardware (or its driver software) are supported.@*
-latency: if the signal samples were specified rather than a file name/path, the signal is padded with zeros at its beginning and end to avoid cutting off the test signals early due to the latency of the sound input/output device(s). 'latency' is the length of the zero signals padded to the beginning and the end of the test signal (in seconds). If a file name is specified instead of the signal samples, the value of 'latency' is ignored.@*
+latency: the signal data in X0 are padded with zeros at the beginning and end to avoid cutting off the test signals early due to the latency of the sound input/output device(s). 'latency' is the length of the zero signals padded to the beginning and the end of the test signal (in seconds).C@*
 verbose (optional): If verbose=0, no information or feedback is displayed. Otherwise, mataa_measure_signal_response prints feedback on the progress of the sound in/out. If verbose is not specified, verbose ~= 0 is assumed.@*
 channels (optional): index to data channels obtained from the ADC that should be processed and returned. If not specified, all data channels are returned.@*
 cal (optional): calibration data for the full analysis chain DAC / SENSOR / ADC (see mataa_signal_calibrate_DUTin and mataa_signal_calibrate_DUTout for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array. If no cal is given or cal = [], the data will not be calibrated.@*
@@ -1503,8 +1551,8 @@ k1 corresponds to the fundamental frequency or first harmonic (k1 = 1, not plott
 annote (optional): optional annotation to be added to the plot title@*
 
 EXAMPLE:@*
-> [thd,k] = mataa_measure_thd(1000,1,96000); % measure THD and harmonic distortion spectrum@*
-> mataa_plot_HD(k,'f0: 1kHz'); % plot the distortion spectrum@*
+> HD = mataa_measure_HD_noise ( 1000,1,44100,10,0.2 ); % measure harmonic distortion spectrum@*
+> mataa_plot_HD(HD(1,:),'f0: 1kHz'); % plot the distortion spectrum@*
 
 
 @findex mataa_plot_impedance

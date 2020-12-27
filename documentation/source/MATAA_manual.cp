@@ -50,27 +50,28 @@
 \entry{Soundcard}{7}{Soundcard}
 \entry{TestTone}{7}{TestTone}
 \entry{TestDevices}{7}{TestDevices}
-\entry{Channel allocation}{8}{Channel allocation}
-\entry{Soundcard channel allocation}{8}{Soundcard channel allocation}
-\entry{Allocation of soundcard channels}{8}{Allocation of soundcard channels}
-\entry{DUT channel}{8}{DUT channel}
-\entry{REF channel}{8}{REF channel}
-\entry{Interchannel delay}{10}{Interchannel delay}
-\entry{Delay, interchannel (soundcard)}{10}{Delay, interchannel (soundcard)}
-\entry{Soundcard interchannel delay}{10}{Soundcard interchannel delay}
-\entry{TestTone}{12}{TestTone}
-\entry{TestDevices}{12}{TestDevices}
-\entry{PortAudio}{12}{PortAudio}
-\entry{Linux}{12}{Linux}
-\entry{MATLAB}{74}{MATLAB}
-\entry{Octave}{74}{Octave}
-\entry{Matrix}{75}{Matrix}
-\entry{Vector}{75}{Vector}
-\entry{Vector (row, column)}{75}{Vector (row, column)}
-\entry{Row vector}{75}{Row vector}
-\entry{Column vector}{75}{Column vector}
-\entry{Vector}{75}{Vector}
-\entry{Scalar}{75}{Scalar}
-\entry{GNU General Public License}{77}{GNU General Public License}
-\entry{GPL, GNU General Public License}{77}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{81}{FDL, GNU Free Documentation License}
+\entry{PlayRec}{7}{PlayRec}
+\entry{TestTone}{9}{TestTone}
+\entry{TestDevices}{9}{TestDevices}
+\entry{PortAudio}{9}{PortAudio}
+\entry{Linux}{9}{Linux}
+\entry{Channel allocation}{10}{Channel allocation}
+\entry{Soundcard channel allocation}{10}{Soundcard channel allocation}
+\entry{Allocation of soundcard channels}{10}{Allocation of soundcard channels}
+\entry{DUT channel}{10}{DUT channel}
+\entry{REF channel}{10}{REF channel}
+\entry{Interchannel delay}{12}{Interchannel delay}
+\entry{Delay, interchannel (soundcard)}{12}{Delay, interchannel (soundcard)}
+\entry{Soundcard interchannel delay}{12}{Soundcard interchannel delay}
+\entry{MATLAB}{76}{MATLAB}
+\entry{Octave}{76}{Octave}
+\entry{Matrix}{77}{Matrix}
+\entry{Vector}{77}{Vector}
+\entry{Vector (row, column)}{77}{Vector (row, column)}
+\entry{Row vector}{77}{Row vector}
+\entry{Column vector}{77}{Column vector}
+\entry{Vector}{77}{Vector}
+\entry{Scalar}{77}{Scalar}
+\entry{GNU General Public License}{79}{GNU General Public License}
+\entry{GPL, GNU General Public License}{79}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{83}{FDL, GNU Free Documentation License}

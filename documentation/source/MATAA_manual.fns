@@ -1,86 +1,88 @@
-\entry {\code {mataa_audio_guess_latency}}{15}
-\entry {\code {mataa_audio_info}}{15}
-\entry {\code {mataa_cal_autoscale}}{16}
-\entry {\code {mataa_computer}}{16}
-\entry {\code {mataa_convolve}}{17}
-\entry {\code {mataa_deConvolve}}{17}
-\entry {\code {mataa_export_FRD}}{18}
-\entry {\code {mataa_export_TMD}}{20}
-\entry {\code {mataa_f_to_t}}{23}
-\entry {\code {mataa_file_default_name}}{21}
-\entry {\code {mataa_FR_extend_LF}}{21}
-\entry {\code {mataa_FR_inbox_convert}}{22}
-\entry {\code {mataa_FR_smooth}}{23}
-\entry {\code {mataa_gnuplot}}{24}
-\entry {\code {mataa_guess_IR_start}}{24}
-\entry {\code {mataa_hilbert}}{25}
-\entry {\code {mataa_impedance_fit_speaker_LR2}}{25}
-\entry {\code {mataa_impedance_speaker_model_LR2}}{26}
-\entry {\code {mataa_impedance_speaker_model_WRIGHT}}{27}
-\entry {\code {mataa_import_AIFF}}{28}
-\entry {\code {mataa_import_FRD}}{28}
-\entry {\code {mataa_import_mlssa}}{29}
-\entry {\code {mataa_import_TMD}}{30}
-\entry {\code {mataa_interp}}{31}
-\entry {\code {mataa_IR_demo}}{31}
-\entry {\code {mataa_IR_remove_echo}}{32}
-\entry {\code {mataa_IR_to_CSD}}{32}
-\entry {\code {mataa_IR_to_ETC}}{33}
-\entry {\code {mataa_IR_to_FR}}{34}
-\entry {\code {mataa_IR_to_FR_LFextend}}{33}
-\entry {\code {mataa_IR_to_SR}}{35}
-\entry {\code {mataa_IR_to_TBES}}{36}
-\entry {\code {mataa_load_calibration}}{36}
-\entry {\code {mataa_measure_GedLee}}{37}
-\entry {\code {mataa_measure_HD_noise}}{38}
-\entry {\code {mataa_measure_impedance}}{39}
-\entry {\code {mataa_measure_IR}}{43}
-\entry {\code {mataa_measure_IR_HD}}{41}
-\entry {\code {mataa_measure_signal_response}}{44}
-\entry {\code {mataa_measure_sine_distortion}}{46}
-\entry {\code {mataa_menu}}{47}
-\entry {\code {mataa_minimum_phase}}{48}
-\entry {\code {mataa_octave_version}}{49}
-\entry {\code {mataa_path}}{49}
-\entry {\code {mataa_phase_remove_delay}}{50}
-\entry {\code {mataa_phase_remove_trend}}{50}
-\entry {\code {mataa_plot_CSDt}}{51}
-\entry {\code {mataa_plot_defaults}}{51}
-\entry {\code {mataa_plot_ETC_dB}}{52}
-\entry {\code {mataa_plot_ETC_lin}}{52}
-\entry {\code {mataa_plot_FR}}{53}
-\entry {\code {mataa_plot_HD}}{54}
-\entry {\code {mataa_plot_impedance}}{54}
-\entry {\code {mataa_plot_IR}}{55}
-\entry {\code {mataa_plot_one}}{55}
-\entry {\code {mataa_plot_save}}{55}
-\entry {\code {mataa_plot_SR}}{56}
-\entry {\code {mataa_plot_TBESf}}{56}
-\entry {\code {mataa_plot_time_signal}}{57}
-\entry {\code {mataa_plot_two}}{57}
-\entry {\code {mataa_plot_two_logX}}{57}
-\entry {\code {mataa_realFT}}{59}
-\entry {\code {mataa_realFT0}}{58}
-\entry {\code {mataa_realIFT}}{59}
-\entry {\code {mataa_realIFT0}}{59}
-\entry {\code {mataa_running_mean}}{60}
-\entry {\code {mataa_select_signal_window_time}}{60}
-\entry {\code {mataa_settings}}{61}
-\entry {\code {mataa_signal_analytic}}{61}
-\entry {\code {mataa_signal_autocorr}}{62}
-\entry {\code {mataa_signal_calibrate_DUTin}}{14, 62}
-\entry {\code {mataa_signal_calibrate_DUTout}}{64}
-\entry {\code {mataa_signal_clipcheck}}{65}
-\entry {\code {mataa_signal_crop}}{66}
-\entry {\code {mataa_signal_generator}}{66}
-\entry {\code {mataa_signal_pad_Zeros}}{68}
-\entry {\code {mataa_signal_removeHF}}{68}
-\entry {\code {mataa_signal_save}}{69}
-\entry {\code {mataa_signal_spectrogram}}{69}
-\entry {\code {mataa_signal_to_TestToneFile}}{70}
-\entry {\code {mataa_signal_window}}{71}
-\entry {\code {mataa_smooth_log}}{72}
-\entry {\code {mataa_speaker_TSP_addmass}}{73}
-\entry {\code {mataa_t_to_f}}{74}
-\entry {\code {mataa_t_to_f0}}{74}
-\entry {\code {mataa_tempfile}}{73}
+\entry{\code {mataa_audio_guess_latency}}{16}
+\entry{\code {mataa_audio_info}}{16}
+\entry{\code {mataa_audio_init_playrec}}{17}
+\entry{\code {mataa_cal_autoscale}}{17}
+\entry{\code {mataa_computer}}{18}
+\entry{\code {mataa_convolve}}{18}
+\entry{\code {mataa_deConvolve}}{19}
+\entry{\code {mataa_export_FRD}}{19}
+\entry{\code {mataa_export_TMD}}{22}
+\entry{\code {mataa_f_to_t}}{25}
+\entry{\code {mataa_file_default_name}}{22}
+\entry{\code {mataa_FR_extend_LF}}{22}
+\entry{\code {mataa_FR_inbox_convert}}{23}
+\entry{\code {mataa_FR_smooth}}{24}
+\entry{\code {mataa_gnuplot}}{25}
+\entry{\code {mataa_guess_IR_start}}{25}
+\entry{\code {mataa_hilbert}}{26}
+\entry{\code {mataa_impedance_fit_speaker_LR2}}{27}
+\entry{\code {mataa_impedance_speaker_model_LR2}}{27}
+\entry{\code {mataa_impedance_speaker_model_WRIGHT}}{28}
+\entry{\code {mataa_import_AIFF}}{29}
+\entry{\code {mataa_import_FRD}}{30}
+\entry{\code {mataa_import_mlssa}}{30}
+\entry{\code {mataa_import_PIR}}{31}
+\entry{\code {mataa_import_TMD}}{32}
+\entry{\code {mataa_interp}}{32}
+\entry{\code {mataa_IR_demo}}{33}
+\entry{\code {mataa_IR_remove_echo}}{34}
+\entry{\code {mataa_IR_to_CSD}}{34}
+\entry{\code {mataa_IR_to_ETC}}{35}
+\entry{\code {mataa_IR_to_FR}}{36}
+\entry{\code {mataa_IR_to_FR_LFextend}}{35}
+\entry{\code {mataa_IR_to_SR}}{37}
+\entry{\code {mataa_IR_to_TBES}}{37}
+\entry{\code {mataa_load_calibration}}{38}
+\entry{\code {mataa_measure_GedLee}}{39}
+\entry{\code {mataa_measure_HD_noise}}{39}
+\entry{\code {mataa_measure_impedance}}{41}
+\entry{\code {mataa_measure_IR}}{45}
+\entry{\code {mataa_measure_IR_HD}}{43}
+\entry{\code {mataa_measure_signal_response}}{46}
+\entry{\code {mataa_measure_sine_distortion}}{48}
+\entry{\code {mataa_menu}}{49}
+\entry{\code {mataa_minimum_phase}}{50}
+\entry{\code {mataa_octave_version}}{50}
+\entry{\code {mataa_path}}{51}
+\entry{\code {mataa_phase_remove_delay}}{52}
+\entry{\code {mataa_phase_remove_trend}}{52}
+\entry{\code {mataa_plot_CSDt}}{53}
+\entry{\code {mataa_plot_defaults}}{53}
+\entry{\code {mataa_plot_ETC_dB}}{54}
+\entry{\code {mataa_plot_ETC_lin}}{54}
+\entry{\code {mataa_plot_FR}}{55}
+\entry{\code {mataa_plot_HD}}{55}
+\entry{\code {mataa_plot_impedance}}{56}
+\entry{\code {mataa_plot_IR}}{56}
+\entry{\code {mataa_plot_one}}{57}
+\entry{\code {mataa_plot_save}}{57}
+\entry{\code {mataa_plot_SR}}{58}
+\entry{\code {mataa_plot_TBESf}}{58}
+\entry{\code {mataa_plot_time_signal}}{58}
+\entry{\code {mataa_plot_two}}{59}
+\entry{\code {mataa_plot_two_logX}}{59}
+\entry{\code {mataa_realFT}}{60}
+\entry{\code {mataa_realFT0}}{60}
+\entry{\code {mataa_realIFT}}{61}
+\entry{\code {mataa_realIFT0}}{61}
+\entry{\code {mataa_running_mean}}{62}
+\entry{\code {mataa_select_signal_window_time}}{62}
+\entry{\code {mataa_settings}}{63}
+\entry{\code {mataa_signal_analytic}}{63}
+\entry{\code {mataa_signal_autocorr}}{64}
+\entry{\code {mataa_signal_calibrate_DUTin}}{15, 64}
+\entry{\code {mataa_signal_calibrate_DUTout}}{65}
+\entry{\code {mataa_signal_clipcheck}}{67}
+\entry{\code {mataa_signal_crop}}{68}
+\entry{\code {mataa_signal_generator}}{68}
+\entry{\code {mataa_signal_pad_Zeros}}{70}
+\entry{\code {mataa_signal_removeHF}}{70}
+\entry{\code {mataa_signal_save}}{71}
+\entry{\code {mataa_signal_spectrogram}}{71}
+\entry{\code {mataa_signal_to_TestToneFile}}{72}
+\entry{\code {mataa_signal_window}}{73}
+\entry{\code {mataa_smooth_log}}{74}
+\entry{\code {mataa_speaker_TSP_addmass}}{74}
+\entry{\code {mataa_t_to_f}}{76}
+\entry{\code {mataa_t_to_f0}}{75}
+\entry{\code {mataa_tempfile}}{75}

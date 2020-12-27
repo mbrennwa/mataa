@@ -127,7 +127,7 @@ end
 try
     disp('Testing sound input/output...')
     % tryLatencyTest = 1;
-    a = mataa_audio_info;
+    a = mataa_audio_info;    
     disp(['  The audio device that will be used for audio output is: ' , a.output.name ]);
     disp(['  The audio host API is (output): ' , a.output.API ]);
     disp(['     Number of channels of output device: ' , num2str(a.output.channels) ]);

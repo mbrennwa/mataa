@@ -34,6 +34,14 @@ function audioInfo = mataa_audio_info;
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
+% prepare device info (with empty/unknown entries):
+audioInfo.input.name = '(UNKNOWN)';
+audioInfo.input.channels = [];
+audioInfo.input.sampleRates = [];
+audioInfo.input.API = 'UNKNOWN';
+audioInfo.output.API = 'UNKNOWN';
+audioInfo.output = audioInfo.input;
+
 % determine computer OS platform:
 plat = mataa_computer;
 
@@ -72,72 +80,89 @@ if u
 	
 else
 	
+	try
+		audio_IO_method = mataa_settings ('audio_IO_method');
+	catch
+		audio_IO_method = 'TestTone';
+	end
+
+	if strcmp(upper(audio_IO_method),'TESTTONE')
+
+		switch plat
+		 case {'MAC','PCWIN','LINUX_X86-32','LINUX_X86-64','LINUX_PPC','LINUX_ARM_GNUEABIHF'}
+				if strcmp(plat,'PCWIN')
+					extension = '.exe';
+				else
+					extension = '';
+				end    	
+		 
+				TestDevices = sprintf('%s%s%s',mataa_path('TestDevices'),'TestDevicesPA19',extension);
+				
+				infoFile = mataa_tempfile;
+
+				input_sampleRates_halfDuplex = [];
+				input_sampleRates_fullDuplex = [];
+				output_sampleRates_halfDuplex = [];
+				output_sampleRates_fullDuplex = [];
+						
+				system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
+						
+				fid=fopen(infoFile,'rt');
+				l = 0;
+				while l ~=-1
+					l = fgetl(fid);
+					% disp (l)
+					if findstr (l,'Default input device')
+						l = l(findstr(l,'=')+2:end);
+						if length(l) > 0
+							audioInfo.input.name = l;
+						end
+					end;
+					if findstr (l,'Host API (input)'), audioInfo.input.API = l(20:end); end;
+					if findstr (l,'Host API (output)'), audioInfo.output.API = l(21:end); end;
+					if findstr (l,'Max input channels'), audioInfo.input.channels = str2num(l(findstr(l,'=')+1:end)); end;
+					if findstr (l,'Supported standard sample rates (input, full-duplex'), input_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+					if findstr (l,'Supported standard sample rates (input, half-duplex'), input_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+					if findstr (l,'Default output device')
+						l = l(findstr(l,'=')+2:end);
+						if length(l) > 0
+							audioInfo.output.name = l;
+						end
+					end;
+					
+					if findstr (l,'Max output channels'), audioInfo.output.channels = str2num(l(findstr(l,'=')+1:end)); end;
+					if findstr (l,'Supported standard sample rates (output, full-duplex'), output_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+					if findstr (l,'Supported standard sample rates (output, half-duplex'), output_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
+				end
+				fclose(fid);
+				delete(infoFile);
+				
+				if strcmp(audioInfo.input.name,audioInfo.output.name) % full-duplex operation
+					audioInfo.input.sampleRates = input_sampleRates_fullDuplex;
+					audioInfo.output.sampleRates = output_sampleRates_fullDuplex;
+				else % half-duplex operation
+					audioInfo.input.sampleRates = input_sampleRates_halfDuplex;
+					audioInfo.output.sampleRates = output_sampleRates_halfDuplex;
+				end
+					
+			otherwise
+				error(sprintf('mataa_audio_info: Sorry, this computer platform is not (yet) supported by the TestDevices program.',plat));
+		end % switch
 	
-	switch plat
-	 case {'MAC','PCWIN','LINUX_X86-32','LINUX_X86-64','LINUX_PPC','LINUX_ARM_GNUEABIHF'}
-			if strcmp(plat,'PCWIN')
-				extension = '.exe';
-			else
-				extension = '';
-			end    	
-	 
-			TestDevices = sprintf('%s%s%s',mataa_path('TestDevices'),'TestDevicesPA19',extension);
-			
-			infoFile = mataa_tempfile;
-			% prepare device info (with empty/unknown entries):
-			audioInfo.input.name = '(UNKNOWN)';
-			audioInfo.input.channels = [];
-			audioInfo.input.sampleRates = [];
-			audioInfo.input.API = 'UNKNOWN';
-			audioInfo.output.API = 'UNKNOWN';
-			audioInfo.output = audioInfo.input;
-			input_sampleRates_halfDuplex = [];
-			input_sampleRates_fullDuplex = [];
-			output_sampleRates_halfDuplex = [];
-			output_sampleRates_fullDuplex = [];
-					
-			system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
-					
-			fid=fopen(infoFile,'rt');
-			l = 0;
-			while l ~=-1
-				l = fgetl(fid);
-				% disp (l)
-				if findstr (l,'Default input device')
-					l = l(findstr(l,'=')+2:end);
-					if length(l) > 0
-						audioInfo.input.name = l;
-					end
-				end;
-				if findstr (l,'Host API (input)'), audioInfo.input.API = l(20:end); end;
-				if findstr (l,'Host API (output)'), audioInfo.output.API = l(21:end); end;
-				if findstr (l,'Max input channels'), audioInfo.input.channels = str2num(l(findstr(l,'=')+1:end)); end;
-				if findstr (l,'Supported standard sample rates (input, full-duplex'), input_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-				if findstr (l,'Supported standard sample rates (input, half-duplex'), input_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-				if findstr (l,'Default output device')
-					l = l(findstr(l,'=')+2:end);
-					if length(l) > 0
-						audioInfo.output.name = l;
-					end
-				end;
-				
-				if findstr (l,'Max output channels'), audioInfo.output.channels = str2num(l(findstr(l,'=')+1:end)); end;
-				if findstr (l,'Supported standard sample rates (output, full-duplex'), output_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-				if findstr (l,'Supported standard sample rates (output, half-duplex'), output_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-			end
-			fclose(fid);
-			delete(infoFile);
-			
-			if strcmp(audioInfo.input.name,audioInfo.output.name) % full-duplex operation
-				audioInfo.input.sampleRates = input_sampleRates_fullDuplex;
-				audioInfo.output.sampleRates = output_sampleRates_fullDuplex;
-			else % half-duplex operation
-				audioInfo.input.sampleRates = input_sampleRates_halfDuplex;
-				audioInfo.output.sampleRates = output_sampleRates_halfDuplex;
-			end
-				
-		otherwise
-			error(sprintf('mataa_audio_info: Sorry, this computer platform is not (yet) supported by the TestDevices program.',plat));
-	end % switch
+	elseif strcmp(upper(audio_IO_method),'PLAYREC')
+		
+		warning ('mataa_audio_info: audio I/O using PlayRec is not yet implemented. Using generic audio device parameters...')
+		
+		u = mataa_settings ('audioinfo_skipcheck');
+		u = mataa_settings ('audioinfo_skipcheck', 1);
+		audioInfo = mataa_audio_info()
+		u = mataa_settings ('audioinfo_skipcheck', u);
+		audioInfo.input.name = '***PLAYREC -- GENERIC-UNTESTED***';
+		audioInfo.output.name = '***PLAYREC -- GENERIC-UNTESTED***';
+		
+	else
+		error (sprintf('mataa_audio_info: unknown audio I/O method <%s>.',audio_IO_method))
+
+	end
 	
 end

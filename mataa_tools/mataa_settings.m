@@ -49,7 +49,9 @@ path = sprintf('%s.mataa_settings.mat',path);
 
 reset_to_def = ~exist(path,'file');
 
-if (~reset_to_def && exist('field','var')) reset_to_def = strcmp(field,'reset'); end
+if (~reset_to_def && exist('field','var'))
+	reset_to_def = strcmp(field,'reset');
+end
 
 if reset_to_def
 	% create / reset to default settings:
@@ -67,10 +69,15 @@ if reset_to_def
 	
 	mataa_settings.channel_DUT = 1;
 	mataa_settings.channel_REF = 2;
+
+	mataa_settings.audio_IO_method = 'TestTone';
 	
-    mataa_settings.interchannel_delay = 0;
-    
-    mataa_settings.audioinfo_skipcheck = 0; % don't run the TestDevices check and return generic audio info instead (suitable for a typical audio interface, stereo, full duplex). This is useful to skip the query to audio interfaces which do nasty things when TestDevices asks them for their properties (such as the RTX-6001 which goes crazy with relays clicking)
+	mataa_settings.audio_PlayRec_InputDevice = 0;
+	mataa_settings.audio_PlayRec_OutputDevice = 0;
+	
+	mataa_settings.interchannel_delay = 0;
+	
+	mataa_settings.audioinfo_skipcheck = 0; % don't run the TestDevices check and return generic audio info instead (suitable for a typical audio interface, stereo, full duplex). This is useful to skip the query to audio interfaces which do nasty things when TestDevices asks them for their properties (such as the RTX-6001 which goes crazy with relays clicking)
 	
 	cc = [ 'save -mat ' path ' mataa_settings ; ' ];
 	disp(sprintf('Creating / resetting to MATAA default settings (command: %s)...',cc));
@@ -91,8 +98,10 @@ else
 		if isfield(mataa_settings,field)
 			eval( ['val = mataa_settings.' field ';' ] );
 		else
-			warning(sprintf('mataa_settings: Unknown field value in mataa_settings: %s.',field));
-			val = [];
+			if ~strcmp(field,'reset')
+				warning(sprintf('mataa_settings: Unknown field value in mataa_settings: %s.',field));
+				val = [];
+			end
 		end		
 	elseif nargin == 2 % set the field to the specified value and save the settings file	
 		eval( [ 'mataa_settings.' field ' = value ; ' ] );

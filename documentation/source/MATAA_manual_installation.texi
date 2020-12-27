@@ -102,7 +102,6 @@ For example, assume you have installed MATAA to @file{~/MATLAB/mataa/}. Add the 
 @example
 addpath ("~/MATLAB/mataa/mataa_tools");
 addpath ("~/MATLAB/mataa/mataa_scripts");
-addpath ("~/MATLAB/mataa/test_signals");
 @end example
 
 If you created a directory @file{~/MATLAB/mataa_user_scripts/} to store your custom MATAA stuff, you may add the following line to let MATLAB/Octave know about this::
@@ -163,7 +162,7 @@ The basic procedure followed during a MATAA measurement is that MATAA feeds a te
 
 @cindex Anti-aliasing filter
 @cindex Filter, anti-aliasing
-@item The anti-aliasing filter (D in @ref{fig:measurement_setup}) removes high-frequency components from the DUT's response signal. If the the DUT response contains signal components with frequencies higher than the Nyquist frequency (half the sampling frequency) of the sound input's analog-to-digital (A/D) converter, these signal components will be aliased to lower frequencies during A/D conversion. This signal `contamination' can be avoided (or at least constrained) by removing the signal components higher than the Nyquist frequency @emph{before}ÊA/D conversion. Many soundcards have a built-in anti-aliasing filter with a cut-off frequency that is automatically adjusted to the sampling rate. You can check for the presence of an anti-aliasing filter by applying sine signals with frequencies higher than the Nyquist frequency (e.g. using an analog signal generator). Then check the digitized signal for alias signals in the frequency range below the Nyquist frequency. Furhter, if the signal from the DUT is (virtually) free of frequencies higher then the Nyquist frequency, you can omit the anti-aliasing filter. Vice versa, you can omit the anti-aliasing filter, if the soundcard samples the test signal with a sampling rate of at least twice the highest frequency contained in the test signal. For instance, loudspeakers and test microphones rarely extend to frequencies higher than 40 kHz. Thus, if your soundcard allows setting the sampling rate to 80 kHz or higher (e.g. 96 kHz or 192 kHz), you can omit the anti-aliasing filter by using a sampling rate of at least 80 kHz.
+@item The anti-aliasing filter (D in @ref{fig:measurement_setup}) removes high-frequency components from the DUT's response signal. If the the DUT response contains signal components with frequencies higher than the Nyquist frequency (half the sampling frequency) of the sound input's analog-to-digital (A/D) converter, these signal components will be aliased to lower frequencies during A/D conversion. This signal `contamination' can be avoided (or at least constrained) by removing the signal components higher than the Nyquist frequency @emph{before} A/D conversion. Many soundcards have a built-in anti-aliasing filter with a cut-off frequency that is automatically adjusted to the sampling rate. You can check for the presence of an anti-aliasing filter by applying sine signals with frequencies higher than the Nyquist frequency (e.g. using an analog signal generator). Then check the digitized signal for alias signals in the frequency range below the Nyquist frequency. Furhter, if the signal from the DUT is (virtually) free of frequencies higher then the Nyquist frequency, you can omit the anti-aliasing filter. Vice versa, you can omit the anti-aliasing filter, if the soundcard samples the test signal with a sampling rate of at least twice the highest frequency contained in the test signal. For instance, loudspeakers and test microphones rarely extend to frequencies higher than 40 kHz. Thus, if your soundcard allows setting the sampling rate to 80 kHz or higher (e.g. 96 kHz or 192 kHz), you can omit the anti-aliasing filter by using a sampling rate of at least 80 kHz.
 
 @item The Soundcard audio input: Here, the same applies as with the audio input, with a few exceptions. Firstly, a high input impedance is preferable so that the previous stage can easily drive the audio input. Secondly, the sensitivity of the analog-to-digital (A/D) converter should be set as high as possible (to maximise SNR), but not too high (to avoid clipping of the signal).
 
@@ -174,76 +173,34 @@ The basic procedure followed during a MATAA measurement is that MATAA feeds a te
 @cindex Soundcard
 @cindex TestTone
 @cindex TestDevices
-@subsection Soundcard setup, TestTone, and TestDevices
-MATAA talks to the soundcard using the TestTone and TestDevices programs (which are part of the MATAA package, see @ref{Installing MATAA}). If your computer has more than one device for sound input or output, MATAA uses the default device set for your computer.
+@cindex PlayRec
+@subsection Software interfaces for sound-card access
+There are two user-selectable methods for MATAA to talk to a sound card. The first method is to use the TestTone and TestDevices programs. The second option is PlayRec. Both options rely on PortAudio to talk to the sound card (@uref{http://www.portaudio.com}). The quality of the measurement data (sample rate, sample depth) obtained from TestTone or PlayRec is the same. The advantage of TestTone and TestDevices is that they are supported very well by MATAA on many operating systems and sound APIs. The advantage of PlayRec is that it allows much faster data exchange with MATAA, but its current MATAA implementation is still experimental and has been tested on Linux only.
+
+The use of TestTone / TestDevices vs. PlayRec is configured in MATAA by using the following settings:
+@example
+mataa_settings ('audio_IO_method','TestTone')
+mataa_settings ('audio_IO_method','PlayRec')
+@end example
+
+@subsection Using MATAA with TestTone and TestDevices
+The TestTone and TestDevices programs are part of the MATAA package, see @ref{Installing MATAA}). The TestTone program is used for output and input of audio data via the sound card. The TestDevices program is used to obtain information about the sound card. If your computer has more than one device for sound input or output, MATAA uses the default device set for your computer. The TestTone and TestDevices programs were developed specifically for MATAA. The data exchange between MATAA and TestTone or TestDevices is handled by writing / reading data to / from ASCII files. This form of data exchange is slow, but works very reliably on all kinds of different platforms.
 
 A few notes:
 @itemize
+
+@item The TestTone and TestDevices programs will always use the audio devices configured as default devices in the operting system.
 
 @item The Windows versions of TestTone and TestDevices only work with ASIO drivers (WMME and DirectSound are not supported). If your soundcard did not come with an ASIO driver, check out ASIO4ALL (@uref{http://www.asio4all.com}). The Windows binaries were compiled by Shu Sang (@email{sangshu@@hotmail.com}) -- thank you Shu! Please note that Shu used Microsoft Visual Studio to compile TestTone and TestDevices. Therefore, if you experience problems with sound input or output, you may need to install the Microsoft Visual C++ 2005 SP1 Redistributable Package (x86) to make TestTone and TestDevices work properly. You can download the package here:
 @uref{http://www.microsoft.com/downloads/details.aspx?familyid=200B2FD9-AE1A-4A14-984D-389C36F85647&displaylang=en} (thanks to Gabe for this hint!).
 
 @item The Mac OS X versions of TestTone and TestDevices rely on CoreAudio, Apples application programming interface for sound on Mac OS X. CoreAudio provides automatic sample-rate conversion. It is therefore possible to use sample rates with MATAA that are not directly supported by the hardware.
 
-@item The Linx versions of TestTone and TestDevices are available for Linux running on Intel and PowerPC machines. If you need to compile your own binaries using the source code included in the MATAA distribution, see @ref{Compiling TestTone and TestDevices on Linux}.
+@item The Linux versions of TestTone and TestDevices are available for Linux running on Intel and PowerPC machines. If you need to compile your own binaries using the source code included in the MATAA distribution, see @ref{Compiling TestTone and TestDevices on Linux}.
 
 @end itemize
 
-
-
-@anchor{Sound channel allocation}
-@cindex Channel allocation
-@cindex Soundcard channel allocation
-@cindex Allocation of soundcard channels
-@cindex DUT channel
-@cindex REF channel
-@subsection Sound channel allocation
-Most soundcards have at least two sound channels for stereo sound. While many measurements can be made using only one channel, there are a few cases where the second channel is needed to record a reference signal (e.g. impedance measurements, @ref{Impedance measurement}). In most other cases, using the second channel to record a calibration signal will allow you to correct for  artifacts that may be introduced by the test equipment, which will improve the precision and the quality of the measurement.
-
-While @ref{fig:measurement_setup}Êshows the path of the test signal to and from the DUT, it does not show the path reference signal. The reference-signal path will depend strongly on the type of measurement and the test equipment used. @ref{fig:ref_signal_paths} is an attempt to illustrate some typical examples.
-
-@float Figure,fig:ref_signal_paths
-@iftex
-@image{figures/ref_signal_paths,6in,,reference signal paths}
-@end iftex
-@ifnottex
-@image{figures/ref_signal_paths,,,reference signal paths}
-@end ifnottex
-@caption{Some examples of how to use the second sound channel ('REF') of a stereo soundcard. A: both the power amplifier and the microphone amplifier are mono: wire the REF output directly to the REF input, B: the power amplifier has two (stereo) channels, but the microphone amplifier is mono: use the second channel of the power amplifier to calibrate for its characteristics, C: both the power amplifier and the microphone amplifier are stereo: use the second channel of the power amplifier and the microphone amplifier to calibrate for the characteristics of both amplifiers.}
-@end float
-
-
-By default, MATAA uses the left channel to record the test signal from the DUT, and the right channel to record the reference signal. If your soundcard uses 3.5 mm jacks, the DUT channel (left) should be on the tip of the 3.5 mm jack. The reference channel (right) should be on the ring in the middle of the jack. The ground (common to both channels) is on the contact closest to the body of the jack @ref{fig:jack}. If the left and right channels are revesed on the connectors of your soundcard, you can adjust the channel allocation using the @command{mataa_settings} command.
-
-@float Figure,fig:jack
-@iftex
-@image{figures/jack,4in,,3.5 mm jack pinout}
-@end iftex
-@ifnottex
-@image{figures/jack,,,3.5 mm jack pinout}
-@end ifnottex
-@caption{Pinout of 3.5 mm jack}
-@end float
-
-
-@anchor{Interchannel delay}
-@cindex Interchannel delay
-@cindex Delay, interchannel (soundcard)
-@cindex Soundcard interchannel delay
-@subsection Interchannel delay
-With some (lesser) soundcards, the data recorded in one channel may be offset in time with respect to the other up to to several tens of microseconds. This effect is called ``interchannel delay''. Interchannel delay can result in wrong results from impedance measurements using the sine-sweep method as described in ``MATAA: A Free Computer-Based Audio Analysis System'' (article in audioXpress (7), 2007).
-
-Therefore, interchannel delay must be removed from the measured data before calculating impedance function from the data. The @command{mataa_measure_impedance} command, which automates impedance measurement using the mentioned sine-sweep method, takes care of interchannel delay by shifting the measured data in time. The information on the amount of interchannel delay is taken from the MATAA settings file (the @command{interchannel_delay} field specifies the interchannel delay in seconds). By default, the interchannel delay is set to zero. You can adjust this value using the @command{mataa_settings} command (see @ref{mataa_settings}). For instance, with a soundcard exhibiting an interchannel delay of 17 microseconds, the interchannel delay parameter would be set by:
-
-@example
-mataa_settings('interchannel_delay',17E-6);
-@end example
-
-To test if your soundcard exhibits interchannel delay, it is best to measure the impedance of a resistor with a purely ohmic impedance (i.e. with constant resistance for all frequencies) using the method described in ``MATAA: A Free Computer-Based Audio Analysis System'' (article in audioXpress (7), 2007). If this measurement gives a flat impedance reading, your soundcard is not affected by interchannel delay (or the interchannel delay is already adjusted properly in the MATAA settings). Otherwise, you need to adjust the interchannel delay setting until you get a flat impedance reading.
-
-
-@node Setting up the soundcard of an Apple Macintosh computer running Mac OS X
-@section Setting up the soundcard of an Apple Macintosh computer running Mac OS X
+@subsubsection Configuration on Mac OS X
 
 @float Figure,fig:mac_audio_settings
 @iftex
@@ -257,10 +214,7 @@ To test if your soundcard exhibits interchannel delay, it is best to measure the
 
 To set up the audio hardware in Mac OS X, choose `System Preferences' in the Apple menu. Then, click on `Sound', and follow the instructions in @ref{fig:measurement_setup}.
 
-
-
-@node Setting up the soundcard of a computer running Linux
-@section Setting up the soundcard of a computer running Linux
+@subsubsection Linux
 
 On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture). Choosing the right sound architecure and sound devices as the default devices (i.e. the devices that will be used by MATAA) depends on the Linux distribution used. Read the documentation for your system. Apart from that, the following terminal commands may be useful to find the relevant information on the sound devices available on your system:
 
@@ -304,8 +258,66 @@ Without this file, the default device on this system is set to something that th
 @cindex TestDevices
 @cindex PortAudio
 @cindex Linux
-@section Compiling TestTone and TestDevices on Linux
+@subsubsection Compiling TestTone and TestDevices on Linux
 Note that the precompiled binaries will run on most computers and Linux distributions. However, if you need to compile TestTone and TestDevices on Linux, please follow the instructions in the README that comes with the source code of TestTone and TestDevices. 
+
+@subsection Using MATAA with PlayRec
+PlayRec is a Matlab and Octave utility (MEX file) that provides simple yet versatile access to soundcards using PortAudio. In principle, PlayRec can be used on different operating systems and sound APIs. However, PlayRec support in MATAA is still experimental and has been tested on Linux only. In contrast to TestTone and TestDevices, PlayRec allows much faster data exchange with MATAA, because the PlayRec MEX utility is executed directly within Matlab or Octave.
+
+To use PlayRec with MATAA, you need to download PlayRec from @url{https://github.com/mbrennwa/playrec}. To compile PlayRec for use with MATAA on Linux, follow the instructions in the file @file{COMPILE_AND_INSTALL_ON_LINUX.txt}. Make sure that PlayRec is on the searchpath of Matlab or Octave. For example, you could add the following to your @file{~/MATLAB/startup.m} or @file{~/.octaverc} file:
+@example
+addpath ("~/MATLAB/playrec");
+@end example
+
+@anchor{Sound channel allocation}
+@cindex Channel allocation
+@cindex Soundcard channel allocation
+@cindex Allocation of soundcard channels
+@cindex DUT channel
+@cindex REF channel
+@subsection Sound channel allocation
+Most soundcards have at least two sound channels for stereo sound. While many measurements can be made using only one channel, there are a few cases where the second channel is needed to record a reference signal (e.g. impedance measurements, @ref{Impedance measurement}). In most other cases, using the second channel to record a calibration signal will allow you to correct for  artifacts that may be introduced by the test equipment, which will improve the precision and the quality of the measurement.
+
+While @ref{fig:measurement_setup}Êshows the path of the test signal to and from the DUT, it does not show the path reference signal. The reference-signal path will depend strongly on the type of measurement and the test equipment used. @ref{fig:ref_signal_paths} is an attempt to illustrate some typical examples.
+
+@float Figure,fig:ref_signal_paths
+@iftex
+@image{figures/ref_signal_paths,6in,,reference signal paths}
+@end iftex
+@ifnottex
+@image{figures/ref_signal_paths,,,reference signal paths}
+@end ifnottex
+@caption{Some examples of how to use the second sound channel ('REF') of a stereo soundcard. A: both the power amplifier and the microphone amplifier are mono: wire the REF output directly to the REF input, B: the power amplifier has two (stereo) channels, but the microphone amplifier is mono: use the second channel of the power amplifier to calibrate for its characteristics, C: both the power amplifier and the microphone amplifier are stereo: use the second channel of the power amplifier and the microphone amplifier to calibrate for the characteristics of both amplifiers.}
+@end float
+
+By default, MATAA uses the left channel to record the test signal from the DUT, and the right channel to record the reference signal. If your soundcard uses 3.5 mm jacks, the DUT channel (left) should be on the tip of the 3.5 mm jack. The reference channel (right) should be on the ring in the middle of the jack. The ground (common to both channels) is on the contact closest to the body of the jack @ref{fig:jack}. If the left and right channels are revesed on the connectors of your soundcard, you can adjust the channel allocation using the @command{mataa_settings} command.
+
+@float Figure,fig:jack
+@iftex
+@image{figures/jack,4in,,3.5 mm jack pinout}
+@end iftex
+@ifnottex
+@image{figures/jack,,,3.5 mm jack pinout}
+@end ifnottex
+@caption{Pinout of 3.5 mm jack}
+@end float
+
+
+@anchor{Interchannel delay}
+@cindex Interchannel delay
+@cindex Delay, interchannel (soundcard)
+@cindex Soundcard interchannel delay
+@subsection Interchannel delay
+With some (lesser) soundcards, the data recorded in one channel may be offset in time with respect to the other up to to several tens of microseconds. This effect is called ``interchannel delay''. Interchannel delay can result in wrong results from impedance measurements using the sine-sweep method as described in ``MATAA: A Free Computer-Based Audio Analysis System'' (article in audioXpress (7), 2007).
+
+Therefore, interchannel delay must be removed from the measured data before calculating impedance function from the data. The @command{mataa_measure_impedance} command, which automates impedance measurement using the mentioned sine-sweep method, takes care of interchannel delay by shifting the measured data in time. The information on the amount of interchannel delay is taken from the MATAA settings file (the @command{interchannel_delay} field specifies the interchannel delay in seconds). By default, the interchannel delay is set to zero. You can adjust this value using the @command{mataa_settings} command (see @ref{mataa_settings}). For instance, with a soundcard exhibiting an interchannel delay of 17 microseconds, the interchannel delay parameter would be set by:
+
+@example
+mataa_settings('interchannel_delay',17E-6);
+@end example
+
+To test if your soundcard exhibits interchannel delay, it is best to measure the impedance of a resistor with a purely ohmic impedance (i.e. with constant resistance for all frequencies) using the method described in ``MATAA: A Free Computer-Based Audio Analysis System'' (article in audioXpress (7), 2007). If this measurement gives a flat impedance reading, your soundcard is not affected by interchannel delay (or the interchannel delay is already adjusted properly in the MATAA settings). Otherwise, you need to adjust the interchannel delay setting until you get a flat impedance reading.
+
 
 @node Testing the Installation
 @section Testing the Installation
