@@ -44,15 +44,15 @@ if isempty(T)
 end
 disp (sprintf('Test signal length T = %g s',T))
 
-% Output voltage steps:
+% DUT Output voltage steps:
 if ~exist('U0rms_start','var')
-	U0rms_start = input ('Output voltage, start value (V-RMS, default = 0.1): ');
+	U0rms_start = input ('DUT output voltage, start value (V-RMS, default = 0.1): ');
 end
 if isempty(U0rms_start)
 	U0rms_start = 0.1;
 end
 if ~exist('U0rms_end','var')
-	U0rms_end = input ('Output voltage, end value (V-RMS, default = 10): ');
+	U0rms_end = input ('DUT output voltage, end value (V-RMS, default = 10): ');
 end
 if isempty(U0rms_end)
 	U0rms_end = 10;
@@ -60,7 +60,7 @@ end
 
 if U0rms_start ~= U0rms_end
 	if ~exist('N_U0','var')
-		N_U0 = max([1, round(input('Number of output voltage steps (default = 5): '))]);
+		N_U0 = max([1, round(input('Number of voltage steps (default = 5): '))]);
 	end
 	if isempty(N_U0)
 		N_U0 = 5;
@@ -70,7 +70,7 @@ else
 end
 V_out_RMS = logspace(log10(U0rms_start),log10(U0rms_end),N_U0);
 u = sprintf('%.3f, ',V_out_RMS);
-disp(['Output voltage values (V-RMS): ', u(1:end-2)])
+disp(['DUT output voltage target values (V-RMS): ', u(1:end-2)])
 
 % Fundamental frequency steps:
 if ~exist('f0_start','var')
@@ -98,6 +98,48 @@ end
 f0 = linspace(f0_start,f0_end,N_f0);
 u = sprintf('%.1f, ',f0);
 disp(['Fundamental frequency values (Hz): ', u(1:end-2)])
+
+% number of harmonics to include in the analysis
+if ~exist('N_h','var')
+	N_h = input('Number of harmonics to include in the analysis (default = 5): ');
+end
+if isempty(N_h)
+	N_h = 5;
+end
+if N_h < 2
+	N_h = 2;
+end
+disp(sprintf('Number of harmonics included in the analysis: %i', N_h))
+
+% frequency bandwith of analysis:
+if ~exist('fLow','var')
+	fLow = max([0, input('Low-frequency limit of HD analysis (Hz, default = 0): ')]);
+end
+if isempty(fLow)
+	fLow = 0;
+end
+if fLow < 0
+	fLow = 0;
+end
+if ~exist('fHigh','var')
+	fHigh = input(sprintf('High-frequency limit of HD analysis (Hz, default = %g): ',fs/2));
+end
+if isempty(fHigh)
+	fHigh = fs/2;
+end
+if fHigh > fs/2
+	fHigh = fs/2;
+end
+disp(sprintf('Analysis bandwidth: %g -- %g Hz', fLow, fHigh))
+
+% number of averages:
+if ~exist('N_avg','var')
+	N_avg = max([1, input('Number of averages per measurement step (default = 1): ')]);
+end
+if isempty(N_avg)
+	N_avg = 1;
+end
+disp(sprintf('Number of averages per measurement: %i', N_avg))
 
 % DUT label:
 if ~exist('DUT_label','var')
@@ -150,22 +192,23 @@ unit    = 'V';
 window  = 'hann';
 
 % prepare figures:
-fig_spectrum = figure(); clf;
-
+if ~exist('fig_spectrum','var')
+	fig_spectrum = figure(); clf;
+end
 
 % determine DUT voltage gain:
-Vx_RMS = median(V_out_RMS); % target DUT output voltage to determine the gain
-Vx_out_pk = Vx_RMS*sqrt(2) / gain_ini; % DUT input voltage
-[L,f,fi,L0,unit] = mataa_measure_sine_distortion (f0,T,fs,latency,cal,Vx_out_pk,unit,window);
-gain = L0 / Vx_out_pk
+if ~exist('gain','var')
+	Vx_RMS = median(V_out_RMS); % target DUT output voltage to determine the gain
+	Vx_out_pk = Vx_RMS*sqrt(2) / gain_ini; % DUT input voltage
+	[L,f,fi,L0,unit] = mataa_measure_sine_distortion (f0,T,fs,latency,cal,Vx_out_pk,unit,window);
+	gain = L0 / Vx_out_pk
+end
 disp(sprintf('* DUT voltage gain = %g (%g dB)', gain, 20*log10(gain)))
 
 % Run measurements at specified voltages and fundamental frequencies:
 for VV_RMS = V_out_RMS
 	for ff = f0
-		
-		% [L,f,fi,L0,unit] = mataa_measure_sine_distortion (ff,T,fs,latency,cal,VV_RMS*sqrt(2)/gain,unit,window);
-		
+					
 		[HD,fHD,THD,THDN,L,f,unit] = mataa_measure_HD_noise ( ff,T,fs,N_h,latency,cal,VV_RMS*sqrt(2)/gain,unit,window,fLow,fHigh,N_avg );
 		
 		% plot data:
@@ -177,14 +220,16 @@ for VV_RMS = V_out_RMS
 		xlabel ('Frequency (Hz)');
 		ylabel(sprintf('Amplitude (%s-RMS)',unit));
 		grid on;
-		title ( sprintf("%s\n%g V-RMS, %g Hz)",DUT_label,VV_RMS,ff));
+		title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,VV_RMS,ff));
+		
+		if do_save_plots
+			print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,VV_RMS,ff))
+		end
 	end
 end
 
 
-% save plot to file:
-%%%%% print ("-S650,400",sprintf("%s_%gW_%s_SINE_SPECTRUM.pdf",amp_label,P_out,load_name))
-
+bang here!
 
 
 % Measure THD vs frequency:
