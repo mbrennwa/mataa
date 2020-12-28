@@ -337,15 +337,15 @@ elseif strcmp(upper(audio_IO_method),'PLAYREC')
 	warning ('mataa_measure_signal_response: audio I/O using PlayRec is experimental!')
 
 	% make sure PlayRec is initialised as needed:
-	ID_out = mataa_settings ('audio_PlayRec_OutputDevice');
+	ID_out = mataa_settings ('audio_PlayRec_OutputDeviceName');
 	if isempty (ID_out)
 		ID_out = 0;
 	end
-	ID_in  = mataa_settings ('audio_PlayRec_InputDevice');
+	ID_in  = mataa_settings ('audio_PlayRec_InputDeviceName');
 	if isempty (ID_in)
 		ID_in = 0;
 	end
-	if ~mataa_audio_init_playrec(fs, ID_out, ID_in, max(channels), max(channels))
+	if ~mataa_audio_playrec_init(fs, ID_out, ID_in, max(channels), max(channels))
 		error('mataa_measure_signal_response: could not configure PlayRec as needed.')
 	end
 	

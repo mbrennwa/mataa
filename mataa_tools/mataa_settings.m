@@ -72,8 +72,8 @@ if reset_to_def
 
 	mataa_settings.audio_IO_method = 'TestTone';
 	
-	mataa_settings.audio_PlayRec_InputDevice = 0;
-	mataa_settings.audio_PlayRec_OutputDevice = 0;
+	mataa_settings.audio_PlayRec_InputDeviceName  = 'unknown';
+	mataa_settings.audio_PlayRec_OutputDeviceName = 'unknown';
 	
 	mataa_settings.interchannel_delay = 0;
 	
