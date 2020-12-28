@@ -158,11 +158,11 @@ Vx_RMS = median(V_out_RMS); % target DUT output voltage to determine the gain
 Vx_out_pk = Vx_RMS*sqrt(2) / gain_ini; % DUT input voltage
 [L,f,fi,L0,unit] = mataa_measure_sine_distortion (f0,T,fs,latency,cal,Vx_out_pk,unit,window);
 gain = L0 / Vx_out_pk
-disp('* DUT voltage gain = %g (%g dB)', gain, 20*log10(gain))
+disp(sprintf('* DUT voltage gain = %g (%g dB)', gain, 20*log10(gain)))
 
 % Run measurements at specified voltages and fundamental frequencies:
-for VV_RMS in V_out_RMS
-	for ff in f0
+for VV_RMS = V_out_RMS
+	for ff = f0
 		
 		% [L,f,fi,L0,unit] = mataa_measure_sine_distortion (ff,T,fs,latency,cal,VV_RMS*sqrt(2)/gain,unit,window);
 		

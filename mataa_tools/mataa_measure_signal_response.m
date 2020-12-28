@@ -351,9 +351,10 @@ elseif strcmp(upper(audio_IO_method),'PLAYREC')
 	
 	% zeroes for latency:
 	z = repmat(0,round(latency*fs),size(X0,2));
+	dut_in = [ z ; X0 ; z ];
 	
 	% Start audio input / output (with zero padding for latency):
-	pageNumber = playrec('playrec', [ z ; X0 ; z ], 1:max(channels), -1, channels );
+	pageNumber = playrec('playrec', dut_in, 1:max(channels), -1, channels );
 	
 	% Wait until audio input / output is done:
 	%%% while ( playrec('isFinished', pageNumber) == 0 ); end; % this will run the CPU at full power!
@@ -362,6 +363,8 @@ elseif strcmp(upper(audio_IO_method),'PLAYREC')
 	% get audio data:
 	dut_out = playrec('getRec', pageNumber);
 	
+	% determine time values:
+	t = [0:size(dut_out,1)-1](:) / fs;
 	
 	
 	
