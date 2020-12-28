@@ -33,14 +33,14 @@
 @numsecentry{mataa_f_to_t}{5.14}{mataa_f_to_t}{25}
 @numsecentry{mataa_gnuplot}{5.15}{mataa_gnuplot}{25}
 @numsecentry{mataa_guess_IR_start}{5.16}{mataa_guess_IR_start}{26}
-@numsecentry{mataa_hilbert}{5.17}{mataa_hilbert}{26}
+@numsecentry{mataa_hilbert}{5.17}{mataa_hilbert}{27}
 @numsecentry{mataa_impedance_fit_speaker_LR2}{5.18}{mataa_impedance_fit_speaker_LR2}{27}
 @numsecentry{mataa_impedance_speaker_model_LR2}{5.19}{mataa_impedance_speaker_model_LR2}{27}
 @numsecentry{mataa_impedance_speaker_model_WRIGHT}{5.20}{mataa_impedance_speaker_model_WRIGHT}{28}
 @numsecentry{mataa_import_AIFF}{5.21}{mataa_import_AIFF}{29}
 @numsecentry{mataa_import_FRD}{5.22}{mataa_import_FRD}{30}
 @numsecentry{mataa_import_mlssa}{5.23}{mataa_import_mlssa}{30}
-@numsecentry{mataa_import_PIR}{5.24}{mataa_import_PIR}{31}
+@numsecentry{mataa_import_PIR}{5.24}{mataa_import_PIR}{32}
 @numsecentry{mataa_import_TMD}{5.25}{mataa_import_TMD}{32}
 @numsecentry{mataa_interp}{5.26}{mataa_interp}{33}
 @numsecentry{mataa_IR_demo}{5.27}{mataa_IR_demo}{33}
@@ -54,14 +54,14 @@
 @numsecentry{mataa_load_calibration}{5.35}{mataa_load_calibration}{38}
 @numsecentry{mataa_measure_GedLee}{5.36}{mataa_measure_GedLee}{39}
 @numsecentry{mataa_measure_HD_noise}{5.37}{mataa_measure_HD_noise}{40}
-@numsecentry{mataa_measure_impedance}{5.38}{mataa_measure_impedance}{41}
+@numsecentry{mataa_measure_impedance}{5.38}{mataa_measure_impedance}{42}
 @numsecentry{mataa_measure_IR_HD}{5.39}{mataa_measure_IR_HD}{43}
 @numsecentry{mataa_measure_IR}{5.40}{mataa_measure_IR}{45}
 @numsecentry{mataa_measure_signal_response}{5.41}{mataa_measure_signal_response}{46}
 @numsecentry{mataa_measure_sine_distortion}{5.42}{mataa_measure_sine_distortion}{48}
 @numsecentry{mataa_menu}{5.43}{mataa_menu}{49}
 @numsecentry{mataa_minimum_phase}{5.44}{mataa_minimum_phase}{50}
-@numsecentry{mataa_octave_version}{5.45}{mataa_octave_version}{50}
+@numsecentry{mataa_octave_version}{5.45}{mataa_octave_version}{51}
 @numsecentry{mataa_path}{5.46}{mataa_path}{51}
 @numsecentry{mataa_phase_remove_delay}{5.47}{mataa_phase_remove_delay}{52}
 @numsecentry{mataa_phase_remove_trend}{5.48}{mataa_phase_remove_trend}{52}
@@ -72,7 +72,7 @@
 @numsecentry{mataa_plot_FR}{5.53}{mataa_plot_FR}{55}
 @numsecentry{mataa_plot_HD}{5.54}{mataa_plot_HD}{56}
 @numsecentry{mataa_plot_impedance}{5.55}{mataa_plot_impedance}{56}
-@numsecentry{mataa_plot_IR}{5.56}{mataa_plot_IR}{56}
+@numsecentry{mataa_plot_IR}{5.56}{mataa_plot_IR}{57}
 @numsecentry{mataa_plot_one}{5.57}{mataa_plot_one}{57}
 @numsecentry{mataa_plot_save}{5.58}{mataa_plot_save}{57}
 @numsecentry{mataa_plot_SR}{5.59}{mataa_plot_SR}{58}
@@ -90,7 +90,7 @@
 @numsecentry{mataa_signal_analytic}{5.71}{mataa_signal_analytic}{63}
 @numsecentry{mataa_signal_autocorr}{5.72}{mataa_signal_autocorr}{64}
 @numsecentry{mataa_signal_calibrate_DUTin}{5.73}{mataa_signal_calibrate_DUTin}{64}
-@numsecentry{mataa_signal_calibrate_DUTout}{5.74}{mataa_signal_calibrate_DUTout}{65}
+@numsecentry{mataa_signal_calibrate_DUTout}{5.74}{mataa_signal_calibrate_DUTout}{66}
 @numsecentry{mataa_signal_clipcheck}{5.75}{mataa_signal_clipcheck}{67}
 @numsecentry{mataa_signal_crop}{5.76}{mataa_signal_crop}{68}
 @numsecentry{mataa_signal_generator}{5.77}{mataa_signal_generator}{68}
@@ -102,9 +102,10 @@
 @numsecentry{mataa_signal_window}{5.83}{mataa_signal_window}{73}
 @numsecentry{mataa_smooth_log}{5.84}{mataa_smooth_log}{74}
 @numsecentry{mataa_speaker_TSP_addmass}{5.85}{mataa_speaker_TSP_addmass}{74}
-@numsecentry{mataa_tempfile}{5.86}{mataa_tempfile}{75}
-@numsecentry{mataa_t_to_f0}{5.87}{mataa_t_to_f0}{75}
-@numsecentry{mataa_t_to_f}{5.88}{mataa_t_to_f}{76}
+@numsecentry{mataa_spectrum_analyser}{5.86}{mataa_spectrum_analyser}{75}
+@numsecentry{mataa_tempfile}{5.87}{mataa_tempfile}{75}
+@numsecentry{mataa_t_to_f0}{5.88}{mataa_t_to_f0}{76}
+@numsecentry{mataa_t_to_f}{5.89}{mataa_t_to_f}{76}
 @numchapentry{Getting started with MATLAB or Octave}{6}{Getting started with MATLAB or Octave}{77}
 @appentry{Licences}{A}{Licenses}{79}
 @appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{79}

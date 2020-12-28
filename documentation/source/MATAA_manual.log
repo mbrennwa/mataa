@@ -1,10 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdfetex 2020.12.27)  27 DEC 2020 22:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdfetex 2020.12.27)  28 DEC 2020 16:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **\nonstopmode \bgroup\catcode62=2\relax \catcode`\_=12\relax \toks0\bgroup\inp
-ut ./MATAA_manual.texi \relax>\expandafter\egroup\the\toks0\relax
+ut ./MATAA_manual.texi \relax>\expandafter\egroup\the\toks0\relax \bgroup\catco
+de62=2\relax \catcode`\_=12\relax \toks0\bgroup\input ./MATAA_manual.texi \rela
+x>\expandafter\egroup\the\toks0\relax
 (./MATAA_manual.texi (/usr/share/texmf/tex/texinfo/texinfo.tex
 Loading texinfo [version 2019-09-20.22]:
 \outerhsize=\dimen16
@@ -208,10 +210,10 @@ ate ignored
 <output> ...ark @onepageout {@pagecontents @PAGE }
                                                   }
 l.267 
-      ] l.280: Undefined cross reference `Impedance measurement-snt'.
-l.280: Undefined cross reference `Impedance measurement-snt'.
-l.280: Undefined cross reference `Impedance measurement-pg'.
-l.282: Unicode char @u8:Ês not defined for Texinfo </home/mbrennwa/m-files/mata
+      ] l.287: Undefined cross reference `Impedance measurement-snt'.
+l.287: Undefined cross reference `Impedance measurement-snt'.
+l.287: Undefined cross reference `Impedance measurement-pg'.
+l.289: Unicode char @u8:Ês not defined for Texinfo </home/mbrennwa/m-files/mata
 a/documentation/source/figures/ref_signal_paths.pdf> [10] [11] </home/mbrennwa/
 m-files/mataa/documentation/source/figures/Jack.pdf> [12])
 texinfo.tex: doing @include of MATAA_manual_working.texi
@@ -309,7 +311,7 @@ w.linkwitzlab.com/frontiers[]2.htm#M|
 .@glue 3.65 plus 1.825 minus 1.21666
 .etc.
 
-
+[38]
 Overfull \hbox (3.33209pt too wide) in paragraph at lines 911--914
 []@textrm c = mataa[]load[]calibration ('BEHRINGER[]ECM8000[]D1303397118[]MICRO
 PHONE.txt');|
@@ -330,7 +332,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 911--914
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[38]
+
 Overfull \hbox (37.68782pt too wide) in paragraph at lines 922--923
 []@textrm function [Gm,tf] = mataa[]measure[]GedLee ( f0,T,fs,N[]h,latency,cal,
 amplitude,unit,N[]avg,do[]plot);|
@@ -398,7 +400,7 @@ Overfull \hbox (248.84053pt too wide) in paragraph at lines 1006--1011
 .@textrm ,
 .etc.
 
-
+[41]
 Overfull \hbox (93.03963pt too wide) in paragraph at lines 1020--1021
 []@textrm function [Zmag,Zphase,f] = mataa[]measure[]impedance (fLow,fHigh,R,fs
 ,resolution,cal,amplitude,unit,latency);|
@@ -419,7 +421,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1020--1021
 .@penalty -10000
 .@glue(@rightskip) 0.0
 
-[41] [42]
+[42]
 Overfull \hbox (95.68008pt too wide) in paragraph at lines 1058--1062
 []@textrm [Zmag,Zphase,f] = mataa[]measure[]impedance (10,20000,8.0,44100,0,'MB
 []ELECTRONIC[]CHAIN.txt',3.0,'V');|
@@ -623,7 +625,7 @@ Overfull \hbox (15.583pt too wide) in paragraph at lines 1973--1983
 .@textrm Y
 .etc.
 
-[65]
+[65] [66]
 Overfull \hbox (3.11215pt too wide) in paragraph at lines 2020--2029
 []@texttt > @textrm [X,t[]X,unit[]X] = mataa[]signal[]calibrate[]DUTin (in,t,'G
 ENERIC[]CHAIN[]DIRECT.txt');|
@@ -649,7 +651,7 @@ Overfull \hbox (15.583pt too wide) in paragraph at lines 2020--2029
 .@textrm Y
 .etc.
 
-[66] [67] [68] [69]
+[67] [68] [69]
 Overfull \hbox (175.83957pt too wide) in paragraph at lines 2139--2143
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
@@ -731,13 +733,13 @@ Appendix A [78] [79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89])
 (MATAA tools index) [92]
 (/home/mbrennwa/m-files/mataa/documentation/source/MATAA_manual.fns) [93] ) 
 Here is how much of TeX's memory you used:
- 3892 strings out of 497013
- 46694 string characters out of 6205049
- 124558 words of memory out of 5000000
- 4770 multiletter control sequences out of 15000+600000
+ 3897 strings out of 497013
+ 46812 string characters out of 6205049
+ 137652 words of memory out of 5000000
+ 4774 multiletter control sequences out of 15000+600000
  34203 words of font info for 119 fonts, out of 8000000 for 9000
  96 hyphenation exceptions out of 8191
- 19i,6n,16p,1806b,645s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 19i,6n,16p,1936b,645s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfT
 eX warning (dest): name{Impedance\040measurement} has been referenced but does 
 not exist, replaced by a fixed one
@@ -759,10 +761,10 @@ msy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (98 pages, 1174759 bytes).
+Output written on MATAA_manual.pdf (98 pages, 1175497 bytes).
 PDF statistics:
- 1476 PDF objects out of 1728 (max. 8388607)
- 1271 compressed objects within 13 object streams
- 212 named destinations out of 1000 (max. 500000)
- 945 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1482 PDF objects out of 1728 (max. 8388607)
+ 1277 compressed objects within 13 object streams
+ 213 named destinations out of 1000 (max. 500000)
+ 953 words of extra memory for PDF output out of 10000 (max. 10000000)
 

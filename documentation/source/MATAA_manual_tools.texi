@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 27-Dec-2020.
+This section contains a list of the MATAA tools and their usage information as of 28-Dec-2020.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -58,7 +58,7 @@ prepare device info (with empty/unknown entries):@*
 
 file: ...mataa_tools/mataa_audio_init_playrec.m@*
 
-function success = mataa_audio_init_playrec;@*
+function success = mataa_audio_init_playrec (fs, output_ID, input_ID, num_output_chan, num_input_chan);@*
 
 DESCRIPTION:@*
 Check if PlayRec is initialised with the given sample rate and audio input / output devices, and reset/init PlayRec accordingly if needed.@*
@@ -2344,6 +2344,19 @@ Sd: Projected area of the driver diaphragm (cm²)@*
 EXAMPLE (measured driver resonance at fs = 46.1 Hz, fsM = 21.9 Hz with added mass M = 166 g, cone diameter with 1/2 surround on both sides D = 25.0 cm):@*
 > [Vas,Cms,Mms,Sd] = mataa_speaker_TSP_addmass (46.1,21.9,166,25.0);@*
  @*
+
+@findex mataa_spectrum_analyser
+@node mataa_spectrum_analyser
+@section mataa_spectrum_analyser
+
+file: ...mataa_tools/mataa_spectrum_analyser.m@*
+
+function mataa_spectrum_analyser( chan_out, chan_in, fx, fs, N_len, N_avg )@*
+
+Real-time spectrum analyser (PlayRec only). THIS IS WORK IN PROGRESS!!!@*
+
+EXAMPLE:@*
+> mataa_spectrum_analyser( 1, 1, 1000.0, 44100, 1024, 5 )@*
 
 @findex mataa_tempfile
 @node mataa_tempfile

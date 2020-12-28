@@ -270,6 +270,13 @@ To use PlayRec with MATAA, you need to download PlayRec from @url{https://github
 addpath ("~/MATLAB/playrec");
 @end example
 
+You also need to tell MATAA which audio devices should be used for audio output and input:
+@example
+mataa_settings('audio_PlayRec_OutputDeviceName','RTX6001')
+mataa_settings('audio_PlayRec_InputDeviceName','RTX6001')
+@end example
+
+
 @anchor{Sound channel allocation}
 @cindex Channel allocation
 @cindex Soundcard channel allocation
