@@ -1,6 +1,6 @@
-function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal)
+function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal,verbose)
 
-% function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal)
+% function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal,verbose)
 %
 % DESCRIPTION:
 % This function calibrates the signal s(t) at the input of a DUT using the given DAC(+BUFFER) calibration data, and it will also (try to) determine the unit of the calibrated data. In other words, this function "converts" the raw data sent to the sound inteface (DAC) to the physical signal at the DAC(+BUFFER) output as seen by the DUT. See illustration below.
@@ -20,6 +20,7 @@ function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal)
 % s: signal samples (unit: dimensionless data as obtained by ADC / soundcard)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in samples per second)
 % cal: name of calibration file or calibration data (struct object as obtained from mataa_load_calibration). cal struct must contain DAC field. For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.
+% verbose (optional): flag to control verbosity (bool, default: verbose = false)
 % 
 % OUTPUT:
 % s_cal: calibrated signal
@@ -58,6 +59,10 @@ function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal)
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
+if ~exist('verbose','var')
+	verbose = false;
+end
+
 if isscalar(t)
     t = [0:1/t:(length(s)-1)/t];
 end
@@ -76,7 +81,9 @@ if size(s,2) > 1 % s has more than one data channel
 	end
 	nCal = length(cal);
 	for k = 1:size(s,2)
-		disp (sprintf("Calibrating channel %i...",k))
+		if verbose
+			disp (sprintf("Calibrating channel %i...",k))
+		end
 				
 		% check if cal data available for k-th channel:
 		if nCal < k
@@ -97,8 +104,10 @@ else
 	end
 
 	% determine DUT input voltage
-	disp (sprintf("Determining DUT input signal from DAC '%s'...",cal.DAC.name))
-    	disp (sprintf("     sensitivity = %g %s.",cal.DAC.sensitivity,cal.DAC.sensitivity_unit));	
+	if verbose
+		disp (sprintf("Determining DUT input signal from DAC '%s'...",cal.DAC.name))
+	    	disp (sprintf("     sensitivity = %g %s.",cal.DAC.sensitivity,cal.DAC.sensitivity_unit));
+	end
     	s_cal = s * cal.DAC.sensitivity;
 	s_cal_unit = cal.DAC.sensitivity_unit;
 

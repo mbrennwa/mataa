@@ -97,6 +97,7 @@ end
 
 %Initialise if necessary
 if ~playrec('isInitialised')
+	warning ('mataa_audio_playrec_init: audio I/O using PlayRec in MATAA is still experimental!')
 	playrec('init', fs, output_device, input_device);
 end
 

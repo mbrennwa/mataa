@@ -334,8 +334,6 @@ if strcmp(upper(audio_IO_method),'TESTTONE')
 
 elseif strcmp(upper(audio_IO_method),'PLAYREC')
 	
-	warning ('mataa_measure_signal_response: audio I/O using PlayRec is experimental!')
-
 	% make sure PlayRec is initialised as needed:
 	ID_out = mataa_settings ('audio_PlayRec_OutputDeviceName');
 	if isempty (ID_out)

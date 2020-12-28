@@ -1,6 +1,6 @@
-function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
+function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal,verbose)
 
-% function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
+% function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal,verbose)
 %
 % DESCRIPTION:
 % This function calibrates the signal s(t) at the output of a DUT using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. In other words, this function "converts" the raw data recorded by the sound inteface (ADC) to the physical signal seen by the sensor (e.g., by a measurement microphone). See illustration below.
@@ -23,6 +23,7 @@ function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in samples per second)
 % cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration). cal data must contain ADC and SENSOR fields. For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.
 % NOTE: for use with multiple calibration channels, the size of the cell arrays SENSOR_cal and ADC_cal must be the same
+% verbose (optional): flag to control verbosity (bool, default: verbose = false)
 % 
 % OUTPUT:
 % s_cal: calibrated signal
@@ -60,11 +61,15 @@ function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-% helper function for calibration of various units
-function [h,t] = __calib (h,t,subcal,type)
-h = h(:);
 
-disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
+
+% helper function for calibration of various units
+function [h,t] = __calib (h,t,subcal,type,verbose)
+    h = h(:);
+    
+    if verbose
+	    disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
+    end
     if ~isfield (subcal,'sensitivity') % don't know the sensitivity...
     	switch toupper(type) % guess sensitivity value and unit
     		case {'SENSOR'} % assume "loopback" / wire with sensitivity = 1 V / V (sensor output is the same as input)
@@ -76,11 +81,15 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     		otherwise
     			error (sprintf("mataa_signal_calibrate_DUTout: device type '%s' unknown.",type))
     	end
-		disp (sprintf("     sensitivity unknown! Assuming sensitivity = %g %s",sv,su))
+		if verbose
+			disp (sprintf("     sensitivity unknown! Assuming sensitivity = %g %s",sv,su))
+		end
     else
     	sv = subcal.sensitivity;
     	su = subcal.sensitivity_unit;
-    	disp (sprintf("     sensitivity = %g %s.",sv,su)) 	
+    	if verbose
+	    	disp (sprintf("     sensitivity = %g %s.",sv,su))
+	end
     end
 
     % compensate for sensitivity:
@@ -104,10 +113,13 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	
     % compensate for transfer function (frequency response of SENSOR or ADC/aliasing filter):
     if ~isfield (subcal,'transfer')
-    	disp ("     transfer function unknown, assuming constant unity gain.")
+        if verbose
+	    	disp ("     transfer function unknown, assuming constant unity gain.")
+	end
     else
-        
-    	disp (sprintf("     compensating for transfer function (%i data points).",length(subcal.transfer.f)))
+        if verbose
+	    	disp (sprintf("     compensating for transfer function (%i data points).",length(subcal.transfer.f)))
+        end
         	
         % Make sure length of h is even:
         signal_cropped = 0;
@@ -189,8 +201,9 @@ disp (sprintf("Calibrating for %s '%s':",type,subcal.name))
     	    h = [ h ; h(end) ];
     	    t = [ t ; t(end) + t(end)-t(end-1) ];
     	end
-    
-    	disp('...done.');
+        if verbose
+	    	disp('...done.');
+	end
     end % isfield (subcal,'transfer')
 
 end % __calib function
@@ -203,6 +216,10 @@ end % __calib function
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Main function
 %%%%%%%%%%%%%%%%%%%%%%%%
+
+if ~exist('verbose','var')
+	verbose = false;
+end
 
 if isscalar(t)
     t = [0:1/t:(length(s)-1)/t];
@@ -222,8 +239,10 @@ if size(s,2) > 1 % s has more than one data channel
 	end
 	nCal = length(cal);
 	for k = 1:size(s,2)
-		disp (sprintf("Calibrating channel %i...",k))
-				
+		if verbose
+			disp (sprintf("Calibrating channel %i...",k))
+		end
+		
 		% check if cal data available for k-th channel:
 		if nCal < k
 			warning (sprintf("mataa_calibrate_DUTout: no calibration data available for channel %i. Will use calibration data given for channel %i!",k,nCal));
@@ -240,18 +259,22 @@ else
 	s_cal = s;
 
 	if ~isfield (cal,'SENSOR')
-		disp ("No SENSOR calibation data available!")
+		if verbose
+			disp ("No SENSOR calibation data available!")
+		end
 		unit_SENSOR_sensitivity = '???';
 	else
-		[s_cal,t] = __calib (s_cal,t,cal.SENSOR,'SENSOR');
+		[s_cal,t] = __calib (s_cal,t,cal.SENSOR,'SENSOR',verbose);
 		unit_SENSOR_sensitivity = cal.SENSOR.sensitivity_unit;
 	end
 	
 	if ~isfield (cal,'ADC')
-		disp ("No ADC calibation data available!")
+		if verbose
+			disp ("No ADC calibation data available!")
+		end
 		unit_ADC_sensitivity = '1/V';
 	else
-		[s_cal,t] = __calib (s_cal,t,cal.ADC,'ADC');
+		[s_cal,t] = __calib (s_cal,t,cal.ADC,'ADC',verbose);
 		unit_ADC_sensitivity = cal.ADC.sensitivity_unit;
 	end
 
