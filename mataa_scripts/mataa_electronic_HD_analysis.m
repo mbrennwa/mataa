@@ -234,7 +234,7 @@ for i = 1:length(V_out_RMS)
 		semilogy (f, y, 'r', 'linewidth', lw );
 		xlim ( [ fLow fHigh ] )
 		y1 = 10^floor(log10(min(y)));
-		y2 = 10^ceil(log10(1.5*V_out_RMS));
+		y2 = 10^ceil(log10(1.5*V_out_RMS(i)));
 		ylim ( [y1 y2] );
 		xlabel ('Frequency (Hz)');
 		ylabel(sprintf('Amplitude (%s-RMS)',unit));
@@ -248,11 +248,12 @@ for i = 1:length(V_out_RMS)
 end
 
 % plot THD vs F0 and VOLT:
-if exist('fig_THD_vs_freq','var')
-	clf(fig_THD_vs_freq);
+if ~exist('fig_THD_vs_freq','var')
+	fig_THD_vs_freq = figure();
 end
-if exist('fig_THD_vs_volt','var')
-	clf(fig_THD_vs_volt);
+
+if ~exist('fig_THD_vs_volt','var')
+	fig_THD_vs_volt = figure();
 end
 
 if length(f0) > 1
@@ -268,7 +269,16 @@ if length(f0) > 1
 	y2 = 10^ceil(log10(1.5*max(max(y))));
 	ylim ( [y1 y2] );
 	grid on
-	title ( sprintf("%s\nTHD vs. Frequency",DUT_label));
+	if length(V_out_RMS) == 1
+		title ( sprintf("%s\nTHD vs. Frequency at %g V-RMS",DUT_label,V_out_RMS) );
+	else
+		title ( sprintf("%s\nTHD vs. Frequency",DUT_label) );
+		leg = {};
+		for k = 1:length(V_out_RMS)
+			leg{k} = [ num2str(V_out_RMS(k)) ' V-RMS' ];
+		end
+		legend(leg)
+	end
 	if do_save_plots
 		print ("-S650,400",sprintf("%s_THD_vs_freq.pdf",DUT_label))
 	end
@@ -288,6 +298,16 @@ if length(V_out_RMS) > 1
 	ylim ( [y1 y2] );
 	grid on
 	title ( sprintf("%s\nTHD vs. output voltage",DUT_label));
+	if length(f0) == 1
+		title ( sprintf("%s\nTHD vs. output voltage at %g Hz",DUT_label,f0));
+	else
+		title ( sprintf("%s\nTHD vs. output voltage",DUT_label));
+		leg = {};
+		for k = 1:length(f0)
+			leg{k} = [ num2str(f0(k)) ' Hz' ];
+		end
+		legend(leg)
+	end
 	if do_save_plots
 		print ("-S650,400",sprintf("%s_THD_vs_outputvoltage.pdf",DUT_label))
 	end
