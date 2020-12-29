@@ -1,0 +1,3 @@
+#!/bin/bash
+echo autospawn = yes > $HOME/.config/pulse/client.conf
+pulseaudio --kill
