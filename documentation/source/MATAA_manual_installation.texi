@@ -117,18 +117,26 @@ Also, it is not recommended to install the MATAA files (or any of your personal 
 
 @c If you are running Octave on Mac OS X, you may also want to tweak the behaviour of X11 a bit. If you want to use Octave with Terminal.app rather than the X11 terminal, you will need to tell the terminal where to send X11 plotting commands. If you're using bash with Terminal.app (the default shell on Mac OS X 10.3 and later), create a file @file{.profile}Êin your home directory (if it's not already there) and add the command @command{[[ -z $DISPLAY ]] && export DISPLAY=":0.0"} to it in order to redirect the plotting commands to X11. This command will be executed the next time bash is started and reads the @file{.profile}Êfile. Also, you may want to tell X11.app to automatically start when you log in to the computer.
 
-@cindex Hardware Setup
-@cindex Audio hardware setup
-@cindex Settings, Audio hardware
-@node Hardware Setup
-@section Hardware Setup
-The way your sound hardware (soundcard or audio interface) needs to be set up for use with MATAA will depend on its features, on your computer platform, and on the type of measurement you want to make. Furthermore, additional devices (e.g. amplifiers, filters, microphones, etc.) may be needed for certain measurements. Hence, the hardware setup will vary with the type of measurement and the specifics your equipment. This manual therefore aims to provide rather general advice and background on what to watch out for.
 
-That said, you should also remember that a measurement can only be as good as the audio hardware you use!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @cindex Measurement setup
 @cindex Setup, measurement
-@subsection The Building Blocks of the Measurement Setup
+@section The Building Blocks of the Measurement Setup
 @cindex Signal path
 @cindex Test signal path
 @cindex Path, test signal
@@ -172,10 +180,13 @@ The basic procedure followed during a MATAA measurement is that MATAA feeds a te
 @end itemize
 
 @cindex Soundcard
+@section Software interfaces for sound-card access
+
+The way your sound hardware (soundcard or audio interface) needs to be set up for use with MATAA will depend on the features of the sound card, on your computer platform, and on the type of measurement you want to make. Furthermore, additional devices (e.g. amplifiers, filters, microphones, etc.) may be needed for certain measurements. Hence, the hardware setup will depend on the type of measurement and the specifics your equipment. This manual therefore aims to provide rather general advice and background on what to watch out for.
+
 @cindex TestTone
 @cindex TestDevices
 @cindex PlayRec
-@subsection Software interfaces for sound-card access
 There are two user-selectable methods for MATAA to talk to a sound card. The first method is to use the TestTone and TestDevices programs. The second option is PlayRec. Both options rely on PortAudio to talk to the sound card (@uref{http://www.portaudio.com}). The quality of the measurement data (sample rate, sample depth) obtained from TestTone or PlayRec is the same. The advantage of TestTone and TestDevices is that they are supported very well by MATAA on many operating systems and sound APIs. The advantage of PlayRec is that it allows much faster data exchange with MATAA, but its current MATAA implementation is still experimental and has been tested on Linux only.
 
 The use of TestTone / TestDevices vs. PlayRec is configured in MATAA by using the following settings:
@@ -184,7 +195,16 @@ mataa_settings ('audio_IO_method','TestTone')
 mataa_settings ('audio_IO_method','PlayRec')
 @end example
 
-@subsection Using MATAA with TestTone and TestDevices
+@cindex Pulseaudio
+@cindex ALSA
+@cindex Linux
+If you are running MATAA on a modern Linux system that has Pulseaudio, you may experience issues with direct ALSA access to the sound card from within MATAA. To prevent Pulseaudio from interfering with ALSA sound-card access, it is recommended to disable Pulsaudio, for instance by using @command{pasuspender} to run Matlab or GNU Octave:
+@example
+>> pasuspender octave
+@end example
+
+
+@section Using MATAA with TestTone and TestDevices
 The TestTone and TestDevices programs are part of the MATAA package, see @ref{Installing MATAA}). The TestTone program is used for output and input of audio data via the sound card. The TestDevices program is used to obtain information about the sound card. If your computer has more than one device for sound input or output, MATAA uses the default device set for your computer. The TestTone and TestDevices programs were developed specifically for MATAA. The data exchange between MATAA and TestTone or TestDevices is handled by writing / reading data to / from ASCII files. This form of data exchange is slow, but works very reliably on all kinds of different platforms.
 
 A few notes:
@@ -201,7 +221,7 @@ A few notes:
 
 @end itemize
 
-@subsubsection Configuration on Mac OS X
+@subsection Configuration on Mac OS X
 
 @float Figure,fig:mac_audio_settings
 @iftex
@@ -215,7 +235,7 @@ A few notes:
 
 To set up the audio hardware in Mac OS X, choose `System Preferences' in the Apple menu. Then, click on `Sound', and follow the instructions in @ref{fig:measurement_setup}.
 
-@subsubsection Linux
+@subsection Linux
 
 On Linux, I strongly recommend using ALSA (the Advanced Linux Sound Architecture). Choosing the right sound architecure and sound devices as the default devices (i.e. the devices that will be used by MATAA) depends on the Linux distribution used. Read the documentation for your system. Apart from that, the following terminal commands may be useful to find the relevant information on the sound devices available on your system:
 
@@ -262,7 +282,7 @@ Without this file, the default device on this system is set to something that th
 @subsubsection Compiling TestTone and TestDevices on Linux
 Note that the precompiled binaries will run on most computers and Linux distributions. However, if you need to compile TestTone and TestDevices on Linux, please follow the instructions in the README that comes with the source code of TestTone and TestDevices. 
 
-@subsection Using MATAA with PlayRec
+@section Using MATAA with PlayRec
 PlayRec is a Matlab and Octave utility (MEX file) that provides simple yet versatile access to soundcards using PortAudio. In principle, PlayRec can be used on different operating systems and sound APIs. However, PlayRec support in MATAA is still experimental and has been tested on Linux only. In contrast to TestTone and TestDevices, PlayRec allows much faster data exchange with MATAA, because the PlayRec MEX utility is executed directly within Matlab or Octave.
 
 To use PlayRec with MATAA, you need to download PlayRec from @url{https://github.com/mbrennwa/playrec}. To compile PlayRec for use with MATAA on Linux, follow the instructions in the file @file{COMPILE_AND_INSTALL_ON_LINUX.txt}. Make sure that PlayRec is on the searchpath of Matlab or Octave. For example, you could add the following to your @file{~/MATLAB/startup.m} or @file{~/.octaverc} file:
@@ -283,7 +303,7 @@ mataa_settings('audio_PlayRec_InputDeviceName','RTX6001')
 @cindex Allocation of soundcard channels
 @cindex DUT channel
 @cindex REF channel
-@subsection Sound channel allocation
+@section Sound channel allocation
 Most soundcards have at least two sound channels for stereo sound. While many measurements can be made using only one channel, there are a few cases where the second channel is needed to record a reference signal (e.g. impedance measurements, @ref{Impedance measurement}). In most other cases, using the second channel to record a calibration signal will allow you to correct for  artifacts that may be introduced by the test equipment, which will improve the precision and the quality of the measurement.
 
 While @ref{fig:measurement_setup}Êshows the path of the test signal to and from the DUT, it does not show the path reference signal. The reference-signal path will depend strongly on the type of measurement and the test equipment used. @ref{fig:ref_signal_paths} is an attempt to illustrate some typical examples.
@@ -315,7 +335,7 @@ By default, MATAA uses the left channel to record the test signal from the DUT, 
 @cindex Interchannel delay
 @cindex Delay, interchannel (soundcard)
 @cindex Soundcard interchannel delay
-@subsection Interchannel delay
+@section Interchannel delay
 With some (lesser) soundcards, the data recorded in one channel may be offset in time with respect to the other up to to several tens of microseconds. This effect is called ``interchannel delay''. Interchannel delay can result in wrong results from impedance measurements using the sine-sweep method as described in ``MATAA: A Free Computer-Based Audio Analysis System'' (article in audioXpress (7), 2007).
 
 Therefore, interchannel delay must be removed from the measured data before calculating impedance function from the data. The @command{mataa_measure_impedance} command, which automates impedance measurement using the mentioned sine-sweep method, takes care of interchannel delay by shifting the measured data in time. The information on the amount of interchannel delay is taken from the MATAA settings file (the @command{interchannel_delay} field specifies the interchannel delay in seconds). By default, the interchannel delay is set to zero. You can adjust this value using the @command{mataa_settings} command (see @ref{mataa_settings}). For instance, with a soundcard exhibiting an interchannel delay of 17 microseconds, the interchannel delay parameter would be set by:

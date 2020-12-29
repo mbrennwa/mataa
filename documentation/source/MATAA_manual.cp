@@ -34,23 +34,23 @@
 \entry{Startup file, MATLAB/Octave}{4}{Startup file, MATLAB/Octave}
 \entry{MATLAB, startup file}{4}{MATLAB, startup file}
 \entry{Octave, startup file}{4}{Octave, startup file}
-\entry{Hardware Setup}{5}{Hardware Setup}
-\entry{Audio hardware setup}{5}{Audio hardware setup}
-\entry{Settings, Audio hardware}{5}{Settings, Audio hardware}
 \entry{Measurement setup}{5}{Measurement setup}
 \entry{Setup, measurement}{5}{Setup, measurement}
 \entry{Signal path}{5}{Signal path}
 \entry{Test signal path}{5}{Test signal path}
 \entry{Path, test signal}{5}{Path, test signal}
-\entry{Sound hardware setup}{6}{Sound hardware setup}
-\entry{Hardware setup, sound}{6}{Hardware setup, sound}
-\entry{Setup, sound hardware}{6}{Setup, sound hardware}
+\entry{Sound hardware setup}{5}{Sound hardware setup}
+\entry{Hardware setup, sound}{5}{Hardware setup, sound}
+\entry{Setup, sound hardware}{5}{Setup, sound hardware}
 \entry{Anti-aliasing filter}{6}{Anti-aliasing filter}
 \entry{Filter, anti-aliasing}{6}{Filter, anti-aliasing}
 \entry{Soundcard}{7}{Soundcard}
 \entry{TestTone}{7}{TestTone}
 \entry{TestDevices}{7}{TestDevices}
 \entry{PlayRec}{7}{PlayRec}
+\entry{Pulseaudio}{7}{Pulseaudio}
+\entry{ALSA}{7}{ALSA}
+\entry{Linux}{7}{Linux}
 \entry{TestTone}{9}{TestTone}
 \entry{TestDevices}{9}{TestDevices}
 \entry{PortAudio}{9}{PortAudio}
@@ -63,15 +63,15 @@
 \entry{Interchannel delay}{12}{Interchannel delay}
 \entry{Delay, interchannel (soundcard)}{12}{Delay, interchannel (soundcard)}
 \entry{Soundcard interchannel delay}{12}{Soundcard interchannel delay}
-\entry{MATLAB}{76}{MATLAB}
-\entry{Octave}{76}{Octave}
-\entry{Matrix}{77}{Matrix}
-\entry{Vector}{77}{Vector}
-\entry{Vector (row, column)}{77}{Vector (row, column)}
-\entry{Row vector}{77}{Row vector}
-\entry{Column vector}{77}{Column vector}
-\entry{Vector}{77}{Vector}
-\entry{Scalar}{77}{Scalar}
-\entry{GNU General Public License}{79}{GNU General Public License}
-\entry{GPL, GNU General Public License}{79}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{83}{FDL, GNU Free Documentation License}
+\entry{MATLAB}{77}{MATLAB}
+\entry{Octave}{77}{Octave}
+\entry{Matrix}{78}{Matrix}
+\entry{Vector}{78}{Vector}
+\entry{Vector (row, column)}{78}{Vector (row, column)}
+\entry{Row vector}{78}{Row vector}
+\entry{Column vector}{78}{Column vector}
+\entry{Vector}{78}{Vector}
+\entry{Scalar}{78}{Scalar}
+\entry{GNU General Public License}{80}{GNU General Public License}
+\entry{GPL, GNU General Public License}{80}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{84}{FDL, GNU Free Documentation License}

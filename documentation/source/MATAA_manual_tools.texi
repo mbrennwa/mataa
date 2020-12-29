@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 28-Dec-2020.
+This section contains a list of the MATAA tools and their usage information as of 29-Dec-2020.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -52,27 +52,46 @@ EXAMPLE:@*
 
 prepare device info (with empty/unknown entries):@*
 
-@findex mataa_audio_init_playrec
-@node mataa_audio_init_playrec
-@section mataa_audio_init_playrec
+@findex mataa_audio_playrec_init
+@node mataa_audio_playrec_init
+@section mataa_audio_playrec_init
 
-file: ...mataa_tools/mataa_audio_init_playrec.m@*
+file: ...mataa_tools/mataa_audio_playrec_init.m@*
 
-function success = mataa_audio_init_playrec (fs, output_ID, input_ID, num_output_chan, num_input_chan);@*
+function success = mataa_audio_playrec_init (fs, output_device, input_device, num_output_chan, num_input_chan);@*
 
 DESCRIPTION:@*
 Check if PlayRec is initialised with the given sample rate and audio input / output devices, and reset/init PlayRec accordingly if needed.@*
 
 INPUT:@*
 fs: sample rate (samples per second)@*
-output_ID, input_ID: PlayRec IDs of the audio devices used for audio output and input@*
+output_device, input_device: device identifiers for PlayRec audio output and input, either a (partial) string label or PlayRec ID numers (string or integer)@*
 num_output_chan, num_input_chan: number of input channels needed for audio output and input@*
 
 OUTPUT:@*
 success: flag indicating of PlayRec is initialised properly according to the INPUTs (bool)@*
 
 EXAMPLE:@*
-> mataa_audio_init_playrec (44100, 0, 0, 2, 2)@*
+> mataa_audio_playrec_init (44100, 'RTX6001', 'RTX6001', 2, 2)@*
+
+
+@findex mataa_audio_playrec_list_devices
+@node mataa_audio_playrec_list_devices
+@section mataa_audio_playrec_list_devices
+
+file: ...mataa_tools/mataa_audio_playrec_list_devices.m@*
+
+function [dev_names, dev_IDs] = mataa_audio_playrec_list_devices ();@*
+
+DESCRIPTION:@*
+Return IDs and names of all audio devices that are available with PlayRec@*
+
+INPUT:@*
+(none)@*
+
+OUTPUT:@*
+dev_names: names / labels of the audio devices (cell string)@*
+dev_IDs: PlayRec IDs of the audio devices (vector)@*
 
 
 @findex mataa_cal_autoscale
@@ -1944,7 +1963,7 @@ T: time lag (vector).@*
 
 file: ...mataa_tools/mataa_signal_calibrate_DUTin.m@*
 
-function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal)@*
+function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTin (s,t,cal,verbose)@*
 
 DESCRIPTION:@*
 This function calibrates the signal s(t) at the input of a DUT using the given DAC(+BUFFER) calibration data, and it will also (try to) determine the unit of the calibrated data. In other words, this function "converts" the raw data sent to the sound inteface (DAC) to the physical signal at the DAC(+BUFFER) output as seen by the DUT. See illustration below.@*
@@ -1964,6 +1983,7 @@ INPUT:@*
 s: signal samples (unit: dimensionless data as obtained by ADC / soundcard)@*
 t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in samples per second)@*
 cal: name of calibration file or calibration data (struct object as obtained from mataa_load_calibration). cal struct must contain DAC field. For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.@*
+verbose (optional): flag to control verbosity (bool, default: verbose = false)@*
 
 OUTPUT:@*
 s_cal: calibrated signal@*
@@ -1988,7 +2008,7 @@ Feed a 1 kHz sine-wave signal to the DUT and measure the raw response signal wit
 
 file: ...mataa_tools/mataa_signal_calibrate_DUTout.m@*
 
-function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal)@*
+function [s_cal,t,s_cal_unit] = mataa_signal_calibrate_DUTout (s,t,cal,verbose)@*
 
 DESCRIPTION:@*
 This function calibrates the signal s(t) at the output of a DUT using the given calibration data (e.g., for a specific audio interface, microphone, sensor, etc), and it will also (try to) determine the unit of the calibrated data. In other words, this function "converts" the raw data recorded by the sound inteface (ADC) to the physical signal seen by the sensor (e.g., by a measurement microphone). See illustration below.@*
@@ -2011,6 +2031,7 @@ s: signal samples (unit: dimensionless data as obtained by ADC / soundcard)@*
 t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in samples per second)@*
 cal: name of calibration file (e.g., 'Behringer_ECM8000_transfer.txt') or calibration data (struct object as obtained from mataa_load_calibration). cal data must contain ADC and SENSOR fields. For calibration of more than one data channels, cal can be specified as a cell array, whereby each cell element is used for the corresponding data channel.@*
 NOTE: for use with multiple calibration channels, the size of the cell arrays SENSOR_cal and ADC_cal must be the same@*
+verbose (optional): flag to control verbosity (bool, default: verbose = false)@*
 
 OUTPUT:@*
 s_cal: calibrated signal@*
