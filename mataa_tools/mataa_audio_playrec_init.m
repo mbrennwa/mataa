@@ -80,13 +80,6 @@ if ischar(input_device)
 	input_device = dev_IDs(v);
 end
 
-% Check if sample rate is one of the "conventional" values
-% WARNING NOTE: PortAudio / PlayRec may happily accept any "in-between" sample rate, which will involve undesired re-sampling or using the closest sample-rate value
-fs_std = ([ 44100 48000 ]' * [ 0.5 1 2 4 8])(:);
-if ~any(fs_std == fs)
-	warning (sprintf('mataa_audio_playrec_init: the requested sample rate %g per second is not one of the conventional audio sample rate values. Be careful!',fs))
-end
-
 % Test if current PlayRec initialisation is ok
 if(playrec('isInitialised'))
 	if playrec('getSampleRate') ~= fs
@@ -122,4 +115,11 @@ end
 %Clear all previous pages
 if playrec('isInitialised')
 	playrec('delPage');
+end
+
+% Check if sample rate was one of the "conventional" values, and show a warning if necessary.
+% WARNING NOTE: PortAudio / PlayRec may happily accept any "in-between" sample rate, which will involve undesired re-sampling or using the closest sample-rate value
+fs_std = ([ 44100 48000 ]' * [ 0.5 1 2 4 8])(:);
+if ~any(fs_std == fs)
+	warning (sprintf('mataa_audio_playrec_init: the requested sample rate %g per second is not one of the conventional audio sample rate values. Be careful!',fs))
 end
