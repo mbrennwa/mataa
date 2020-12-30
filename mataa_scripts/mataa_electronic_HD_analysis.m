@@ -224,7 +224,7 @@ for i = 1:length(V_out_RMS)
 		disp (sprintf('Testing: DAC output = %g Hz at %g VRMS...', f0(j), DAC_out_VRMS))
 		
 		[hd,f_hd,thd,thdn,L,f,unit] = mataa_measure_HD_noise ( f0(j),T,fs,N_h,latency,cal,DAC_out_VRMS*sqrt(2),unit,window,fLow,fHigh,N_avg );
-		
+					
 		% store THD result:
 		THD(i,j) = thd;
 		

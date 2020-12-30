@@ -74,6 +74,21 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
+
+1;
+
+
+function ans = __retry_audio_IO()
+	ans = [];
+	while isempty(ans)
+    		ans = upper([input('Repeat the measurement? (Y/N)','g') 'x'])(1);
+    		ans = strfind ('NY',ans);
+    	end
+    	ans = ( ans == 2 );
+endfunction
+
+
+
 % check input
 if ~exist ('channels','var')
 	channels = [];
@@ -166,275 +181,324 @@ if ischar(cal) % name of calibration file instead of cal struct
 	end
 end
 
-% deal with autoscaling (evaluate autoscaling function):
-cal = mataa_cal_autoscale (cal);
 
-if ~iscell(cal)
-	u{1} = cal; cal = u;
-end
 
-if length(cal) ~= size(X0,2)
-	% need exactly one cal struct per signal channel to calibrate the data in each channel!
-	error (sprintf('mataa_measure_signal_response: number of channels in test signal X0 (%i) must not be different from number of channels in cal structs (%i).',size(X0,2),length(cal)))
-end
 
-% deal with data unit of X0 / test signal data:
-if ~exist ('X0_unit','var')
-	X0_unit = 'digital';
-end
 
-if strcmp (upper(X0_unit),'DIGITAL') % no amplitude conversion
-	if max(X0) > 1.0
-		error ('mataa_measure_signal_response: max. value of X0 is higher than 1.0 in digital domain.')
-	elseif min(X0) < -1.0
-		error ('mataa_measure_signal_response: min. value of X0 is lower than -1.0 in digital domain.')
+
+
+
+
+
+
+
+
+do_try_audio_IO = true;
+while do_try_audio_IO
+% several attempts may be required if signals are found to be clipped etc.
+
+	% assume this will be the last attempt (this may change later)
+	do_try_audio_IO = false;
+	
+	% init flag for "DAC output cal is okay":
+	cal_dac_out_ok = false;
+
+	% deal with autoscaling (evaluate autoscaling function):
+	cal = mataa_cal_autoscale (cal);
+
+	if ~iscell(cal)
+		u{1} = cal; cal = u;
 	end
 
-else % convert data in each channel of X0 to "digital" using the sensitivity of the DAC cal before sending signal to DAC
-	for k = 1:size(X0,2)
-		if ~isfield(cal{k},'DAC')
-			error ('mataa_measure_signal_response: cal data has no DAC field, cannot convert X0 voltages to digital domain (-1...+1).')
+	if length(cal) ~= size(X0,2)
+		% need exactly one cal struct per signal channel to calibrate the data in each channel!
+		error (sprintf('mataa_measure_signal_response: number of channels in test signal X0 (%i) must not be different from number of channels in cal structs (%i).',size(X0,2),length(cal)))
+	end
+
+	% deal with data unit of X0 / test signal data:
+	if ~exist ('X0_unit','var')
+		X0_unit = 'digital';
+	end
+
+	if strcmp (upper(X0_unit),'DIGITAL') % no amplitude conversion
+		if max(X0) > 1.0
+			error ('mataa_measure_signal_response: max. value of X0 is higher than 1.0 in digital domain.')
+		elseif min(X0) < -1.0
+			error ('mataa_measure_signal_response: min. value of X0 is lower than -1.0 in digital domain.')
 		else
-			if ~strcmp(upper(X0_unit),upper(cal{k}.DAC.sensitivity_unit))
-				error (sprintf("mataa_measure_signal_response: X0 data given in %s, but analog output of DAC '%s' is in units %s.",X0_unit,cal{k}.DAC.name,cal{k}.DAC.sensitivity_unit))
+			cal_dac_out_ok = true;
+		end
+
+	else % convert data in each channel of X0 to "digital" using the sensitivity of the DAC cal before sending signal to DAC
+		for k = 1:size(X0,2)
+			if ~isfield(cal{k},'DAC')
+				error ('mataa_measure_signal_response: cal data has no DAC field, cannot convert X0 voltages to digital domain (-1...+1).')
 			else
-				if max(X0(:,k)) > cal{k}.DAC.sensitivity
-					error (sprintf("mataa_measure_signal_response: max. value of X0 (%g Volts) is higher than analog output limit of DAC '%s' (%g %s)",max(X0(:,k)),cal{k}.DAC.name,cal{k}.DAC.sensitivity,cal{k}.DAC.sensitivity_unit))
-				elseif min(X0(:,k)) < -cal{k}.DAC.sensitivity
-					error (sprintf("mataa_measure_signal_response: min. value of X0 (%g Volts) is lower than analog output limit of DAC '%s' (%g %s)",min(X0(:,k)),cal{k}.DAC.name,cal{k}.DAC.sensitivity,cal{k}.DAC.sensitivity_unit))
-				end
-				X0(:,k) = X0(:,k) / cal{k}.DAC.sensitivity; % scale to digital domain	
+				if ~strcmp(upper(X0_unit),upper(cal{k}.DAC.sensitivity_unit))
+					error (sprintf("mataa_measure_signal_response: X0 data given in %s, but analog output of DAC '%s' is in units %s.",X0_unit,cal{k}.DAC.name,cal{k}.DAC.sensitivity_unit))
+				else
+					if max(X0(:,k)) > cal{k}.DAC.sensitivity
+						disp (sprintf("mataa_measure_signal_response: max. value of X0 (%g Volts) is higher than analog output limit of DAC '%s' (%g %s)",max(X0(:,k)),cal{k}.DAC.name,cal{k}.DAC.sensitivity,cal{k}.DAC.sensitivity_unit))
+						do_try_audio_IO = __retry_audio_IO();
+					elseif min(X0(:,k)) < -cal{k}.DAC.sensitivity
+						disp (sprintf("mataa_measure_signal_response: min. value of X0 (%g Volts) is lower than analog output limit of DAC '%s' (%g %s)",min(X0(:,k)),cal{k}.DAC.name,cal{k}.DAC.sensitivity,cal{k}.DAC.sensitivity_unit))
+						do_try_audio_IO = __retry_audio_IO();
+					else
+						X0(:,k) = X0(:,k) / cal{k}.DAC.sensitivity; % scale to digital domain
+						cal_dac_out_ok = true;
+					end
+				end % if else
 			end % if else
-		end % if else
-	end % for
-end % if else
-
-% do the sound I/O:
-
-try
-	audio_IO_method = mataa_settings ('audio_IO_method');
-catch
-	audio_IO_method = 'TestTone';
-end
-
-% determine latency:
-default_latency = 0.1 * max([1 fs/44100]); % just from experience with Behringer UMC202HD and M-AUDIO FW-410
-if ~exist('latency','var')
-	latency = [];
-end
-if isempty (latency)
-	latency = default_latency;
-	warning(sprintf('mataa_measure_signal_response: latency not specified. Assuming latency = %g seconds. Check for truncated data!',latency));
-elseif latency < default_latency
-	warning(sprintf('mataa_measure_signal_response: latency (%gs) is less than generic default (%gs). Make sure this is really what you want and check for truncated data!',latency,default_latency));
-end
-
-if strcmp(upper(audio_IO_method),'TESTTONE')
-
-	deleteInputFileAfterIO = 0;
-
-	if verbose
-		disp('Writing sound data to disk...');
-	end
-	in_path = mataa_signal_to_TestToneFile(X0,'',latency,fs);
-	if verbose
-		disp('...done');
-	end
-	if ~exist(in_path,'file')
-	    error(sprintf('mataa_measure_signal_response: could not find input file (''%s'').',in_path));
-	end
-	deleteInputFileAfterIO = 1;
-	out_path = mataa_tempfile;
-
-	if exist('OCTAVE_VERSION','builtin')
-		more('off'),
-	end
-	if verbose
-	    disp('Sound input / output started...');
-	    disp(sprintf('Sound output device: %s',audioInfo.output.name));
-	    disp(sprintf('Sound input device: %s',audioInfo.input.name));
-	    disp(sprintf('Sampling rate: %.3f samples per second',fs));
-	end
-
-	R = num2str(fs);
-
-	if strcmp(plat,'PCWIN')
-	    extension = '.exe';
-	else
-	    extension = '';
-	end    	
-
-	TestTone = sprintf('%s%s%s',mataa_path('TestTone'),'TestTonePA19',extension);
-	command = sprintf('"%s" %s %s > %s',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
-	[output,status] = system(command);
-
-	if status ~= 0
-	    error('mataa_measure_signal_response: an error has occurred during sound I/O.')
-	end
-
-	if verbose
-	    disp('...sound I/O done.');
-	    disp('Reading sound data from disk...')
-	end
+		end % for
+	end % if else
 
 
-	fid = fopen(out_path,'rt');
-	if fid == -1
-		error('mataa_measure_signal_response: could not find input file.');
-	else
-		frewind(fid);
-		numChan = [];
-		doRead = 1;
-		while doRead % read the header
-		    l = fgetl(fid);
-		    if findstr('Number of sound input channels =',l)
-		    	numChan = str2num(l(findstr('=',l)+1:end));
-		    elseif findstr('time (s)',l) % this was the last line of the header
-		    	doRead = 0;
-		    elseif ~isempty(str2num(l));
-		    	% if the 'time(s) ...' line is missing in the header for some reason...
-		   		% this is the first line of the data
-		   		doRead = 0;
-		   		fseek(fid,ftell(fid)-length(l)-1); % go back to the end of the previous line so that we won't miss the first line of the data later on
-		   	elseif l==-1
-		   		warning('mataa_measure_signal_response:end of data file reached prematurely! Is the data file corrupted?');
-		   		doRead = 0;
-		    end 
+	if cal_dac_out_ok
+
+		% do the sound I/O:	
+		try
+			audio_IO_method = mataa_settings ('audio_IO_method');
+		catch
+			audio_IO_method = 'TestTone';
 		end
-		if isempty(numChan)
-			error('mataa_measure_signal_response: could not determine number of channels in recorded data.');
+
+		% determine latency:
+		default_latency = 0.1 * max([1 fs/44100]); % just from experience with Behringer UMC202HD and M-AUDIO FW-410
+		if ~exist('latency','var')
+			latency = [];
 		end
-		% read the data:
-		out = fscanf(fid,'%f');
-		l = length(out);
-		if l < 1
-			error('mataa_measure_signal_response: no data found in TestTone output file.');
-		end
-		out = reshape(out',numChan+1,l/(numChan+1))';
-		fclose(fid);
-		clear numChan % avoid confusion with numChan below
-	end
-
-	if verbose
-	    disp('...data reading done.');
-	end
-
-	t=out(:,1);dut_out=out(:,2:end);
-
-	% keep only ADC channels as given in channels, discard the rest:
-	dut_out = dut_out(:,channels);
-
-	dut_in=load(in_path); % octave can easily read 1-row ASCII files
-	
-	% clean up:
-	delete(out_path);
-	if deleteInputFileAfterIO
-	    delete(in_path);
-	end
-
-elseif strcmp(upper(audio_IO_method),'PLAYREC')
-	
-	% make sure PlayRec is initialised as needed:
-	ID_out = mataa_settings ('audio_PlayRec_OutputDeviceName');
-	if isempty (ID_out)
-		ID_out = 0;
-	end
-	ID_in  = mataa_settings ('audio_PlayRec_InputDeviceName');
-	if isempty (ID_in)
-		ID_in = 0;
-	end
-	if ~mataa_audio_playrec_init(fs, ID_out, ID_in, max(channels), max(channels))
-		error('mataa_measure_signal_response: could not configure PlayRec as needed.')
-	end
-	
-	% zeroes for latency:
-	z = repmat(0,round(latency*fs),size(X0,2));
-	dut_in = [ z ; X0 ; z ];
-	
-	% Start audio input / output (with zero padding for latency):
-	pageNumber = playrec('playrec', dut_in, 1:max(channels), -1, channels );
-	
-	% Wait until audio input / output is done:
-	%%% while ( playrec('isFinished', pageNumber) == 0 ); end; % this will run the CPU at full power!
-	playrec('block', pageNumber); % tell PlayRec to block until audio I/O is done (this may introduce a delay until PlayRec unblocks, but does not waste CPU power)
-	
-	% get audio data:
-	dut_out = playrec('getRec', pageNumber);
-	
-	% determine time values:
-	t = [0:size(dut_out,1)-1](:) / fs;
-	
-	
-	
-	% clear PlayRec audio page
-	playrec('delPage');
-	
-else
-	error (sprintf('mataa_measure_signal_response: unknown audio I/O method <%s>.',audio_IO_method))
-
-end
-
-if verbose
-% check for clipping:
-    for chan=1:size(dut_out,2)
-    	m = max(abs(dut_out(:,chan)));
-	m0 = 0.95;
-    	if m >= m0
-    		k = find(abs(dut_out(:,chan)) >= m0);
-    		beep
-    		disp(sprintf('Signal in channel %i may be clipped (%0.3g%% of all samples)!',channels(chan),length(k)/length(dut_out(:,1))*100));		
-    		input('If you want to continue, press ENTER. To abort, press CTRL-C.');
-    	else
-    		u = '';
-    		if channels(chan) == mataa_settings ('channel_DUT')
-    			u = ' (DUT)';
-    		elseif channels(chan) == mataa_settings ('channel_REF')
-    			u = ' (REF)';
-    		end
-    		disp(sprintf('Max amplitude in channel %i%s: %0.3g%%',channels(chan),u,m*100));
-    	end
-    end
-end
-
-% calibrate data
-X0_RMS = repmat(NA,1,size(X0,2));
-
-for k = 1:length(cal)
-	% calibrate k-th channel
-
-	if isempty(cal{k})
-		disp (sprintf('mataa_measure_signal_response: no calibration data available for channel %i. Returning raw, uncalibrated data!',k))
-		dut_out_unit{k} = '???'; 
-		dut_in_unit{k}  = '???';
-	else
-
-		if isfield(cal{k},'DAC')
-
-			% calibrate signal at DUT input for DAC(+BUFFER):
-			RMS_raw = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
-			[dut_in(:,k),t_in,dut_in_unit{k}] = mataa_signal_calibrate_DUTin (dut_in(:,k),t,cal{k});
-			RMS_cal = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
-
-			% determine RMS amplitude of signal at DUT input (without zero padding):
-			X0_RMS(k) = RMS_cal/RMS_raw * sqrt (sum(X0(:,k).^2 / length(X0(:,k))));
-
-		else
-			warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no ADC data! Skipping calibration of signal at DUT input!',k))
+		if isempty (latency)
+			latency = default_latency;
+			warning(sprintf('mataa_measure_signal_response: latency not specified. Assuming latency = %g seconds. Check for truncated data!',latency));
+		elseif latency < default_latency
+			warning(sprintf('mataa_measure_signal_response: latency (%gs) is less than generic default (%gs). Make sure this is really what you want and check for truncated data!',latency,default_latency));
 		end
 
 
-		if isfield(cal{k},'ADC')
-			if isfield(cal{k},'SENSOR')
-				[dut_out(:,k),t_out,dut_out_unit{k}] = mataa_signal_calibrate_DUTout (dut_out(:,k),t,cal{k}); % calibrate signal at DUT output for SENSOR and ADC
-			else
-				warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no SENSOR data! Skipping calibration of signal at DUT output!',k))
+		if strcmp(upper(audio_IO_method),'TESTTONE')
+
+			deleteInputFileAfterIO = 0;
+
+			if verbose
+				disp('Writing sound data to disk...');
 			end
-		else
-			warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no ADC data! Skipping calibration of signal at DUT input!',k))
-		end
-	end
-end
+			in_path = mataa_signal_to_TestToneFile(X0,'',latency,fs);
+			if verbose
+				disp('...done');
+			end
+			if ~exist(in_path,'file')
+				error(sprintf('mataa_measure_signal_response: could not find input file (''%s'').',in_path));
+			end
+			deleteInputFileAfterIO = 1;
+			out_path = mataa_tempfile;
 
+			if exist('OCTAVE_VERSION','builtin')
+				more('off'),
+			end
+			if verbose
+				disp('Sound input / output started...');
+				disp(sprintf('Sound output device: %s',audioInfo.output.name));
+				disp(sprintf('Sound input device: %s',audioInfo.input.name));
+				disp(sprintf('Sampling rate: %.3f samples per second',fs));
+			end
+
+			R = num2str(fs);
+
+			if strcmp(plat,'PCWIN')
+				extension = '.exe';
+			else
+				extension = '';
+			end    	
+
+			TestTone = sprintf('%s%s%s',mataa_path('TestTone'),'TestTonePA19',extension);
+			command = sprintf('"%s" %s %s > %s',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+			[output,status] = system(command);
+
+			if status ~= 0
+				error('mataa_measure_signal_response: an error has occurred during sound I/O.')
+			end
+
+			if verbose
+				disp('...sound I/O done.');
+				disp('Reading sound data from disk...')
+			end
+
+
+			fid = fopen(out_path,'rt');
+			if fid == -1
+				error('mataa_measure_signal_response: could not find input file.');
+			else
+				frewind(fid);
+				numChan = [];
+				doRead = 1;
+				while doRead % read the header
+					l = fgetl(fid);
+					if findstr('Number of sound input channels =',l)
+					numChan = str2num(l(findstr('=',l)+1:end));
+					elseif findstr('time (s)',l) % this was the last line of the header
+					doRead = 0;
+					elseif ~isempty(str2num(l));
+					% if the 'time(s) ...' line is missing in the header for some reason...
+						% this is the first line of the data
+						doRead = 0;
+						fseek(fid,ftell(fid)-length(l)-1); % go back to the end of the previous line so that we won't miss the first line of the data later on
+					elseif l==-1
+						warning('mataa_measure_signal_response:end of data file reached prematurely! Is the data file corrupted?');
+						doRead = 0;
+					end 
+				end % while doRead
+				
+				if isempty(numChan)
+					error('mataa_measure_signal_response: could not determine number of channels in recorded data.');
+				end
+				
+				% read the data:
+				out = fscanf(fid,'%f');
+				l = length(out);
+				if l < 1
+					error('mataa_measure_signal_response: no data found in TestTone output file.');
+				end
+				out = reshape(out',numChan+1,l/(numChan+1))';
+				fclose(fid);
+				clear numChan % avoid confusion with numChan below
+			end
+
+			if verbose
+				disp('...data reading done.');
+			end
+
+			t=out(:,1);dut_out=out(:,2:end);
+
+			% keep only ADC channels as given in channels, discard the rest:
+			dut_out = dut_out(:,channels);
+
+			dut_in=load(in_path); % octave can easily read 1-row ASCII files
+			
+			% clean up:
+			delete(out_path);
+			if deleteInputFileAfterIO
+			    delete(in_path);
+			end
+
+		elseif strcmp(upper(audio_IO_method),'PLAYREC')
+			
+			% make sure PlayRec is initialised as needed:
+			ID_out = mataa_settings ('audio_PlayRec_OutputDeviceName');
+			if isempty (ID_out)
+				ID_out = 0;
+			end
+			ID_in  = mataa_settings ('audio_PlayRec_InputDeviceName');
+			if isempty (ID_in)
+				ID_in = 0;
+			end
+			if ~mataa_audio_playrec_init(fs, ID_out, ID_in, max(channels), max(channels))
+				error('mataa_measure_signal_response: could not configure PlayRec as needed.')
+			end
+			
+			% zeroes for latency:
+			z = repmat(0,round(latency*fs),size(X0,2));
+			dut_in = [ z ; X0 ; z ];
+			
+			% Start audio input / output (with zero padding for latency):
+			pageNumber = playrec('playrec', dut_in, 1:max(channels), -1, channels );
+			
+			% Wait until audio input / output is done:
+			%%% while ( playrec('isFinished', pageNumber) == 0 ); end; % this will run the CPU at full power!
+			playrec('block', pageNumber); % tell PlayRec to block until audio I/O is done (this may introduce a delay until PlayRec unblocks, but does not waste CPU power)
+			
+			% get audio data:
+			dut_out = playrec('getRec', pageNumber);
+			
+			% determine time values:
+			t = [0:size(dut_out,1)-1](:) / fs;
+			
+			
+			
+			% clear PlayRec audio page
+			playrec('delPage');
+			
+		else
+			error (sprintf('mataa_measure_signal_response: unknown audio I/O method <%s>.',audio_IO_method))
+
+		end % audio_IO_method = TESTTONE or PlayRec
+
+		if verbose
+		% check for clipping:
+			for chan=1:size(dut_out,2)
+				m = max(abs(dut_out(:,chan)));
+				m0 = 0.95;
+				if m >= m0
+					k = find(abs(dut_out(:,chan)) >= m0);
+					beep
+					disp(sprintf('Signal in channel %i may be clipped (%0.3g%% of all samples)!',channels(chan),length(k)/length(dut_out(:,1))*100));		
+					%%% input('If you want to continue, press ENTER. To abort, press CTRL-C.');
+					do_try_audio_IO = __retry_audio_IO();
+				else
+					u = '';
+					if channels(chan) == mataa_settings ('channel_DUT')
+						u = ' (DUT)';
+					elseif channels(chan) == mataa_settings ('channel_REF')
+						u = ' (REF)';
+					end
+					disp(sprintf('Max amplitude in channel %i%s: %0.3g%%',channels(chan),u,m*100));
+				end % if m >= m0
+			end % for chan=...
+		end % if verbose
+
+		
+		
+		if ~do_try_audio_IO && exist('dut_out','var')
+		% audio IO was okay (no need to retry), so let's try to calibrate the result
+			
+			X0_RMS = repmat(NA,1,size(X0,2));
+
+			for k = 1:length(cal)
+				% calibrate k-th channel
+
+				if isempty(cal{k})
+					disp (sprintf('mataa_measure_signal_response: no calibration data available for channel %i. Returning raw, uncalibrated data!',k))
+					dut_out_unit{k} = '???'; 
+					dut_in_unit{k}  = '???';
+				else
+
+					if isfield(cal{k},'DAC')
+
+						% calibrate signal at DUT input for DAC(+BUFFER):
+						RMS_raw = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
+						[dut_in(:,k),t_in,dut_in_unit{k}] = mataa_signal_calibrate_DUTin (dut_in(:,k),t,cal{k});
+						RMS_cal = sqrt (sum(dut_in(:,k).^2 / length(dut_in(:,k))));
+
+						% determine RMS amplitude of signal at DUT input (without zero padding):
+						X0_RMS(k) = RMS_cal/RMS_raw * sqrt (sum(X0(:,k).^2 / length(X0(:,k))));
+
+					else
+						warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no ADC data! Skipping calibration of signal at DUT input!',k))
+					end
+
+
+					if isfield(cal{k},'ADC')
+						if isfield(cal{k},'SENSOR')
+							[dut_out(:,k),t_out,dut_out_unit{k}] = mataa_signal_calibrate_DUTout (dut_out(:,k),t,cal{k}); % calibrate signal at DUT output for SENSOR and ADC
+						else
+							warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no SENSOR data! Skipping calibration of signal at DUT output!',k))
+						end
+					else
+						warning (sprintf('mataa_measure_signal_response: cal data for channel %i has no ADC data! Skipping calibration of signal at DUT input!',k))
+					end
+				end % if isempty(...)
+			end % for	
+		end % if ~do_try_audio_IO
+	end % if cal_dac_out ok
+end % while do_try_audio_IO
+
+% make sure all messages to STDOUT are out:
 if exist('stdout')
 	fflush (stdout);
 end
+
+if ~exist('dut_out','var')
+	% measurement failed:
+	error ('mataa_measure_signal_response: measurement failed.')
+end
+
+endfunction
