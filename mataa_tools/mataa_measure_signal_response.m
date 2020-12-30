@@ -181,17 +181,8 @@ if ischar(cal) % name of calibration file instead of cal struct
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
+cal_ini = cal;
+X0_ini = X0;
 
 do_try_audio_IO = true;
 while do_try_audio_IO
@@ -204,7 +195,10 @@ while do_try_audio_IO
 	cal_dac_out_ok = false;
 
 	% deal with autoscaling (evaluate autoscaling function):
-	cal = mataa_cal_autoscale (cal);
+	cal = mataa_cal_autoscale (cal_ini);
+	
+	% init X0 to initial version (if repeating the measurement)
+	X0 = X0_ini;
 
 	if ~iscell(cal)
 		u{1} = cal; cal = u;
