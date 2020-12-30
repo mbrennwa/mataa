@@ -22,9 +22,6 @@
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA.html
 
-
-warning('This script is just a draft / work in progress!')
-
 % test signal length:
 if ~exist('T','var')
 	T= input ('Test signal length (seconds, default = 1 s): ');
