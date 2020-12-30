@@ -223,26 +223,30 @@ for i = 1:length(V_out_RMS)
 		disp('')
 		disp (sprintf('Testing: DAC output = %g Hz at %g VRMS...', f0(j), DAC_out_VRMS))
 		
-		[hd,f_hd,thd,thdn,L,f,unit] = mataa_measure_HD_noise ( f0(j),T,fs,N_h,latency,cal,DAC_out_VRMS*sqrt(2),unit,window,fLow,fHigh,N_avg );
-					
-		% store THD result:
-		THD(i,j) = thd;
-		
-		% plot spectrum:
-		figure(fig_spectrum)
-		y = L(:,1) / sqrt(2); % RMS voltage values
-		semilogy (f, y, 'r', 'linewidth', lw );
-		xlim ( [ fLow fHigh ] )
-		y1 = 10^floor(log10(min(y)));
-		y2 = 10^ceil(log10(1.5*V_out_RMS(i)));
-		ylim ( [y1 y2] );
-		xlabel ('Frequency (Hz)');
-		ylabel(sprintf('Amplitude (%s-RMS)',unit));
-		grid on;
-		title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
-		
-		if do_save_plots
-			print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,V_out_RMS(i),f0(j)))
+		try
+			[hd,f_hd,thd,thdn,L,f,unit] = mataa_measure_HD_noise ( f0(j),T,fs,N_h,latency,cal,DAC_out_VRMS*sqrt(2),unit,window,fLow,fHigh,N_avg );
+						
+			% store THD result:
+			THD(i,j) = thd;
+			
+			% plot spectrum:
+			figure(fig_spectrum)
+			y = L(:,1) / sqrt(2); % RMS voltage values
+			semilogy (f, y, 'r', 'linewidth', lw );
+			xlim ( [ fLow fHigh ] )
+			y1 = 10^floor(log10(min(y)));
+			y2 = 10^ceil(log10(1.5*V_out_RMS(i)));
+			ylim ( [y1 y2] );
+			xlabel ('Frequency (Hz)');
+			ylabel(sprintf('Amplitude (%s-RMS)',unit));
+			grid on;
+			title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
+			
+			if do_save_plots
+				print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,V_out_RMS(i),f0(j)))
+			end
+		catch
+			disp('mataa_electronic_HD_analysis: measurement failed.')
 		end
 	end	
 end
@@ -277,7 +281,7 @@ if length(f0) > 1
 		for k = 1:length(V_out_RMS)
 			leg{k} = [ num2str(V_out_RMS(k)) ' V-RMS' ];
 		end
-		legend(leg)
+		legend(leg);
 	end
 	if do_save_plots
 		print ("-S650,400",sprintf("%s_THD_vs_freq.pdf",DUT_label))
@@ -306,7 +310,7 @@ if length(V_out_RMS) > 1
 		for k = 1:length(f0)
 			leg{k} = [ num2str(f0(k)) ' Hz' ];
 		end
-		legend(leg)
+		legend(leg);
 	end
 	if do_save_plots
 		print ("-S650,400",sprintf("%s_THD_vs_outputvoltage.pdf",DUT_label))
