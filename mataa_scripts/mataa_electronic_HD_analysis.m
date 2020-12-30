@@ -25,15 +25,6 @@
 
 warning('This script is just a draft / work in progress!')
 
-
-% sample rate:
-if ~exist('fs','var')
-	fs = input ('Enter sampling rate (Hz, default = 44100): ');
-end
-if isempty(fs)
-	fs = 44100;
-end
-
 % test signal length:
 if ~exist('T','var')
 	T= input ('Test signal length (seconds, default = 1 s): ');
@@ -103,6 +94,30 @@ if N_h < 2
 	N_h = 2;
 end
 
+% minimum upper frequency limit:
+fmin = max(f0)*N_h;
+
+% determine suggested sampling rate:
+u = mataa_audio_info();
+fs_x = intersect (u.input.sampleRates,u.output.sampleRates);
+fs_def = fs_x(find(fs_x/2 > fmin));
+if isempty(fs_def)
+	fs_def = max(fs_x);
+else
+	fs_def = min(fs_def);
+end
+
+% sample rate:
+if ~exist('fs','var')
+	fs = input (sprintf('Enter sampling rate (Hz, default = %g): ',fs_def));
+end
+if isempty(fs)
+	fs = fs_def;
+end
+if fs <= fmin
+	warning(sprintf('mataa_electronic_HD_analysis: sampling rate (%g per second) is too low to capture all harmonics!',fs))
+end
+
 % frequency bandwith of analysis:
 if ~exist('fLow','var')
 	fLow = max([0, input('Low-frequency limit of HD analysis (Hz, default = 0): ')]);
@@ -114,13 +129,21 @@ if fLow < 0
 	fLow = 0;
 end
 if ~exist('fHigh','var')
-	fHigh = input(sprintf('High-frequency limit of HD analysis (Hz, default = %g): ',fs/2));
+	fHigh = input(sprintf('High-frequency limit of HD analysis (Hz, default = %g): ',fmin));
 end
 if isempty(fHigh)
 	fHigh = fs/2;
 end
+if fLow > fHigh
+	u = fHigh;
+	fHigh = fLow;
+	fLow = u;
+end
 if fHigh > fs/2
 	fHigh = fs/2;
+end
+if fHigh < fmin
+	warning(sprintf('mataa_electronic_HD_analysis: upper limit of analysis bandwith (%g Hz) is too low to capture all harmonics!',fHigh))
 end
 
 % number of averages:
@@ -197,6 +220,10 @@ disp (sprintf('- Audio I/O calibration file: %s',calfile))
 disp('')
 input('Press ENTER to start the test...','g');
 
+
+tic();
+
+
 % prepare spectrum figure:
 lw = 4;
 if ~exist('fig_spectrum','var')
@@ -241,7 +268,7 @@ for i = 1:length(V_out_RMS)
 			ylabel(sprintf('Amplitude (%s-RMS)',unit));
 			grid on;
 			title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
-			drawnow
+			% drawnow
 			if do_save_plots
 				print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,V_out_RMS(i),f0(j)))
 			end
@@ -317,3 +344,6 @@ if length(V_out_RMS) > 1
 	end
 
 end
+
+
+toc()

@@ -327,19 +327,24 @@ while do_try_audio_IO
 				doRead = 1;
 				while doRead % read the header
 					l = fgetl(fid);
+					if isempty(l)
+						error('mataa_measure_signal_response: found empty line in header, cannot continue.')
+					end
+					if l==-1
+						error('mataa_measure_signal_response: end of data file reached prematurely! Is the data file corrupted?');
+					end
+					if strfind(upper(l),'ERROR')
+						error(sprintf('mataa_measure_signal_response: %s',l));
+					end
 					if findstr('Number of sound input channels =',l)
-					numChan = str2num(l(findstr('=',l)+1:end));
-					elseif findstr('time (s)',l) % this was the last line of the header
-					doRead = 0;
+						numChan = str2num(l(findstr('=',l)+1:end));
+						elseif findstr('time (s)',l) % this was the last line of the header
+						doRead = 0;
 					elseif ~isempty(str2num(l));
-					% if the 'time(s) ...' line is missing in the header for some reason...
-						% this is the first line of the data
+						% this is the first line of the data block
 						doRead = 0;
 						fseek(fid,ftell(fid)-length(l)-1); % go back to the end of the previous line so that we won't miss the first line of the data later on
-					elseif l==-1
-						warning('mataa_measure_signal_response:end of data file reached prematurely! Is the data file corrupted?');
-						doRead = 0;
-					end 
+					end
 				end % while doRead
 				
 				if isempty(numChan)
