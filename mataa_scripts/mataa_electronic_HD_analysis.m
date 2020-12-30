@@ -241,7 +241,7 @@ for i = 1:length(V_out_RMS)
 			ylabel(sprintf('Amplitude (%s-RMS)',unit));
 			grid on;
 			title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
-			
+			drawnow
 			if do_save_plots
 				print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,V_out_RMS(i),f0(j)))
 			end
