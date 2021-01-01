@@ -305,7 +305,7 @@ while do_try_audio_IO
 			end    	
 
 			TestTone = sprintf('%s%s%s',mataa_path('TestTone'),'TestTonePA19',extension);
-			command = sprintf('"%s" %s %s > %s',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+			command = sprintf('"%s" %s %s > %s 2>/dev/null',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
 			[output,status] = system(command);
 
 			if status ~= 0
