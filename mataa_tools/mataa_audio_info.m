@@ -105,7 +105,7 @@ else
 				output_sampleRates_halfDuplex = [];
 				output_sampleRates_fullDuplex = [];
 						
-				system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
+				system(sprintf('"%s" > %s 2>/dev/null',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
 						
 				fid=fopen(infoFile,'rt');
 				l = 0;

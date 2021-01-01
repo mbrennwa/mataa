@@ -269,6 +269,14 @@ while do_try_audio_IO
 		end
 
 
+
+
+		tic();
+
+
+
+
+
 		if strcmp(upper(audio_IO_method),'TESTTONE')
 
 			deleteInputFileAfterIO = 0;
@@ -411,8 +419,6 @@ while do_try_audio_IO
 			% determine time values:
 			t = [0:size(dut_out,1)-1](:) / fs;
 			
-			
-			
 			% clear PlayRec audio page
 			playrec('delPage');
 			
@@ -420,6 +426,14 @@ while do_try_audio_IO
 			error (sprintf('mataa_measure_signal_response: unknown audio I/O method <%s>.',audio_IO_method))
 
 		end % audio_IO_method = TESTTONE or PlayRec
+
+
+
+					
+		elaps = toc();
+		elaps = elaps - ( t(end)-t(1) )
+
+
 
 		if verbose
 		% check for clipping:
