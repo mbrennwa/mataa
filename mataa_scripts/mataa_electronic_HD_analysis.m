@@ -217,16 +217,13 @@ disp (sprintf('- Audio I/O calibration file: %s',calfile))
 disp('')
 input('Press ENTER to start the test...','g');
 
-
-tic();
-
-
 % prepare spectrum figure:
 lw = 4;
 if ~exist('fig_spectrum','var')
 	fig_spectrum = figure(); clf;
 end
-
+figure(fig_spectrum)
+			
 % determine DUT voltage gain:
 disp('')
 disp('Measuring DUT voltage gain...')
@@ -254,7 +251,6 @@ for i = 1:length(V_out_RMS)
 			THD(i,j) = thd;
 			
 			% plot spectrum:
-			figure(fig_spectrum)
 			y = L(:,1) / sqrt(2); % RMS voltage values
 			semilogy (f, y, 'r', 'linewidth', lw );
 			xlim ( [ fLow fHigh ] )
@@ -265,7 +261,7 @@ for i = 1:length(V_out_RMS)
 			ylabel(sprintf('Amplitude (%s-RMS)',unit));
 			grid on;
 			title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
-			% drawnow
+			drawnow
 			if do_save_plots
 				print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,V_out_RMS(i),f0(j)))
 			end
@@ -276,21 +272,20 @@ for i = 1:length(V_out_RMS)
 end
 
 % plot THD vs F0 and VOLT:
-if ~exist('fig_THD_vs_freq','var')
-	fig_THD_vs_freq = figure();
-end
 
-if ~exist('fig_THD_vs_volt','var')
-	fig_THD_vs_volt = figure();
-end
-
-if length(f0) > 1
-	if ~exist('fig_THD_vs_freq','var')
-		fig_THD_vs_freq = figure(); clf;
+if length(f0) == 1
+	if exist('fig_THD_vs_freq','var')
+		close(fig_THD_vs_freq)
+		clear fig_THD_vs_freq
 	end
+else
+	if ~exist('fig_THD_vs_freq','var')
+		fig_THD_vs_freq = figure();
+	end
+
 	figure(fig_THD_vs_freq)
 	y = THD*100;
-	loglog(f0, y, 'linewidth', lw );
+	l = loglog(f0, y, 'linewidth', lw );
 	xlabel ('Frequency (Hz)'); ylabel ("THD (%)");
 	xlim( [min(f0) max(f0)] );
 	y1 = 10^floor(log10(min(min(y))));
@@ -299,6 +294,7 @@ if length(f0) > 1
 	grid on
 	if length(V_out_RMS) == 1
 		title ( sprintf("%s\nTHD vs. Frequency at %g V-RMS",DUT_label,V_out_RMS) );
+		set (l,'linewidth',lw,'color','r');
 	else
 		title ( sprintf("%s\nTHD vs. Frequency",DUT_label) );
 		leg = {};
@@ -312,13 +308,20 @@ if length(f0) > 1
 	end
 end
 
-if length(V_out_RMS) > 1
-	if ~exist('fig_THD_vs_volt','var')
-		fig_THD_vs_volt = figure(); clf;
+
+if length(V_out_RMS) == 1
+	if exist('fig_THD_vs_volt','var')
+		close(fig_THD_vs_volt)
+		clear fig_THD_vs_volt
 	end
+else
+	if ~exist('fig_THD_vs_volt','var')
+		fig_THD_vs_volt = figure();
+	end
+
 	figure(fig_THD_vs_volt)
 	y = THD'*100;
-	loglog(V_out_RMS, y, 'linewidth', lw );
+	l = loglog(V_out_RMS, y, 'linewidth', lw );
 	xlabel ('DUT output voltage (V)'); ylabel ("THD (%)");
 	xlim( [min(V_out_RMS) max(V_out_RMS)] );
 	y1 = 10^floor(log10(min(min(y))));
@@ -328,6 +331,7 @@ if length(V_out_RMS) > 1
 	title ( sprintf("%s\nTHD vs. output voltage",DUT_label));
 	if length(f0) == 1
 		title ( sprintf("%s\nTHD vs. output voltage at %g Hz",DUT_label,f0));
+		set (l,'linewidth',lw,'color','r');
 	else
 		title ( sprintf("%s\nTHD vs. output voltage",DUT_label));
 		leg = {};
@@ -341,6 +345,3 @@ if length(V_out_RMS) > 1
 	end
 
 end
-
-
-toc()

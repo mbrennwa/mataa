@@ -268,15 +268,6 @@ while do_try_audio_IO
 			warning(sprintf('mataa_measure_signal_response: latency (%gs) is less than generic default (%gs). Make sure this is really what you want and check for truncated data!',latency,default_latency));
 		end
 
-
-
-
-		tic();
-
-
-
-
-
 		if strcmp(upper(audio_IO_method),'TESTTONE')
 
 			deleteInputFileAfterIO = 0;
@@ -426,14 +417,6 @@ while do_try_audio_IO
 			error (sprintf('mataa_measure_signal_response: unknown audio I/O method <%s>.',audio_IO_method))
 
 		end % audio_IO_method = TESTTONE or PlayRec
-
-
-
-					
-		elaps = toc();
-		elaps = elaps - ( t(end)-t(1) )
-
-
 
 		if verbose
 		% check for clipping:
