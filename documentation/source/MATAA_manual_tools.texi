@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 29-Dec-2020.
+This section contains a list of the MATAA tools and their usage information as of 02-Jan-2021.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -1227,7 +1227,6 @@ EXAMPLES:@*
 > subplot (2,1,2); plot (t,out); ylabel (sprintf('Signal at DUT output (%s)',out_unit));@*
 > xlabel ('Time (s)')@*
 
-check input@*
 
 @findex mataa_measure_sine_distortion
 @node mataa_measure_sine_distortion

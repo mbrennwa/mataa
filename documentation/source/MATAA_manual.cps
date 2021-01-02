@@ -5,29 +5,29 @@
 \initial {C}
 \entry{Calibration file (microphone)}{4}
 \entry{Channel allocation}{10}
-\entry{Column vector}{78}
+\entry{Column vector}{79}
 \entry{Copyright}{2}
 \initial {D}
 \entry{Default path (MATAA)}{4}
 \entry{Default path (MATLAB/Octave)}{3}
 \entry{Default path (test signal files)}{4}
-\entry{Delay, interchannel (soundcard)}{12}
+\entry{Delay, interchannel (soundcard)}{13}
 \entry{Documentaion, MATAA}{4}
 \entry{Download, MATAA}{3}
 \entry{DUT channel}{10}
 \initial {F}
-\entry{FDL, GNU Free Documentation License}{84}
+\entry{FDL, GNU Free Documentation License}{85}
 \entry{Filter, anti-aliasing}{6}
 \initial {G}
-\entry{GNU General Public License}{80}
-\entry{GPL, GNU General Public License}{80}
+\entry{GNU General Public License}{81}
+\entry{GPL, GNU General Public License}{81}
 \initial {H}
 \entry{Hardware setup, sound}{5}
 \initial {I}
 \entry{Installing MATAA}{3}
 \entry{Installing MATLAB}{3}
 \entry{Installing Octave}{3}
-\entry{Interchannel delay}{12}
+\entry{Interchannel delay}{13}
 \initial {L}
 \entry{Linux}{7, 9}
 \initial {M}
@@ -39,15 +39,15 @@
 \entry{MATAA tools}{4}
 \entry{MATAA, installation}{3}
 \entry{MATAA, obtaining/download}{3}
-\entry{MATLAB}{77}
+\entry{MATLAB}{78}
 \entry{MATLAB default path}{3}
 \entry{MATLAB, installation}{3}
 \entry{MATLAB, startup file}{4}
-\entry{Matrix}{78}
+\entry{Matrix}{79}
 \entry{Measurement setup}{5}
 \entry{Microphone calibration file}{4}
 \initial {O}
-\entry{Octave}{77}
+\entry{Octave}{78}
 \entry{Octave default path}{3}
 \entry{Octave, installation}{3}
 \entry{Octave, startup file}{4}
@@ -61,9 +61,9 @@
 \entry{Pulseaudio}{7}
 \initial {R}
 \entry{REF channel}{10}
-\entry{Row vector}{78}
+\entry{Row vector}{79}
 \initial {S}
-\entry{Scalar}{78}
+\entry{Scalar}{79}
 \entry{Scripts, MATAA}{4}
 \entry{Settings, MATAA}{4}
 \entry{Setup, measurement}{5}
@@ -72,7 +72,7 @@
 \entry{Sound hardware setup}{5}
 \entry{Soundcard}{7}
 \entry{Soundcard channel allocation}{10}
-\entry{Soundcard interchannel delay}{12}
+\entry{Soundcard interchannel delay}{13}
 \entry{Startup file, MATLAB/Octave}{4}
 \initial {T}
 \entry{Terms and Conditions}{2}
@@ -82,5 +82,5 @@
 \entry{TestTone}{4, 7, 9}
 \entry{Tools}{4}
 \initial {V}
-\entry{Vector}{78}
-\entry{Vector (row, column)}{78}
+\entry{Vector}{79}
+\entry{Vector (row, column)}{79}

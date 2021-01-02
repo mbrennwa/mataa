@@ -60,18 +60,18 @@
 \entry{Allocation of soundcard channels}{10}{Allocation of soundcard channels}
 \entry{DUT channel}{10}{DUT channel}
 \entry{REF channel}{10}{REF channel}
-\entry{Interchannel delay}{12}{Interchannel delay}
-\entry{Delay, interchannel (soundcard)}{12}{Delay, interchannel (soundcard)}
-\entry{Soundcard interchannel delay}{12}{Soundcard interchannel delay}
-\entry{MATLAB}{77}{MATLAB}
-\entry{Octave}{77}{Octave}
-\entry{Matrix}{78}{Matrix}
-\entry{Vector}{78}{Vector}
-\entry{Vector (row, column)}{78}{Vector (row, column)}
-\entry{Row vector}{78}{Row vector}
-\entry{Column vector}{78}{Column vector}
-\entry{Vector}{78}{Vector}
-\entry{Scalar}{78}{Scalar}
-\entry{GNU General Public License}{80}{GNU General Public License}
-\entry{GPL, GNU General Public License}{80}{GPL, GNU General Public License}
-\entry{FDL, GNU Free Documentation License}{84}{FDL, GNU Free Documentation License}
+\entry{Interchannel delay}{13}{Interchannel delay}
+\entry{Delay, interchannel (soundcard)}{13}{Delay, interchannel (soundcard)}
+\entry{Soundcard interchannel delay}{13}{Soundcard interchannel delay}
+\entry{MATLAB}{78}{MATLAB}
+\entry{Octave}{78}{Octave}
+\entry{Matrix}{79}{Matrix}
+\entry{Vector}{79}{Vector}
+\entry{Vector (row, column)}{79}{Vector (row, column)}
+\entry{Row vector}{79}{Row vector}
+\entry{Column vector}{79}{Column vector}
+\entry{Vector}{79}{Vector}
+\entry{Scalar}{79}{Scalar}
+\entry{GNU General Public License}{81}{GNU General Public License}
+\entry{GPL, GNU General Public License}{81}{GPL, GNU General Public License}
+\entry{FDL, GNU Free Documentation License}{85}{FDL, GNU Free Documentation License}

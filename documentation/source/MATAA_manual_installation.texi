@@ -118,22 +118,6 @@ Also, it is not recommended to install the MATAA files (or any of your personal 
 @c If you are running Octave on Mac OS X, you may also want to tweak the behaviour of X11 a bit. If you want to use Octave with Terminal.app rather than the X11 terminal, you will need to tell the terminal where to send X11 plotting commands. If you're using bash with Terminal.app (the default shell on Mac OS X 10.3 and later), create a file @file{.profile}Êin your home directory (if it's not already there) and add the command @command{[[ -z $DISPLAY ]] && export DISPLAY=":0.0"} to it in order to redirect the plotting commands to X11. This command will be executed the next time bash is started and reads the @file{.profile}Êfile. Also, you may want to tell X11.app to automatically start when you log in to the computer.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @cindex Measurement setup
 @cindex Setup, measurement
 @section The Building Blocks of the Measurement Setup
@@ -295,6 +279,13 @@ You also need to tell MATAA which audio devices should be used for audio output 
 mataa_settings('audio_PlayRec_OutputDeviceName','RTX6001')
 mataa_settings('audio_PlayRec_InputDeviceName','RTX6001')
 @end example
+
+
+@section Specific sound cards
+This section is a collection of notes on using specific sound cards with MATAA.
+
+@subsection RTX6001 Audio Analyser
+The RTX6001 is a high-performance audio analyser that works using a standard USB Audio interface, with accurate and switchable input and output levels. MATAA has an integrated tool for read-out of the RTX6001 level settings, which allows automatic calibration of the signal voltages applied at the RTX6001 outputs and inputs via the @command{mataa_cal_autoscale} function. For details on how to install and configure this tool, please see the @file{calibration/RTX6001_MATAA_integration_notes.txt} file.
 
 
 @anchor{Sound channel allocation}
