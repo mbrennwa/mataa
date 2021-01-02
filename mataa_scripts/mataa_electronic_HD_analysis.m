@@ -30,30 +30,60 @@ if isempty(T)
 	T = 1.0;
 end
 
-% DUT Output voltage steps:
-if ~exist('U0rms_start','var')
-	U0rms_start = input ('DUT output voltage, start value (V-RMS, default = 0.1): ');
+% output target: power or voltage level?
+if ~exist('P_or_V','var')
+	P_or_V = upper ([ input('Specify output levels in terms of voltage or power (enter V or P, default = P): ','s') ' '])(1);
 end
-if isempty(U0rms_start)
-	U0rms_start = 0.1;
+if ~any(strfind('PV',P_or_V))
+	P_or_V = 'P';
 end
-if ~exist('U0rms_end','var')
-	U0rms_end = input ('DUT output voltage, end value (V-RMS, default = 10): ');
+
+% DUT Output steps (power or voltage):
+if strcmp(P_or_V,'P')
+	tgt = 'power';
+	tgt_unit = 'W-RMS';
+else
+	tgt = 'voltage';
+	tgt_unit = 'V-RMS';
 end
-if isempty(U0rms_end)
-	U0rms_end = 10;
+
+if ~exist('OUTrms_start','var')
+	OUTrms_start = input (sprintf('DUT output %s, start value (%s, default = 0.1): ',tgt,tgt_unit));
 end
-if U0rms_start ~= U0rms_end
-	if ~exist('N_U0','var')
-		N_U0 = input('Number of voltage steps (default = 5): ');
+if isempty(OUTrms_start)
+	OUTrms_start = 0.1;
+end
+if ~exist('OUTrms_end','var')
+	OUTrms_end = input (sprintf('DUT output %s, end value (%s, default = 10): ',tgt,tgt_unit));
+end
+if isempty(OUTrms_end)
+	OUTrms_end = 10;
+end
+if OUTrms_end ~= OUTrms_start
+	if ~exist('N_OUTLEVELS','var')
+		N_OUTLEVELS = input(sprintf('Number of %s steps (default = 5): ',tgt));
 	end
-	if isempty(N_U0)
-		N_U0 = 5;
+	if isempty(N_OUTLEVELS)
+		N_OUTLEVELS = 5;
 	end
 else
-	N_U0 = 1;
+	N_OUTLEVELS = 1;
 end
-V_out_RMS = logspace(log10(U0rms_start),log10(U0rms_end),N_U0);
+
+% Power or voltage values:
+V_out_RMS = logspace(log10(OUTrms_start),log10(OUTrms_end),N_OUTLEVELS);
+
+if strcmp(P_or_V,'P')
+	% load resistance:
+	if ~exist('R_load','var')
+		R_load = input ('Load resistance (Ohm, default = 8): ');
+	end
+	if isempty(R_load)
+		R_load = 8.0;
+	end
+	% re-determine voltage levels:
+	V_out_RMS = sqrt(V_out_RMS * R_load);
+end
 
 % Fundamental frequency steps:
 if ~exist('f0_start','var')
@@ -196,6 +226,18 @@ latency = 0.1 * max([1 fs/44100]); % latency for audio I/O
 unit    = 'V';
 window  = 'hann';
 
+% adjust f0 values to match FFT bins
+t = [0:round(T*fs)-1]/fs;
+for i = 1:length(f0)	
+	ff = mataa_t_to_f(t(:));
+	[v,k] = min(abs(ff-f0(i)));
+	if v > 1E-10
+		f0(i) = ff(k);
+	end
+end
+f0 = unique(f0);
+N_f0 = length(f0);
+
 disp('')
 disp('Test configuration:')
 disp(sprintf('- Sampling rate fs = %g Hz',fs))
@@ -226,10 +268,11 @@ figure(fig_spectrum)
 			
 % determine DUT voltage gain:
 disp('')
-disp('Measuring DUT voltage gain...')
+fg = f0(round(length(f0)/2));
+disp(sprintf('Measuring DUT voltage gain at %g Hz...',fg))
 Vx_RMS = median(V_out_RMS); % target DUT output voltage to determine the gain
 Vx_out_pk = Vx_RMS*sqrt(2) / gain_ini; % DUT input voltage
-[L,f,fi,L0,unit] = mataa_measure_sine_distortion (median(f0),T,fs,latency,cal,Vx_out_pk,unit,window);
+[L,f,fi,L0,unit] = mataa_measure_sine_distortion (fg,T,fs,latency,cal,Vx_out_pk,unit,window);
 gain = L0 / Vx_out_pk;
 disp(sprintf('DUT voltage gain = %g (%g dB)', gain, 20*log10(gain)))
 
@@ -260,7 +303,11 @@ for i = 1:length(V_out_RMS)
 			xlabel ('Frequency (Hz)');
 			ylabel(sprintf('Amplitude (%s-RMS)',unit));
 			grid on;
-			title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
+			if strcmp(P_or_V,'P')
+				title ( sprintf("%s\n%g W-RMS, %g Hz",DUT_label,V_out_RMS(i)^2/R_load,f0(j)));
+			else
+				title ( sprintf("%s\n%g V-RMS, %g Hz",DUT_label,V_out_RMS(i),f0(j)));
+			end
 			drawnow
 			if do_save_plots
 				print ("-S650,400",sprintf("%s_%gVRMS_%gHz_SINE_SPECTRUM.pdf",DUT_label,V_out_RMS(i),f0(j)))
@@ -293,13 +340,20 @@ else
 	ylim ( [y1 y2] );
 	grid on
 	if length(V_out_RMS) == 1
-		title ( sprintf("%s\nTHD vs. Frequency at %g V-RMS",DUT_label,V_out_RMS) );
+		if strcmp(P_or_V,'P')
+			title ( sprintf("%s\nTHD vs. Frequency at %g W-RMS",DUT_label,V_out_RMS^2/R_load) );
+		else
+			title ( sprintf("%s\nTHD vs. Frequency at %g V-RMS",DUT_label,V_out_RMS) );
+		end
 		set (l,'linewidth',lw,'color','r');
 	else
-		title ( sprintf("%s\nTHD vs. Frequency",DUT_label) );
 		leg = {};
 		for k = 1:length(V_out_RMS)
-			leg{k} = [ num2str(V_out_RMS(k)) ' V-RMS' ];
+			if strcmp(P_or_V,'P')
+				leg{k} = [ num2str(V_out_RMS(k)^2/R_load) ' W-RMS' ];
+			else
+				leg{k} = [ num2str(V_out_RMS(k)) ' V-RMS' ];
+			end
 		end
 		legend(leg);
 	end
@@ -321,19 +375,25 @@ else
 
 	figure(fig_THD_vs_volt)
 	y = THD'*100;
-	l = loglog(V_out_RMS, y, 'linewidth', lw );
-	xlabel ('DUT output voltage (V)'); ylabel ("THD (%)");
-	xlim( [min(V_out_RMS) max(V_out_RMS)] );
+	if strcmp(P_or_V,'P')
+		l = loglog(V_out_RMS.^2/R_load, y, 'linewidth', lw );
+		xlabel ('Output power (W-RMS)');
+		xlim( [min(V_out_RMS) max(V_out_RMS)].^2/R_load );
+	else
+		l = loglog(V_out_RMS, y, 'linewidth', lw );
+		xlabel ('Output voltage (V-RMS)');
+		xlim( [min(V_out_RMS) max(V_out_RMS)] );
+	end
+	ylabel ("THD (%)");
 	y1 = 10^floor(log10(min(min(y))));
 	y2 = 10^ceil(log10(1.5*max(max(y))));
 	ylim ( [y1 y2] );
 	grid on
-	title ( sprintf("%s\nTHD vs. output voltage",DUT_label));
 	if length(f0) == 1
-		title ( sprintf("%s\nTHD vs. output voltage at %g Hz",DUT_label,f0));
+		title ( sprintf("%s\nTHD vs. output %s at %g Hz",DUT_label,tgt,f0));
 		set (l,'linewidth',lw,'color','r');
 	else
-		title ( sprintf("%s\nTHD vs. output voltage",DUT_label));
+		title ( sprintf("%s\nTHD vs. output %s",DUT_label,tgt));
 		leg = {};
 		for k = 1:length(f0)
 			leg{k} = [ num2str(f0(k)) ' Hz' ];
@@ -341,7 +401,7 @@ else
 		legend(leg);
 	end
 	if do_save_plots
-		print ("-S650,400",sprintf("%s_THD_vs_outputvoltage.pdf",DUT_label))
+		print ("-S650,400",sprintf("%s_THD_vs_outputlevel.pdf",DUT_label))
 	end
 
 end
