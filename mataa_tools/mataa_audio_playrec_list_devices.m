@@ -41,7 +41,7 @@ if ~exist('playrec')
 else
 	d = playrec('getDevices');
 	for k = 1:length(d)
-		dev_names{end+1} = d(k).name;
+		dev_names{end+1} = undo_string_escapes (d(k).name);
 		dev_IDs          = [ dev_IDs ; d(k).deviceID ];
 	end
 end
