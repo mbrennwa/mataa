@@ -301,10 +301,14 @@ while do_try_audio_IO
 				extension = '.exe';
 			else
 				extension = '';
-			end    	
-
+			end
 			TestTone = sprintf('%s%s%s',mataa_path('TestTone'),'TestTonePA19',extension);
-			command = sprintf('"%s" %s %s > %s 2>/dev/null',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+			
+			if strcmp(plat,'PCWIN')
+				command = sprintf('"%s" %s %s > %s',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+			else
+				command = sprintf('"%s" %s %s > %s 2>/dev/null',TestTone,num2str(fs),in_path,out_path); % the ' are needed in case the paths contain spaces
+			end
 			[output,status] = system(command);
 
 			if status ~= 0

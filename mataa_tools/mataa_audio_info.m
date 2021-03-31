@@ -104,8 +104,12 @@ else
 				input_sampleRates_fullDuplex = [];
 				output_sampleRates_halfDuplex = [];
 				output_sampleRates_fullDuplex = [];
-						
-				system(sprintf('"%s" > %s 2>/dev/null',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
+				
+				if strcmp(plat,'PCWIN')
+					system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
+				else
+					system(sprintf('"%s" > %s 2>/dev/null',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
+				end
 						
 				fid=fopen(infoFile,'rt');
 				l = 0;
