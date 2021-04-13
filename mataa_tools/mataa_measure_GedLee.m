@@ -49,8 +49,6 @@ function [Gm,tf] = mataa_measure_GedLee ( f0,T,fs,N_h,latency,cal,amplitude,unit
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-warning ('mataa_measure_GedLee: this function is under development and needs more testing. Please use with care!')
-
 % check optional arguments:
 if ~exist('latency','var')
 	latency = []; % use default value (best guess)
@@ -87,14 +85,14 @@ if do_plot > 0
 	figure(do_plot); % open new figure 
 end
 
-% init Gm and tfe
+% init Gm and tf
 Gm = tf = [];
 unit0 = unit;
 
 % meausure tf and Gm:
 for i = 1:length(amplitude)
 
-	% measure Gm and tf:
+	% measure harmonic distortion spectrum:
 	[HD,fHD,THD,THDN,L,fL,unit] = mataa_measure_HD_noise ( f0,T,fs,N_h,latency,cal,amplitude(i),unit0,'hann',[],[],N_avg );
 
 	% amplitudes and phase angles (normalised to fundamental):
