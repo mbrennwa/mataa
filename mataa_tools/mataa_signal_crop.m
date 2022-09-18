@@ -6,7 +6,7 @@ function [s,t] = mataa_signal_crop (s,t,t_start,t_end);
 % This function crops out the part of the signal s(t) in the range t = t_start...t_end
 % 
 % INPUT:
-% s: siglal samples
+% s: signal samples
 % t: time coordinates of impulse response samples (vector, in seconds), or, alternatively, the sampling frequency of s(t) (scalar, in Hz)
 %
 % OUPTUT:
