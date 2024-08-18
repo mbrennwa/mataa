@@ -5,7 +5,8 @@ Steps to make RTX6001 autoscaling work with MATAA:
 1. Linux only: Make a UDEV rule to allow non-root access to the RTX6001 via USB:
 - file: /etc/udev/rules.d/90-RTX6001-hidraw-permissions.rules
 - file content: ATTRS{idVendor}=="0d9a" , ATTRS{idProduct}=="00df" , MODE="0666"
-- restart UDEV (or reboot computer): service udev restart
+- reload UDEV rules: udevadm control --reload-rules && udevadm trigger (or reboot computer)
+### not anymore: service udev restart
 
 2. Make sure you have Python 3.x available on your computer, and the python-hidapi packages is installed.
 

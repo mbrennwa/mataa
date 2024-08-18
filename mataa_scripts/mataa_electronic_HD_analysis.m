@@ -257,7 +257,7 @@ end
 disp (sprintf('- Audio I/O calibration file: %s',calfile))
 
 disp('')
-input('Press ENTER to start the test...','g');
+input('Press ENTER to start the test...','s');
 
 % prepare spectrum figure:
 lw = 4;

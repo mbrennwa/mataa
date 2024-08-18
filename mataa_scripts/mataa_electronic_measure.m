@@ -140,14 +140,14 @@ if loopback
 	kREF = mataa_settings('channel_REF');
 	
 	calfile = {};
-	calfile{kDUT} = 'MB_ELECTRONIC_CHAIN.txt';
-	calfile{kREF} = 'MB_ELECTRONIC_CHAIN.txt';
+	calfile{kDUT} = 'MB_ELECTRONIC_CHAIN_BALout.txt';
+	calfile{kREF} = 'MB_ELECTRONIC_CHAIN_BALout.txt';
 
 	disp (sprintf('DUT --> channel %i, calibration file %s',kDUT,calfile{kDUT}));
 	disp (sprintf('REF --> channel %i, calibration file %s',kREF,calfile{kREF}));
 
 else
-	calfile = 'MB_ELECTRONIC_CHAIN.txt';
+	calfile = 'MB_ELECTRONIC_CHAIN_BALout.txt';
 	disp (sprintf('DUT --> channel %i',mataa_settings('channel_DUT')));
 	disp (sprintf('Calibration file = %s',calfile))
 end		
