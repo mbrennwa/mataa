@@ -200,6 +200,39 @@ if isempty(gain_ini)
 	gain_ini = 10;
 end
 
+% frequency limits on plots:
+if ~exist('f_axis_Low','var')
+	f_axis_Low = max([0, input('Low-frequency limit in plots (Hz, default = 0): ')]);
+end
+if isempty(f_axis_Low)
+	f_axis_Low = 0;
+end
+if f_axis_Low < 0
+	f_axis_Low = fLow;
+end
+if ~exist('f_axis_High','var')
+	f_axis_High = max([0, input('High-frequency limit in plots (Hz, default = 20000): ')]);
+end
+if f_axis_High == 0
+	f_axis_High = 20000;
+end
+if f_axis_High < 0
+	f_axis_High = fHigh;
+end
+
+% Save data:
+if ~exist('do_save_data','var')
+	do_save_data = upper(input(sprintf('Save measurement data to file in current working directory %s (Y/N, default = N): ', pwd),'s'));
+	if ~strcmp(do_save_data,'Y')
+		do_save_data = 'N';
+	end
+	if strcmp(do_save_data,'Y')
+		do_save_data = true;
+	else
+		do_save_data = false;
+	end
+end
+
 % Save graphics:
 if ~exist('do_save_plots','var')
 	do_save_plots = upper(input(sprintf('Save data plots to PDF files in current working directory %s (Y/N, default = N): ', pwd),'s'));
@@ -249,6 +282,13 @@ disp(sprintf('- Analysis bandwidth: %g to %g Hz', fLow, fHigh))
 disp(sprintf('- Number of averages per measurement: %i', N_avg))
 disp(sprintf('- DUT label: %s',DUT_label))
 disp(sprintf('- DUT voltage gain (approx. initial value) gain = %g (%g dB)',gain_ini,20*log10(gain_ini)))
+if do_save_data
+	disp (sprintf('- Saving measurement data in %s.',pwd))	
+	filename = sprintf("%s_SETTINGS.mat",DUT_label);
+	save ("-V7",filename,"DUT_label", "N_OUTLEVELS", "N_avg", "N_f0", "N_h", "OUTrms_end", "OUTrms_start", "P_or_V", "R_load", "T", "V_out_RMS", "calfile", "do_save_data", "do_save_plots", "f0", "ff", "fmin", "fs", "gain_ini", "latency", "t", "tgt", "tgt_unit", "window");
+else
+	disp ('- Not saving measurement data.')
+end
 if do_save_plots
 	disp (sprintf('- Saving PDF plots in %s.',pwd))
 else
@@ -290,16 +330,21 @@ for i = 1:length(V_out_RMS)
 		try
 			[hd,f_hd,thd,thdn,L,f,unit] = mataa_measure_HD_noise ( f0(j),T,fs,N_h,latency,cal,DAC_out_VRMS*sqrt(2),unit,window,fLow,fHigh,N_avg );
 						
+			if do_save_data
+				filename = sprintf("%s_%gVRMS_%gHz_DATA.mat",DUT_label,V_out_RMS(i),f0(j));
+				f_fundamental = f0(j);
+				save ("-V7",filename,"hd","f_hd","thd","thdn","L","f_fundamental","f","unit","gain","DAC_out_VRMS","DUT_label")
+			end
+
 			% store THD result:
 			THD(i,j) = thd;
 			
 			% plot spectrum:
 			y = L(:,1) / sqrt(2); % RMS voltage values
 			semilogy (f, y, 'r', 'linewidth', lw );
-			xlim ( [ fLow fHigh ] )
 			y1 = 10^floor(log10(min(y)));
 			y2 = 10^ceil(log10(1.5*V_out_RMS(i)));
-			ylim ( [y1 y2] );
+			axis ( [ f_axis_Low f_axis_High y1 y2 ] );
 			xlabel ('Frequency (Hz)');
 			ylabel(sprintf('Amplitude (%s-RMS)',unit));
 			grid on;
