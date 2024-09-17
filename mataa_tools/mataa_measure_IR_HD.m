@@ -100,9 +100,13 @@ if ~exist ('cal','var')
 end
 
 % Sweep Parameters
-Ns = round(fs * T);
+M = round((fs * T) / (P * log(2) * (2 ^ (P + 1))));
+L = M * 2 * (2 ^ P) * P * log(2);
+Ns = round(L);
 n = [0:Ns]';
-M = round(Ns / (log(2 ^ P) * (2 ^ (P + 1))));
+
+% Display real duration
+disp(["Actual sweep duration: " num2str(Ns / fs) " s."]);
 
 % Generate test signal (sweep):
 x = sin(2 .* pi .* M .* exp(n .* log(2 ^ P) ./ Ns));
@@ -114,10 +118,10 @@ window = postpad(window, length(x), 1);
 x = x .* window;
 
 % 1/24 octave fade-out at end of test signal:
-fadeoutlen = floor(Ns / (24 * P));
-window = mataa_signal_window (repmat(1,fadeoutlen,1),'hann_half');
-window = prepad(window, length(x), 1);
-x = x .* window;
+%fadeoutlen = floor(Ns / (24 * P));
+%window = mataa_signal_window (repmat(1,fadeoutlen,1),'hann_half');
+%window = prepad(window, length(x), 1);
+%x = x .* window;
 
 % Measure sweep response:
 [responseSignal, inputSignal, t, unit] = mataa_measure_signal_response(A*x, fs, latency, 1, mataa_settings('channel_DUT'), cal, unit);
