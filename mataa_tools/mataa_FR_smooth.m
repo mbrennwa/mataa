@@ -1,6 +1,6 @@
-function [mag,phase,f] = mataa_FR_smooth (mag,phase,f,smooth_interval);
+function [mag,phase,f] = mataa_FR_smooth (mag,phase,f,smooth_interval, Ndownsample);
 
-% function [mag,phase,f] = mataa_FR_smooth (mag,phase,f,smooth_interval);
+% function [mag,phase,f] = mataa_FR_smooth (mag,phase,f,smooth_interval, downsample);
 %
 % DESCRIPTION:
 % Smooth frequency response in octave bands.
@@ -10,6 +10,7 @@ function [mag,phase,f] = mataa_FR_smooth (mag,phase,f,smooth_interval);
 % phase: phase data
 % f: frequency
 % smooth_interval: width of octave band used for smoothing
+% Ndownsample (optional): sample interval to use (default: downsample = 1 --> use every sample)
 %
 % OUTPUT:
 % mag: smoothed frequency response (magnitude)
@@ -77,4 +78,13 @@ if Ns > 1 % otherwise no smoothing is required
     b = 3*NW-a;
     mag = mag(a:end-b);
     phase = phase(a:end-b);
+end
+
+if exist('Ndownsample', 'var')
+	if Ndownsample > 1
+		idx = 1:Ndownsample:numel(f);
+		f = f(idx); 
+		mag = mag(idx);
+		phase = phase(idx);
+	end
 end
