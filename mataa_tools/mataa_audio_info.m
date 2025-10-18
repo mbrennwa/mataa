@@ -57,6 +57,7 @@ if u
 	
 	%%% warning ('mataa_audio_interface: checking audio interface properties is turned off in the MATAA settings. Returning audio info for a typical / generic audio interface!')
 	
+	API = '???';
 	switch plat
 		case 'MAC'
 			API = 'Core Audio';

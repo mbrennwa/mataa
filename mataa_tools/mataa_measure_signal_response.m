@@ -111,9 +111,16 @@ if ~exist('verbose','var')
 end
 
 % check computer platform:
+try
+	audio_IO_method = mataa_settings ('audio_IO_method');
+catch
+	audio_IO_method = 'TestTone';
+end
 plat = mataa_computer;
 if ( ~strcmp(plat,'MAC') && ~strcmp(plat,'PCWIN') && ~strcmp(plat,'LINUX_X86-32') && ~strcmp(plat,'LINUX_X86-64') && ~strcmp(plat,'LINUX_PPC')  && ~strcmp(plat,'LINUX_ARM_GNUEABIHF') )
-	error('mataa_measure_signal_response: Sorry, this computer platform is not (yet) supported by the TestTone program.');
+	if strcmp(upper(audio_IO_method),'TESTTONE')
+		error('mataa_measure_signal_response: Sorry, this computer platform is not (yet) supported by the TestTone program.');
+	end
 end
 
 % check audio hardware:
@@ -248,13 +255,6 @@ while do_try_audio_IO
 
 
 	if cal_dac_out_ok
-
-		% do the sound I/O:	
-		try
-			audio_IO_method = mataa_settings ('audio_IO_method');
-		catch
-			audio_IO_method = 'TestTone';
-		end
 
 		% determine latency:
 		default_latency = 0.1 * max([1 fs/44100]); % just from experience with Behringer UMC202HD and M-AUDIO FW-410
