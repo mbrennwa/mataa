@@ -57,6 +57,8 @@ if (exist('OCTAVE_VERSION','builtin')) % we're running Octave
 			platform = 'LINUX_PPC';
 		elseif  ~isempty(findstr(platform,'gnueabihf'))
 			platform = 'LINUX_ARM_GNUEABIHF';
+		elseif  ~isempty(findstr(platform,'aarch64'))
+			platform = 'LINUX_ARM_AARCH64';
 		else
 			platform = 'LINUX_UNKNOWN';
 		end

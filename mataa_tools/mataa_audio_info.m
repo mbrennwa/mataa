@@ -71,6 +71,8 @@ if u
 			API = 'ALSA';
 		case 'LINUX_ARM_GNUEABIHF'
 			API = 'ALSA';
+		case 'LINUX_ARM_AARCH64'
+			API = 'ALSA';
 		end
     
 	audioInfo.input.name = '***GENERIC-UNTESTED***';
