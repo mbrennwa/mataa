@@ -47,13 +47,7 @@ end
 [dev_names, dev_IDs] = mataa_audio_playrec_list_devices ();
 
 if ischar(output_device)
-	u = strfind(dev_names,output_device);
-	v = [];
-	for k = 1:length(u)
-		if ~isempty(u{k})
-			v = [ v ; k ];
-		end
-	end
+	v = find(strcmp(dev_names,output_device));
 	if isempty(v)
 		error(sprintf('mataa_audio_init_playrec: found no PlayRec device that matches the <%s> string.',output_device))
 	elseif length(v) > 1
@@ -64,13 +58,7 @@ if ischar(output_device)
 end
 
 if ischar(input_device)
-	u = strfind(dev_names,input_device);
-	v = [];
-	for k = 1:length(u)
-		if ~isempty(u{k})
-			v = [ v ; k ];
-		end
-	end
+	v = find(strcmp(dev_names,input_device));
 	if isempty(v)
 		error(sprintf('mataa_audio_init_playrec: found no PlayRec device that matches the <%s> string.',input_device))
 	elseif length(v) > 1
@@ -99,6 +87,7 @@ end
 if ~playrec('isInitialised')
 	warning ('mataa_audio_playrec_init: audio I/O using PlayRec in MATAA is still experimental!')
 	playrec('init', fs, output_device, input_device);
+	### playrec('init', fs, 10, 10,2,2);
 end
 
 if ~playrec('isInitialised')
