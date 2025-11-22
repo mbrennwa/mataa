@@ -58,8 +58,8 @@ if strcmp(main(end-1:end),sprintf('%s%s',filesep,filesep))
 end
 end
 
-i1 = findstr(main,filesep);
-i2 = findstr(main,'/'); % windows sometimes uses both '/' and '\' as file separators within a single path
+i1 = strfind(main,filesep);
+i2 = strfind(main,'/'); % windows sometimes uses both '/' and '\' as file separators within a single path
 i = unique([i1 i2]);
 main = main(1:i(end-1));
 
