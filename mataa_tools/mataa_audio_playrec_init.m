@@ -47,25 +47,33 @@ end
 [dev_names, dev_IDs] = mataa_audio_playrec_list_devices ();
 
 if ischar(output_device)
-	v = find(strcmp(dev_names,output_device));
+	v = [];
+	for i = 1:length(dev_names)
+		if strfind(dev_names{i},output_device);
+			v = [v i];
+		end
+	end
 	if isempty(v)
 		error(sprintf('mataa_audio_init_playrec: found no PlayRec device that matches the <%s> string.',output_device))
 	elseif length(v) > 1
 		warning(sprintf('mataa_audio_init_playrec: found multiple PlayRec devices that match <%s> string. Using the first one...',output_device))
-		v = v(1);
 	end
-	output_device = dev_IDs(v);
+	output_device = dev_IDs(v(1));
 end
 
 if ischar(input_device)
-	v = find(strcmp(dev_names,input_device));
+	v = [];
+	for i = 1:length(dev_names)
+		if strfind(dev_names{i},input_device);
+			v = [v i];
+		end
+	end
 	if isempty(v)
 		error(sprintf('mataa_audio_init_playrec: found no PlayRec device that matches the <%s> string.',input_device))
 	elseif length(v) > 1
 		warning(sprintf('mataa_audio_init_playrec: found multiple PlayRec devices that match <%s> string. Using the first one...',input_device))
-		v = v(1);
 	end
-	input_device = dev_IDs(v);
+	input_device = dev_IDs(v(1));
 end
 
 % Test if current PlayRec initialisation is ok
