@@ -40,31 +40,32 @@ function platform = mataa_computer;
 platform = computer;
 
 if (exist('OCTAVE_VERSION','builtin')) % we're running Octave
-	if (~isempty(findstr(platform,'apple')) && ~isempty(findstr(platform,'darwin')))
+
+	if (~isempty(strfind(platform,'apple')) && ~isempty(strfind(platform,'darwin')))
 		platform='MAC';
-	elseif ~isempty(findstr(platform,'linux')) % e.g. platform = 'x86_64-unknown-linux-gnu'
-		if ~isempty(findstr(platform,'x86_64'))
+	elseif ~isempty(strfind(platform,'linux')) % e.g. platform = 'x86_64-unknown-linux-gnu'
+		if ~isempty(strfind(platform,'x86_64'))
 			platform = 'LINUX_X86-64';
-		elseif ~isempty(findstr(platform,'i386'))
+		elseif ~isempty(strfind(platform,'i386'))
 			platform = 'LINUX_X86-32';
-		elseif ~isempty(findstr(platform,'i486'))
+		elseif ~isempty(strfind(platform,'i486'))
 			platform = 'LINUX_X86-32';
-		elseif ~isempty(findstr(platform,'i586'))
+		elseif ~isempty(strfind(platform,'i586'))
 			platform = 'LINUX_X86-32';
-		elseif ~isempty(findstr(platform,'i686'))
+		elseif ~isempty(strfind(platform,'i686'))
 			platform = 'LINUX_X86-32';
-		elseif  ~isempty(findstr(platform,'powerpc'))
+		elseif  ~isempty(strfind(platform,'powerpc'))
 			platform = 'LINUX_PPC';
-		elseif  ~isempty(findstr(platform,'gnueabihf'))
+		elseif  ~isempty(strfind(platform,'gnueabihf'))
 			platform = 'LINUX_ARM_GNUEABIHF';
-		elseif  ~isempty(findstr(platform,'aarch64'))
+		elseif  ~isempty(strfind(platform,'aarch64'))
 			platform = 'LINUX_ARM_AARCH64';
 		else
 			platform = 'LINUX_UNKNOWN';
 		end
-	elseif ~isempty(findstr(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
+	elseif ~isempty(strfind(platform,'-pc-')) % e.g. platform = 'i686-pc-cygwin'
 		platform='PCWIN';
-	elseif ~isempty(findstr(platform,'-w64-')) % e.g. platform = 'i686-w64-mingw32'
+	elseif ~isempty(strfind(platform,'-w64-')) % e.g. platform = 'i686-w64-mingw32'
 		platform='PCWIN';
 	else % try again (it seems the above may fail, especially in some Windows / Octave combinations)
 		if ismac
