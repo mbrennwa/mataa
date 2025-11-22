@@ -341,9 +341,9 @@ while do_try_audio_IO
 					if strfind(upper(l),'ERROR')
 						error(sprintf('mataa_measure_signal_response: %s',l));
 					end
-					if findstr('Number of sound input channels =',l)
-						numChan = str2num(l(findstr('=',l)+1:end));
-						elseif findstr('time (s)',l) % this was the last line of the header
+					if strfind(l,'Number of sound input channels =')
+						numChan = str2num(l(strfind(l,'=')+1:end));
+						elseif strfind(l,'time (s)') % this was the last line of the header
 						doRead = 0;
 					elseif ~isempty(str2num(l));
 						% this is the first line of the data block

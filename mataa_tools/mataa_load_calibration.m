@@ -56,8 +56,8 @@ while (! feof (fid) )
     
 	%%% disp (sprintf("Line %i: %s",lineNo,l));
 
-    % check comments:
-    k = findstr ("%",l);
+    % check comments:    
+    k = strfind (l,"%");
     if any(k)
     	if k(1) == 1
     		l = "";
@@ -72,7 +72,7 @@ while (! feof (fid) )
     
     % parse l
     if ~isempty(l)		
-    	if findstr ("=",l) % parse keyword / value
+    	if strfind (l,"=") % parse keyword / value
     		u = strsplit (l,"=");
     		key = deblank(fliplr(deblank(fliplr(u{1}))));
     		val = deblank(fliplr(deblank(fliplr(u{2}))));

@@ -131,7 +131,7 @@ if exist('OCTAVE_VERSION') % use Octave plotting
 		[X,Y] = meshgrid(F,T/10^scale);
 	
 		ov = OCTAVE_VERSION;
-		i=findstr('.',ov);
+		i=strfind(ov,'.');
 			
 		if ( str2num(ov(1:i(1)-1)) >= 3 ) % running Octave 3.0.0 or later
 			if any(strcmp(opts,'contours'))

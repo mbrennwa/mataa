@@ -36,8 +36,7 @@ if ~exist('OCTAVE_VERSION','builtin')
 else
     try
         v = OCTAVE_VERSION;
-        
-        i = findstr('.',v); v = v(1:i(2)-1);
+        i = strfind(v,'.'); v = v(1:i(2)-1);
         
         cmd = undo_string_escapes(cmd);
                 

@@ -42,7 +42,7 @@ function [version,subversion,subsubversion] = mataa_octave_version
 
 if exist('OCTAVE_VERSION','builtin')
     v = OCTAVE_VERSION;
-    p = findstr('.',v);
+    p = strfind(v,'.');
     version = str2num(v(1:p(1)-1));
     subversion = str2num(v(p(1)+1:p(2)-1));
     subsubversion = str2num(v(p(2)+1:end));
