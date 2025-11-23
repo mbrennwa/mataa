@@ -81,10 +81,13 @@ function [dut_out,dut_in,t,dut_out_unit,dut_in_unit,X0_RMS] = mataa_measure_sign
 function ans = __retry_audio_IO()
 	ans = [];
 	while isempty(ans)
-    		ans = upper([input('Repeat the measurement? (Y/N)','g') 'x'])(1);
-    		ans = strfind ('NY',ans);
+    		ans = upper([input('Repeat the measurement? (Y/N)','s') 'x'])(1);
     	end
-    	ans = ( ans == 2 );
+    	if upper(ans) == 'Y'
+    		ans = true;
+    	else
+    		ans = false;
+    	end
 endfunction
 
 
