@@ -6,11 +6,11 @@ function [s,t] = mataa_IR_to_SR (h,t);
 % calculates the step response of a system with impulse response h(t)
 %
 % INPUT:
-% h: impulse response
+% h: impulse response (units: Pa, V, etc.)
 % t: time coordinates of samples in h (vector, in seconds) or sampling rate of h (scalar, in Hz)
 %
 % OUTPUT:
-% s: step response
+% s: step response (same unit as h, i.e.: Pa, V, etc.)
 % t: time (seconds)
 % 
 % DISCLAIMER:
@@ -34,12 +34,17 @@ function [s,t] = mataa_IR_to_SR (h,t);
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
+
 if isscalar(t)
-    t = [0:1/t:(length(h)-1)/t];
+	t = [0:1/t:(length(h)-1)/t];
 end
 
+%%% THIS WOULD CHANGE THE UNITS FROM h TO s BY INTEGRATING/SUMMING WITH SAMPLING-TIME INTERVAL:
+% dt = (max(t)-min(t))/(length(t)-1);
+% s = cumsum(h)*dt;
 
-dt = (max(t)-min(t))/(length(t)-1);
-
-s = cumsum(h)*dt;
+%%% SUMMATION WITHOUT SAMPLING-TIME INTERVAL TO KEEP THE UNITS:
+s = cumsum(h);
 s=s-s(1); % offset = first sample of s
+
+% --> return s(t)
