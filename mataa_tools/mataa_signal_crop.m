@@ -1,6 +1,6 @@
-function [s,t] = mataa_signal_crop (s,t,t_start,t_end);
+function [s,t] = mataa_signal_crop (s,t,t_start,t_end, rebase_time = true);
 
-% function [s,t] = mataa_signal_crop (s,t,t_start,t_end);
+% function [s,t] = mataa_signal_crop (s,t,t_start,t_end, rebase_time = true);
 %
 % DESCRIPTION:
 % This function crops out the part of the signal s(t) in the range t = t_start...t_end
@@ -40,6 +40,9 @@ end
 
 % crop the signal:
 i=find((t>=t_start) & (t<=t_end));
-t=t(i); t = t-min(t);
+t=t(i);
+if rebase_time
+	t = t-min(t);
+end
 s=s(i);
 
