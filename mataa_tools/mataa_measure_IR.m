@@ -50,6 +50,8 @@ function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,un
 
 if ~exist ('N','var')
 	N=1;
+elseif N < 1
+	error(sprintf('mataa_measure_IR: number of replicates must be 1 or more: N = %g', N))
 end
 
 if ~exist ('loopback','var')
