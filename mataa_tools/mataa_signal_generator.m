@@ -104,7 +104,15 @@ switch kind
             warning('mataa_signal_generator: required length does not match power of 2. Using next power of 2.');
             n = ceil(n);
         end
-        s = M_mls(n);
+        fil = sprintf('%sMLS_%i.mat', mataa_path('signals'), n);
+        if exist(fil, 'file')
+        	# load MLS from file:
+        	s = load(fil).s;
+        else
+        	# generate MLS (and save for next time):
+	        s = M_mls(n);
+	        save('-v6', fil, 's');
+	end
         t = [0:length(s)-1]*dt;
     case {'sine','sin'},
         if param > fs/2
