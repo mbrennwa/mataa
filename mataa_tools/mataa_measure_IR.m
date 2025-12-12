@@ -69,7 +69,6 @@ if length (channels) == 2
 	test_signal = [ test_signal(:) test_signal(:) ];
 end
 
-
 for i = 1:N
 
 	% do the sound I/O	
