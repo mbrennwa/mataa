@@ -276,9 +276,6 @@ x = real(x);
 
 
 
-
-
-
 % FROM http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=1246&objectkind=file
 function  y = M_mls(n,flag)
 
@@ -465,6 +462,7 @@ if (nargin == 1)
 	flag = 0;
 end
 
+tic()
 if flag == 1
 	abuff = ones(1,n);
 else
