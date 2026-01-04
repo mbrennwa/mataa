@@ -77,7 +77,7 @@ if exist('OCTAVE_VERSION') % use Octave plotting
 	if strcmp (tolower(graphics_toolkit),'fltk') % Use Octave with FLTK graphics toolkit
 		% we're running Octave with FLTK graphics backend, which allows plotting waterfalls similarly to Matlab (see below)
 		T = unique (t);
-	    	for n = 1:length(T) % loop to plot each slice
+		for n = 1:length(T) % loop to plot each slice
 	    		i = find(t==T(n));
 	    		xi = f(i);
 	    		yi = repmat(T(n)/10^scale,length(xi),1);
@@ -92,7 +92,7 @@ if exist('OCTAVE_VERSION') % use Octave plotting
 	    		V = [ xi(:) yi(:) zi(:) ];
 	    
 	    		% construct faces matrix (list of vertices defining triangles that make up the patch, values in list correspond to line in V matrix):
-				F = [ 1:length(xi) ];
+			F = [ 1:length(xi) ];
 				
 			    % plot slice
 	    		p = patch ('Vertices',V, 'Faces',F, 'Edgecolor','k', 'Facecolor',[1 1 1] , 'Linestyle','-' ); hold on; % fill slice
@@ -100,22 +100,27 @@ if exist('OCTAVE_VERSION') % use Octave plotting
 	    	end % plotting slices
 
 		hold off
+		set(gca,'Box','off'); % should be off anyway, but...
 		set(gca,'XScale','log');
 		set(gca,'YDir','reverse')
 		grid on
 		view(12,30)
 		
-		r=axis; r([1 2 5 6]) = [min(f) max(f) max(spl)-spl_range max(spl)];
-    	axis(r);
-    	% plot 'frame in the back':
-    	set(gca,'Box','off'); % should be off anyway, but...
-    	l=line([r(1) r(2)], [r(3) r(3)], [r(6) r(6)]); set(l,'Color','k');
-    	l=line([r(1) r(1)], [r(3) r(4)], [r(6) r(6)]); set(l,'Color','k');
-    	l=line([r(1) r(1)], [r(3) r(4)], [r(5) r(5)]); set(l,'Color','k');
-    	l=line([r(1) r(1)], [r(3) r(3)], [r(5) r(6)]); set(l,'Color','k');
-    	l=line([r(2) r(2)], [r(3) r(3)], [r(5) r(6)]); set(l,'Color','k');
+		% axis limits:
+		f1 = min(f); f2 = max(f);
+		T1 = min(T)/10^scale; T2 = max(T)/10^scale; T1 = T1-(T2-T1)/1E2; % make sure axis ranges behind the first slice to FLTK does not mix up the back plane with the slice, ALSO IN pint('....png/pdf') OUTPUT
+		SPL1 = max(spl)-spl_range; SPL2 = max(spl);
+		r = [ f1 f2 T1 T2 SPL1 SPL2 ];
+		axis(r);
 		
-	else
+	    	% plot 'frame in the back':
+	    	l=line([r(1) r(2)], [r(3) r(3)], [r(6) r(6)]); set(l,'Color','k');
+	    	l=line([r(1) r(1)], [r(3) r(4)], [r(6) r(6)]); set(l,'Color','k');
+	    	l=line([r(1) r(1)], [r(3) r(4)], [r(5) r(5)]); set(l,'Color','k');
+	    	l=line([r(1) r(1)], [r(3) r(3)], [r(5) r(6)]); set(l,'Color','k');
+	    	l=line([r(2) r(2)], [r(3) r(3)], [r(5) r(6)]); set(l,'Color','k');
+
+	else		
 		% we're running Octave without FLTK graphics backend (propably GnuPlot), which does a bad job in plotting waterfalls like CLIO or MLSSA.
 		warning('mataa_plot_CSDt: CSD plotting using Octave without FLTK graphics backend migh not result in very beautiful results. Ask the Octave maintainers to improve the 3D plotting functionality of Octave or change to the FLTK plotting backend if possible.')
 		F = union(f,f); % find 'unique' set of all frequency values in the data set
