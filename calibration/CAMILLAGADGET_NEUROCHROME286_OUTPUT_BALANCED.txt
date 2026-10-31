@@ -1,0 +1,10 @@
+% Calibration file for RTX6001+NEUROCHROME286 audio analyser (DAC+AMP, RTX XLR/balanced output range detected automatically via USB)
+
+% Frequency response is very flat, so no transfer function data is included here.
+
+% General information:
+name = RTX6001+NEUROCHROME286 AUTOSCALING BALANCED OUTPUT (LEFT CHANNEL)
+type = DAC
+sensitivity_autoscalefunction = RTX6001_NEUROCHROME286_AUTOSCALINGFUNCTION_DAC_BALANCED('LEFT')
+
+% Frequency response is very flat, so no transfer function data is included here.
