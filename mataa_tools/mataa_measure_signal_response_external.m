@@ -5,11 +5,13 @@ function [dut_out, dut_in, t, dut_out_unit, dut_in_unit, X0_RMS] = mataa_measure
 % DESCRIPTION:
 % One capture of a stimulus that is played outside MATAA. Reads the WAV copy
 % (see mataa_stimulus_wav_read), opens Playrec, then asks for playback to be
-% started. After ENTER it waits 0.5 s and records. Playrec is already open,
-% so that wait is not spent initialising PortAudio. The recording is aligned
-% to the bare stimulus, cropped, and calibrated on the capture path only.
-% Recording length is T_lead + T + fudge. The trailing silence in the file
-% is not part of that length.
+% started. After ENTER it records at once. Playrec is already open,
+% so that wait is not spent initialising PortAudio. Recording starts when
+% ENTER is pressed. Its length is fudge, then the whole stimulus file
+% (lead-in, bare stimulus, trail), then fudge again. Playback can therefore
+% start up to fudge early or late and the file still lands inside the buffer.
+% Alignment keeps that file span and drops the fudge samples. The crop is
+% calibrated on the capture path only.
 %
 % The playback chain is not connected to MATAA. DAC calibration is not applied,
 % and mataa_signal_calibrate_DUTin is not called. A DAC field in cal is ignored.
@@ -20,11 +22,13 @@ function [dut_out, dut_in, t, dut_out_unit, dut_in_unit, X0_RMS] = mataa_measure
 %
 % INPUT:
 % file: WAV copy kept for MATAA (the file the external player was given).
-% fudge: extra recording time (seconds) after the lead-in and the stimulus.
-%   It covers the player's output delay and the response tail to keep.
-%   It is not T_trail from the file.
+% fudge: silence recorded before and after the stimulus file (seconds).
+%   The offset between recording and playback can have either sign, so the
+%   same margin is needed on both ends. It is not part of the deconvolution.
 % cal (optional): capture-path calibration passed to mataa_signal_calibrate_DUTout.
 %   Omit it, or pass [], to leave the recording in digital full scale (FS).
+%   An ADC sensitivity_autoscalefunction is evaluated before recording, so an
+%   RTX6001 input range is read from the unit. A DAC field is removed first.
 %
 % OUTPUT:
 % dut_out, dut_in, t, dut_out_unit, dut_in_unit, X0_RMS: see mataa_measure_signal_response.
@@ -66,10 +70,21 @@ if iscell(cal)
 		cal = cal{1};
 	end
 end
+if ~isempty(cal)
+	if ischar(cal)
+		cal = mataa_load_calibration(cal);
+	end
+	% Playback is outside MATAA. Do not query or apply the DAC range.
+	if isstruct(cal) && isfield(cal, 'DAC')
+		cal = rmfield(cal, 'DAC');
+	end
+	cal = mataa_cal_autoscale(cal);
+end
 
-[s, fs, T_lead] = mataa_stimulus_wav_read(file);
+[s, fs, T_lead, T_trail] = mataa_stimulus_wav_read(file);
 T = length(s) / fs;
-T_rec = T_lead + T + fudge;
+T_file = T_lead + T + T_trail;
+T_rec = fudge + T_file + fudge;
 channel = mataa_settings('channel_DUT');
 
 if exist('OCTAVE_VERSION', 'builtin')
@@ -86,9 +101,8 @@ while ~accepted
 		fflush(stdout);
 	end
 	input('Press ENTER, then start playback.', 's');
-	% The file already starts with T_lead of silence. Recording covers that,
-	% the stimulus, and fudge, so the keypress does not have to fall inside it.
-	pause(0.5);
+	% Leading fudge is the margin for starting playback after ENTER.
+	% Trailing fudge is the same margin if playback starts late.
 	t_start = tic();
 	disp('Recording now...');
 	y = mataa_audio_record(fs, T_rec, channel);
@@ -112,7 +126,8 @@ while ~accepted
 	accepted = true;
 end
 
-[y_crop, x_ref, rho] = mataa_signal_align_stimulus(y, s, fs);
+% File span only: lead-in, bare stimulus, trail. Not the fudge tail.
+[y_crop, x_ref, rho] = mataa_signal_align_stimulus(y, s, fs, T_lead, T_trail);
 
 if isempty(cal)
 	dut_out = y_crop;
@@ -127,7 +142,13 @@ end
 if length(dut_out) < length(s)
 	error('mataa_measure_signal_response_external: calibrated recording is shorter than the stimulus.');
 end
-dut_in = [ s(:) ; zeros(length(dut_out) - length(s), 1) ];
+% x_ref is the stimulus file (lead silence, bare stimulus, trail silence).
+% Keep its start if calibration drops a sample.
+if length(dut_out) <= length(x_ref)
+	dut_in = x_ref(1:length(dut_out));
+else
+	dut_in = [ x_ref ; zeros(length(dut_out) - length(x_ref), 1) ];
+end
 if length(t) ~= length(dut_out)
 	t = (0:length(dut_out)-1)' / fs;
 end
@@ -136,8 +157,7 @@ dut_out_unit = {dut_out_unit};
 dut_in_unit = {'FS'};
 X0_RMS = sqrt(sum(s.^2) / length(s));
 
-% x_ref from the aligner is the uncalibrated-length reference. dut_in is
-% rebuilt so it matches the calibrated length. rho is printed by the aligner.
+% rho is printed by the aligner. dut_in is the file-span reference.
 if length(x_ref) < 1 || ~isfinite(rho)
 	error('mataa_measure_signal_response_external: alignment did not return a reference.');
 end
