@@ -3,8 +3,9 @@ function mataa_test_external_stimulus
 % function mataa_test_external_stimulus
 %
 % DESCRIPTION:
-% Synthetic checks for the external-stimulus path. Does not open a sound
-% device and does not change MATAA settings.
+% Synthetic checks for the external-stimulus path. This file lives in tests/,
+% which is not part of the user path. Does not open a sound device and does
+% not change MATAA settings.
 %
 % Checks the WAV round trip, alignment (including a rejected noise buffer
 % and a stimulus that starts before the buffer), deconvolution of a known
@@ -12,6 +13,7 @@ function mataa_test_external_stimulus
 % with FLAT_MICROPHONE.txt. The calibrated impulse must stay at the start.
 %
 % EXAMPLE:
+% > addpath /path/to/mataa/tests
 % > mataa_test_external_stimulus
 %
 % DISCLAIMER:
@@ -39,7 +41,9 @@ script_dir = fileparts(mfilename('fullpath'));
 if isempty(script_dir)
 	script_dir = pwd;
 end
-addpath(fullfile(fileparts(script_dir), 'mataa_tools'));
+tools_dir = fullfile(fileparts(script_dir), 'mataa_tools');
+priv_dir = fullfile(tools_dir, 'private');
+addpath(tools_dir);
 
 if exist('OCTAVE_VERSION', 'builtin')
 	more('off');
@@ -55,6 +59,8 @@ end
 
 wav = [tempname() '.wav'];
 unwind_protect
+	% The aligner is private to mataa_tools, so it is not on the user path.
+	addpath(priv_dir);
 	mataa_stimulus_wav_write(x, fs, wav, 0.05, 0.02);
 	[s, fs2, T_lead, T_trail] = mataa_stimulus_wav_read(wav);
 	n_lead_file = round(0.05 * fs);
@@ -175,6 +181,9 @@ unwind_protect
 	sens = 0.015;
 	__check(abs(h_cal(i_peak_cal) / rms * sens - 1) < 0.02, sprintf('calibrated peak is %g Pa, expected about %g Pa', h_cal(i_peak_cal), rms / sens));
 unwind_protect_cleanup
+	if any(strcmp(strsplit(path, pathsep), priv_dir))
+		rmpath(priv_dir);
+	end
 	if exist(wav, 'file')
 		delete(wav);
 	end

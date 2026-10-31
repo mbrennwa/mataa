@@ -3,7 +3,8 @@ function [y_crop, x_ref, rho] = mataa_signal_align_stimulus (y, x, fs, span);
 % function [y_crop, x_ref, rho] = mataa_signal_align_stimulus (y, x, fs, span);
 %
 % DESCRIPTION:
-% Find the stimulus x inside the recording y.
+% Private helper for mataa_measure_signal_response_external. It is not on
+% the user path. Find the stimulus x inside the recording y.
 %
 % Without span, crop y so that it starts at the correlation peak and keeps
 % whatever tail is still in the buffer. x_ref is x with trailing zeros so
