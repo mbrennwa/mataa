@@ -4,18 +4,18 @@ function [s, fs, T_lead, T_trail] = mataa_stimulus_wav_read (file);
 %
 % DESCRIPTION:
 % Read a WAV written by mataa_stimulus_wav_write (or the same layout).
-% The bare stimulus is the span from the first non-zero sample through the
-% last. Leading and trailing exact zeros are padding, not part of the stimulus.
-% A Dirac collapses to the single non-zero sample, which is the right reference.
+% s is the whole file, including the leading and trailing silence. That is
+% the signal the external player plays. T_lead and T_trail are the lengths
+% of the exact-zero padding at each end.
 %
 % INPUT:
 % file: path of the mono WAV copy kept for MATAA.
 %
 % OUTPUT:
-% s: bare stimulus (column).
+% s: whole file (column), including leading and trailing silence.
 % fs: sample rate (Hz).
 % T_lead: leading silence (seconds).
-% T_trail: trailing silence (seconds). This is not the response tail.
+% T_trail: trailing silence (seconds).
 %
 % DISCLAIMER:
 % This file is part of MATAA.
@@ -56,7 +56,7 @@ if isempty(k)
 	error('mataa_stimulus_wav_read: the file contains no stimulus.');
 end
 
-s = y(k(1):k(end));
+s = y;
 T_lead = (k(1) - 1) / fs;
 T_trail = (length(y) - k(end)) / fs;
 

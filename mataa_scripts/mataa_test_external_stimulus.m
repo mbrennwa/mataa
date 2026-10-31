@@ -57,8 +57,12 @@ wav = [tempname() '.wav'];
 unwind_protect
 	mataa_stimulus_wav_write(x, fs, wav, 0.05, 0.02);
 	[s, fs2, T_lead, T_trail] = mataa_stimulus_wav_read(wav);
+	n_lead_file = round(0.05 * fs);
+	n_trail_file = round(0.02 * fs);
+	s_file = [ zeros(n_lead_file, 1) ; x ; zeros(n_trail_file, 1) ];
 	__check(fs2 == fs, 'sample rate changed');
-	__check(max(abs(s - x)) < 1e-6, 'WAV samples did not round-trip');
+	__check(length(s) == length(s_file), 'read dropped part of the file');
+	__check(max(abs(s - s_file)) < 1e-6, 'WAV samples did not round-trip');
 	__check(abs(T_lead - 0.05) <= 1/fs, 'lead-in length changed');
 	__check(abs(T_trail - 0.02) <= 1/fs, 'trail length changed');
 
@@ -116,30 +120,44 @@ unwind_protect
 	__check(abs(h(i_peak) / rms - 1) < 0.05, sprintf('first tap is %g, expected about %g', h(i_peak), rms));
 	__check(abs(h(i_peak + 1) / rms + 0.5) < 0.05, sprintf('second tap is %g, expected about %g', h(i_peak + 1), -0.5 * rms));
 
-	% File span: lead silence, sweep, trail silence. A fudge tail past the
-	% file must not be kept. The rise before the impulse peak must survive.
-	T_lead = 0.05;
-	T_trail = 0.01;
+	% Whole stimulus file, with fudge before and after so the file can sit
+	% early or late. The crop is the file only. A long lead-in and a negative
+	% lobe before the peak must both survive.
+	T_lead = 2;
+	T_trail = 0.05;
 	n_lead = round(T_lead * fs);
 	n_trail = round(T_trail * fs);
-	n_fudge = round(0.02 * fs);
-	n_rise = round(0.3e-3 * fs);
-	h_rise = [ (1:n_rise)' / n_rise ; -1 ; 0.5 * exp(-(0:30)' / 10) ];
+	n_fudge = round(0.05 * fs);
+	n_flight = round(0.5e-3 * fs);
+	n_sine = round(0.6e-3 * fs);
+	t_sine = (0:n_sine)' / fs;
+	lobe = -0.8 * sin(pi * t_sine / t_sine(end));
+	h_rise = [ zeros(n_flight, 1) ; lobe ; exp(-(0:round(0.8e-3 * fs))' / (0.25e-3 * fs)) ];
 	x_sw = mataa_signal_generator('sweep', fs, 0.2, [100 fs/2]);
 	x_sw = x_sw(:);
-	y_sw = [ zeros(5000, 1) ; conv([zeros(n_lead, 1); x_sw; zeros(n_trail, 1)], h_rise) ; zeros(n_fudge, 1) ];
-	[y_file, x_file] = mataa_signal_align_stimulus(y_sw, x_sw, fs, T_lead, T_trail);
-	__check(length(y_file) == n_lead + length(x_sw) + n_trail, sprintf('file window is %d samples', length(y_file)));
-	__check(length(x_file) == length(y_file), 'file reference length differs from the crop');
-	__check(max(abs(x_file(1:n_lead))) == 0, 'lead-in in the reference is not silent');
-	__check(max(abs(x_file(n_lead + (1:length(x_sw))) - x_sw)) < 1e-12, 'bare stimulus moved inside the file reference');
-	__check(max(abs(x_file(end - n_trail + 1:end))) == 0, 'trail in the reference is not silent');
+	s_sw = [ zeros(n_lead, 1) ; x_sw ; zeros(n_trail, 1) ];
+	tau = round(0.02 * fs);
+	y_sw = [ zeros(tau, 1) ; conv(s_sw, h_rise) ; zeros(n_fudge, 1) ];
+	[y_file, x_file, rho_file] = mataa_signal_align_stimulus(y_sw, s_sw, fs, 'file');
+	__check(rho_file > 0.2, 'file correlation is weak');
+	__check(length(y_file) == length(s_sw), sprintf('file window is %d samples, file is %d', length(y_file), length(s_sw)));
+	__check(length(y_file) < length(y_sw), 'file crop kept the fudge');
+	__check(max(abs(x_file - s_sw)) < 1e-12, 'file reference is not the stimulus file');
 	rms_sw = sqrt(sum(x_sw.^2) / length(x_sw));
 	h_file = mataa_IR_deconvolve(y_file, x_file, rms_sw);
 	[~, i_file] = max(abs(h_file));
-	__check(i_file > n_rise, sprintf('file-span impulse peak is at sample %d; the rise was cropped', i_file));
-	__check(abs(h_file(i_file - n_rise)) < 0.2 * abs(h_file(i_file)), 'file-span impulse does not start from a quiet sample');
-	__check(abs(abs(h_file(i_file)) / rms_sw - 1) < 0.15, sprintf('file-span peak is %g, expected about %g', h_file(i_file), -rms_sw));
+	__check(i_file > n_flight + round(0.3e-3 * fs), sprintf('file impulse peak is at sample %d; the rise was cropped', i_file));
+	__check(abs(h_file(1)) < 0.2 * abs(h_file(i_file)), 'file impulse is already large at the first sample');
+	__check(min(h_file(1:i_file)) < -0.3 * abs(h_file(i_file)), 'negative lobe before the peak was cropped');
+	__check(abs(abs(h_file(i_file)) / rms_sw - 1) < 0.15, sprintf('file-span peak is %g, expected about %g', h_file(i_file), rms_sw));
+
+	% Same pad as mataa_measure_IR_external: delay the recording, not the file.
+	n_pad = round(0.01 * fs);
+	h_pad = mataa_IR_deconvolve([ zeros(n_pad, 1) ; y_file ], [ x_file ; zeros(n_pad, 1) ], rms_sw);
+	[~, i_pad] = max(abs(h_pad));
+	__check(abs(h_pad(1)) < 0.2 * abs(h_pad(i_pad)), 'padded impulse is already large at the first sample');
+	__check(i_pad > n_pad, sprintf('padded impulse peak is at sample %d, pad is %d', i_pad, n_pad));
+	__check(min(h_pad(1:i_pad)) < -0.3 * abs(h_pad(i_pad)), 'padded impulse lost the negative lobe');
 
 	[y_cal, t_cal, unit_cal] = mataa_signal_calibrate_DUTout(y_crop, fs, 'FLAT_MICROPHONE.txt');
 	y_cal = y_cal(:);

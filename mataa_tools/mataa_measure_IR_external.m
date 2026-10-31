@@ -5,8 +5,11 @@ function [h, t, unit] = mataa_measure_IR_external (file, fudge, N, cal);
 % DESCRIPTION:
 % Measure an impulse response from a stimulus played outside MATAA.
 % Each take calls mataa_measure_signal_response_external (which prompts for
-% playback) and deconvolves with mataa_IR_deconvolve. N takes are averaged.
-% If the crops differ in length, they are truncated to the shortest take.
+% playback) and deconvolves with mataa_IR_deconvolve. The file alignment
+% leaves no flight time, so the recording is delayed by 10 ms relative to
+% the file before deconvolution. That keeps the start of the impulse off
+% the first sample. N takes are averaged. If the crops differ in length,
+% they are truncated to the shortest take.
 %
 % mataa_guess_IR_start and mataa_IR_to_FR stay with the caller, as they do
 % for mataa_measure_IR. This function does not drive the playback device and
@@ -87,8 +90,15 @@ for i = 1:N
 		warning(sprintf('mataa_measure_IR_external: reference unit is %s, expected FS.', in_unit));
 	end
 	disp('Deconvolving external-stimulus recording...');
-	takes{i} = mataa_IR_deconvolve(out(:,1), in(:,1), mean(X0_RMS));
-	times{i} = t_i(:);
+	% out = [zeros; out] and in = [in; zeros] delay the recording relative
+	% to the file. The impulse then starts after t = 0 instead of on it.
+	t_i = t_i(:);
+	dt = t_i(2) - t_i(1);
+	n_pad = round(0.01 / dt);
+	out_d = [ zeros(n_pad, 1) ; out(:, 1) ];
+	in_d = [ in(:, 1) ; zeros(n_pad, 1) ];
+	takes{i} = mataa_IR_deconvolve(out_d, in_d, mean(X0_RMS));
+	times{i} = t_i(1) + (0:length(out_d) - 1)' * dt;
 	if iscell(out_unit)
 		units{i} = out_unit{1};
 	else
