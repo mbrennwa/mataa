@@ -97,9 +97,9 @@ p_rms = abs(p); % this gives correct levels
 
 switch unit
 	case 'Pa'
-		% convert to dB-SPL(rms):
+		% convert to dB-SPL:
 		p_ref = 20E-6; % reference sound pressure level (RMS)
-		unit = 'dB-SPL(rms)';
+		unit = 'dB-SPL';
 
 	case 'V'
 		% convert to dB-V(rms):
