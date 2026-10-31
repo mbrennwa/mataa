@@ -4,9 +4,12 @@ function [dut_out, dut_in, t, dut_out_unit, dut_in_unit, X0_RMS] = mataa_measure
 %
 % DESCRIPTION:
 % One capture of a stimulus that is played outside MATAA. Reads the WAV copy
-% (see mataa_stimulus_wav_read), asks for playback to be started, waits 0.5 s
-% after ENTER, then records with mataa_audio_record. The recording is aligned
+% (see mataa_stimulus_wav_read), opens Playrec, then asks for playback to be
+% started. After ENTER it waits 0.5 s and records. Playrec is already open,
+% so that wait is not spent initialising PortAudio. The recording is aligned
 % to the bare stimulus, cropped, and calibrated on the capture path only.
+% Recording length is T_lead + T + fudge. The trailing silence in the file
+% is not part of that length.
 %
 % The playback chain is not connected to MATAA. DAC calibration is not applied,
 % and mataa_signal_calibrate_DUTin is not called. A DAC field in cal is ignored.
@@ -64,24 +67,32 @@ if iscell(cal)
 	end
 end
 
-[s, fs, T_lead, T_trail] = mataa_stimulus_wav_read(file);
+[s, fs, T_lead] = mataa_stimulus_wav_read(file);
 T = length(s) / fs;
 T_rec = T_lead + T + fudge;
 channel = mataa_settings('channel_DUT');
-disp(sprintf('mataa_measure_signal_response_external: stimulus %.3f s, lead-in %.3f s, file trail %.3f s, recording %.3f s at %g Hz.', T, T_lead, T_trail, T_rec, fs));
 
 if exist('OCTAVE_VERSION', 'builtin')
 	more('off');
 end
+
+% PortAudio's first open scans devices and is slow. Do it before the user
+% starts playback, or the lead-in is gone before capture starts.
+mataa_audio_record_open(fs, channel);
 
 accepted = false;
 while ~accepted
 	if exist('stdout')
 		fflush(stdout);
 	end
-	input('Start playback on the external player, then press ENTER...', 's');
+	input('Press ENTER, then start playback.', 's');
+	% The file already starts with T_lead of silence. Recording covers that,
+	% the stimulus, and fudge, so the keypress does not have to fall inside it.
 	pause(0.5);
+	t_start = tic();
+	disp('Recording now...');
 	y = mataa_audio_record(fs, T_rec, channel);
+	disp(sprintf('...done (%.3f seconds).', toc(t_start)));
 	y = y(:, 1);
 
 	m0 = 0.95;
