@@ -27,6 +27,7 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % 'triangle','tri':   Triangle wave (param = frequency in Hz)
 % 'dirac':            Dirac signal (First sample 1, zeroes otherwise)
 % 'zero':             Zero signal ('silence')
+% 'multitone':        One period of a sparse multitone, RMS = 1. param is a struct with f1, f2 (Hz), spacing ('octave' or 'phi12r'), tones_per_octave (octave spacing), shaping ('equal', 'eia426b', or an Hz/dB matrix), and phases ('iec' or a vector of radians). info holds the tone grid, amplitudes, phases, peak and crest factor. 'eia426b' is the ARTA import used to match published loudspeaker tests, not the normative EIA-426-B table. 'nid' is not implemented.
 %
 % OUTPUT:
 % s: vector containing the signal samples (tha values in s can range from -1...+1)
@@ -204,6 +205,8 @@ switch kind
     case {'dirac'},
     	[s,t] = mataa_signal_generator('zero',fs,T);
     	s(1)=1;
+    case {'multitone'},
+        [s, info] = __multitone_period(fs, N, param);
     otherwise
         error('mataa_signal_generator: unknown signal kind.');
 end
@@ -501,3 +504,173 @@ for i = (2^n)-1:-1:1
 	abuff = [xorbit abuff(1:n-1)];
 	y(i) = (-2 .* xorbit) + 1;  	%yields one's and negative one's (0 -> 1; 1 -> -1)
 end
+
+function [s, info] = __multitone_period(fs, N, param)
+
+% One multitone period of N samples at sample rate fs. RMS of s is 1.
+
+if ~isstruct(param)
+	error('mataa_signal_generator: multitone param must be a struct.');
+end
+if ~isfield(param, 'f1') || ~isfield(param, 'f2')
+	error('mataa_signal_generator: multitone param needs f1 and f2.');
+end
+if ~isfield(param, 'spacing')
+	error('mataa_signal_generator: multitone param needs spacing.');
+end
+
+f1 = param.f1;
+f2 = param.f2;
+if ~(f1 > 0) || ~(f2 > f1) || f2 >= fs/2
+	error('mataa_signal_generator: need 0 < f1 < f2 < fs/2.');
+end
+
+fb = fs / N;
+spacing = lower(param.spacing);
+dropped = [];
+
+switch spacing
+	case 'octave'
+		if ~isfield(param, 'tones_per_octave')
+			error('mataa_signal_generator: octave spacing needs tones_per_octave.');
+		end
+		R = param.tones_per_octave;
+		if ~(R > 0)
+			error('mataa_signal_generator: tones_per_octave must be positive.');
+		end
+		T = N / fs;
+		bins = [];
+		i = 0;
+		while true
+			k = floor(T * f1 * 2^(i / R));
+			if k * fb > f2
+				break
+			end
+			if k >= 1 && k < N/2 && k * fb >= f1
+				if any(bins == k)
+					dropped(end+1) = k * fb; %#ok<AGROW>
+				else
+					bins(end+1) = k; %#ok<AGROW>
+				end
+			end
+			i = i + 1;
+			if i > 100000
+				error('mataa_signal_generator: octave tone search did not finish.');
+			end
+		end
+	case 'phi12r'
+		published = [100, 122, 261.8, 348.2, 685.4, 987, 1794.4, 2870.4, 4697.9, 6765, 12299, 16358];
+		bins = [];
+		for i = 1:length(published)
+			if published(i) < f1 || published(i) > f2
+				continue
+			end
+			k = round(published(i) / fb);
+			k = max(1, min(k, floor(N/2) - 1));
+			if any(bins == k)
+				dropped(end+1) = published(i); %#ok<AGROW>
+			else
+				bins(end+1) = k; %#ok<AGROW>
+			end
+		end
+	case 'nid'
+		error('mataa_signal_generator: NID spacing is not implemented.');
+	otherwise
+		error('mataa_signal_generator: unknown multitone spacing.');
+end
+
+if isempty(bins)
+	error('mataa_signal_generator: the multitone grid has no tones in this band.');
+end
+bins = bins(:);
+K = length(bins);
+f = bins * fb;
+
+if ~isfield(param, 'shaping')
+	shaping = 'equal';
+else
+	shaping = param.shaping;
+end
+if ischar(shaping)
+	switch lower(shaping)
+		case 'equal'
+			A = ones(K, 1);
+			shaping_name = 'equal';
+		case 'eia426b'
+			% ARTA import used to match published loudspeaker tests, not the normative EIA-426-B table.
+			hz = [20 27.5 35 42.5 50 1000 1200 1600 2000 2500 3150 4000 5000 6300 8000 10000 12500 20000]';
+			db = [-20 -15 -10 -5 0 0 -1 -2 -3 -4 -5 -6 -7 -8 -9 -15 -20 -30]';
+			fq = min(max(f, hz(1)), hz(end));
+			dbq = interp1(log10(hz), db, log10(fq), 'linear');
+			A = 10 .^ (dbq / 20);
+			shaping_name = 'eia426b';
+		otherwise
+			error('mataa_signal_generator: unknown multitone shaping.');
+	end
+elseif isnumeric(shaping) && size(shaping, 2) == 2
+	hz = shaping(:, 1);
+	db = shaping(:, 2);
+	[hz, ix] = sort(hz);
+	db = db(ix);
+	fq = min(max(f, hz(1)), hz(end));
+	dbq = interp1(log10(hz), db, log10(fq), 'linear');
+	A = 10 .^ (dbq / 20);
+	shaping_name = 'table';
+else
+	error('mataa_signal_generator: shaping must be ''equal'', ''eia426b'', or an Hz/dB matrix.');
+end
+A = A(:);
+
+a_lcg = 48271;
+m_lcg = 2^31 - 1;
+phi1 = 1;
+if ~isfield(param, 'phases') || (ischar(param.phases) && strcmpi(param.phases, 'iec'))
+	phi = zeros(K, 1);
+	phi(1) = phi1;
+	for i = 1:K-1
+		n = phi(i) * m_lcg / (2 * pi);
+		n = mod(a_lcg * n, m_lcg);
+		phi(i+1) = 2 * pi * n / m_lcg;
+	end
+	phase_name = 'iec';
+elseif isnumeric(param.phases)
+	phi = param.phases(:);
+	if length(phi) ~= K
+		error('mataa_signal_generator: phase vector length must equal the number of tones.');
+	end
+	phase_name = 'explicit';
+	phi1 = phi(1);
+else
+	error('mataa_signal_generator: phases must be ''iec'' or a vector.');
+end
+
+n = (0:N-1)';
+s = zeros(N, 1);
+for i = 1:K
+	s = s + A(i) * cos(2 * pi * bins(i) * n / N + phi(i));
+end
+rms_raw = sqrt(mean(s .^ 2));
+if ~(rms_raw > 0)
+	error('mataa_signal_generator: multitone waveform has no energy.');
+end
+s = s / rms_raw;
+A = A / rms_raw;
+
+info = struct();
+info.f = f;
+info.bin = bins;
+info.amplitude = A;
+info.phase = phi;
+info.phase_name = phase_name;
+info.a = a_lcg;
+info.m = m_lcg;
+info.phi1 = phi1;
+info.spacing = spacing;
+info.shaping = shaping_name;
+info.fb = fb;
+info.N = N;
+info.fs = fs;
+info.rms = 1;
+info.peak = max(abs(s));
+info.crest_dB = 20 * log10(info.peak / info.rms);
+info.dropped_hz = dropped(:);
