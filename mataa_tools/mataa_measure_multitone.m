@@ -18,7 +18,7 @@ function [dut, ref] = mataa_measure_multitone (setup, f1, f2, fs, level, unit, l
 % cal_DUT (optional): calibration of the device channel. A file name or a cal struct. Default [].
 % cal_REF (optional): calibration of the reference channel. Empty skips that channel, warns, and returns an empty ref. A single device calibration is not copied onto the reference.
 % param (optional): struct of generator and acquisition overrides. For setup 'user' it is required. Fields:
-%   spacing ('octave', 'phi12r'; 'nid' is rejected), tones_per_octave, shaping ('equal', 'eia426b', or an Hz/dB matrix), phases ('iec' or a vector),
+%   spacing ('octave' or 'phi12r'), tones_per_octave, shaping ('equal', 'eia426b', or an Hz/dB matrix), phases ('iec' or a vector),
 %   N (samples per period; default fs, so the period is 1 s), n_settle (default 1), n_analyse (default 8), f_analyse_high (default min(fs/2, 2*f2)).
 %   'eia426b' is the ARTA import used to match published loudspeaker tests, not the normative EIA-426-B table.
 %

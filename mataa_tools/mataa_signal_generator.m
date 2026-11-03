@@ -27,7 +27,7 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % 'triangle','tri':   Triangle wave (param = frequency in Hz)
 % 'dirac':            Dirac signal (First sample 1, zeroes otherwise)
 % 'zero':             Zero signal ('silence')
-% 'multitone':        One period of a sparse multitone, RMS = 1. param is a struct with f1, f2 (Hz), spacing ('octave' or 'phi12r'), tones_per_octave (octave spacing), shaping ('equal', 'eia426b', or an Hz/dB matrix), and phases ('iec' or a vector of radians). info holds the tone grid, amplitudes, phases, peak and crest factor. 'eia426b' is the ARTA import used to match published loudspeaker tests, not the normative EIA-426-B table. 'nid' is not implemented.
+% 'multitone':        One period of a sparse multitone, RMS = 1. param is a struct with f1, f2 (Hz), spacing ('octave' or 'phi12r'), tones_per_octave (octave spacing), shaping ('equal', 'eia426b', or an Hz/dB matrix), and phases ('iec' or a vector of radians). info holds the tone grid, amplitudes, phases, peak and crest factor. 'eia426b' is the ARTA import used to match published loudspeaker tests, not the normative EIA-426-B table.
 %
 % OUTPUT:
 % s: vector containing the signal samples (tha values in s can range from -1...+1)
