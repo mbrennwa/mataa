@@ -47,6 +47,11 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % > [burst,t]=mataa_signal_generator('sin',96000,0.01,1000);
 % > burst = mataa_signal_window(burst,'hann');
 % > plot(t,burst)
+%
+% 4. Create a 1-second sparse multitone, 6 tones/octave from 20 Hz to 20 kHz, at 48 kHz:
+% > p.f1 = 20; p.f2 = 20000; p.spacing = 'octave'; p.tones_per_octave = 6;
+% > [s,t,info] = mataa_signal_generator('multitone',48000,1,p);
+% > plot(t,s)
 % 
 %
 % FURTHER READING:
