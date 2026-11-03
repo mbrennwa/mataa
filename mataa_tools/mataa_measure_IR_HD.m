@@ -16,7 +16,7 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 % (2) This code went through substantial changes and fixes (Aug 2019), because it was hard to use and gave wrong results. After substantial testing and comparison with discrete distortion testing, the distortion results now seem to be consistent with those obtained from conventional (discrete frequency) methods.
 %
 % INPUT:
-% P: integer number of octaves in the sweep, from fs/2^(P+1) to Nyquist. The first octave is a Hann fade-in and the last 1/24 octave is a Hann fade-out. Results are accurate only from fs/2^P to (fs/2)*2^(-1/24); for harmonic k the upper limit is that frequency divided by k.
+% P: integer number of octaves in the sweep
 % T: desired sweep duration
 % fs: sampling frequency
 % N: number of harmonics included in the analysis
