@@ -103,11 +103,6 @@ else
 				
 				infoFile = mataa_tempfile;
 
-				input_sampleRates_halfDuplex = [];
-				input_sampleRates_fullDuplex = [];
-				output_sampleRates_halfDuplex = [];
-				output_sampleRates_fullDuplex = [];
-				
 				if strcmp(plat,'PCWIN')
 					system(sprintf('"%s" > %s',TestDevices,infoFile)); % the ' are needed if the paths contain spaces
 				else
@@ -115,42 +110,9 @@ else
 				end
 						
 				fid=fopen(infoFile,'rt');
-				l = 0;
-				while l ~=-1
-					l = fgetl(fid);
-					% disp (l)
-					if findstr (l,'Default input device')
-						l = l(findstr(l,'=')+2:end);
-						if length(l) > 0
-							audioInfo.input.name = l;
-						end
-					end;
-					if findstr (l,'Host API (input)'), audioInfo.input.API = l(20:end); end;
-					if findstr (l,'Host API (output)'), audioInfo.output.API = l(21:end); end;
-					if findstr (l,'Max input channels'), audioInfo.input.channels = str2num(l(findstr(l,'=')+1:end)); end;
-					if findstr (l,'Supported standard sample rates (input, full-duplex'), input_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-					if findstr (l,'Supported standard sample rates (input, half-duplex'), input_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-					if findstr (l,'Default output device')
-						l = l(findstr(l,'=')+2:end);
-						if length(l) > 0
-							audioInfo.output.name = l;
-						end
-					end;
-					
-					if findstr (l,'Max output channels'), audioInfo.output.channels = str2num(l(findstr(l,'=')+1:end)); end;
-					if findstr (l,'Supported standard sample rates (output, full-duplex'), output_sampleRates_fullDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-					if findstr (l,'Supported standard sample rates (output, half-duplex'), output_sampleRates_halfDuplex = str2num(l(findstr(l,'=')+1:end)); end;
-				end
+				audioInfo = mataa_audio_info_parse(fid, audioInfo);
 				fclose(fid);
 				delete(infoFile);
-				
-				if strcmp(audioInfo.input.name,audioInfo.output.name) % full-duplex operation
-					audioInfo.input.sampleRates = input_sampleRates_fullDuplex;
-					audioInfo.output.sampleRates = output_sampleRates_fullDuplex;
-				else % half-duplex operation
-					audioInfo.input.sampleRates = input_sampleRates_halfDuplex;
-					audioInfo.output.sampleRates = output_sampleRates_halfDuplex;
-				end
 					
 			otherwise
 				error(sprintf('mataa_audio_info: Sorry, this computer platform is not (yet) supported by the TestDevices program.',plat));

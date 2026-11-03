@@ -20,7 +20,7 @@ while doReadList
         doReadList = 0;
     else
         if strcmp (tool(end-1:end),".m")
-            i = findstr(filesep,tool);
+            i = strfind(tool,filesep);
             %disp('') % insert empty line
             %disp('******************')
             %disp('') % insert empty line
@@ -44,7 +44,7 @@ while doReadList
                     if strcmp(lTool(1),'%') ~= 0
                         header = 0; % we are not in the header anymore
 
-                        if findstr('DISCLAIMER',lTool)
+                        if strfind(lTool,'DISCLAIMER')
                             for i=1:20 % skip disclaimer, license and copyright info
                                 fgetl(fid_tool);
                             end
