@@ -1,0 +1,101 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,mathtools,booktabs,microtype,xcolor,hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+\title{The Farina Method\\\large Measuring Impulse Response and Harmonic Distortion with Exponential Sine Sweeps}
+\author{}
+\date{}
+\begin{document}\maketitle
+\section{The familiar linear case}
+For a linear time-invariant system, the measured output is the convolution of the excitation and the impulse response:
+\begin{equation}y(t)=h(t)*x(t).\end{equation}
+Here $x(t)$ is the stimulus, $h(t)$ the impulse response, $y(t)$ the measured output, and $*$ denotes convolution. Fourier transformation gives
+\begin{equation}Y(f)=H(f)X(f),\qquad H(f)=\frac{Y(f)}{X(f)}.\end{equation}
+Inverse Fourier transformation recovers $h(t)$. Farina's approach uses the same basic deconvolution idea but chooses an excitation that separates harmonic distortion in time.
+
+\section{The exponential sine sweep}
+The instantaneous frequency of an exponential sine sweep (ESS) increases exponentially:
+\begin{equation}f(t)=f_1e^{t/L},\qquad L=\frac{T}{\ln(f_2/f_1)},\quad 0\le t\le T.\end{equation}
+The phase and excitation are
+\begin{equation}\phi(t)=2\pi f_1L\bigl(e^{t/L}-1\bigr),\qquad x(t)=\sin\phi(t).\end{equation}
+The essential property is that multiplying frequency by $n$ corresponds to a fixed shift in time:
+\begin{equation}\boxed{f(t+\Delta t_n)=nf(t),\qquad \Delta t_n=L\ln n.}\end{equation}
+For example, a 10-second sweep from 20 Hz to 20 kHz has $L=10/\ln(1000)\approx1.448\,\mathrm{s}$.
+
+\section{What happens in a nonlinear system?}
+Consider the illustrative memoryless polynomial system
+\begin{equation}y(t)=a_1x(t)+a_2x^2(t)+a_3x^3(t).\end{equation}
+With $x(t)=\sin\phi(t)$, the identities
+\begin{align}\sin^2\phi&=\tfrac12-\tfrac12\cos(2\phi),\\
+\sin^3\phi&=\tfrac34\sin\phi-\tfrac14\sin(3\phi)
+\end{align}
+show that the output contains the fundamental and second and third harmonics. The cubic term also contributes to the fundamental, so the measured fundamental need not equal the infinitesimal-signal linear response.
+
+\section{Why deconvolution shifts harmonics in time}
+When the stimulus is at frequency $f(t)$, the system may generate a second harmonic at $2f(t)$. But the original sweep reaches that frequency only at $t+L\ln2$. The second-harmonic chirp therefore resembles an earlier version of the excitation. After inverse filtering, it produces a localized response \emph{before} the fundamental impulse. The same holds for higher harmonics.
+
+For the 20 Hz--20 kHz, 10-second example, the expected offsets relative to the fundamental are:
+\begin{center}\begin{tabular}{cc}\toprule Harmonic order $n$ & Advance $\Delta t_n=L\ln n$ \\ \midrule
+2 & $1.003\,\mathrm{s}$\\3 & $1.591\,\mathrm{s}$\\4 & $2.007\,\mathrm{s}$\\5 & $2.330\,\mathrm{s}$\\\bottomrule\end{tabular}\end{center}
+These are separations between the peaks of the recovered responses, not guaranteed distortion-free windows: finite impulse-response duration and ringing matter.
+
+\section{How the inverse filter works}
+We seek a filter $g(t)$ for which
+\begin{equation}x(t)*g(t)\approx\delta(t-t_0).\end{equation}
+In the frequency domain an ideal inverse, where $X(f)\neq0$, is
+\begin{equation}G(f)=\frac{e^{-j2\pi ft_0}}{X(f)}.\end{equation}
+For the sweep $x(t)=\sin\phi(t)$ defined above, Farina's commonly used time-domain inverse-filter construction is
+\begin{equation}
+\boxed{g(t)=C\,e^{-t/L}\,x(T-t),\qquad 0\le t\le T,}
+\end{equation}
+with $g(t)=0$ outside this interval. Here $C$ is a normalization constant, and the exponential envelope compensates for the logarithmic sweep's frequency-dependent spectral energy. Substituting the sweep phase gives the explicit expression
+\begin{equation}
+\boxed{g(t)=C\,e^{-t/L}\sin\!\left[2\pi f_1L\left(e^{(T-t)/L}-1\right)\right].}
+\end{equation}
+The factor $x(T-t)$ reverses the sweep in time, while $e^{-t/L}$ reduces its amplitude as the reversed sweep moves from high to low frequencies. This is a practical approximate inverse for a finite sweep, not an exact reciprocal $1/X(f)$ at every frequency. Convolving the measured output with the inverse gives
+\begin{equation}z(t)=y(t)*g(t).\end{equation}
+For an LTI system,
+\begin{equation}z(t)=h(t)*x(t)*g(t)\approx h(t-t_0).\end{equation}
+For a nonlinear system, additional harmonic responses appear at earlier times. Finite sweep duration, tapering, bandwidth limitations, and inverse-filter regularization prevent a perfectly ideal delta function.
+
+\section{The exact phase relationship}
+Starting from the ESS phase,
+\begin{equation}\phi(t)=2\pi f_1L\bigl(e^{t/L}-1\bigr),\end{equation}
+consider the $n$th harmonic phase $n\phi(t)$. Since $e^{\Delta t_n/L}=n$,
+\begin{align}
+\phi(t+\Delta t_n)&=2\pi f_1L\bigl(ne^{t/L}-1\bigr),\\
+n\phi(t)&=\phi(t+\Delta t_n)-2\pi f_1L(n-1).
+\end{align}
+Thus the $n$th harmonic chirp is a time-advanced version of the original chirp, up to a constant phase offset. This is the mathematical basis for the temporal separation. The phase offset and finite-band effects can affect the detailed shape of the extracted response, but not the nominal offset $-L\ln n$.
+
+\section{What is a harmonic impulse response?}
+A simplified model with nonlinear terms followed by linear filters is
+\begin{equation}y(t)=h_1(t)*x(t)+h_2(t)*x^2(t)+h_3(t)*x^3(t)+\cdots.\end{equation}
+The separated harmonic responses are \emph{not} generally identical to the kernels $h_k(t)$. The cubic term contributes both to the fundamental and to the third harmonic; the fourth-order term contributes to the second and fourth harmonics. Recovering the underlying polynomial or Hammerstein kernels requires further processing. Systems with nonlinear memory may not be described adequately by this simplified model.
+
+\section{Harmonic distortion versus frequency}
+After isolating and windowing the harmonic responses, Fourier transformation gives their spectra. Let $A_n(nf;f)$ denote the appropriately calibrated amplitude of the $n$th harmonic at physical frequency $nf$ when the stimulus fundamental is $f$. Then
+\begin{equation}\mathrm{HD}_n(f)=\frac{A_n(nf;f)}{A_1(f;f)},\qquad
+\mathrm{THD}(f)=\frac{\sqrt{\displaystyle\sum_{n=2}^{N}A_n(nf;f)^2}}{A_1(f;f)}.\end{equation}
+The frequency-axis mapping and amplitude normalization are essential: the $n$th harmonic at fundamental frequency $f$ is physically located at $nf$. Inverse-filter response and windowing must be handled consistently to obtain quantitative distortion ratios.
+
+\section{Practical limitations}
+\textbf{Sweep duration.} Longer sweeps increase the time separation $L\ln n$, which helps when room decay or low-frequency ringing is long.
+
+\textbf{Finite bandwidth.} Measuring the third harmonic of a 10 kHz fundamental requires response and recording bandwidth extending to 30 kHz.
+
+\textbf{Time windows.} Windows that are too short truncate a response; windows that are too long can include adjacent harmonic responses or reflections.
+
+\textbf{Nonstationarity.} Heating, compression, and other changes during the sweep can compromise separation and interpretation.
+
+\textbf{Nonlinear memory.} The technique separates harmonic components effectively under suitable conditions but does not provide a complete universal model of loudspeaker nonlinearity.
+
+\section*{Central insight}
+The entire technique rests on the identity
+\begin{equation}\boxed{nf(t)=f\bigl(t+L\ln n\bigr).}\end{equation}
+A harmonic generated \emph{now} has the frequency that the original exponential sweep will reach \emph{later}. Deconvolution therefore places the harmonic response earlier than the fundamental. The distortion is separated primarily \emph{in time}, rather than by frequency filtering.
+\end{document}
