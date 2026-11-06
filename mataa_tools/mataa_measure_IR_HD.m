@@ -4,7 +4,7 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 %
 % DESCRIPTION:
 % Measures the impulse response and the harmonic distortion products using the "Farina method". This uses an exponential sine sweep (chirp) as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. The impulse responses of the fundamental and harmonic distorion products are determined by convolving the DUT response with the inverse filter corresponding to the chirp signal. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied over the first octave and a Hanning fade-out over the last 1/24 octave. Fundamental and harmonic results are accurate only between these fades, from fs/2^P to (fs/2)*2^(-1/24). For harmonic k the upper limit is that frequency divided by k.
-% The REF input channel is not used.
+% The REF input channel is not used. The impulse response is scaled to the RMS level of a sine whose peak is A, matching mataa_measure_IR.
 %
 % REFERENCES:
 % A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093. 
@@ -160,7 +160,10 @@ invfilter = [ invfilter ; zeros(L-Ns-1,1) ]; % pad x with zeros to match the tru
 % Convolve the response with the inverse filter to get the IR and the harmonics:
 h = mataa_convolve (responseSignal,invfilter);
 h = real(h); % discard imaginary part
-h = (2 / Ns) * h; % scale the amplitude
+% 2: restore the half-amplitude of a real sine.
+% sqrt(0.5): peak -> RMS, matching mataa_measure_IR.
+% https://www.diyaudio.com/community/threads/measurements-and-impulse-processing-the-farina-method-versus-the-h1-estimator-fft.445349/post-8416667
+h = (2 / Ns) * sqrt(0.5) * h;
 t = [0:length(h)-1]' ./ fs;
 
 % Find the start of main (fundamental) impulse response:
