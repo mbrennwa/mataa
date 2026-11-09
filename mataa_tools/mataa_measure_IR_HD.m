@@ -5,6 +5,7 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 % DESCRIPTION:
 % Measures the impulse response and the harmonic distortion products using the "Farina method". This uses an exponential sine sweep (chirp) as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. The impulse responses of the fundamental and harmonic distorion products are determined by convolving the DUT response with the inverse filter corresponding to the chirp signal. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied over the first octave and a Hanning fade-out over the last 1/24 octave. Fundamental and harmonic results are accurate only between these fades, from fs/2^P to (fs/2)*2^(-1/24). For harmonic k the upper limit is that frequency divided by k.
 % The REF input channel is not used. The impulse response is scaled to the RMS level of a sine whose peak is A, matching mataa_measure_IR.
+% Each harmonic is cut out around its own beginning and kept for tL, unless the next harmonic arrives sooner. A half-sine fade brings both ends of that piece to zero before the spectrum is calculated.
 %
 % REFERENCES:
 % A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093. 
@@ -20,7 +21,7 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 % T: desired sweep duration
 % fs: sampling frequency
 % N: number of harmonics included in the analysis
-% tL: length of anechoic part of impulse response (seconds)
+% tL: length kept after the beginning of each harmonic, including the fundamental (seconds). This is the arrival of the first reflection, counted from that beginning.
 % latency (optional): see mataa_measure_signal_response
 % cal (optional): see mataa_measure_signal_response
 % A and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'
@@ -32,9 +33,13 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 %	hi(k).mag_unit: unit of mag
 %	hi(k).percent: percentage of harmonic amplitude relative to fundamental
 %	hi(k).f: frequency values for mag, phase and percent
-%	hi(k).h: impulse response data
+%	hi(k).h: impulse response data, after the half-sine window
 %	hi(k).h_unit: unit of h
-%	hi(k).t: time values for impulse response data
+%	hi(k).t: time values for impulse response data. t(1) is the first sample of the piece.
+%	hi(k).t_start: beginning of this impulse (seconds, fundamental at time zero)
+%	hi(k).t_ref: time from the first sample of the piece to t_start. The phase refers to t_start.
+%	hi(k).onset_found: false when the Farina time was used because the onset was not found
+%	hi(k).tL_fit: false when the next harmonic arrived before tL
 %
 % EXAMPLE:
 % > % Measure anechoic loudspeaker response (above 300 Hz) and harmonic distortions (2nd and 3rd) using P=8 octaves, T=3 s, fs=96 kHz, default latency, and 1 V (peak-to-zero) drive voltage:
@@ -99,16 +104,14 @@ if ~exist ('cal','var')
 	cal = [];
 end
 
-% Harmonic arrival times, including one order past N so the last crop can be capped.
-% tN(1) = 0 is the fundamental. The same expression is used for the overlap test and the crop.
-tN = round(fs * T) .* log(1:(N+1)) ./ (fs * log(2 ^ P));
+% Harmonic arrival times. tN(1) = 0 is the fundamental. Harmonic k is at time -tN(k).
+tN = round(fs * T) .* log(1:N) ./ (fs * log(2 ^ P));
 if N > 1
-	for k = (N-1):-1:1
-		gap = tN(k+1) - tN(k);
-		tail = tL / (k+1);
-		if tail >= gap
-			Tmin = tL * P / (N * log(N/(N-1)) / log(2));
-			error(sprintf('mataa_measure_IR_HD: harmonic %d tail (%g s) overlaps harmonic %d (gap %g s). Need T > %g s, or a shorter tL, or fewer harmonics.', k+1, tail, k, gap, Tmin));
+	for k = N:-1:2
+		gap = tN(k) - tN(k-1);
+		if tL >= gap
+			Tmin = tL * log(2 ^ P) / log(k / (k-1));
+			error(sprintf('mataa_measure_IR_HD: harmonic %d length tL (%g s) reaches harmonic %d (gap %g s). Need T > %g s, or a shorter tL, or fewer harmonics.', k, tL, k-1, gap, Tmin));
 		end
 	end
 end
@@ -172,30 +175,19 @@ t0 = mataa_guess_IR_start(h(k:end),t(k:end));
 t = t-t0; % set pulse of fundamental to t = 0
 
 % separate the fundamental and harmonics, convert to frequency domain:
+pieces = mataa_IR_HD_extract(h, t, tN, tL);
 hi = [];
 for k = 1:N
-	if k == 1
-		[u.h,u.t] = mataa_signal_crop(h,t,0,tL); % extract the fundamental
-		t_pre = 0;
-	else
-		% Two cycles of the lowest valid frequency in this harmonic, capped so the
-		% crop does not include the causal tail of harmonic k+1.
-		t_pre_need = 2^(P+1) / (k * fs);
-		t_pre_max = tN(k+1) - tN(k) - tL/(k+1);
-		t_pre = min(t_pre_need, t_pre_max);
-		if t_pre < 0
-			t_pre = 0;
-		end
-		if t_pre < t_pre_need
-			warning(sprintf('mataa_measure_IR_HD: harmonic %d preroll shortened from %g s to %g s to keep clear of harmonic %d.', k, t_pre_need, t_pre, k+1));
-		end
-		L = min ( tL/k , 0.9*(tN(k)-tN(k-1)) );
-		[u.h,u.t] = mataa_signal_crop(h,t,-tN(k)-t_pre,-tN(k)+L); % extract the k-th harmonic
-	end
+	u.h = pieces(k).h;
+	u.t = pieces(k).t;
 	u.h_unit = unit;
+	u.t_start = pieces(k).t_start;
+	u.t_ref = pieces(k).t_ref;
+	u.onset_found = pieces(k).onset_found;
+	u.tL_fit = pieces(k).tL_fit;
 
 	[u.mag,u.phase,u.f,u.mag_unit] = mataa_IR_to_FR (u.h,u.t,[],u.h_unit); % convert to frequency domain
-	u.phase = u.phase - 360 * u.f * t_pre; % crop start is t_pre before the arrival
+	u.phase = u.phase - 360 * u.f * pieces(k).t_ref; % first sample is t_ref before the beginning
 	u.f = u.f / k;
 	kNyq = find (u.f < fs/2);
 	u.mag = u.mag(kNyq);
