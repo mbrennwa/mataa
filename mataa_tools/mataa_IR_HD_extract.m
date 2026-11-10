@@ -67,7 +67,7 @@ if N < 1
 	error('mataa_IR_HD_extract: tN must contain one time per harmonic');
 end
 
-dt = mean(diff(t));
+dt = median(diff(t));
 [t_start, t_rise, found] = hd_fit_grid(h, t, tN, tL, dt);
 t_rise = repmat(t_rise, N, 1);
 onset_found = repmat(found, N, 1);
