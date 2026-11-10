@@ -34,7 +34,10 @@ script_dir = fileparts(mfilename('fullpath'));
 if isempty(script_dir)
 	script_dir = pwd;
 end
-addpath(fullfile(fileparts(script_dir), 'mataa_tools'));
+tools_dir = fullfile(fileparts(script_dir), 'mataa_tools');
+addpath(tools_dir);
+% The cutter is private to mataa_tools, so it is not on the user path.
+addpath(fullfile(tools_dir, 'private'));
 
 if exist('OCTAVE_VERSION', 'builtin')
 	more('off');
