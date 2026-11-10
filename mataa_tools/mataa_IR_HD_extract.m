@@ -4,11 +4,12 @@ function pieces = mataa_IR_HD_extract (h, t, tN, tL)
 %
 % DESCRIPTION:
 % Cut the fundamental and each harmonic out of an impulse response that was
-% obtained with the Farina inverse filter. Harmonic k is expected at time
-% -tN(k), with the fundamental at time zero. The piece ends tL after its own
-% beginning, unless the next harmonic arrives sooner. A half-sine fade brings
-% both ends of the piece to zero. The middle, including the beginning of the
-% impulse, stays at unity gain.
+% obtained with the Farina inverse filter. The Farina times fix the spacing:
+% harmonic k lies tN(k) before the fundamental. That grid is slid across the
+% impulse response to the position that best matches every harmonic together.
+% Each piece ends tL after its beginning, unless the next harmonic arrives
+% sooner. A half-sine fade brings both ends of the piece to zero. The middle,
+% including the beginning of the impulse, stays at unity gain.
 %
 % INPUT:
 % h: impulse response, column vector
@@ -22,7 +23,8 @@ function pieces = mataa_IR_HD_extract (h, t, tN, tL)
 %	pieces(k).t_start: beginning of this impulse (seconds, same clock as t)
 %	pieces(k).t_rise: rise time used for the fades (seconds)
 %	pieces(k).t_ref: time from the first sample of the piece to t_start
-%	pieces(k).onset_found: false when the Farina time was used instead
+%	pieces(k).onset_found: false when the grid could not be fitted. Every harmonic
+%	  carries the same value. The beginnings are then the Farina times.
 %	pieces(k).tL_fit: false when the next harmonic arrived before tL
 %
 % EXAMPLE:
@@ -66,14 +68,9 @@ if N < 1
 end
 
 dt = mean(diff(t));
-t_start = zeros(N, 1);
-t_rise = zeros(N, 1);
-onset_found = false(N, 1);
-
-for k = 1:N
-	[t_lo, t_hi] = hd_search_limits(t, tN, k);
-	[t_start(k), t_rise(k), onset_found(k)] = hd_find_onset(h, t, -tN(k), t_lo, t_hi, dt);
-end
+[t_start, t_rise, found] = hd_fit_grid(h, t, tN, tL, dt);
+t_rise = repmat(t_rise, N, 1);
+onset_found = repmat(found, N, 1);
 
 % Earlier harmonics are placed first, so a later piece can stop at the one before it.
 t_block = t(1);
@@ -121,52 +118,103 @@ pieces = [pieces{:}];
 
 end
 
-function [t_lo, t_hi] = hd_search_limits(t, tN, k)
-% Time range around harmonic k that does not contain a neighboring arrival.
+function [t_start, t_rise, found] = hd_fit_grid(h, t, tN, tL, dt)
+% Slide the rigid grid across h. The score at a fundamental time is the sum
+% of the envelopes at every harmonic, so the spacing stays exactly tN. The
+% rise is read once from the fundamental and used for every harmonic.
 N = length(tN);
-t_anchor = -tN(k);
-if k < N
-	t_lo = -0.5 * (tN(k) + tN(k+1));
-else
-	if N > 1
-		t_lo = t_anchor - (tN(N) - tN(N-1));
-	else
-		t_lo = t(1);
-	end
-end
-if k > 1
-	t_hi = -0.5 * (tN(k) + tN(k-1));
-else
-	if N > 1
-		t_hi = 0.5 * tN(2);
-	else
-		t_hi = t(end);
-	end
-end
-t_lo = max(t_lo, t(1));
-t_hi = min(t_hi, t(end));
-end
-
-function [t_start, t_rise, found] = hd_find_onset(h, t, t_anchor, t_lo, t_hi, dt)
-t_start = t_anchor;
+t_start = -tN;
 t_rise = 8 * dt;
 found = false;
+
+if N > 1
+	half = 0.5 * min(diff(tN));
+else
+	half = inf;
+end
+t_lo = t(1);
+t_hi = t(end);
+if isfinite(half)
+	t_lo = max(t_lo, -half);
+	t_hi = min(t_hi, half);
+end
+% The earliest harmonic has to stay inside the record.
+t_lo = max(t_lo, t(1) + tN(end));
+t_hi = min(t_hi, t(end));
 i = find((t >= t_lo) & (t <= t_hi));
 if length(i) < 8
-	warning(sprintf('mataa_IR_HD_extract: onset search around %g s is too short. Using the Farina time.', t_anchor));
+	warning('mataa_IR_HD_extract: the Farina grid does not fit this record. Using the Farina times.');
 	return
 end
+
+mag = abs(mataa_signal_analytic(h));
+n = length(t);
+stack = zeros(n, 1);
+for k = 1:N
+	shift = round(tN(k) / dt);
+	if shift <= 0
+		stack = stack + mag;
+	elseif shift < n
+		stack(shift+1:n) = stack(shift+1:n) + mag(1:n-shift);
+	end
+end
+
+seg = stack(i);
+crest = (max(seg) - mean(seg)) / std(seg);
+[~, im] = max(seg);
+stack_ok = isfinite(crest) && crest >= 7 && im > 1 && im < length(i);
+
+% The envelope sum places the peaks when it has a real impulse. Otherwise
+% the fundamental alone anchors the same grid.
 try
-	[t_start, t_rise] = mataa_guess_IR_start(h(i), t(i), [], 0);
-	found = true;
+	[t_begin, t_rise] = mataa_guess_IR_start(h(i), t(i), [], 0);
+	raw_ok = isfinite(t_begin) && isfinite(t_rise) && t_rise > 0;
 catch
-	t_start = t_anchor;
-	t_rise = 8 * dt;
-	warning(sprintf('mataa_IR_HD_extract: harmonic onset not found near %g s. Using the Farina time.', t_anchor));
+	raw_ok = false;
+	t_begin = NaN;
+	t_rise = NaN;
 end
-if ~isfinite(t_rise) || t_rise <= 0
+if stack_ok
+	t_peak = t(i(im));
+elseif raw_ok
+	[~, ip] = max(abs(h(i)));
+	t_peak = t(i(ip));
+else
+	warning('mataa_IR_HD_extract: the Farina grid does not match the impulse response. Using the Farina times.');
+	t_rise = 8 * dt;
+	return
+end
+if ~raw_ok
+	t_begin = t_peak;
 	t_rise = 8 * dt;
 end
+t_rise_fit = t_rise;
+if N > 1
+	t_rise_max = 0.25 * min(diff(tN));
+	if t_rise > t_rise_max
+		t_rise = t_rise_max;
+	end
+end
+if t_rise > 0.5 * tL
+	t_rise = 0.5 * tL;
+end
+if t_rise < dt
+	t_rise = 8 * dt;
+end
+if t_rise < t_rise_fit
+	warning(sprintf('mataa_IR_HD_extract: rise time %g s does not fit the harmonic grid. Using %g s.', t_rise_fit, t_rise));
+end
+
+% Keep every peak in the flat middle of its piece.
+lead = t_peak - t_begin;
+if ~isfinite(lead) || lead < 0
+	lead = 0;
+end
+if lead + t_rise > tL
+	lead = tL - t_rise;
+end
+t_start = (t_peak - lead) - tN;
+found = true;
 end
 
 function w = hd_window(t_abs, t_unity_begin, t_unity_end)

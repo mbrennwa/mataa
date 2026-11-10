@@ -5,7 +5,7 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 % DESCRIPTION:
 % Measures the impulse response and the harmonic distortion products using the "Farina method". This uses an exponential sine sweep (chirp) as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. The impulse responses of the fundamental and harmonic distorion products are determined by convolving the DUT response with the inverse filter corresponding to the chirp signal. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied over the first octave and a Hanning fade-out over the last 1/24 octave. Fundamental and harmonic results are accurate only between these fades, from fs/2^P to (fs/2)*2^(-1/24). For harmonic k the upper limit is that frequency divided by k.
 % The REF input channel is not used. The impulse response is scaled to the RMS level of a sine whose peak is A, matching mataa_measure_IR.
-% Each harmonic is cut out around its own beginning and kept for tL, unless the next harmonic arrives sooner. A half-sine fade brings both ends of that piece to zero before the spectrum is calculated.
+% The Farina times fix the spacing of the harmonics. That grid is slid across the impulse response to the position that best matches every harmonic together. Each harmonic is then cut out around its beginning and kept for tL, unless the next harmonic arrives sooner. A half-sine fade brings both ends of that piece to zero before the spectrum is calculated.
 %
 % REFERENCES:
 % A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093. 
@@ -38,7 +38,7 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 %	hi(k).t: time values for impulse response data. t(1) is the first sample of the piece.
 %	hi(k).t_start: beginning of this impulse (seconds, fundamental at time zero)
 %	hi(k).t_ref: time from the first sample of the piece to t_start. The phase refers to t_start.
-%	hi(k).onset_found: false when the Farina time was used because the onset was not found
+%	hi(k).onset_found: false when the Farina grid could not be fitted and the calculated times were kept. Every harmonic carries the same value.
 %	hi(k).tL_fit: false when the next harmonic arrived before tL
 %
 % EXAMPLE:
@@ -169,7 +169,7 @@ h = real(h); % discard imaginary part
 h = (2 / Ns) * sqrt(0.5) * h;
 t = [0:length(h)-1]' ./ fs;
 
-% Find the start of main (fundamental) impulse response:
+% Put the fundamental near time zero. The grid is then slid onto the impulses.
 k = round(length(h)*0.45);
 t0 = mataa_guess_IR_start(h(k:end),t(k:end));
 t = t-t0; % set pulse of fundamental to t = 0
