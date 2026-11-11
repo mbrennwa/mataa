@@ -72,8 +72,6 @@ function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
-warning ('mataa_measure_IR_HD: this function is under development and needs more testing. Please use with care!')
-
 
 % check input:
 if (P - fix(P)) ~= 0
